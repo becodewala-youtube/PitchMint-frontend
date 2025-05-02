@@ -37,7 +37,10 @@ export const register = createAsyncThunk(
   'auth/register',
   async (userData: { name: string; email: string; password: string }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${API_URL}/api/auth/register`, userData);
+      const response = await axios.post(`${API_URL}/api/auth/register`, userData, {
+        withCredentials: true,
+      });
+      
       
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
@@ -80,7 +83,8 @@ export const loadUser = createAsyncThunk(
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${state.auth.token}`
-        }
+        },
+        withCredentials: true,
       };
       
       const response = await axios.get(`${API_URL}/api/auth/user`, config);
