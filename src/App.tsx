@@ -18,6 +18,7 @@ const PitchDeck = lazy(() => import('./pages/PitchDeck'));
 const Canvas = lazy(() => import('./pages/Canvas'));
 const SavedIdeas = lazy(() => import('./pages/SavedIdeas'));
 const InvestorContacts = lazy(() => import('./pages/InvestorContacts'));
+const PaymentSuccess = lazy(() => import('./pages/PaymentSuccess'));
 
 // Loading component
 const PageLoader = () => (
@@ -47,6 +48,10 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             
+            
+<Route path="/payment-success" element={<ProtectedRoute><PaymentSuccess /></ProtectedRoute>} />
+
+          {/* ... existing routes */}
             {/* Protected Routes */}
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="/submit-idea" element={<ProtectedRoute><SubmitIdea /></ProtectedRoute>} />
