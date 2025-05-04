@@ -39,7 +39,7 @@ const Navbar = () => {
               <div className="flex-shrink-0 flex items-center">
                 <Link to="/" className="flex items-center">
                   <span className={`font-bold text-xl ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                    Idea<span className="text-indigo-600">Forge</span>
+                    Pitch<span className="text-indigo-600">Mint</span>
                   </span>
                 </Link>
               </div>
