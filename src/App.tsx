@@ -6,6 +6,9 @@ import { useTheme } from './contexts/ThemeContext';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import ProtectedRoute from './components/auth/ProtectedRoute';
+import axios from 'axios';
+
+axios.defaults.withCredentials = true;
 
 // Lazy-loaded pages
 const Landing = lazy(() => import('./pages/Landing'));
