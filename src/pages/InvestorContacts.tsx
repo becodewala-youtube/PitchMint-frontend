@@ -35,7 +35,7 @@ const InvestorContacts = () => {
 
   // Function to fetch investors with debounce applied
   const fetchInvestors = debounce(async () => {
-    console.log('Fetching investors with filters:', token);
+  
     setLoading(true);
     try {
       const config = {
