@@ -6,9 +6,7 @@ import { useTheme } from './contexts/ThemeContext';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import ProtectedRoute from './components/auth/ProtectedRoute';
-import axios from 'axios';
 
-axios.defaults.withCredentials = true;
 
 // Lazy-loaded pages
 const Landing = lazy(() => import('./pages/Landing'));
@@ -21,6 +19,8 @@ const PitchDeck = lazy(() => import('./pages/PitchDeck'));
 const Canvas = lazy(() => import('./pages/Canvas'));
 const SavedIdeas = lazy(() => import('./pages/SavedIdeas'));
 const InvestorContacts = lazy(() => import('./pages/InvestorContacts'));
+const CompetitorAnalysis = lazy(() => import('./pages/CompetitorAnalysis'));
+const PitchSimulator = lazy(() => import('./pages/PitchSimulator'));
 const PaymentSuccess = lazy(() => import('./pages/PaymentSuccess'));
 
 // Loading component
@@ -52,7 +52,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             
             
-<Route path="/payment-success" element={<ProtectedRoute><PaymentSuccess /></ProtectedRoute>} />
+
 
           {/* ... existing routes */}
             {/* Protected Routes */}
@@ -63,6 +63,9 @@ function App() {
             <Route path="/canvas/:id" element={<ProtectedRoute><Canvas /></ProtectedRoute>} />
             <Route path="/saved-ideas" element={<ProtectedRoute><SavedIdeas /></ProtectedRoute>} />
             <Route path="/investors" element={<ProtectedRoute><InvestorContacts /></ProtectedRoute>} />
+            <Route path="/competitors" element={<ProtectedRoute><CompetitorAnalysis /></ProtectedRoute>} />
+            <Route path="/pitch-simulator" element={<ProtectedRoute><PitchSimulator /></ProtectedRoute>} />
+            <Route path="/payment-success" element={<ProtectedRoute><PaymentSuccess /></ProtectedRoute>} />
           </Routes>
         </Suspense>
       </main>

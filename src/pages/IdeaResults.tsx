@@ -31,7 +31,11 @@ const IdeaResults = () => {
       navigate(`/canvas/${id}`);
     }
   };
-
+  const handleGenerateCompetitors = () => {
+    if (id) {
+      navigate(`/competitors/${id}`);
+    }
+  };
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -87,6 +91,13 @@ const IdeaResults = () => {
             >
               <Layout className="mr-2 h-5 w-5" />
               Create Business Canvas
+            </button>
+            <button
+              onClick={handleGenerateCanvas}
+              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700"
+            >
+              <Layout className="mr-2 h-5 w-5" />
+              Competitors
             </button>
           </div>
         </div>

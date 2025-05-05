@@ -54,6 +54,12 @@ const Navbar = () => {
                   <Link to="/submit-idea" className={`px-3 py-2 text-sm font-medium ${darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'}`}>
                     Submit Idea
                   </Link>
+                  <Link to="/competitors" className={`px-3 py-2 text-sm font-medium ${darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'}`}>
+                    Competitor
+                  </Link>
+                  <Link to="/pitch-simulator" className={`px-3 py-2 text-sm font-medium ${darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'}`}>
+                  PitchArena
+                  </Link>
                   <Link to="/saved-ideas" className={`px-3 py-2 text-sm font-medium ${darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'}`}>
                     Saved Ideas
                   </Link>
