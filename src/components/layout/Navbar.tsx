@@ -151,6 +151,28 @@ const Navbar = () => {
                   Submit Idea
                 </Link>
                 <Link 
+                  to="/competitors" 
+                  className={`block px-3 py-2 rounded-md text-base font-medium ${
+                    darkMode 
+                      ? 'text-white hover:bg-gray-700' 
+                      : 'text-gray-700 hover:bg-gray-100'
+                  }`}
+                  onClick={toggleMenu}
+                >
+                  Competitors
+                </Link>
+                <Link 
+                  to="/pitch-simulator" 
+                  className={`block px-3 py-2 rounded-md text-base font-medium ${
+                    darkMode 
+                      ? 'text-white hover:bg-gray-700' 
+                      : 'text-gray-700 hover:bg-gray-100'
+                  }`}
+                  onClick={toggleMenu}
+                >
+                  PitchArena
+                </Link>
+                <Link 
                   to="/saved-ideas" 
                   className={`block px-3 py-2 rounded-md text-base font-medium ${
                     darkMode 
