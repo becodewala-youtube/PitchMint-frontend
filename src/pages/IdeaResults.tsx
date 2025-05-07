@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getIdea } from '../store/slices/ideaSlice';
 import { RootState } from '../store';
 import { useTheme } from '../contexts/ThemeContext';
-import { FileText, Layout, BarChart as ChartBar, AlertCircle } from 'lucide-react';
+import { FileText, Layout, BarChart as ChartBar, AlertCircle, Users, MessageSquare } from 'lucide-react';
 
 const IdeaResults = () => {
   const { id } = useParams();
@@ -31,11 +31,19 @@ const IdeaResults = () => {
       navigate(`/canvas/${id}`);
     }
   };
-  const handleGenerateCompetitors = () => {
+
+  const handleCompetitorAnalysis = () => {
     if (id) {
       navigate(`/competitors/${id}`);
     }
   };
+
+  const handlePitchSimulator = () => {
+    if (id) {
+      navigate(`/pitch-simulator/${id}`);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -93,11 +101,18 @@ const IdeaResults = () => {
               Create Business Canvas
             </button>
             <button
-              onClick={handleGenerateCanvas}
-              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700"
+              onClick={handleCompetitorAnalysis}
+              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
             >
-              <Layout className="mr-2 h-5 w-5" />
-              Competitors
+              <Users className="mr-2 h-5 w-5" />
+              Analyze Competitors
+            </button>
+            <button
+              onClick={handlePitchSimulator}
+              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700"
+            >
+              <MessageSquare className="mr-2 h-5 w-5" />
+              Practice Pitch
             </button>
           </div>
         </div>

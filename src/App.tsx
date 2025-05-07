@@ -22,6 +22,8 @@ const InvestorContacts = lazy(() => import('./pages/InvestorContacts'));
 const CompetitorAnalysis = lazy(() => import('./pages/CompetitorAnalysis'));
 const PitchSimulator = lazy(() => import('./pages/PitchSimulator'));
 const PaymentSuccess = lazy(() => import('./pages/PaymentSuccess'));
+const IdeaCompetitors = lazy(() => import('./pages/IdeaCompetitors'));
+const IdeaPitchSimulator = lazy(() => import('./pages/IdeaPitchSimulator'));
 
 // Loading component
 const PageLoader = () => (
@@ -65,6 +67,8 @@ function App() {
             <Route path="/investors" element={<ProtectedRoute><InvestorContacts /></ProtectedRoute>} />
             <Route path="/competitors" element={<ProtectedRoute><CompetitorAnalysis /></ProtectedRoute>} />
             <Route path="/pitch-simulator" element={<ProtectedRoute><PitchSimulator /></ProtectedRoute>} />
+            <Route path="/competitors/:id" element={<ProtectedRoute><IdeaCompetitors /></ProtectedRoute>} />
+            <Route path="/pitch-simulator/:id" element={<ProtectedRoute><IdeaPitchSimulator /></ProtectedRoute>} />
             <Route path="/payment-success" element={<ProtectedRoute><PaymentSuccess /></ProtectedRoute>} />
           </Routes>
         </Suspense>
