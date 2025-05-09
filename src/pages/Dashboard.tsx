@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
 import { getSavedIdeas } from '../store/slices/ideaSlice';
 import { useTheme } from '../contexts/ThemeContext';
-import { Brain, FileText, Layout, Star } from 'lucide-react';
+import { Brain, FileText, Layout, MessageSquare, Star, Users } from 'lucide-react';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -36,6 +36,18 @@ const Dashboard = () => {
       value: ideas.filter(idea => idea.canvasContent).length,
       icon: Layout,
       color: 'bg-purple-500'
+    },
+    {
+      name: 'Competitor Analyses',
+      value: ideas.filter(idea => idea.competitorAnalysis).length,
+      icon: Users,
+      color: 'bg-blue-500'
+    },
+    {
+      name: 'Pitch Simulations',
+      value: ideas.filter(idea => idea.pitchSimulation).length,
+      icon: MessageSquare,
+      color: 'bg-green-500'
     },
     {
       name: 'Average Score',

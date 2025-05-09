@@ -3,6 +3,8 @@ import axios from 'axios';
 import { API_URL } from '../../utils/constants';
 
 interface Idea {
+  competitorAnalysis: unknown;
+  pitchSimulation: unknown;
   _id: string;
   ideaText: string;
   marketDemandScore: number;
@@ -165,6 +167,8 @@ export const generateCanvas = createAsyncThunk(
   }
 );
 
+
+
 const ideaSlice = createSlice({
   name: 'idea',
   initialState,
@@ -255,6 +259,8 @@ const ideaSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
+
+      
       
       // Generate Canvas
       .addCase(generateCanvas.pending, (state) => {
@@ -269,7 +275,12 @@ const ideaSlice = createSlice({
       .addCase(generateCanvas.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
-      });
+      })
+
+
+
+
+      
   }
 });
 

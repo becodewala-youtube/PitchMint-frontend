@@ -1,10 +1,11 @@
+// src/pages/SavedIdeas.tsx
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSavedIdeas, deleteIdea } from '../store/slices/ideaSlice';
 import { RootState } from '../store';
 import { useTheme } from '../contexts/ThemeContext';
-import { FileText, Layout, Trash2, AlertCircle } from 'lucide-react';
+import { FileText, Layout, Trash2, AlertCircle, Users, MessageSquare } from 'lucide-react';
 import DeleteConfirmationModal from '../components/modals/DeleteConfirmationModal';
 
 const SavedIdeas = () => {
@@ -135,6 +136,28 @@ const SavedIdeas = () => {
                   >
                     <Layout className="h-4 w-4 mr-2" />
                     {idea.canvasContent ? 'View Canvas' : 'Generate Canvas'}
+                  </button>
+                  <button
+                    onClick={() => navigate(`/competitors/${idea._id}`)}
+                    className={`inline-flex items-center px-3 py-1.5 rounded-md text-sm ${
+                      darkMode
+                        ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    <Users className="h-4 w-4 mr-2" />
+                    {idea.competitorAnalysis ? 'View Competitors' : 'Analyze Competitors'}
+                  </button>
+                  <button
+                    onClick={() => navigate(`/pitch-simulator/${idea._id}`)}
+                    className={`inline-flex items-center px-3 py-1.5 rounded-md text-sm ${
+                      darkMode
+                        ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    <MessageSquare className="h-4 w-4 mr-2" />
+                    {idea.pitchSimulation ? 'Practice Pitch' : 'Start Pitch Practice'}
                   </button>
                   <button
                     onClick={() => handleDeleteClick(idea._id)}

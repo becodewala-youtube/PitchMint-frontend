@@ -44,16 +44,16 @@ const IdeaPitchSimulator = () => {
 
   const simulatePitch = async () => {
     if (!idea?.ideaText) return;
-    
+  
     try {
       setLoading(true);
       setError(null);
       setQuestions([]);
       setCurrentQuestion(null);
       setFeedback(null);
-
+  
       const response = await axios.post(
-        `${API_URL}/api/pitch-simulator/simulate`,
+        `${API_URL}/api/pitch-simulator/simulate/${idea._id}`,
         { pitch: idea.ideaText },
         {
           headers: {
@@ -61,14 +61,16 @@ const IdeaPitchSimulator = () => {
           },
         }
       );
-
-      setQuestions(response.data.questions);
+  
+      
+      setQuestions(response.data.pitchSimulation.questions); // ✅ Fix applied here
     } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to simulate pitch');
     } finally {
       setLoading(false);
     }
   };
+  
 
   const handleAnswer = async () => {
     if (!currentQuestion || !idea?.ideaText) return;
@@ -76,9 +78,10 @@ const IdeaPitchSimulator = () => {
     try {
       setLoading(true);
       setError(null);
+   
 
       const response = await axios.post(
-        `${API_URL}/api/pitch-simulator/evaluate`,
+        `${API_URL}/api/pitch-simulator/evaluate/${idea._id}`,
         {
           pitch: idea.ideaText,
           question: currentQuestion.question,

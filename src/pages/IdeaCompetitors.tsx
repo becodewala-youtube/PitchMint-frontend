@@ -50,7 +50,7 @@ const IdeaCompetitors = () => {
       setError(null);
 
       const response = await axios.post(
-        `${API_URL}/api/competitors/analyze`,
+        `${API_URL}/api/competitors/analyze/${idea._id}`,
         { ideaText: idea.ideaText },
         {
           headers: {
@@ -59,7 +59,7 @@ const IdeaCompetitors = () => {
         }
       );
 
-      setAnalysis(response.data);
+      setAnalysis(response.data.competitorAnalysis);
     } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to analyze competitors');
     } finally {
