@@ -1,3 +1,4 @@
+// src/pages/IdeaCompetitors.tsx
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -42,7 +43,13 @@ const IdeaCompetitors = () => {
     }
   }, [dispatch, id]);
 
-  const analyzeCompetitors = async () => {
+  useEffect(() => {
+    if (idea?.competitorAnalysis) {
+      setAnalysis(idea.competitorAnalysis);
+    }
+  }, [idea]);
+
+  const analyzeCompetitors = async (regenerate = false) => {
     if (!idea?.ideaText) return;
     
     try {
@@ -51,7 +58,7 @@ const IdeaCompetitors = () => {
 
       const response = await axios.post(
         `${API_URL}/api/competitors/analyze/${idea._id}`,
-        { ideaText: idea.ideaText },
+        { regenerate },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -69,9 +76,12 @@ const IdeaCompetitors = () => {
 
   useEffect(() => {
     if (idea && !analysis && !loading) {
-      analyzeCompetitors();
+      analyzeCompetitors(false);
     }
   }, [idea]);
+
+ 
+
 
   if (ideaLoading || loading) {
     return (
@@ -103,7 +113,7 @@ const IdeaCompetitors = () => {
             Competitor Analysis
           </h1>
           <button
-            onClick={analyzeCompetitors}
+            onClick={()=> analyzeCompetitors (true)}
             disabled={loading}
             className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >

@@ -6,12 +6,14 @@ import { RootState } from '../store';
 import { useTheme } from '../contexts/ThemeContext';
 import axios from 'axios';
 import { API_URL } from '../utils/constants';
-import { AlertCircle, MessageSquare, Send, RefreshCw } from 'lucide-react';
+import { AlertCircle, MessageSquare, Send, RefreshCw, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Question {
   id: string;
   question: string;
   category: string;
+  answer?: string;
+  feedback?: Feedback | null;
 }
 
 interface Feedback {
@@ -31,6 +33,7 @@ const IdeaPitchSimulator = () => {
   
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answer, setAnswer] = useState('');
   const [feedback, setFeedback] = useState<Feedback | null>(null);
   const [loading, setLoading] = useState(false);
@@ -42,49 +45,64 @@ const IdeaPitchSimulator = () => {
     }
   }, [dispatch, id]);
 
+  useEffect(() => {
+    if (idea?.pitchSimulation?.questions) {
+      setQuestions(idea.pitchSimulation.questions);
+      if (idea.pitchSimulation.questions.length > 0) {
+        const firstQuestion = idea.pitchSimulation.questions[0];
+        setCurrentQuestion(firstQuestion);
+        setAnswer(firstQuestion.answer || '');
+        setFeedback(firstQuestion.feedback || null);
+      }
+    }
+  }, [idea]);
+
   const simulatePitch = async () => {
     if (!idea?.ideaText) return;
-  
+    
     try {
       setLoading(true);
       setError(null);
       setQuestions([]);
       setCurrentQuestion(null);
       setFeedback(null);
-  
+
       const response = await axios.post(
         `${API_URL}/api/pitch-simulator/simulate/${idea._id}`,
-        { pitch: idea.ideaText },
+        { regenerate: true },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-  
-      
-      setQuestions(response.data.pitchSimulation.questions); // ✅ Fix applied here
+
+      const newQuestions = response.data.pitchSimulation.questions;
+      setQuestions(newQuestions);
+      if (newQuestions.length > 0) {
+        setCurrentQuestion(newQuestions[0]);
+        setCurrentQuestionIndex(0);
+        setAnswer('');
+        setFeedback(null);
+      }
     } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to simulate pitch');
     } finally {
       setLoading(false);
     }
   };
-  
 
   const handleAnswer = async () => {
-    if (!currentQuestion || !idea?.ideaText) return;
+    if (!currentQuestion || !idea?._id) return;
     
     try {
       setLoading(true);
       setError(null);
-   
 
       const response = await axios.post(
         `${API_URL}/api/pitch-simulator/evaluate/${idea._id}`,
         {
-          pitch: idea.ideaText,
-          question: currentQuestion.question,
+          questionId: currentQuestion.id,
           answer,
         },
         {
@@ -94,6 +112,18 @@ const IdeaPitchSimulator = () => {
         }
       );
 
+      const updatedQuestions = questions.map(q => {
+        if (q.id === currentQuestion.id) {
+          return {
+            ...q,
+            answer,
+            feedback: response.data.feedback
+          };
+        }
+        return q;
+      });
+
+      setQuestions(updatedQuestions);
       setFeedback(response.data.feedback);
     } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to evaluate answer');
@@ -102,16 +132,30 @@ const IdeaPitchSimulator = () => {
     }
   };
 
-  const handleNextQuestion = () => {
-    const currentIndex = currentQuestion 
-      ? questions.findIndex(q => q.id === currentQuestion.id)
-      : -1;
-    
-    const nextQuestion = questions[currentIndex + 1] || null;
-    setCurrentQuestion(nextQuestion);
-    setAnswer('');
-    setFeedback(null);
+  const handlePrevQuestion = () => {
+    if (currentQuestionIndex > 0) {
+      const prevIndex = currentQuestionIndex - 1;
+      const prevQuestion = questions[prevIndex];
+      setCurrentQuestionIndex(prevIndex);
+      setCurrentQuestion(prevQuestion);
+      setAnswer(prevQuestion.answer || '');
+      setFeedback(prevQuestion.feedback || null);
+    }
   };
+
+  const handleNextQuestion = () => {
+    if (currentQuestionIndex < questions.length - 1) {
+      const nextIndex = currentQuestionIndex + 1;
+      const nextQuestion = questions[nextIndex];
+      setCurrentQuestionIndex(nextIndex);
+      setCurrentQuestion(nextQuestion);
+      setAnswer(nextQuestion.answer || '');
+      setFeedback(nextQuestion.feedback || null);
+    }
+  };
+
+ 
+
 
   useEffect(() => {
     if (idea && !questions.length && !loading) {
@@ -269,14 +313,30 @@ const IdeaPitchSimulator = () => {
                         </p>
                       </div>
 
-                      <button
-                        onClick={handleNextQuestion}
-                        className="w-full mt-4 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                      >
-                        Next Question
-                      </button>
-                    </div>
-                  </div>
+                     <div className="flex justify-between space-x-4 mt-4">
+          <button
+            onClick={handlePrevQuestion}
+            disabled={currentQuestionIndex === 0}
+            className={`flex-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 ${
+              currentQuestionIndex === 0 && 'opacity-50 cursor-not-allowed'
+            }`}
+          >
+            <ChevronLeft className="w-5 h-5 inline mr-2" />
+            Previous Question
+          </button>
+          <button
+            onClick={handleNextQuestion}
+            disabled={currentQuestionIndex === questions.length - 1}
+            className={`flex-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500  ${
+              currentQuestionIndex === questions.length - 1 && 'opacity-50 cursor-not-allowed'
+            }`}
+          >
+            Next Question
+            <ChevronRight className="w-5 h-5 inline ml-2" />
+          </button>
+        </div>
+      </div>
+    </div>
                 )}
               </div>
             ) : (
