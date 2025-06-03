@@ -1,10 +1,11 @@
+// src/pages/Dashboard.tsx
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../store';
 import { getSavedIdeas } from '../store/slices/ideaSlice';
+import { RootState } from '../store';
 import { useTheme } from '../contexts/ThemeContext';
-import { Brain, FileText, Layout, MessageSquare, Star, Users } from 'lucide-react';
+import { Brain, FileText, Layout, MessageSquare, Star, ChevronRight, Sparkles, Users } from 'lucide-react';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -23,19 +24,19 @@ const Dashboard = () => {
       name: 'Total Ideas',
       value: ideas.length,
       icon: Brain,
-      color: 'bg-blue-500'
+      color: 'bg-gradient-to-r from-blue-500 to-indigo-600'
     },
     {
       name: 'Pitch Decks',
       value: ideas.filter(idea => idea.pitchDeckContent).length,
       icon: FileText,
-      color: 'bg-green-500'
+      color: 'bg-gradient-to-r from-emerald-500 to-green-600'
     },
     {
       name: 'Canvases',
       value: ideas.filter(idea => idea.canvasContent).length,
       icon: Layout,
-      color: 'bg-purple-500'
+      color: 'bg-gradient-to-r from-purple-500 to-violet-600'
     },
     {
       name: 'Competitor Analyses',
@@ -53,7 +54,7 @@ const Dashboard = () => {
       name: 'Average Score',
       value: ideas.length ? Math.round(ideas.reduce((acc, idea) => acc + idea.overallScore, 0) / ideas.length) : 0,
       icon: Star,
-      color: 'bg-yellow-500'
+      color: 'bg-gradient-to-r from-amber-500 to-yellow-600'
     }
   ];
 
@@ -66,159 +67,163 @@ const Dashboard = () => {
   }
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} py-12`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <h1 className={`text-3xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-            Welcome back, {user?.name}!
-          </h1>
-          <p className={`mt-2 text-lg ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-            Your startup journey dashboard
-          </p>
+    <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
+      {/* Hero Section */}
+      <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} py-16`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h1 className={`text-4xl font-bold tracking-tight ${darkMode ? 'text-white' : 'text-gray-900'} sm:text-5xl md:text-6xl`}>
+              Welcome back, <span className="text-indigo-600">{user?.name}</span>!
+            </h1>
+            <p className={`mt-3 max-w-md mx-auto text-lg ${darkMode ? 'text-gray-300' : 'text-gray-500'} sm:text-xl md:mt-5 md:max-w-3xl`}>
+              Transform your ideas into reality with AI-powered validation and professional pitch materials.
+            </p>
+          </div>
         </div>
+      </div>
 
-        {/* Stats Grid */}
-        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {/* Stats Grid */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-12">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {stats.map((stat) => (
             <div
               key={stat.name}
-              className={`${darkMode ? 'bg-gray-800' : 'bg-white'} overflow-hidden rounded-lg shadow`}
+              className={`${darkMode ? 'bg-gray-800' : 'bg-white'} overflow-hidden rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-200`}
             >
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className={`flex-shrink-0 rounded-md p-3 ${stat.color}`}>
-                    <stat.icon className="h-6 w-6 text-white" />
-                  </div>
-                  <div className="ml-5 w-0 flex-1">
-                    <dl>
-                      <dt className={`text-sm font-medium truncate ${darkMode ? 'text-gray-300' : 'text-gray-500'}`}>
-                        {stat.name}
-                      </dt>
-                      <dd className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                        {stat.value}
-                      </dd>
-                    </dl>
+              <div className={`${stat.color} p-1`}>
+                <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} p-5`}>
+                  <div className="flex items-center">
+                    <div className={`flex-shrink-0 rounded-md p-3 ${stat.color}`}>
+                      <stat.icon className="h-6 w-6 text-white" />
+                    </div>
+                    <div className="ml-5 w-0 flex-1">
+                      <dl>
+                        <dt className={`text-sm font-medium truncate ${darkMode ? 'text-gray-300' : 'text-gray-500'}`}>
+                          {stat.name}
+                        </dt>
+                        <dd className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                          {stat.value}
+                        </dd>
+                      </dl>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           ))}
         </div>
+      </div>
 
-        {/* Quick Actions */}
-        <div className="mt-12">
-          <h2 className={`text-2xl font-semibold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-            Quick Actions
+      {/* Quick Actions */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+        <h2 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'} mb-6`}>
+          Quick Actions
+        </h2>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <button
+            onClick={() => navigate('/submit-idea')}
+            className={`group p-6 rounded-xl shadow-lg text-left transition-all duration-200 ${
+              darkMode 
+                ? 'bg-gray-800 hover:bg-gray-700' 
+                : 'bg-white hover:bg-gray-50'
+            } hover:shadow-xl`}
+          >
+            <div className="flex items-center justify-between">
+              <Sparkles className="h-8 w-8 text-indigo-600" />
+              <ChevronRight className={`h-5 w-5 ${darkMode ? 'text-gray-400' : 'text-gray-500'} group-hover:translate-x-1 transition-transform duration-200`} />
+            </div>
+            <h3 className={`mt-4 text-lg font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              Submit New Idea
+            </h3>
+            <p className={`mt-2 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-500'}`}>
+              Get instant AI validation for your startup idea
+            </p>
+          </button>
+
+
+           <button
+            onClick={() => navigate('/saved-ideas')}
+            className={`group p-6 rounded-xl shadow-lg text-left transition-all duration-200 ${
+              darkMode 
+                ? 'bg-gray-800 hover:bg-gray-700' 
+                : 'bg-white hover:bg-gray-50'
+            } hover:shadow-xl`}
+          >
+            <div className="flex items-center justify-between">
+              <FileText className="h-8 w-8 text-green-600" />
+              <ChevronRight className={`h-5 w-5 ${darkMode ? 'text-gray-400' : 'text-gray-500'} group-hover:translate-x-1 transition-transform duration-200`} />
+            </div>
+            <h3 className={`mt-4 text-lg font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              View Saved Ideas
+            </h3>
+            <p className={`mt-2 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-500'}`}>
+              Access your previously validated ideas
+            </p>
+          </button>
+
+
+ <button
+            onClick={() => navigate('/investors')}
+            className={`group p-6 rounded-xl shadow-lg text-left transition-all duration-200 ${
+              darkMode 
+                ? 'bg-gray-800 hover:bg-gray-700' 
+                : 'bg-white hover:bg-gray-50'
+            } hover:shadow-xl`}
+          >
+            <div className="flex items-center justify-between">
+              <Star className="h-8 w-8 text-yellow-600" />
+              <ChevronRight className={`h-5 w-5 ${darkMode ? 'text-gray-400' : 'text-gray-500'} group-hover:translate-x-1 transition-transform duration-200`} />
+            </div>
+            <h3 className={`mt-4 text-lg font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+             Investor Directory
+            </h3>
+            <p className={`mt-2 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-500'}`}>
+            Browse our curated list of investors
+            </p>
+          </button>
+          {/* Add more quick action buttons similarly */}
+        </div>
+      </div>
+
+      {/* Recent Ideas */}
+      {ideas.length > 0 && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-12">
+          <h2 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'} mb-6`}>
+            Recent Ideas
           </h2>
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            <button
-              onClick={() => navigate('/submit-idea')}
-              className={`p-6 rounded-lg shadow-sm text-left hover:shadow-md transition-shadow ${
-                darkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-white hover:bg-gray-50'
-              }`}
-            >
-              <Brain className="h-8 w-8 text-indigo-600 mb-3" />
-              <h3 className={`text-lg font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                Submit New Idea
-              </h3>
-              <p className={`mt-2 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-500'}`}>
-                Get instant AI validation for your startup idea
-              </p>
-            </button>
-
-            <button
-              onClick={() => navigate('/saved-ideas')}
-              className={`p-6 rounded-lg shadow-sm text-left hover:shadow-md transition-shadow ${
-                darkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-white hover:bg-gray-50'
-              }`}
-            >
-              <FileText className="h-8 w-8 text-green-600 mb-3" />
-              <h3 className={`text-lg font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                View Saved Ideas
-              </h3>
-              <p className={`mt-2 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-500'}`}>
-                Access your previously validated ideas
-              </p>
-            </button>
-
-            {user?.isPremium && (
-              <button
-                onClick={() => navigate('/investors')}
-                className={`p-6 rounded-lg shadow-sm text-left hover:shadow-md transition-shadow ${
-                  darkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-white hover:bg-gray-50'
-                }`}
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {ideas.slice(0, 6).map((idea) => (
+              <div
+                key={idea._id}
+                onClick={() => navigate(`/idea/${idea._id}`)}
+                className={`cursor-pointer rounded-xl shadow-lg p-6 transition-all duration-200 ${
+                  darkMode 
+                    ? 'bg-gray-800 hover:bg-gray-700' 
+                    : 'bg-white hover:bg-gray-50'
+                } hover:shadow-xl`}
               >
-                <Star className="h-8 w-8 text-yellow-600 mb-3" />
-                <h3 className={`text-lg font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                  Investor Directory
-                </h3>
-                <p className={`mt-2 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-500'}`}>
-                  Browse our curated list of investors
+                <div className="flex items-center justify-between mb-4">
+                  <div className={`px-3 py-1 rounded-full text-sm font-medium ${
+                    idea.overallScore >= 80 
+                      ? 'bg-green-100 text-green-800' 
+                      : idea.overallScore >= 60 
+                      ? 'bg-yellow-100 text-yellow-800'
+                      : 'bg-red-100 text-red-800'
+                  }`}>
+                    Score: {idea.overallScore}%
+                  </div>
+                  <span className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                    {new Date(idea.createdAt).toLocaleDateString()}
+                  </span>
+                </div>
+                <p className={`text-base ${darkMode ? 'text-gray-300' : 'text-gray-700'} line-clamp-2`}>
+                  {idea.ideaText}
                 </p>
-              </button>
-            )}
+              </div>
+            ))}
           </div>
         </div>
-
-        {/* Recent Ideas */}
-        {ideas.length > 0 && (
-          <div className="mt-12">
-            <h2 className={`text-2xl font-semibold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-              Recent Ideas
-            </h2>
-            <div className={`overflow-hidden shadow ring-1 ring-black ring-opacity-5 rounded-lg ${
-              darkMode ? 'bg-gray-800' : 'bg-white'
-            }`}>
-              <table className="min-w-full divide-y divide-gray-300">
-                <thead>
-                  <tr>
-                    <th className={`py-3.5 pl-4 pr-3 text-left text-sm font-semibold ${
-                      darkMode ? 'text-gray-300' : 'text-gray-900'
-                    }`}>
-                      Idea
-                    </th>
-                    <th className={`px-3 py-3.5 text-left text-sm font-semibold ${
-                      darkMode ? 'text-gray-300' : 'text-gray-900'
-                    }`}>
-                      Score
-                    </th>
-                    <th className={`px-3 py-3.5 text-left text-sm font-semibold ${
-                      darkMode ? 'text-gray-300' : 'text-gray-900'
-                    }`}>
-                      Date
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className={`divide-y ${darkMode ? 'divide-gray-700' : 'divide-gray-200'}`}>
-                  {ideas.slice(0, 5).map((idea) => (
-                    <tr
-                      key={idea._id}
-                      className="cursor-pointer hover:bg-gray-50"
-                      onClick={() => navigate(`/idea/${idea._id}`)}
-                    >
-                      <td className={`whitespace-nowrap py-4 pl-4 pr-3 text-sm ${
-                        darkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-white hover:bg-gray-50'
-                      }`}>
-                        {idea.ideaText.length > 100 ? `${idea.ideaText.substring(0, 100)}...` : idea.ideaText}
-                      </td>
-                      <td className={`whitespace-nowrap px-3 py-4 text-sm ${
-                        darkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-white hover:bg-gray-50'
-                      }`}>
-                        {idea.overallScore}%
-                      </td>
-                      <td className={`whitespace-nowrap px-3 py-4 text-sm ${
-                        darkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-white hover:bg-gray-50'
-                      }`}>
-                        {new Date(idea.createdAt).toLocaleDateString()}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-      </div>
+      )}
     </div>
   );
 };
