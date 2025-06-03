@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getSavedIdeas } from '../store/slices/ideaSlice';
 import { RootState } from '../store';
 import { useTheme } from '../contexts/ThemeContext';
+import DashboardSkeleton from '../components/skeleton/DashboardSkelton';
 import { Brain, FileText, Layout, MessageSquare, Star, ChevronRight, Sparkles, Users } from 'lucide-react';
 
 const Dashboard = () => {
@@ -60,9 +61,11 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
-      </div>
+      <>
+     <div className='px-8 py-6'>
+       <DashboardSkeleton />
+     </div>
+      </>
     );
   }
 
