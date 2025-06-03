@@ -39,11 +39,34 @@ const IdeaPitchSimulator = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
+useEffect(() => {
+  const loadIdeaData = async () => {
     if (id) {
-      dispatch(getIdea(id) as any);
+      try {
+        await dispatch(getIdea(id) as any);
+      } catch (err) {
+        setError('Failed to load idea data');
+      }
     }
-  }, [dispatch, id]);
+  };
+  loadIdeaData();
+}, [dispatch, id]);
+
+useEffect(() => {
+  if (idea?.pitchSimulation?.questions) {
+    const questionsList = idea.pitchSimulation.questions;
+    setQuestions(questionsList);
+    
+    // If we have questions but no current question selected, set the first one
+    if (questionsList.length > 0 && !currentQuestion) {
+      const firstQuestion = questionsList[0];
+      setCurrentQuestion(firstQuestion);
+      setCurrentQuestionIndex(0);
+      setAnswer(firstQuestion.answer || '');
+      setFeedback(firstQuestion.feedback || null);
+    }
+  }
+}, [idea?.pitchSimulation?.questions]);
 
   useEffect(() => {
     if (idea?.pitchSimulation?.questions) {
