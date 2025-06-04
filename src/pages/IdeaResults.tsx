@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getIdea } from '../store/slices/ideaSlice';
 import { RootState } from '../store';
 import { useTheme } from '../contexts/ThemeContext';
+import IdeaAnalysisSkeleton from '../components/skeleton/IdeaAnalysisSkeleton';
 import { FileText, Layout, BarChart as ChartBar, AlertCircle, Users, MessageSquare } from 'lucide-react';
 
 const IdeaResults = () => {
@@ -46,9 +47,11 @@ const IdeaResults = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+      <>
+      <div className='px-8'>
+        <IdeaAnalysisSkeleton />
       </div>
+      </>
     );
   }
 

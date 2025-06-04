@@ -8,6 +8,8 @@ import { useTheme } from '../contexts/ThemeContext';
 import axios from 'axios';
 import { API_URL } from '../utils/constants';
 import { AlertCircle, RefreshCw } from 'lucide-react';
+import IdeaAnalysisSkeleton from '../components/skeleton/IdeaAnalysisSkeleton';
+import CompetitorAnalysisSkeleton from '../components/skeleton/CompetitorSkeleton';
 
 interface Competitor {
   name: string;
@@ -85,9 +87,11 @@ const IdeaCompetitors = () => {
 
   if (ideaLoading || loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+      <>
+      <div className='px-4 md:px-16'>
+        <CompetitorAnalysisSkeleton />
       </div>
+      </>
     );
   }
 
@@ -109,13 +113,13 @@ const IdeaCompetitors = () => {
     <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} py-12`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center mb-8">
-          <h1 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+          <h1 className={`text-md md:text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
             Competitor Analysis
           </h1>
           <button
             onClick={()=> analyzeCompetitors (true)}
             disabled={loading}
-            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-xs font-medium text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <RefreshCw className={`mr-2 h-5 w-5 ${loading ? 'animate-spin' : ''}`} />
             Regenerate Analysis

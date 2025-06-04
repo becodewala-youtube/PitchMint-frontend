@@ -7,6 +7,7 @@ import { RootState } from '../store';
 import { useTheme } from '../contexts/ThemeContext';
 import { FileText, Layout, Trash2, AlertCircle, Users, MessageSquare } from 'lucide-react';
 import DeleteConfirmationModal from '../components/modals/DeleteConfirmationModal';
+import SavedIdeasSkeleton from '../components/skeleton/SavedIdeasSkeleton';
 
 const SavedIdeas = () => {
   const navigate = useNavigate();
@@ -45,9 +46,12 @@ const SavedIdeas = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+      <>
+      <div className='py-12 md:px-16'>
+        <SavedIdeasSkeleton />
+
       </div>
+      </>
     );
   }
 
@@ -67,12 +71,12 @@ const SavedIdeas = () => {
     <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} py-12`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center mb-8">
-          <h1 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+          <h1 className={`md:text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
             Saved Ideas
           </h1>
           <button
             onClick={() => navigate('/submit-idea')}
-            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700"
+            className="inline-flex text-xs md:text-md items-center px-4 py-2 border border-transparent rounded-md shadow-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700"
           >
             Submit New Idea
           </button>
