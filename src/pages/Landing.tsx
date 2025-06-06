@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useTheme } from "../contexts/ThemeContext";
-import { Lightbulb, Rocket, BarChart as ChartBar, Award } from "lucide-react";
+import { Lightbulb, Rocket, BarChart as ChartBar, Award, Brain, Mic, PersonStanding } from "lucide-react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { useEffect } from "react";
@@ -192,6 +192,48 @@ const Landing = () => {
                   incubators, and accelerators to help fund their startups.
                 </dd>
               </motion.div>
+
+              <motion.div
+                className={`relative p-6 rounded-lg shadow-md ${
+                  darkMode ? "bg-gray-700" : "bg-white"
+                }`}
+                whileHover={{ y: -5 }}
+                transition={{ duration: 0.3 }}
+              >
+                <dt>
+                  <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                    <PersonStanding size={24} />
+                  </div>
+                  <p className="ml-16 text-lg leading-6 font-medium">
+                    Competitor Analysis
+                  </p>
+                </dt>
+                <dd className="mt-2 ml-16">
+                  Automatically generate a list of potential competitors for your startup idea using Gemini. Includes SWOT comparisons for each competitor to help identify your edge.
+                </dd>
+              </motion.div>
+              <motion.div
+                className={`relative p-6 rounded-lg shadow-md ${
+                  darkMode ? "bg-gray-700" : "bg-white"
+                }`}
+                whileHover={{ y: -5 }}
+                transition={{ duration: 0.3 }}
+              >
+                <dt>
+                  <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                    <Mic size={24} />
+                  </div>
+                  <p className="ml-16 text-lg leading-6 font-medium">
+                    Investor Pitch Simulator
+                  </p>
+                </dt>
+                <dd className="mt-2 ml-16">
+                  Practice live investor Q&A sessions. Submit your pitch → AI roleplays as an investor and asks tough questions → You respond → AI gives instant feedback to improve your answers.
+
+
+                </dd>
+              </motion.div>
+              
             </dl>
           </div>
         </div>
