@@ -27,11 +27,29 @@ const IdeaCompetitors = lazy(() => import('./pages/IdeaCompetitors'));
 const IdeaPitchSimulator = lazy(() => import('./pages/IdeaPitchSimulator'));
 
 // Loading component
-const PageLoader = () => (
-  <div className="flex items-center justify-center min-h-screen">
-    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
-  </div>
-);
+const PageLoader = () => {
+  return (
+    <div className="min-h-screen px-4 py-10 sm:px-10 lg:px-20 bg-gray-50 dark:bg-gray-900">
+      <div className="space-y-6 animate-pulse max-w-4xl mx-auto">
+        {/* Title skeleton */}
+        <div className="h-6 w-2/3 rounded bg-gray-300 dark:bg-gray-700"></div>
+
+        {/* Section box skeletons */}
+        {[1, 2, 3].map((_, i) => (
+          <div
+            key={i}
+            className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow"
+          >
+            <div className="h-4 w-1/2 rounded bg-gray-300 dark:bg-gray-700 mb-4"></div>
+            <div className="h-4 w-full rounded bg-gray-300 dark:bg-gray-700 mb-2"></div>
+            <div className="h-4 w-5/6 rounded bg-gray-300 dark:bg-gray-700"></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 
 function App() {
   const { darkMode } = useTheme();
