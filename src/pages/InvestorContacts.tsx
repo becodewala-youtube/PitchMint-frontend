@@ -6,6 +6,7 @@ import axios from 'axios';
 import { API_URL } from '../utils/constants';
 import { AlertCircle, ExternalLink } from 'lucide-react';
 import debounce from 'lodash.debounce';
+import InvestorDirectorySkeleton from '../components/skeleton/InvestorSkeleton';
 
 interface Investor {
   _id: string;
@@ -71,8 +72,8 @@ const InvestorContacts = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+      <div className='px-4 py-2'>
+        <InvestorDirectorySkeleton />
       </div>
     );
   }

@@ -27,10 +27,10 @@ const SubmitIdea = () => {
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <Brain className={`mx-auto h-12 w-12 ${darkMode ? 'text-indigo-400' : 'text-indigo-600'}`} />
-          <h1 className={`mt-2 text-3xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+          <h1 className={`mt-2 text-xl md:text-3xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
             Submit Your Startup Idea
           </h1>
-          <p className={`mt-2 text-lg ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+          <p className={`mt-2 text-sm md:text-lg ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
             Get instant AI-powered validation and analysis
           </p>
         </div>
@@ -59,7 +59,7 @@ const SubmitIdea = () => {
                   value={ideaText}
                   onChange={(e) => setIdeaText(e.target.value)}
                   placeholder="Example: A mobile app that uses AI to help people learn new languages through personalized, interactive conversations..."
-                  className={`shadow-sm block w-full sm:text-sm border-gray-300 rounded-md ${
+                  className={`shadow-sm block w-full sm:text-sm border-gray-300 rounded-md px-2 ${
                     darkMode
                       ? 'bg-gray-700 text-white border-gray-600 placeholder-gray-400'
                       : 'bg-white text-gray-900 placeholder-gray-400'
@@ -75,7 +75,7 @@ const SubmitIdea = () => {
               <button
                 type="submit"
                 disabled={loading || !ideaText.trim()}
-                className={`flex-1 py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
+                className={`flex-1 py-2  md:py-3 md:px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
                   (loading || !ideaText.trim()) && 'opacity-50 cursor-not-allowed'
                 }`}
               >
@@ -84,7 +84,7 @@ const SubmitIdea = () => {
               <button
                 type="button"
                 onClick={() => navigate(-1)}
-                className={`py-3 px-4 border rounded-md shadow-sm text-sm font-medium ${
+                className={`py-2 md:py-3 px-4 border rounded-md shadow-sm text-sm font-medium ${
                   darkMode
                     ? 'border-gray-600 text-gray-300 hover:bg-gray-700'
                     : 'border-gray-300 text-gray-700 hover:bg-gray-50'

@@ -60,10 +60,10 @@ const CompetitorAnalysis = () => {
     <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} py-12`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-          <h1 className={`text-3xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+          <h1 className={`text-2xl md:text-3xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
             Competitor Analysis
           </h1>
-          <p className={`mt-2 text-lg ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+          <p className={`mt-2 text-sm md:text-lg ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
             Analyze your competition and understand the market landscape
           </p>
         </div>
@@ -82,7 +82,7 @@ const CompetitorAnalysis = () => {
                 value={ideaText}
                 onChange={(e) => setIdeaText(e.target.value)}
                 rows={4}
-                className={`mt-1 block w-full rounded-md shadow-sm ${
+                className={`px-2 mt-1 block w-full rounded-md shadow-sm ${
                   darkMode
                     ? 'bg-gray-700 text-white border-gray-600'
                     : 'bg-white text-gray-900 border-gray-300'
@@ -94,7 +94,7 @@ const CompetitorAnalysis = () => {
             <button
               type="submit"
               disabled={loading || !ideaText.trim()}
-              className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
+              className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text- font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
                 (loading || !ideaText.trim()) && 'opacity-50 cursor-not-allowed'
               }`}
             >

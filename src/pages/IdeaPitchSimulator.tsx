@@ -6,6 +6,7 @@ import { RootState } from '../store';
 import { useTheme } from '../contexts/ThemeContext';
 import axios from 'axios';
 import { API_URL } from '../utils/constants';
+import ArenaSkeleton from '../components/skeleton/ArenaSkeleton';
 import { AlertCircle, MessageSquare, Send, RefreshCw, ChevronLeft, ChevronRight, RotateCcw, Star, CheckCircle, Play } from 'lucide-react';
 
 interface Question {
@@ -204,8 +205,8 @@ useEffect(() => {
 
   if (ideaLoading || loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+      <div className='px-4 py-2'>
+        <ArenaSkeleton />
       </div>
     );
   }
@@ -296,7 +297,7 @@ return (
         value={answer}
         onChange={(e) => setAnswer(e.target.value)}
         rows={4}
-        className={`w-full rounded-xl shadow-sm transition-colors duration-200 ${
+        className={`w-full rounded-xl shadow-sm transition-colors duration-200 outline-none px-2 ${
           darkMode
             ? 'bg-gray-700 text-white border-gray-600'
             : 'bg-white text-gray-900 border-gray-300'
@@ -432,7 +433,7 @@ return (
         disabled={currentQuestionIndex === 0}
         className={`flex-1 py-3 px-4 rounded-xl text-sm font-medium transition-all duration-200 ${
           currentQuestionIndex === 0
-            ? 'bg-gray-400 cursor-not-allowed'
+            ? 'bg-gray-400 cursor-not-allowed text-white'
             : darkMode
               ? 'bg-gray-700 hover:bg-gray-600'
               : 'bg-gray-100 hover:bg-gray-200'

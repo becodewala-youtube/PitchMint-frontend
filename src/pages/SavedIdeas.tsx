@@ -6,6 +6,7 @@ import { RootState } from '../store';
 import { useTheme } from '../contexts/ThemeContext';
 import { FileText, Layout, Trash2, AlertCircle, Users, MessageSquare, Brain, Star } from 'lucide-react';
 import DeleteConfirmationModal from '../components/modals/DeleteConfirmationModal';
+import SavedIdeasSkeleton from '../components/skeleton/SavedIdeasSkeleton';
 
 const SavedIdeas = () => {
   const navigate = useNavigate();
@@ -43,9 +44,9 @@ const SavedIdeas = () => {
   };
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+    return (   
+      <div className='px-8 py-4'>
+        <SavedIdeasSkeleton />
       </div>
     );
   }

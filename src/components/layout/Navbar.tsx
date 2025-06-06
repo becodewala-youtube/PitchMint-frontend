@@ -124,7 +124,11 @@ const Navbar = () => {
         </div>
 
         {/* Mobile menu */}
-        <div className={`${isOpen ? 'block' : 'hidden'} sm:hidden`}>
+ <div
+  className={`sm:hidden fixed top-16 left-0 w-full z-50 transform transition-all duration-300 ease-in-out origin-top ${
+    isOpen ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'
+  } ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}
+>
           <div className={`px-2 pt-2 pb-3 space-y-1 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
             {isAuthenticated ? (
               <>

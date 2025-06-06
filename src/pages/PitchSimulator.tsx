@@ -103,10 +103,10 @@ const PitchSimulator = () => {
     <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} py-12`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-          <h1 className={`text-3xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+          <h1 className={`text-2xl md:text-3xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
             Pitch Simulator
           </h1>
-          <p className={`mt-2 text-lg ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+          <p className={`mt-2 text-sm md:text-lg ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
             Practice your pitch with AI-powered investor Q&A
           </p>
         </div>
@@ -126,7 +126,7 @@ const PitchSimulator = () => {
                   value={pitch}
                   onChange={(e) => setPitch(e.target.value)}
                   rows={6}
-                  className={`mt-1 block w-full rounded-md shadow-sm ${
+                  className={`mt-1 block px-2 w-full rounded-md shadow-sm ${
                     darkMode
                       ? 'bg-gray-700 text-white border-gray-600'
                       : 'bg-white text-gray-900 border-gray-300'

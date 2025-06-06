@@ -2,9 +2,30 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { API_URL } from '../../utils/constants';
 
-interface Idea {
+// in ideaSlice.ts
+export interface Feedback {
+  rating: number;
+  strengths: string[];
+  improvements: string[]; // ✅ Add this
+  additionalAdvice: string;
+}
+
+export interface Question {
+  id: string; // ✅ Add this if possible; OR use _id and map it
+  question: string;
+  category: string;
+  answer?: string;
+  feedback?: Feedback | null;
+}
+
+
+export interface PitchSimulation {
+  questions: Question[];
+}
+
+export interface Idea {
   competitorAnalysis: unknown;
-  pitchSimulation: unknown;
+  pitchSimulation: PitchSimulation;
   _id: string;
   ideaText: string;
   marketDemandScore: number;
