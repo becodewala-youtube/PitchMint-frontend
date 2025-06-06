@@ -68,18 +68,18 @@ const SavedIdeas = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h1 className={`text-lg md:text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Your Ideas
             </h1>
-            <p className={`mt-1 text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+            <p className={`mt-1 text-xs md:text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
               Manage and track your startup ideas
             </p>
           </div>
           <button
             onClick={() => navigate('/submit-idea')}
-            className="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="inline-flex items-center px-2 py-1 md:px-4 md:py-2 border border-transparent rounded-lg shadow-sm text-xs md:text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            <Brain className="h-5 w-5 mr-2" />
+            <Brain className="h-4 md:h-5 w-4 md:w-5 mr-2" />
             Submit New Idea
           </button>
         </div>
@@ -98,7 +98,7 @@ const SavedIdeas = () => {
                     <div className="flex-1">
                       <div className="flex items-center mb-2">
                         <h2
-                          className={`text-xl font-semibold ${
+                          className={`md:text-xl font-semibold ${
                             darkMode ? 'text-white' : 'text-gray-900'
                           } cursor-pointer hover:text-indigo-600 transition-colors duration-200`}
                           onClick={() => navigate(`/idea/${idea._id}`)}
@@ -113,7 +113,7 @@ const SavedIdeas = () => {
                           <Star className="w-4 h-4 mr-1" />
                           Score: {idea.overallScore}%
                         </span>
-                        <span className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                        <span className={`text-xs md:text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
                           {new Date(idea.createdAt).toLocaleDateString()}
                         </span>
                       </div>
@@ -123,7 +123,7 @@ const SavedIdeas = () => {
                   <div className="flex flex-wrap gap-3 mt-4">
                     <button
                       onClick={() => navigate(`/pitch-deck/${idea._id}`)}
-                      className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm transition-colors duration-200 ${
+                      className={`inline-flex items-center px-3 py-1.5 rounded-lg text-xs md:text-sm transition-colors duration-200 ${
                         darkMode
                           ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                           : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -134,7 +134,7 @@ const SavedIdeas = () => {
                     </button>
                     <button
                       onClick={() => navigate(`/canvas/${idea._id}`)}
-                      className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm transition-colors duration-200 ${
+                      className={`inline-flex items-center px-3 py-1.5 rounded-lg text-xs md:text-sm transition-colors duration-200 ${
                         darkMode
                           ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                           : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -145,7 +145,7 @@ const SavedIdeas = () => {
                     </button>
                     <button
                       onClick={() => navigate(`/competitors/${idea._id}`)}
-                      className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm transition-colors duration-200 ${
+                      className={`inline-flex items-center px-3 py-1.5 rounded-lg text-xs md:text-sm transition-colors duration-200 ${
                         darkMode
                           ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                           : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -156,7 +156,7 @@ const SavedIdeas = () => {
                     </button>
                     <button
                       onClick={() => navigate(`/pitch-simulator/${idea._id}`)}
-                      className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm transition-colors duration-200 ${
+                      className={`inline-flex items-center px-3 py-1.5 rounded-lg text-xs md:text-sm transition-colors duration-200 ${
                         darkMode
                           ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                           : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -167,7 +167,7 @@ const SavedIdeas = () => {
                     </button>
                     <button
                       onClick={() => handleDeleteClick(idea._id)}
-                      className="inline-flex items-center px-3 py-1.5 rounded-lg text-sm text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors duration-200"
+                      className="inline-flex items-center px-3 py-1.5 rounded-lg text-xs md:text-sm text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors duration-200"
                     >
                       <Trash2 className="h-4 w-4 mr-2" />
                       Delete

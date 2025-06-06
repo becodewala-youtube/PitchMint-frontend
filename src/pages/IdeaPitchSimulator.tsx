@@ -230,16 +230,16 @@ return (
   <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} py-12`}>
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex justify-between items-center mb-8">
-        <h1 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+        <h1 className={`text-lg md:text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
           Pitch Simulator
         </h1>
         <div className="flex space-x-4">
           <button
             onClick={() => simulatePitch()}
             disabled={loading}
-            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-xs md:text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <RefreshCw className={`mr-2 h-5 w-5 ${loading ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`mr-2 h-4 md:h-5 w-4  md:w-5 ${loading ? 'animate-spin' : ''}`} />
             Regenerate Questions
           </button>
         
@@ -251,14 +251,14 @@ return (
         <h2 className={`text-xl font-semibold mb-4 ${darkMode ? 'text-gray-200' : 'text-gray-900'}`}>
           Your Pitch
         </h2>
-        <p className={`${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+        <p className={`text-sm md:text-lg  text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
           {idea?.ideaText}
         </p>
       </div>
 
       {/* Questions and Answers Section */}
       {questions.length > 0 ? (
-        <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl shadow-lg p-6`}>
+        <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl shadow-lg p-4 md:p-6`}>
           {currentQuestion ? (
   <div>
     {/* Question Display */}
@@ -269,13 +269,13 @@ return (
         <MessageSquare className={`h-6 w-6 ${
           darkMode ? 'text-indigo-400' : 'text-indigo-600'
         } mr-2`} />
-        <h3 className={`font-medium ${
+        <h3 className={`font-medium text-sm md:text-lg ${
           darkMode ? 'text-indigo-200' : 'text-indigo-900'
         }`}>
          {currentQuestionIndex + 1} : Investor Question  ({currentQuestion.category})
         </h3>
       </div>
-      <p className={`text-lg ${
+      <p className={`text-sm md:text-lg text-justify ${
         darkMode ? 'text-white' : 'text-indigo-700'
       }`}>
         {currentQuestion.question}
@@ -296,8 +296,8 @@ return (
         id="answer"
         value={answer}
         onChange={(e) => setAnswer(e.target.value)}
-        rows={4}
-        className={`w-full rounded-xl shadow-sm transition-colors duration-200 outline-none px-2 ${
+        rows={8}
+        className={`w-full rounded-xl shadow-sm transition-colors md:text-lg text-sm duration-200 outline-none px-2 ${
           darkMode
             ? 'bg-gray-700 text-white border-gray-600'
             : 'bg-white text-gray-900 border-gray-300'
@@ -334,7 +334,7 @@ return (
     {/* Feedback Section */}
     {feedback && (
       <div className="mt-8 space-y-6">
-        <h3 className={`text-xl font-semibold ${
+        <h3 className={`md:text-xl font-semibold ${
           darkMode ? 'text-white' : 'text-gray-900'
         }`}>
           Feedback
@@ -346,7 +346,7 @@ return (
           {/* Rating */}
           <div className="flex items-center mb-6">
             <div className="flex-1">
-              <span className={`text-sm font-medium ${
+              <span className={`text-sm md:text-lg font-medium ${
                 darkMode ? 'text-gray-300' : 'text-gray-700'
               }`}>
                 Rating
@@ -375,7 +375,7 @@ return (
 
           {/* Strengths */}
           <div className="mb-6">
-            <h4 className={`font-medium mb-2 ${
+            <h4 className={`text-sm md:text-lg font-medium mb-2 ${
               darkMode ? 'text-gray-200' : 'text-gray-900'
             }`}>
               Strengths
@@ -384,7 +384,7 @@ return (
               {feedback.strengths.map((strength, index) => (
                 <li key={index} className="flex items-start">
                   <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5" />
-                  <span className={darkMode ? 'text-gray-300' : 'text-gray-700'}>
+                  <span className={darkMode ? 'text-gray-300 text-xs text-justify md:text-lg' : 'text-gray-700 text-xs text-justify md:text-lg'}>
                     {strength}
                   </span>
                 </li>
@@ -394,7 +394,7 @@ return (
 
           {/* Improvements */}
           <div className="mb-6">
-            <h4 className={`font-medium mb-2 ${
+            <h4 className={`font-medium text-sm md:text-lg mb-2 ${
               darkMode ? 'text-gray-200' : 'text-gray-900'
             }`}>
               Areas for Improvement
@@ -402,8 +402,8 @@ return (
             <ul className="space-y-2">
               {feedback.improvements.map((improvement, index) => (
                 <li key={index} className="flex items-start">
-                  <AlertCircle className="h-5 w-5 text-amber-500 mr-2 mt-0.5" />
-                  <span className={darkMode ? 'text-gray-300' : 'text-gray-700'}>
+                  <AlertCircle className="h-8 w-8 text-amber-500 mr-2 mt-0.5" />
+                  <span className={darkMode ? 'text-gray-300 text-xs text-justify md:text-lg' : 'text-gray-700 text-xs text-justify md:text-lg'}>
                     {improvement}
                   </span>
                 </li>
@@ -413,12 +413,12 @@ return (
 
           {/* Additional Advice */}
           <div>
-            <h4 className={`font-medium mb-2 ${
+            <h4 className={`font-medium mb-2 text-sm md:text-lg ${
               darkMode ? 'text-gray-200' : 'text-gray-900'
             }`}>
               Additional Advice
             </h4>
-            <p className={darkMode ? 'text-gray-300' : 'text-gray-700'}>
+            <p className={darkMode ? 'text-gray-300 text-justify text-xs md:text-lg' : 'text-gray-700 text-justify text-xs md:text-lg'}>
               {feedback.additionalAdvice}
             </p>
           </div>
@@ -431,7 +431,7 @@ return (
       <button
         onClick={handlePrevQuestion}
         disabled={currentQuestionIndex === 0}
-        className={`flex-1 py-3 px-4 rounded-xl text-sm font-medium transition-all duration-200 ${
+        className={`flex-1 py-3 px-4 md:text-sm text-xs rounded-xl  font-medium transition-all duration-200 ${
           currentQuestionIndex === 0
             ? 'bg-gray-400 cursor-not-allowed text-white'
             : darkMode
@@ -446,7 +446,7 @@ return (
       <button
         onClick={handleNextQuestion}
         disabled={currentQuestionIndex === questions.length - 1}
-        className={`flex-1 py-3 px-4 rounded-xl text-sm font-medium text-white transition-all duration-200 ${
+        className={`flex-1 md:py-3 md:px-4  rounded-xl md:text-sm text-xs  font-medium text-white transition-all duration-200 ${
           currentQuestionIndex === questions.length - 1
             ? 'bg-gray-400 cursor-not-allowed'
             : 'bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700'

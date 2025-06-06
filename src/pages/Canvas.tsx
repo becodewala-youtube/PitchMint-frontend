@@ -71,15 +71,15 @@ const Canvas = () => {
     <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} py-12`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center mb-8">
-          <h1 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+          <h1 className={`text-xl md:text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
             Business Model Canvas
           </h1>
           <button
             onClick={handleGenerateCanvas}
             disabled={loading || isGenerating}
-            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-xs md:text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <RefreshCw className={`mr-2 h-5 w-5 ${isGenerating ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`mr-2 h-4 md:h-5 w-4  md:w-5 ${isGenerating ? 'animate-spin' : ''}`} />
             {isGenerating ? 'Generating...' : 'Regenerate'}
           </button>
         </div>
@@ -91,14 +91,14 @@ const Canvas = () => {
               <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Problem
               </h2>
-              <p className={`mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              <p className={`mb-6 text-justify text-sm md:text-md ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                 {canvasContent.problem}
               </p>
               
               <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Customer Segments
               </h2>
-              <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              <p className={`text-justify text-sm md:text-md ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                 {canvasContent.customerSegments}
               </p>
             </div>
@@ -108,14 +108,14 @@ const Canvas = () => {
               <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Solution
               </h2>
-              <p className={`mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              <p className={`mb-6 text-justify text-sm md:text-md  ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                 {canvasContent.solution}
               </p>
               
               <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Unique Value Proposition
               </h2>
-              <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              <p className={` text-justify text-sm md:text-md ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                 {canvasContent.uniqueValueProposition}
               </p>
             </div>
@@ -125,14 +125,14 @@ const Canvas = () => {
               <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Key Metrics
               </h2>
-              <p className={`mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              <p className={`mb-6 text-justify text-sm md:text-md  ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                 {canvasContent.keyMetrics}
               </p>
               
               <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Channels
               </h2>
-              <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              <p className={` text-justify text-sm md:text-md ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                 {canvasContent.channels}
               </p>
             </div>
@@ -142,14 +142,14 @@ const Canvas = () => {
               <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Cost Structure
               </h2>
-              <p className={`mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              <p className={`mb-6 text-justify text-sm md:text-md ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                 {canvasContent.costStructure}
               </p>
               
               <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Revenue Streams
               </h2>
-              <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              <p className={`text-justify text-sm md:text-md ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                 {canvasContent.revenueStreams}
               </p>
             </div>
@@ -159,7 +159,7 @@ const Canvas = () => {
               <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Unfair Advantage
               </h2>
-              <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              <p className={`text-justify text-sm md:text-md ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                 {canvasContent.unfairAdvantage}
               </p>
             </div>

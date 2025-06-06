@@ -8,7 +8,6 @@ import { useTheme } from '../contexts/ThemeContext';
 import axios from 'axios';
 import { API_URL } from '../utils/constants';
 import { AlertCircle, RefreshCw } from 'lucide-react';
-import IdeaAnalysisSkeleton from '../components/skeleton/IdeaAnalysisSkeleton';
 import CompetitorAnalysisSkeleton from '../components/skeleton/CompetitorSkeleton';
 
 interface Competitor {
@@ -113,24 +112,24 @@ const IdeaCompetitors = () => {
     <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} py-12`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center mb-8">
-          <h1 className={`text-md md:text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+          <h1 className={`text-sm md:text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
             Competitor Analysis
           </h1>
           <button
             onClick={()=> analyzeCompetitors (true)}
             disabled={loading}
-            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-xs font-medium text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex items-center px-2 md:px-4 py-2 border border-transparent rounded-md shadow-sm text-xs font-medium text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <RefreshCw className={`mr-2 h-5 w-5 ${loading ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`mr-2 h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
             Regenerate Analysis
           </button>
         </div>
 
         <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-lg p-6 mb-8`}>
-          <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+          <h2 className={`md:text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
             Your Idea
           </h2>
-          <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+          <p className={`text-sm md:text-lg text-justify ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
             {idea.ideaText}
           </p>
         </div>
@@ -138,10 +137,10 @@ const IdeaCompetitors = () => {
         {analysis && (
           <>
             <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-lg p-6 mb-8`}>
-              <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h2 className={`md:text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Market Overview
               </h2>
-              <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              <p className={`text-sm text-justify md:text-lg ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                 {analysis.summary}
               </p>
             </div>
@@ -155,7 +154,7 @@ const IdeaCompetitors = () => {
                   <h3 className={`text-lg font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                     {competitor.name}
                   </h3>
-                  <p className={`mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <p className={`mb-4 text-sm md:text-lg text-justify ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                     {competitor.description}
                   </p>
 
@@ -166,7 +165,7 @@ const IdeaCompetitors = () => {
                       </h4>
                       <ul className="list-disc pl-4 space-y-1">
                         {competitor.swot.strengths.map((strength, i) => (
-                          <li key={i} className={`${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                          <li key={i} className={`text-sm md:text-lg ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                             {strength}
                           </li>
                         ))}
@@ -179,7 +178,7 @@ const IdeaCompetitors = () => {
                       </h4>
                       <ul className="list-disc pl-4 space-y-1">
                         {competitor.swot.weaknesses.map((weakness, i) => (
-                          <li key={i} className={`${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                          <li key={i} className={`text-sm md:text-lg ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                             {weakness}
                           </li>
                         ))}
@@ -192,7 +191,7 @@ const IdeaCompetitors = () => {
                       </h4>
                       <ul className="list-disc pl-4 space-y-1">
                         {competitor.swot.opportunities.map((opportunity, i) => (
-                          <li key={i} className={`${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                          <li key={i} className={`text-sm md:text-lg ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                             {opportunity}
                           </li>
                         ))}
@@ -205,7 +204,7 @@ const IdeaCompetitors = () => {
                       </h4>
                       <ul className="list-disc pl-4 space-y-1">
                         {competitor.swot.threats.map((threat, i) => (
-                          <li key={i} className={`${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                          <li key={i} className={`text-sm md:text-lg ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                             {threat}
                           </li>
                         ))}

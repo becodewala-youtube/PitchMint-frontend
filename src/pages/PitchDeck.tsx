@@ -171,20 +171,20 @@ const handleExportPDF = async () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center mb-8">
           <h1
-            className={`text-2xl font-bold ${
+            className={`text-xl md:text-2xl font-bold ${
               darkMode ? "text-white" : "text-gray-900"
             }`}
           >
             Pitch Deck
           </h1>
-          <div className="flex space-x-4">
+          <div className="flex space-x-2">
             <button
               onClick={handleExportPDF}
               disabled={loading || exportLoading || !slides.length}
-              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center px-1 md:px-4 py-2 border border-transparent rounded-md shadow-sm text-xs md:text-sm font-medium text-white bg-green-600 hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Download
-                className={`mr-2 h-5 w-5 ${
+                className={`mr-2 h-4 md:h-5 w-4  md:w-5 ${
                   exportLoading ? "animate-spin" : ""
                 }`}
               />
@@ -193,10 +193,10 @@ const handleExportPDF = async () => {
             <button
               onClick={handleRegeneratePitchDeck}
               disabled={loading || isGenerating}
-              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-xs md:text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <RefreshCw
-                className={`mr-2 h-5 w-5 ${isGenerating ? "animate-spin" : ""}`}
+                className={`mr-2 h-4 md:h-5 w-4  md:w-5 ${isGenerating ? "animate-spin" : ""}`}
               />
               {isGenerating ? "Generating..." : "Regenerate"}
             </button>
@@ -251,7 +251,7 @@ const handleExportPDF = async () => {
                 {slides[currentSlide].title}
               </h2>
               <div
-                className={`text-sm whitespace-pre-wrap ${
+                className={`text-sm whitespace-pre-wrap text-justify ${
                   darkMode ? "text-gray-300" : "text-gray-700"
                 }`}
               >

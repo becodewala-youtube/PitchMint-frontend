@@ -23,9 +23,23 @@ export interface PitchSimulation {
   questions: Question[];
 }
 
+interface Competitor {
+  name: string;
+  description: string;
+  swot: {
+    strengths: string[];
+    weaknesses: string[];
+    opportunities: string[];
+    threats: string[];
+  };
+}
+
+interface Analysis {
+  competitors: Competitor[];
+  summary: string;
+}
+
 export interface Idea {
-  competitorAnalysis: unknown;
-  pitchSimulation: PitchSimulation;
   _id: string;
   ideaText: string;
   marketDemandScore: number;
@@ -41,7 +55,10 @@ export interface Idea {
     monetization: { score: number; text: string };
     overall: { score: number; text: string };
   };
+  competitorAnalysis: Analysis; // ✅ update this from `unknown` to `Analysis`
+  pitchSimulation: PitchSimulation;
 }
+
 
 interface IdeaState {
   ideas: Idea[];
