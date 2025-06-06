@@ -1,22 +1,34 @@
+// src/components/auth/ProtectedRoute.tsx
 import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { loadUser } from '../../store/slices/authSlice';
 
 interface ProtectedRouteProps {
   children: ReactNode;
 }
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const { isAuthenticated, loading } = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch();
+  const { isAuthenticated, loading, token } = useSelector((state: RootState) => state.auth);
+
+  useEffect(() => {
+    if (token && !isAuthenticated && !loading) {
+      dispatch(loadUser() as any);
+    }
+  }, [dispatch, token, isAuthenticated, loading]);
 
   if (loading) {
-    return <div className="flex items-center justify-center min-h-screen">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-    </div>;
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+      </div>
+    );
   }
 
-  return isAuthenticated ? <>{children}</> : <Navigate to="/login" />;
+  return token ? <>{children}</> : <Navigate to="/login" />;
 };
 
 export default ProtectedRoute;

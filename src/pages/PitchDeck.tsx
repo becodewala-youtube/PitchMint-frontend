@@ -53,18 +53,33 @@ const PitchDeck = () => {
     }
   }, [idea, loading]);
 
-  const handleExportPDF = async () => {
-    if (!idea?.pitchDeckContent) return;
+  // In PitchDeck component
+const handleExportPDF = async () => {
+  if (!idea?.pitchDeckContent) return;
+  
+  try {
+    setExportLoading(true);
+    
+    const allSlides = [
+      { title: 'Problem', content: idea.pitchDeckContent.problem },
+      { title: 'Solution', content: idea.pitchDeckContent.solution },
+      { title: 'Market Size', content: idea.pitchDeckContent.marketSize },
+      { title: 'Business Model', content: idea.pitchDeckContent.businessModel },
+      { title: 'Competition', content: idea.pitchDeckContent.competitors },
+      { title: 'Go-to-Market Strategy', content: idea.pitchDeckContent.goToMarket },
+      { title: 'Team', content: idea.pitchDeckContent.team },
+      { title: 'Financials', content: idea.pitchDeckContent.financials },
+      { title: 'Milestones', content: idea.pitchDeckContent.milestones },
+      { title: 'Ask & Use of Funds', content: idea.pitchDeckContent.askAndUse }
+    ];
 
-    try {
-      setExportLoading(true);
-      await exportToPDF("pitch-deck-content", `pitch-deck-${id}`);
-    } catch (error) {
-      console.error("Failed to export PDF:", error);
-    } finally {
-      setExportLoading(false);
-    }
-  };
+    await exportToPDF(allSlides, darkMode);
+  } catch (error) {
+    console.error('Failed to export PDF:', error);
+  } finally {
+    setExportLoading(false);
+  }
+};
 
   const nextSlide = () => {
     if (slides.length) {

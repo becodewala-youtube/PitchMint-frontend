@@ -6,6 +6,7 @@ import { useTheme } from './contexts/ThemeContext';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import ProtectedRoute from './components/auth/ProtectedRoute';
+import PublicRoute from './components/auth/PublicRoute';
 
 
 // Lazy-loaded pages
@@ -50,8 +51,23 @@ function App() {
         <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path="/" element={<Landing />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
+            <Route
+  path="/login"
+  element={
+    <PublicRoute>
+      <Login />
+    </PublicRoute>
+  }
+/>
+<Route
+  path="/signup"
+  element={
+    <PublicRoute>
+      <Signup />
+    </PublicRoute>
+  }
+/>
+
             
             
 
