@@ -1,48 +1,48 @@
-import React from "react";
+import { useTheme } from '../../contexts/ThemeContext';
 
-const IdeaAnalysisSkeleton: React.FC = () => {
+const IdeaAnalysisSkeleton = () => {
+  const { darkMode } = useTheme();
+  
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-6 animate-pulse">
-      {/* Header Card */}
-      <div className="bg-gray-200 dark:bg-gray-800 p-6 rounded-lg mb-6 space-y-4">
-        <div className="h-5 w-2/3 bg-gray-300 dark:bg-gray-700 rounded"></div>
-        <div className="h-4 w-full bg-gray-300 dark:bg-gray-700 rounded"></div>
-        <div className="h-4 w-5/6 bg-gray-300 dark:bg-gray-700 rounded"></div>
-        <div className="flex flex-wrap gap-4 pt-4">
-          {[...Array(4)].map((_, i) => (
-            <div
-              key={i}
-              className="h-10 w-44 bg-gray-300 dark:bg-gray-700 rounded-md"
-            ></div>
+    <div className="space-y-8">
+      {/* Idea Overview Skeleton */}
+      <div className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8 animate-pulse`}>
+        <div className={`h-8 w-48 ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded mb-6`}></div>
+        <div className={`h-6 ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded mb-4`}></div>
+        <div className={`h-6 w-3/4 ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded mb-8`}></div>
+        
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[...Array(4)].map((_, index) => (
+            <div key={index} className={`h-20 ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded-2xl`}></div>
           ))}
         </div>
       </div>
 
-      {/* Score Boxes */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        {[...Array(4)].map((_, i) => (
-          <div
-            key={i}
-            className="h-20 bg-gray-200 dark:bg-gray-800 rounded-lg p-4 flex flex-col justify-center items-center space-y-2"
-          >
-            <div className="h-4 w-24 bg-gray-300 dark:bg-gray-700 rounded"></div>
-            <div className="h-6 w-12 bg-gray-300 dark:bg-gray-700 rounded"></div>
+      {/* Score Overview Skeleton */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {[...Array(4)].map((_, index) => (
+          <div key={index} className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8 animate-pulse`}>
+            <div className={`h-5 w-24 ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded mb-4`}></div>
+            <div className={`h-12 w-16 ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded mb-2`}></div>
+            <div className={`h-3 w-full ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded`}></div>
           </div>
         ))}
       </div>
 
-      {/* Detailed Analysis Section */}
-      <div className="bg-gray-200 dark:bg-gray-800 p-6 rounded-lg space-y-6">
-        {[...Array(4)].map((_, i) => (
-          <div key={i}>
-            <div className="h-4 w-48 bg-gray-300 dark:bg-gray-700 rounded mb-3"></div>
-            <div className="space-y-2">
-              <div className="h-3 w-full bg-gray-300 dark:bg-gray-700 rounded"></div>
-              <div className="h-3 w-11/12 bg-gray-300 dark:bg-gray-700 rounded"></div>
-              <div className="h-3 w-10/12 bg-gray-300 dark:bg-gray-700 rounded"></div>
+      {/* Detailed Analysis Skeleton */}
+      <div className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8 animate-pulse`}>
+        <div className={`h-8 w-48 ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded mb-8`}></div>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {[...Array(4)].map((_, index) => (
+            <div key={index} className={`p-6 rounded-2xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50/50'}`}>
+              <div className={`h-6 w-32 ${darkMode ? 'bg-gray-600' : 'bg-gray-200'} rounded mb-4`}></div>
+              <div className={`h-4 ${darkMode ? 'bg-gray-600' : 'bg-gray-200'} rounded mb-2`}></div>
+              <div className={`h-4 ${darkMode ? 'bg-gray-600' : 'bg-gray-200'} rounded mb-2`}></div>
+              <div className={`h-4 w-3/4 ${darkMode ? 'bg-gray-600' : 'bg-gray-200'} rounded`}></div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -1,45 +1,107 @@
-// src/utils/pdfExport.ts
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 
-export const exportToPDF = async (slides: any[], darkMode: boolean) => {
+export const exportToPDF = async (elementId: string, filename: string) => {
   try {
-    const pdf = new jsPDF('landscape', 'pt', 'a4');
-    const width = pdf.internal.pageSize.getWidth();
-    const height = pdf.internal.pageSize.getHeight();
+    const element = document.getElementById(elementId);
+    if (!element) {
+      throw new Error('Element not found');
+    }
 
+    // Create canvas from the element
+    const canvas = await html2canvas(element, {
+      scale: 2,
+      useCORS: true,
+      logging: false,
+      backgroundColor: '#ffffff'
+    });
+
+    const imgData = canvas.toDataURL('image/png');
+    
+    // Calculate dimensions
+    const imgWidth = 210; // A4 width in mm
+    const pageHeight = 295; // A4 height in mm
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    let heightLeft = imgHeight;
+
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    let position = 0;
+
+    // Add first page
+    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+    heightLeft -= pageHeight;
+
+    // Add additional pages if needed
+    while (heightLeft >= 0) {
+      position = heightLeft - imgHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+    }
+
+    pdf.save(`${filename}.pdf`);
+  } catch (error) {
+    console.error('Error generating PDF:', error);
+    throw new Error('Failed to generate PDF');
+  }
+};
+
+export const exportAllSlidesToPDF = async (slides: any[], filename: string, darkMode: boolean) => {
+  try {
+    const pdf = new jsPDF('l', 'mm', 'a4'); // Landscape orientation
+    const pageWidth = 297; // A4 landscape width
+    const pageHeight = 210; // A4 landscape height
+    
     for (let i = 0; i < slides.length; i++) {
-      // Create a temporary div for each slide
-      const tempDiv = document.createElement('div');
-      tempDiv.className = `${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} p-8`;
-      tempDiv.style.width = '1200px'; // Fixed width for consistent rendering
-      
-      // Add slide content
-      tempDiv.innerHTML = `
-        <h2 class="text-3xl font-bold mb-6">${slides[i].title}</h2>
-        <div class="text-lg whitespace-pre-wrap">${slides[i].content}</div>
-      `;
-      
-      document.body.appendChild(tempDiv);
-
-      // Convert to canvas
-      const canvas = await html2canvas(tempDiv, {
-        scale: 2,
-        backgroundColor: darkMode ? '#1f2937' : '#ffffff'
-      });
-
-      // Add to PDF
-      const imgData = canvas.toDataURL('image/png');
       if (i > 0) {
         pdf.addPage();
       }
-      pdf.addImage(imgData, 'PNG', 0, 0, width, height, undefined, 'FAST');
-
+      
+      // Create a temporary div for each slide
+      const slideDiv = document.createElement('div');
+      slideDiv.style.width = '1200px';
+      slideDiv.style.height = '800px';
+      slideDiv.style.padding = '60px';
+      slideDiv.style.backgroundColor = darkMode ? '#374151' : '#ffffff';
+      slideDiv.style.color = darkMode ? '#ffffff' : '#1f2937';
+      slideDiv.style.fontFamily = 'system-ui, -apple-system, sans-serif';
+      slideDiv.style.position = 'absolute';
+      slideDiv.style.left = '-9999px';
+      slideDiv.style.top = '0';
+      
+      slideDiv.innerHTML = `
+        <div style="height: 100%; display: flex; flex-direction: column;">
+          <h2 style="font-size: 48px; font-weight: bold; margin-bottom: 40px; background: linear-gradient(135deg, #8b5cf6, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: #8b5cf6;">${slides[i].title}</h2>
+          <div style="font-size: 18px; line-height: 1.8; white-space: pre-wrap; flex: 1; overflow: hidden;">${slides[i].content}</div>
+        </div>
+      `;
+      
+      document.body.appendChild(slideDiv);
+      
+      // Convert to canvas
+      const canvas = await html2canvas(slideDiv, {
+        scale: 1,
+        useCORS: true,
+        logging: false,
+        backgroundColor: darkMode ? '#374151' : '#ffffff'
+      });
+      
+      // Add to PDF
+      const imgData = canvas.toDataURL('image/png');
+      const imgWidth = pageWidth - 20; // Leave some margin
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      
+      // Center the image on the page
+      const x = (pageWidth - imgWidth) / 2;
+      const y = (pageHeight - imgHeight) / 2;
+      
+      pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
+      
       // Clean up
-      document.body.removeChild(tempDiv);
+      document.body.removeChild(slideDiv);
     }
-
-    pdf.save('pitch-deck.pdf');
+    
+    pdf.save(`${filename}.pdf`);
   } catch (error) {
     console.error('Error generating PDF:', error);
     throw new Error('Failed to generate PDF');

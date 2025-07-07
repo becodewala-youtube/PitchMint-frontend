@@ -1,10 +1,13 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { API_URL } from '../utils/constants';
 import { RootState } from '../store';
 import { useTheme } from '../contexts/ThemeContext';
 import { AlertCircle, Search } from 'lucide-react';
+import { motion } from 'framer-motion';
+import InsufficientCreditsModal from '../components/modals/InsufficientCreditsModal';
+import { clearError } from '../store/slices/ideaSlice';
 
 interface Competitor {
   name: string;
@@ -27,9 +30,15 @@ const CompetitorAnalysis = () => {
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [creditError, setCreditError] = useState<{
+    show: boolean;
+    creditsRequired: number;
+    creditsAvailable: number;
+  } | null>(null);
   
-  const { token } = useSelector((state: RootState) => state.auth);
+  const { token, user } = useSelector((state: RootState) => state.auth);
   const { darkMode } = useTheme();
+  const dispatch = useDispatch();
 
   const handleAnalyze = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,6 +46,7 @@ const CompetitorAnalysis = () => {
     try {
       setLoading(true);
       setError(null);
+      setCreditError(null);
 
       const response = await axios.post(
         `${API_URL}/api/competitors/analyze`,
@@ -50,164 +60,246 @@ const CompetitorAnalysis = () => {
 
       setAnalysis(response.data);
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to analyze competitors');
+      if (err.response?.status === 402) {
+        setCreditError({
+          show: true,
+          creditsRequired: err.response.data.creditsRequired,
+          creditsAvailable: err.response.data.creditsAvailable
+        });
+      } else {
+        setError(err.response?.data?.message || 'Failed to analyze competitors');
+      }
     } finally {
       setLoading(false);
     }
   };
 
+  const handleCloseCreditModal = () => {
+    setCreditError(null);
+  };
+
   return (
-    <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} py-12`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <h1 className={`text-2xl md:text-3xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-            Competitor Analysis
-          </h1>
-          <p className={`mt-2 text-sm md:text-lg ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-            Analyze your competition and understand the market landscape
-          </p>
-        </div>
+    <div className={`page-container ${darkMode ? 'page-container-dark' : 'page-container-light'}`}>
+      {/* Animated Background */}
+      <div className="bg-animated">
+        <div className={`bg-orb ${darkMode ? 'bg-orb-1' : 'bg-orb-light-1'}`}></div>
+        <div className={`bg-orb ${darkMode ? 'bg-orb-2' : 'bg-orb-light-2'}`}></div>
+      </div>
 
-        <div className={`mt-8 ${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-lg p-6`}>
-          <form onSubmit={handleAnalyze}>
-            <div className="mb-4">
-              <label
-                htmlFor="idea"
-                className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
-              >
-                Describe your startup idea
-              </label>
-              <textarea
-                id="idea"
-                value={ideaText}
-                onChange={(e) => setIdeaText(e.target.value)}
-                rows={4}
-                className={`px-2 mt-1 block w-full rounded-md shadow-sm ${
-                  darkMode
-                    ? 'bg-gray-700 text-white border-gray-600'
-                    : 'bg-white text-gray-900 border-gray-300'
-                } focus:ring-indigo-500 focus:border-indigo-500`}
-                placeholder="Enter your startup idea for competitor analysis..."
-              />
+      <div className="content-wrapper">
+        <div className="max-container">
+          {/* Header */}
+          <motion.div 
+            className="page-header"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="icon-container-lg icon-green mx-auto mb-8">
+              <Search className="h-12 w-12 text-white" />
             </div>
+            <h1 className={`page-title ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              Competitor
+              <span className="block text-gradient-green">
+                Analysis
+              </span>
+            </h1>
+            <p className={`page-subtitle ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+              Analyze your competition and understand the market landscape
+            </p>
+          </motion.div>
 
-            <button
-              type="submit"
-              disabled={loading || !ideaText.trim()}
-              className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text- font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
-                (loading || !ideaText.trim()) && 'opacity-50 cursor-not-allowed'
-              }`}
-            >
-              {loading ? (
-                <div className="flex items-center">
-                  <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white mr-2" />
-                  Analyzing...
-                </div>
-              ) : (
-                <div className="flex items-center">
-                  <Search className="w-5 h-5 mr-2" />
-                  Analyze Competitors
-                </div>
-              )}
-            </button>
-          </form>
-
-          {error && (
-            <div className="mt-4 p-4 bg-red-100 text-red-700 rounded-md">
-              <div className="flex items-center">
-                <AlertCircle className="h-5 w-5 mr-2" />
-                {error}
+          {/* Main Form */}
+          <motion.div 
+            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8 mb-12`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <form onSubmit={handleAnalyze}>
+              <div className="mb-6">
+                <label
+                  htmlFor="idea"
+                  className={`block text-lg font-semibold mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
+                >
+                  Describe your startup idea
+                </label>
+                <textarea
+                  id="idea"
+                  value={ideaText}
+                  onChange={(e) => setIdeaText(e.target.value)}
+                  rows={6}
+                  className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
+                  placeholder="Enter your startup idea for competitor analysis..."
+                />
               </div>
-            </div>
-          )}
 
+              <motion.button
+                type="submit"
+                disabled={loading || !ideaText.trim()}
+                className={`w-full btn-primary btn-primary-green ${
+                  (loading || !ideaText.trim()) ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+                whileHover={!(loading || !ideaText.trim()) ? { scale: 1.05 } : {}}
+                whileTap={!(loading || !ideaText.trim()) ? { scale: 0.95 } : {}}
+              >
+                {loading ? (
+                  <div className="flex items-center">
+                    <div className="loading-spinner mr-3" />
+                    Analyzing...
+                  </div>
+                ) : (
+                  <div className="flex items-center">
+                    <Search className="w-6 h-6 mr-3" />
+                    Analyze Competitors (1 Credit)
+                  </div>
+                )}
+              </motion.button>
+            </form>
+
+            {error && (
+              <motion.div 
+                className="mt-6 p-4 bg-red-100 text-red-700 rounded-2xl border border-red-200"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="flex items-center">
+                  <AlertCircle className="h-5 w-5 mr-2" />
+                  {error}
+                </div>
+              </motion.div>
+            )}
+          </motion.div>
+
+          {/* Results */}
           {analysis && (
-            <div className="mt-8">
-              <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <h2 className={`text-3xl font-bold mb-8 text-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Analysis Results
               </h2>
               
-              <div className={`p-4 rounded-md mb-6 ${darkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
-                <p className={darkMode ? 'text-gray-300' : 'text-gray-700'}>
+              {/* Summary */}
+              <motion.div 
+                className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8 mb-8`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+              >
+                <h3 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'} flex items-center`}>
+                  <div className="dot-indicator bg-blue-500"></div>
+                  Market Overview
+                </h3>
+                <p className={`text-lg ${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
                   {analysis.summary}
                 </p>
-              </div>
+              </motion.div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Competitors Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {analysis.competitors.map((competitor, index) => (
-                  <div
+                  <motion.div
                     key={index}
-                    className={`${
-                      darkMode ? 'bg-gray-700' : 'bg-gray-50'
-                    } rounded-lg p-6 shadow-md`}
+                    className={`group card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} card-hover p-8`}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.4 + index * 0.1 }}
+                    whileHover={{ y: -5 }}
                   >
-                    <h3 className={`text-lg font-semibold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                      {competitor.name}
-                    </h3>
-                    <p className={`mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                      {competitor.description}
-                    </p>
+                    <div className="card-hover-effect"></div>
+                    <div className="relative">
+                      <h3 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'} group-hover:text-green-500 transition-colors duration-300`}>
+                        {competitor.name}
+                      </h3>
+                      <p className={`mb-6 text-lg ${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
+                        {competitor.description}
+                      </p>
 
-                    <div className="space-y-4">
-                      <div>
-                        <h4 className={`font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                          Strengths
-                        </h4>
-                        <ul className="list-disc pl-5 space-y-1">
-                          {competitor.swot.strengths.map((strength, i) => (
-                            <li key={i} className={darkMode ? 'text-gray-400' : 'text-gray-600'}>
-                              {strength}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Strengths */}
+                        <div>
+                          <h4 className="font-bold mb-3 text-green-500 flex items-center">
+                            <div className="dot-indicator bg-green-500"></div>
+                            Strengths
+                          </h4>
+                          <ul className="space-y-2">
+                            {competitor.swot.strengths.map((strength, i) => (
+                              <li key={i} className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} flex items-start`}>
+                                <span className="text-green-500 mr-2">•</span>
+                                {strength}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
 
-                      <div>
-                        <h4 className={`font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                          Weaknesses
-                        </h4>
-                        <ul className="list-disc pl-5 space-y-1">
-                          {competitor.swot.weaknesses.map((weakness, i) => (
-                            <li key={i} className={darkMode ? 'text-gray-400' : 'text-gray-600'}>
-                              {weakness}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+                        {/* Weaknesses */}
+                        <div>
+                          <h4 className="font-bold mb-3 text-red-500 flex items-center">
+                            <div className="dot-indicator bg-red-500"></div>
+                            Weaknesses
+                          </h4>
+                          <ul className="space-y-2">
+                            {competitor.swot.weaknesses.map((weakness, i) => (
+                              <li key={i} className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} flex items-start`}>
+                                <span className="text-red-500 mr-2">•</span>
+                                {weakness}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
 
-                      <div>
-                        <h4 className={`font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                          Opportunities
-                        </h4>
-                        <ul className="list-disc pl-5 space-y-1">
-                          {competitor.swot.opportunities.map((opportunity, i) => (
-                            <li key={i} className={darkMode ? 'text-gray-400' : 'text-gray-600'}>
-                              {opportunity}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+                        {/* Opportunities */}
+                        <div>
+                          <h4 className="font-bold mb-3 text-blue-500 flex items-center">
+                            <div className="dot-indicator bg-blue-500"></div>
+                            Opportunities
+                          </h4>
+                          <ul className="space-y-2">
+                            {competitor.swot.opportunities.map((opportunity, i) => (
+                              <li key={i} className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} flex items-start`}>
+                                <span className="text-blue-500 mr-2">•</span>
+                                {opportunity}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
 
-                      <div>
-                        <h4 className={`font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                          Threats
-                        </h4>
-                        <ul className="list-disc pl-5 space-y-1">
-                          {competitor.swot.threats.map((threat, i) => (
-                            <li key={i} className={darkMode ? 'text-gray-400' : 'text-gray-600'}>
-                              {threat}
-                            </li>
-                          ))}
-                        </ul>
+                        {/* Threats */}
+                        <div>
+                          <h4 className="font-bold mb-3 text-orange-500 flex items-center">
+                            <div className="dot-indicator bg-orange-500"></div>
+                            Threats
+                          </h4>
+                          <ul className="space-y-2">
+                            {competitor.swot.threats.map((threat, i) => (
+                              <li key={i} className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} flex items-start`}>
+                                <span className="text-orange-500 mr-2">•</span>
+                                {threat}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
-            </div>
+            </motion.div>
           )}
         </div>
       </div>
+
+      {/* Insufficient Credits Modal */}
+      <InsufficientCreditsModal
+        isOpen={creditError?.show || false}
+        onClose={handleCloseCreditModal}
+        creditsRequired={creditError?.creditsRequired || 0}
+        creditsAvailable={creditError?.creditsAvailable || 0}
+      />
     </div>
   );
 };

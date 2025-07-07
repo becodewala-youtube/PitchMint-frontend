@@ -6,6 +6,7 @@ import { RootState } from '../store';
 import { useTheme } from '../contexts/ThemeContext';
 import IdeaAnalysisSkeleton from '../components/skeleton/IdeaAnalysisSkeleton';
 import { FileText, Layout, BarChart as ChartBar, AlertCircle, Users, MessageSquare } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const IdeaResults = () => {
   const { id } = useParams();
@@ -47,11 +48,9 @@ const IdeaResults = () => {
 
   if (loading) {
     return (
-      <>
       <div className='px-8'>
         <IdeaAnalysisSkeleton />
       </div>
-      </>
     );
   }
 
@@ -78,127 +77,149 @@ const IdeaResults = () => {
   };
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} py-12`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Idea Overview */}
-        <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-lg p-6 mb-8`}>
-          <h1 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-            Idea Analysis Results
-          </h1>
-          <p className={`text-lg ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-            {idea?.ideaText}
-          </p>
-          <div className="mt-4 flex flex-wrap gap-4">
-            <button
-              onClick={handleGeneratePitchDeck}
-              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700"
-            >
-              <FileText className="mr-2 h-5 w-5" />
-              Generate Pitch Deck
-            </button>
-            <button
-              onClick={handleGenerateCanvas}
-              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700"
-            >
-              <Layout className="mr-2 h-5 w-5" />
-              Create Business Canvas
-            </button>
-            <button
-              onClick={handleCompetitorAnalysis}
-              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
-            >
-              <Users className="mr-2 h-5 w-5" />
-              Analyze Competitors
-            </button>
-            <button
-              onClick={handlePitchSimulator}
-              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700"
-            >
-              <MessageSquare className="mr-2 h-5 w-5" />
-              Practice Pitch
-            </button>
-          </div>
-        </div>
+    <div className={`page-container ${darkMode ? 'page-container-dark' : 'page-container-light'}`}>
+      {/* Animated Background */}
+      <div className="bg-animated">
+        <div className={`bg-orb ${darkMode ? 'bg-orb-1' : 'bg-orb-light-1'}`}></div>
+        <div className={`bg-orb ${darkMode ? 'bg-orb-2' : 'bg-orb-light-2'}`}></div>
+      </div>
 
-        {/* Score Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-lg p-6`}>
-            <h3 className={`text-lg font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-              Overall Score
-            </h3>
-            <p className={`text-4xl font-bold ${scoreColor(idea.overallScore)}`}>
-              {idea.overallScore}%
+      <div className="content-wrapper">
+        <div className="max-container">
+          {/* Idea Overview */}
+          <motion.div 
+            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8 mb-12`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h1 className={`text-3xl md:text-4xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              Idea Analysis
+              <span className="block text-gradient-primary">
+                Results
+              </span>
+            </h1>
+            <p className={`text-xl mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
+              {idea?.ideaText}
             </p>
-          </div>
-          <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-lg p-6`}>
-            <h3 className={`text-lg font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-              Market Demand
-            </h3>
-            <p className={`text-4xl font-bold ${scoreColor(idea.marketDemandScore)}`}>
-              {idea.marketDemandScore}%
-            </p>
-          </div>
-          <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-lg p-6`}>
-            <h3 className={`text-lg font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-              Competition
-            </h3>
-            <p className={`text-4xl font-bold ${scoreColor(idea.competitionScore)}`}>
-              {idea.competitionScore}%
-            </p>
-          </div>
-          <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-lg p-6`}>
-            <h3 className={`text-lg font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-              Monetization
-            </h3>
-            <p className={`text-4xl font-bold ${scoreColor(idea.monetizationFeasibilityScore)}`}>
-              {idea.monetizationFeasibilityScore}%
-            </p>
-          </div>
-        </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <motion.button
+                onClick={handleGeneratePitchDeck}
+                className="group relative p-4 rounded-2xl bg-gradient-to-br from-purple-600 to-pink-600 text-white font-semibold transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <FileText className="h-6 w-6 mx-auto mb-2" />
+                <span className="text-sm">Pitch Deck</span>
+              </motion.button>
 
-        {/* Detailed Analysis */}
-        <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-lg p-6`}>
-          <h2 className={`text-xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-            Detailed Analysis
-          </h2>
-          
-          <div className="space-y-6">
-            <div>
-              <h3 className={`text-lg font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                Market Demand Analysis
-              </h3>
-              <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                {idea.analysis.marketDemand.text}
-              </p>
+              <motion.button
+                onClick={handleGenerateCanvas}
+                className="group relative p-4 rounded-2xl bg-gradient-to-br from-blue-600 to-purple-600 text-white font-semibold transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Layout className="h-6 w-6 mx-auto mb-2" />
+                <span className="text-sm">Canvas</span>
+              </motion.button>
+
+              <motion.button
+                onClick={handleCompetitorAnalysis}
+                className="group relative p-4 rounded-2xl bg-gradient-to-br from-green-600 to-blue-600 text-white font-semibold transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Users className="h-6 w-6 mx-auto mb-2" />
+                <span className="text-sm">Competitors</span>
+              </motion.button>
+
+              <motion.button
+                onClick={handlePitchSimulator}
+                className="group relative p-4 rounded-2xl bg-gradient-to-br from-orange-600 to-red-600 text-white font-semibold transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <MessageSquare className="h-6 w-6 mx-auto mb-2" />
+                <span className="text-sm">Practice</span>
+              </motion.button>
             </div>
-            
-            <div>
-              <h3 className={`text-lg font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                Competition Analysis
-              </h3>
-              <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                {idea.analysis.competition.text}
-              </p>
-            </div>
-            
-            <div>
-              <h3 className={`text-lg font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                Monetization Analysis
-              </h3>
-              <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                {idea.analysis.monetization.text}
-              </p>
-            </div>
-            
-            <div>
-              <h3 className={`text-lg font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                Overall Assessment
-              </h3>
-              <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                {idea.analysis.overall.text}
-              </p>
-            </div>
+          </motion.div>
+
+          {/* Score Overview */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            {[
+              { label: 'Overall Score', value: idea.overallScore, color: 'from-purple-500 to-pink-500' },
+              { label: 'Market Demand', value: idea.marketDemandScore, color: 'from-green-500 to-blue-500' },
+              { label: 'Competition', value: idea.competitionScore, color: 'from-yellow-500 to-orange-500' },
+              { label: 'Monetization', value: idea.monetizationFeasibilityScore, color: 'from-blue-500 to-purple-500' }
+            ].map((score, index) => (
+              <motion.div
+                key={score.label}
+                className={`group card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} card-hover p-8`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 + index * 0.1 }}
+                whileHover={{ y: -5 }}
+              >
+                <div className={`card-hover-effect bg-gradient-to-br ${score.color}`}></div>
+                <div className="relative text-center">
+                  <h3 className={`text-lg font-semibold mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                    {score.label}
+                  </h3>
+                  <div className={`text-5xl font-bold mb-2 bg-gradient-to-br ${score.color} bg-clip-text text-transparent`}>
+                    {score.value}%
+                  </div>
+                  <div className={`w-full bg-gray-200 rounded-full h-3 ${darkMode ? 'bg-gray-700' : 'bg-gray-200'}`}>
+                    <motion.div
+                      className={`h-3 rounded-full bg-gradient-to-r ${score.color}`}
+                      initial={{ width: 0 }}
+                      animate={{ width: `${score.value}%` }}
+                      transition={{ duration: 1, delay: 0.5 + index * 0.1 }}
+                    ></motion.div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
+
+          {/* Detailed Analysis */}
+          <motion.div 
+            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
+            <h2 className={`text-3xl font-bold mb-8 text-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              Detailed Analysis
+            </h2>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {[
+                { title: 'Market Demand Analysis', content: idea.analysis.marketDemand.text, color: 'from-green-500 to-blue-500' },
+                { title: 'Competition Analysis', content: idea.analysis.competition.text, color: 'from-yellow-500 to-orange-500' },
+                { title: 'Monetization Analysis', content: idea.analysis.monetization.text, color: 'from-blue-500 to-purple-500' },
+                { title: 'Overall Assessment', content: idea.analysis.overall.text, color: 'from-purple-500 to-pink-500' }
+              ].map((analysis, index) => (
+                <motion.div
+                  key={analysis.title}
+                  className={`p-6 rounded-2xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50/50'} border ${darkMode ? 'border-gray-600' : 'border-gray-200'}`}
+                  initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8, delay: 0.8 + index * 0.1 }}
+                >
+                  <div className="flex items-center mb-4">
+                    <div className={`w-4 h-4 rounded-full bg-gradient-to-r ${analysis.color} mr-3`}></div>
+                    <h3 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                      {analysis.title}
+                    </h3>
+                  </div>
+                  <p className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
+                    {analysis.content}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </div>
     </div>

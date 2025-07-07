@@ -1,31 +1,21 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { getIdea, generatePitchDeck } from "../store/slices/ideaSlice";
-import { RootState } from "../store";
-import { useTheme } from "../contexts/ThemeContext";
-import {
-  ChevronLeft,
-  ChevronRight,
-  RefreshCw,
-  AlertCircle,
-  Download,
-} from "lucide-react";
-import { exportToPDF } from "../utils/pdfExport";
-import ReactMarkdown from "react-markdown";
-import PitchDeckSkeleton from "../components/skeleton/PitchDeckSkeleton";
+import { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getIdea, generatePitchDeck, clearError } from '../store/slices/ideaSlice';
+import { RootState } from '../store';
+import { useTheme } from '../contexts/ThemeContext';
+import { ChevronLeft, ChevronRight, RefreshCw, AlertCircle, Download, FileText } from 'lucide-react';
+import { exportAllSlidesToPDF } from '../utils/pdfExport';
+import { motion } from 'framer-motion';
+import InsufficientCreditsModal from '../components/modals/InsufficientCreditsModal';
 
 const PitchDeck = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { darkMode } = useTheme();
-
-  const {
-    currentIdea: idea,
-    loading,
-    error,
-  } = useSelector((state: RootState) => state.idea);
+  
+  const { currentIdea: idea, loading, error, creditError } = useSelector((state: RootState) => state.idea);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [exportLoading, setExportLoading] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -53,33 +43,18 @@ const PitchDeck = () => {
     }
   }, [idea, loading]);
 
-  // In PitchDeck component
-const handleExportPDF = async () => {
-  if (!idea?.pitchDeckContent) return;
-  
-  try {
-    setExportLoading(true);
+  const handleExportPDF = async () => {
+    if (!slides.length) return;
     
-    const allSlides = [
-      { title: 'Problem', content: idea.pitchDeckContent.problem },
-      { title: 'Solution', content: idea.pitchDeckContent.solution },
-      { title: 'Market Size', content: idea.pitchDeckContent.marketSize },
-      { title: 'Business Model', content: idea.pitchDeckContent.businessModel },
-      { title: 'Competition', content: idea.pitchDeckContent.competitors },
-      { title: 'Go-to-Market Strategy', content: idea.pitchDeckContent.goToMarket },
-      { title: 'Team', content: idea.pitchDeckContent.team },
-      { title: 'Financials', content: idea.pitchDeckContent.financials },
-      { title: 'Milestones', content: idea.pitchDeckContent.milestones },
-      { title: 'Ask & Use of Funds', content: idea.pitchDeckContent.askAndUse }
-    ];
-
-    await exportToPDF(allSlides, darkMode);
-  } catch (error) {
-    console.error('Failed to export PDF:', error);
-  } finally {
-    setExportLoading(false);
-  }
-};
+    try {
+      setExportLoading(true);
+      await exportAllSlidesToPDF(slides, `pitch-deck-${id}`, darkMode);
+    } catch (error) {
+      console.error('Failed to export PDF:', error);
+    } finally {
+      setExportLoading(false);
+    }
+  };
 
   const nextSlide = () => {
     if (slides.length) {
@@ -93,10 +68,14 @@ const handleExportPDF = async () => {
     }
   };
 
+  const handleCloseCreditModal = () => {
+    dispatch(clearError());
+  };
+
   if (loading || isGenerating) {
     return (
-      <div>
-        <PitchDeckSkeleton />
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="loading-spinner"></div>
       </div>
     );
   }
@@ -117,185 +96,180 @@ const handleExportPDF = async () => {
     return null;
   }
 
-  const slides = idea.pitchDeckContent
-    ? [
-        {
-          title: "Problem",
-          content: idea.pitchDeckContent.problem,
-        },
-        {
-          title: "Solution",
-          content: idea.pitchDeckContent.solution,
-        },
-        {
-          title: "Market Size",
-          content: idea.pitchDeckContent.marketSize,
-        },
-        {
-          title: "Business Model",
-          content: idea.pitchDeckContent.businessModel,
-        },
-        {
-          title: "Competition",
-          content: idea.pitchDeckContent.competitors,
-        },
-        {
-          title: "Go-to-Market Strategy",
-          content: idea.pitchDeckContent.goToMarket,
-        },
-        {
-          title: "Team",
-          content: idea.pitchDeckContent.team,
-        },
-        {
-          title: "Financials",
-          content: idea.pitchDeckContent.financials,
-        },
-        {
-          title: "Milestones",
-          content: idea.pitchDeckContent.milestones,
-        },
-        {
-          title: "Ask & Use of Funds",
-          content: idea.pitchDeckContent.askAndUse,
-        },
-      ]
-    : [];
+  const slides = idea.pitchDeckContent ? [
+    { title: 'Problem', content: idea.pitchDeckContent.problem },
+    { title: 'Solution', content: idea.pitchDeckContent.solution },
+    { title: 'Market Size', content: idea.pitchDeckContent.marketSize },
+    { title: 'Business Model', content: idea.pitchDeckContent.businessModel },
+    { title: 'Competition', content: idea.pitchDeckContent.competitors },
+    { title: 'Go-to-Market Strategy', content: idea.pitchDeckContent.goToMarket },
+    { title: 'Team', content: idea.pitchDeckContent.team },
+    { title: 'Financials', content: idea.pitchDeckContent.financials },
+    { title: 'Milestones', content: idea.pitchDeckContent.milestones },
+    { title: 'Ask & Use of Funds', content: idea.pitchDeckContent.askAndUse }
+  ] : [];
 
   return (
-    <div
-      className={`min-h-screen ${
-        darkMode ? "bg-gray-900" : "bg-gray-50"
-      } py-12`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center mb-8">
-          <h1
-            className={`text-xl md:text-2xl font-bold ${
-              darkMode ? "text-white" : "text-gray-900"
-            }`}
-          >
-            Pitch Deck
-          </h1>
-          <div className="flex space-x-2">
-            <button
-              onClick={handleExportPDF}
-              disabled={loading || exportLoading || !slides.length}
-              className="inline-flex items-center px-1 md:px-4 py-2 border border-transparent rounded-md shadow-sm text-xs md:text-sm font-medium text-white bg-green-600 hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <Download
-                className={`mr-2 h-4 md:h-5 w-4  md:w-5 ${
-                  exportLoading ? "animate-spin" : ""
-                }`}
-              />
-              {exportLoading ? "Exporting..." : "Export PDF"}
-            </button>
-            <button
-              onClick={handleRegeneratePitchDeck}
-              disabled={loading || isGenerating}
-              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-xs md:text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <RefreshCw
-                className={`mr-2 h-4 md:h-5 w-4  md:w-5 ${isGenerating ? "animate-spin" : ""}`}
-              />
-              {isGenerating ? "Generating..." : "Regenerate"}
-            </button>
-          </div>
-        </div>
-
-        {slides.length > 0 ? (
-          <div
-            id="pitch-deck-content"
-            className={`${
-              darkMode ? "bg-gray-800" : "bg-white"
-            } rounded-lg shadow-lg p-8`}
-          >
-            {/* Slide Navigation */}
-            <div className="flex justify-between items-center mb-6">
-              <button
-                onClick={prevSlide}
-                className={`p-2 rounded-full ${
-                  darkMode
-                    ? "hover:bg-gray-700 text-gray-300"
-                    : "hover:bg-gray-100 text-gray-600"
-                }`}
-              >
-                <ChevronLeft className="h-6 w-6" />
-              </button>
-              <span
-                className={`text-sm ${
-                  darkMode ? "text-gray-400" : "text-gray-500"
-                }`}
-              >
-                Slide {currentSlide + 1} of {slides.length}
-              </span>
-              <button
-                onClick={nextSlide}
-                className={`p-2 rounded-full ${
-                  darkMode
-                    ? "hover:bg-gray-700 text-gray-300"
-                    : "hover:bg-gray-100 text-gray-600"
-                }`}
-              >
-                <ChevronRight className="h-6 w-6" />
-              </button>
-            </div>
-
-            {/* Current Slide */}
-            <div className="min-h-[400px]">
-              <h2
-                className={`text-2xl font-bold mb-6 ${
-                  darkMode ? "text-white" : "text-gray-900"
-                }`}
-              >
-                {slides[currentSlide].title}
-              </h2>
-              <div
-                className={`text-sm whitespace-pre-wrap text-justify ${
-                  darkMode ? "text-gray-300" : "text-gray-700"
-                }`}
-              >
-                <ReactMarkdown>{slides[currentSlide].content}</ReactMarkdown>
-              </div>
-            </div>
-
-            {/* Slide Thumbnails */}
-            <div className="mt-8 grid grid-cols-2 md:grid-cols-5 gap-4">
-              {slides.map((slide, index) => (
-                <button
-                  key={slide.title}
-                  onClick={() => setCurrentSlide(index)}
-                  className={`p-2 text-xs rounded ${
-                    currentSlide === index
-                      ? "bg-indigo-600 text-white"
-                      : darkMode
-                      ? "bg-gray-700 text-gray-300 hover:bg-gray-600"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                  }`}
-                >
-                  {slide.title}
-                </button>
-              ))}
-            </div>
-          </div>
-        ) : (
-          <div
-            className={`${
-              darkMode ? "bg-gray-800" : "bg-white"
-            } rounded-lg shadow-lg p-8 text-center`}
-          >
-            <p
-              className={`text-lg ${
-                darkMode ? "text-gray-300" : "text-gray-700"
-              }`}
-            >
-              {isGenerating
-                ? "Generating pitch deck..."
-                : "No pitch deck generated yet. Click the generate button to create one."}
-            </p>
-          </div>
-        )}
+    <div className={`page-container ${darkMode ? 'page-container-dark' : 'page-container-light'}`}>
+      {/* Animated Background */}
+      <div className="bg-animated">
+        <div className={`bg-orb ${darkMode ? 'bg-orb-1' : 'bg-orb-light-1'}`}></div>
+        <div className={`bg-orb ${darkMode ? 'bg-orb-2' : 'bg-orb-light-2'}`}></div>
       </div>
+
+      <div className="content-wrapper">
+        <div className="max-container">
+          {/* Header */}
+          <motion.div 
+            className="section-header"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="text-center md:text-left mb-6 md:mb-0">
+              <div className="flex items-center justify-center md:justify-start mb-4">
+                <div className="icon-container icon-purple mr-4">
+                  <FileText className="h-8 w-8 text-white" />
+                </div>
+                <h1 className={`text-3xl md:text-4xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  Pitch Deck
+                </h1>
+              </div>
+              <p className={`text-lg ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                Professional investor presentation
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <motion.button
+                onClick={handleExportPDF}
+                disabled={loading || exportLoading || !slides.length}
+                className="btn-primary btn-primary-green disabled:opacity-50 disabled:cursor-not-allowed"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Download className={`mr-2 h-5 w-5 ${exportLoading ? 'animate-spin' : ''}`} />
+                {exportLoading ? 'Exporting...' : 'Export PDF'}
+              </motion.button>
+              <motion.button
+                onClick={handleRegeneratePitchDeck}
+                disabled={loading || isGenerating}
+                className="btn-primary btn-primary-purple disabled:opacity-50 disabled:cursor-not-allowed"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <RefreshCw className={`mr-2 h-5 w-5 ${isGenerating ? 'animate-spin' : ''}`} />
+                {isGenerating ? 'Generating... (1 Credit)' : 'Regenerate (1 Credit)'}
+              </motion.button>
+            </div>
+          </motion.div>
+
+          {slides.length > 0 ? (
+            <motion.div 
+              id="pitch-deck-content" 
+              className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} overflow-hidden`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              {/* Slide Navigation */}
+              <div className="flex justify-between items-center p-6 border-b border-gray-200/20">
+                <motion.button
+                  onClick={prevSlide}
+                  className={`p-3 rounded-2xl hover-lift-sm ${
+                    darkMode
+                      ? 'hover:bg-gray-700 text-gray-300'
+                      : 'hover:bg-gray-100 text-gray-600'
+                  }`}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <ChevronLeft className="h-6 w-6" />
+                </motion.button>
+                <span className={`text-sm font-medium ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                  Slide {currentSlide + 1} of {slides.length}
+                </span>
+                <motion.button
+                  onClick={nextSlide}
+                  className={`p-3 rounded-2xl hover-lift-sm ${
+                    darkMode
+                      ? 'hover:bg-gray-700 text-gray-300'
+                      : 'hover:bg-gray-100 text-gray-600'
+                  }`}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <ChevronRight className="h-6 w-6" />
+                </motion.button>
+              </div>
+
+              {/* Current Slide */}
+              <div className="p-12 min-h-[500px]">
+                <motion.div
+                  key={currentSlide}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <h2 className="text-4xl font-bold mb-8 text-gradient-primary">
+                    {slides[currentSlide].title}
+                  </h2>
+                  <div className={`text-lg whitespace-pre-wrap leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                    {slides[currentSlide].content}
+                  </div>
+                </motion.div>
+              </div>
+
+              {/* Slide Thumbnails */}
+              <div className="p-6 border-t border-gray-200/20">
+                <div className="grid grid-cols-5 gap-3">
+                  {slides.map((slide, index) => (
+                    <motion.button
+                      key={slide.title}
+                      onClick={() => setCurrentSlide(index)}
+                      className={`p-3 text-xs rounded-xl hover-lift-sm ${
+                        currentSlide === index
+                          ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                          : darkMode
+                          ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      {slide.title}
+                    </motion.button>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div 
+              className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-12 text-center`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <div className="icon-container-lg icon-purple mx-auto mb-8">
+                <FileText className="h-12 w-12 text-white" />
+              </div>
+              <h3 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                {isGenerating ? 'Generating Pitch Deck...' : 'No Pitch Deck Available'}
+              </h3>
+              <p className={`text-lg ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                {isGenerating ? 'Please wait while we create your professional pitch deck.' : 'Click the generate button to create your pitch deck.'}
+              </p>
+            </motion.div>
+          )}
+        </div>
+      </div>
+
+      {/* Insufficient Credits Modal */}
+      <InsufficientCreditsModal
+        isOpen={creditError?.show || false}
+        onClose={handleCloseCreditModal}
+        creditsRequired={creditError?.creditsRequired || 0}
+        creditsAvailable={creditError?.creditsAvailable || 0}
+      />
     </div>
   );
 };

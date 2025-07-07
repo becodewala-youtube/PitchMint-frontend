@@ -1,45 +1,9 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { API_URL } from '../../utils/constants';
+import { updateUserCredits } from './authSlice';
 
-// in ideaSlice.ts
-export interface Feedback {
-  rating: number;
-  strengths: string[];
-  improvements: string[]; // ✅ Add this
-  additionalAdvice: string;
-}
-
-export interface Question {
-  id: string; // ✅ Add this if possible; OR use _id and map it
-  question: string;
-  category: string;
-  answer?: string;
-  feedback?: Feedback | null;
-}
-
-
-export interface PitchSimulation {
-  questions: Question[];
-}
-
-interface Competitor {
-  name: string;
-  description: string;
-  swot: {
-    strengths: string[];
-    weaknesses: string[];
-    opportunities: string[];
-    threats: string[];
-  };
-}
-
-interface Analysis {
-  competitors: Competitor[];
-  summary: string;
-}
-
-export interface Idea {
+interface Idea {
   _id: string;
   ideaText: string;
   marketDemandScore: number;
@@ -48,17 +12,17 @@ export interface Idea {
   overallScore: number;
   pitchDeckContent?: any;
   canvasContent?: any;
+  competitorAnalysis?: any;
+  pitchSimulation?: any;
   createdAt: string;
+  userCredits?: number;
   analysis: {
     marketDemand: { score: number; text: string };
     competition: { score: number; text: string };
     monetization: { score: number; text: string };
     overall: { score: number; text: string };
   };
-  competitorAnalysis: Analysis; // ✅ update this from `unknown` to `Analysis`
-  pitchSimulation: PitchSimulation;
 }
-
 
 interface IdeaState {
   ideas: Idea[];
@@ -66,6 +30,11 @@ interface IdeaState {
   loading: boolean;
   error: string | null;
   success: boolean;
+  creditError: {
+    show: boolean;
+    creditsRequired: number;
+    creditsAvailable: number;
+  } | null;
 }
 
 const initialState: IdeaState = {
@@ -74,12 +43,13 @@ const initialState: IdeaState = {
   loading: false,
   error: null,
   success: false,
+  creditError: null,
 };
 
 // Submit Idea
 export const submitIdea = createAsyncThunk(
   'idea/submit',
-  async (ideaData: { ideaText: string }, { getState, rejectWithValue }) => {
+  async (ideaData: { ideaText: string }, { getState, rejectWithValue, dispatch }) => {
     try {
       const state: any = getState();
       
@@ -91,8 +61,23 @@ export const submitIdea = createAsyncThunk(
       };
       
       const response = await axios.post(`${API_URL}/api/idea/submit`, ideaData, config);
+      
+      // Update user credits in auth state if returned
+      if (response.data.userCredits !== undefined) {
+        dispatch(updateUserCredits(response.data.userCredits));
+      }
+      
       return response.data;
     } catch (error: any) {
+      if (error.response?.status === 402) {
+        return rejectWithValue({
+          message: error.response.data.message,
+          creditError: {
+            creditsRequired: error.response.data.creditsRequired,
+            creditsAvailable: error.response.data.creditsAvailable
+          }
+        });
+      }
       return rejectWithValue(error.response?.data?.message || 'Failed to submit idea');
     }
   }
@@ -164,7 +149,7 @@ export const deleteIdea = createAsyncThunk(
 // Generate Pitch Deck
 export const generatePitchDeck = createAsyncThunk(
   'idea/generatePitchDeck',
-  async (id: string, { getState, rejectWithValue }) => {
+  async (id: string, { getState, rejectWithValue, dispatch }) => {
     try {
       const state: any = getState();
       
@@ -176,8 +161,23 @@ export const generatePitchDeck = createAsyncThunk(
       };
       
       const response = await axios.post(`${API_URL}/api/pitchdeck/${id}`, {}, config);
+      
+      // Update user credits in auth state
+      if (state.auth.user) {
+        dispatch(updateUserCredits(Math.max(0, state.auth.user.credits - 1)));
+      }
+      
       return response.data;
     } catch (error: any) {
+      if (error.response?.status === 402) {
+        return rejectWithValue({
+          message: error.response.data.message,
+          creditError: {
+            creditsRequired: error.response.data.creditsRequired,
+            creditsAvailable: error.response.data.creditsAvailable
+          }
+        });
+      }
       return rejectWithValue(error.response?.data?.message || 'Failed to generate pitch deck');
     }
   }
@@ -186,7 +186,7 @@ export const generatePitchDeck = createAsyncThunk(
 // Generate Business Model Canvas
 export const generateCanvas = createAsyncThunk(
   'idea/generateCanvas',
-  async (id: string, { getState, rejectWithValue }) => {
+  async (id: string, { getState, rejectWithValue, dispatch }) => {
     try {
       const state: any = getState();
       
@@ -198,14 +198,27 @@ export const generateCanvas = createAsyncThunk(
       };
       
       const response = await axios.post(`${API_URL}/api/canvas/${id}`, {}, config);
+      
+      // Update user credits in auth state
+      if (state.auth.user) {
+        dispatch(updateUserCredits(Math.max(0, state.auth.user.credits - 1)));
+      }
+      
       return response.data;
     } catch (error: any) {
+      if (error.response?.status === 402) {
+        return rejectWithValue({
+          message: error.response.data.message,
+          creditError: {
+            creditsRequired: error.response.data.creditsRequired,
+            creditsAvailable: error.response.data.creditsAvailable
+          }
+        });
+      }
       return rejectWithValue(error.response?.data?.message || 'Failed to generate canvas');
     }
   }
 );
-
-
 
 const ideaSlice = createSlice({
   name: 'idea',
@@ -216,6 +229,7 @@ const ideaSlice = createSlice({
     },
     clearError: (state) => {
       state.error = null;
+      state.creditError = null;
     },
     resetSuccess: (state) => {
       state.success = false;
@@ -227,15 +241,24 @@ const ideaSlice = createSlice({
       .addCase(submitIdea.pending, (state) => {
         state.loading = true;
         state.error = null;
+        state.creditError = null;
       })
       .addCase(submitIdea.fulfilled, (state, action: PayloadAction<Idea>) => {
         state.loading = false;
         state.success = true;
         state.currentIdea = action.payload;
       })
-      .addCase(submitIdea.rejected, (state, action) => {
+      .addCase(submitIdea.rejected, (state, action: any) => {
         state.loading = false;
-        state.error = action.payload as string;
+        if (action.payload?.creditError) {
+          state.creditError = {
+            show: true,
+            creditsRequired: action.payload.creditError.creditsRequired,
+            creditsAvailable: action.payload.creditError.creditsAvailable
+          };
+        } else {
+          state.error = action.payload?.message || action.payload;
+        }
       })
       
       // Get Idea by ID
@@ -287,44 +310,52 @@ const ideaSlice = createSlice({
       .addCase(generatePitchDeck.pending, (state) => {
         state.loading = true;
         state.error = null;
+        state.creditError = null;
       })
       .addCase(generatePitchDeck.fulfilled, (state, action: PayloadAction<Idea>) => {
         state.loading = false;
         state.currentIdea = action.payload;
         state.success = true;
       })
-      .addCase(generatePitchDeck.rejected, (state, action) => {
+      .addCase(generatePitchDeck.rejected, (state, action: any) => {
         state.loading = false;
-        state.error = action.payload as string;
+        if (action.payload?.creditError) {
+          state.creditError = {
+            show: true,
+            creditsRequired: action.payload.creditError.creditsRequired,
+            creditsAvailable: action.payload.creditError.creditsAvailable
+          };
+        } else {
+          state.error = action.payload?.message || action.payload;
+        }
       })
-
-      
       
       // Generate Canvas
       .addCase(generateCanvas.pending, (state) => {
         state.loading = true;
         state.error = null;
+        state.creditError = null;
       })
       .addCase(generateCanvas.fulfilled, (state, action: PayloadAction<Idea>) => {
         state.loading = false;
         state.currentIdea = action.payload;
         state.success = true;
       })
-      .addCase(generateCanvas.rejected, (state, action) => {
+      .addCase(generateCanvas.rejected, (state, action: any) => {
         state.loading = false;
-        state.error = action.payload as string;
-      })
-
-
-
-
-      
+        if (action.payload?.creditError) {
+          state.creditError = {
+            show: true,
+            creditsRequired: action.payload.creditError.creditsRequired,
+            creditsAvailable: action.payload.creditError.creditsAvailable
+          };
+        } else {
+          state.error = action.payload?.message || action.payload;
+        }
+      });
   }
 });
 
 export const { clearCurrentIdea, clearError, resetSuccess } = ideaSlice.actions;
 
 export default ideaSlice.reducer;
-
-
-

@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { submitIdea } from '../store/slices/ideaSlice';
+import { submitIdea, clearError } from '../store/slices/ideaSlice';
 import { RootState } from '../store';
 import { useTheme } from '../contexts/ThemeContext';
 import { Brain, AlertCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
+import InsufficientCreditsModal from '../components/modals/InsufficientCreditsModal';
 
 const SubmitIdea = () => {
   const [ideaText, setIdeaText] = useState('');
@@ -12,7 +14,7 @@ const SubmitIdea = () => {
   const dispatch = useDispatch();
   const { darkMode } = useTheme();
   
-  const { loading, error } = useSelector((state: RootState) => state.idea);
+  const { loading, error, creditError } = useSelector((state: RootState) => state.idea);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,105 +24,160 @@ const SubmitIdea = () => {
     }
   };
 
+  const handleCloseCreditModal = () => {
+    dispatch(clearError());
+  };
+
   return (
-    <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} py-12`}>
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <Brain className={`mx-auto h-12 w-12 ${darkMode ? 'text-indigo-400' : 'text-indigo-600'}`} />
-          <h1 className={`mt-2 text-xl md:text-3xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-            Submit Your Startup Idea
-          </h1>
-          <p className={`mt-2 text-sm md:text-lg ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-            Get instant AI-powered validation and analysis
-          </p>
-        </div>
+    <div className={`page-container ${darkMode ? 'page-container-dark' : 'page-container-light'}`}>
+      {/* Animated Background */}
+      <div className="bg-animated">
+        <div className={`bg-orb ${darkMode ? 'bg-orb-1' : 'bg-orb-light-1'}`}></div>
+        <div className={`bg-orb ${darkMode ? 'bg-orb-2' : 'bg-orb-light-2'}`}></div>
+      </div>
 
-        <div className={`mt-8 ${darkMode ? 'bg-gray-800' : 'bg-white'} p-8 rounded-lg shadow-lg`}>
-          {error && (
-            <div className="mb-4 flex items-center p-4 text-red-700 bg-red-100 rounded-lg" role="alert">
-              <AlertCircle className="h-5 w-5 mr-2" />
-              <span>{error}</span>
+      <div className="content-wrapper">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Header */}
+          <motion.div 
+            className="page-header"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="icon-container-lg icon-purple mx-auto mb-8">
+              <Brain className="h-12 w-12 text-white" />
             </div>
-          )}
+            <h1 className={`page-title ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              Submit Your
+              <span className="block text-gradient-primary">
+                Startup Idea
+              </span>
+            </h1>
+            <p className={`page-subtitle ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+              Get instant AI-powered validation and analysis
+            </p>
+          </motion.div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label
-                htmlFor="idea"
-                className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
+          {/* Main Form */}
+          <motion.div 
+            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            {error && (
+              <motion.div 
+                className="mb-6 flex items-center p-4 text-red-700 bg-red-100 rounded-2xl border border-red-200" 
+                role="alert"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3 }}
               >
-                Describe your startup idea
-              </label>
-              <div className="mt-1">
+                <AlertCircle className="h-5 w-5 mr-3" />
+                <span>{error}</span>
+              </motion.div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-8">
+              <div>
+                <label
+                  htmlFor="idea"
+                  className={`block text-lg font-semibold mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
+                >
+                  Describe your startup idea
+                </label>
                 <textarea
                   id="idea"
                   name="idea"
-                  rows={6}
+                  rows={8}
                   value={ideaText}
                   onChange={(e) => setIdeaText(e.target.value)}
                   placeholder="Example: A mobile app that uses AI to help people learn new languages through personalized, interactive conversations..."
-                  className={`shadow-sm block w-full sm:text-sm border-gray-300 rounded-md px-2 ${
-                    darkMode
-                      ? 'bg-gray-700 text-white border-gray-600 placeholder-gray-400'
-                      : 'bg-white text-gray-900 placeholder-gray-400'
-                  } focus:ring-indigo-500 focus:border-indigo-500`}
+                  className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
                 />
+                <p className={`mt-3 text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                  Be specific about your idea's value proposition, target market, and how it solves a problem.
+                </p>
               </div>
-              <p className={`mt-2 text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                Be specific about your idea's value proposition, target market, and how it solves a problem.
-              </p>
-            </div>
 
-            <div className="flex items-center space-x-4">
-              <button
-                type="submit"
-                disabled={loading || !ideaText.trim()}
-                className={`flex-1 py-2  md:py-3 md:px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
-                  (loading || !ideaText.trim()) && 'opacity-50 cursor-not-allowed'
-                }`}
-              >
-                {loading ? 'Analyzing...' : 'Analyze Idea'}
-              </button>
-              <button
-                type="button"
-                onClick={() => navigate(-1)}
-                className={`py-2 md:py-3 px-4 border rounded-md shadow-sm text-sm font-medium ${
-                  darkMode
-                    ? 'border-gray-600 text-gray-300 hover:bg-gray-700'
-                    : 'border-gray-300 text-gray-700 hover:bg-gray-50'
-                }`}
-              >
-                Cancel
-              </button>
-            </div>
-          </form>
-        </div>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <motion.button
+                  type="submit"
+                  disabled={loading || !ideaText.trim()}
+                  className={`flex-1 btn-primary btn-primary-purple ${
+                    (loading || !ideaText.trim()) ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
+                  whileHover={!(loading || !ideaText.trim()) ? { scale: 1.05 } : {}}
+                  whileTap={!(loading || !ideaText.trim()) ? { scale: 0.95 } : {}}
+                >
+                  {loading ? (
+                    <div className="flex items-center justify-center">
+                      <div className="loading-spinner mr-3" />
+                      Analyzing...
+                    </div>
+                  ) : (
+                    'Analyze Idea (1 Credit)'
+                  )}
+                </motion.button>
+                
+                <motion.button
+                  type="button"
+                  onClick={() => navigate(-1)}
+                  className={`btn-secondary ${darkMode ? 'btn-secondary-dark' : 'btn-secondary-light'}`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Cancel
+                </motion.button>
+              </div>
+            </form>
+          </motion.div>
 
-        {/* Tips Section */}
-        <div className={`mt-8 ${darkMode ? 'bg-gray-800' : 'bg-white'} p-8 rounded-lg shadow-lg`}>
-          <h2 className={`text-lg font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-            Tips for a Better Analysis
-          </h2>
-          <ul className={`mt-4 space-y-3 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-            <li className="flex items-start">
-              <span className="flex-shrink-0 h-5 w-5 text-indigo-500">•</span>
-              <span className="ml-2">Be clear about the problem your idea solves</span>
-            </li>
-            <li className="flex items-start">
-              <span className="flex-shrink-0 h-5 w-5 text-indigo-500">•</span>
-              <span className="ml-2">Describe your target audience or market</span>
-            </li>
-            <li className="flex items-start">
-              <span className="flex-shrink-0 h-5 w-5 text-indigo-500">•</span>
-              <span className="ml-2">Explain how your solution is unique or better than existing alternatives</span>
-            </li>
-            <li className="flex items-start">
-              <span className="flex-shrink-0 h-5 w-5 text-indigo-500">•</span>
-              <span className="ml-2">Include potential revenue streams or business model ideas</span>
-            </li>
-          </ul>
+          {/* Tips Section */}
+          <motion.div 
+            className={`mt-12 card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            <h2 className={`text-2xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              Tips for Better Analysis
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {[
+                'Be clear about the problem your idea solves',
+                'Describe your target audience or market',
+                'Explain how your solution is unique or better than existing alternatives',
+                'Include potential revenue streams or business model ideas'
+              ].map((tip, index) => (
+                <motion.div
+                  key={index}
+                  className="flex items-start"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
+                >
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mr-4 mt-1">
+                    <span className="text-white font-bold text-sm">{index + 1}</span>
+                  </div>
+                  <span className={`text-lg ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                    {tip}
+                  </span>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </div>
+
+      {/* Insufficient Credits Modal */}
+      <InsufficientCreditsModal
+        isOpen={creditError?.show || false}
+        onClose={handleCloseCreditModal}
+        creditsRequired={creditError?.creditsRequired || 0}
+        creditsAvailable={creditError?.creditsAvailable || 0}
+      />
     </div>
   );
 };

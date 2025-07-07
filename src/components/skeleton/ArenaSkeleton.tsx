@@ -1,68 +1,50 @@
-import React from "react";
+import { useTheme } from '../../contexts/ThemeContext';
 
-const PitchSimulatorSkeleton: React.FC = () => {
+const ArenaSkeleton = () => {
+  const { darkMode } = useTheme();
+  
   return (
-    <div className="min-h-screen p-6 animate-pulse bg-white dark:bg-gray-900 space-y-6">
-      {/* Heading */}
-      <div className="h-6 w-48 bg-gray-300 dark:bg-gray-700 rounded"></div>
-
-      {/* Pitch Box */}
-      <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-md space-y-3">
-        <div className="h-4 w-1/2 bg-gray-300 dark:bg-gray-600 rounded"></div>
-        <div className="h-4 w-full bg-gray-200 dark:bg-gray-700 rounded"></div>
-        <div className="h-4 w-5/6 bg-gray-200 dark:bg-gray-700 rounded"></div>
+    <div className="space-y-8">
+      {/* Header Skeleton */}
+      <div className="flex justify-between items-center">
+        <div className={`h-8 w-48 ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded animate-pulse`}></div>
+        <div className={`h-10 w-40 ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded animate-pulse`}></div>
       </div>
-
-      {/* Question Box */}
-      <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-md space-y-3">
-        <div className="h-4 w-1/3 bg-gray-300 dark:bg-gray-600 rounded"></div>
-        <div className="h-4 w-full bg-gray-200 dark:bg-gray-700 rounded"></div>
-        <div className="h-4 w-11/12 bg-gray-200 dark:bg-gray-700 rounded"></div>
-        <div className="h-4 w-5/6 bg-gray-200 dark:bg-gray-700 rounded"></div>
-        <div className="h-4 w-2/3 bg-gray-200 dark:bg-gray-700 rounded"></div>
+      
+      {/* Pitch Display Skeleton */}
+      <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl shadow-lg p-6 animate-pulse`}>
+        <div className={`h-6 w-24 ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded mb-4`}></div>
+        <div className={`h-4 ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded mb-2`}></div>
+        <div className={`h-4 ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded mb-2`}></div>
+        <div className={`h-4 w-3/4 ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded`}></div>
       </div>
-
-      {/* Answer Input */}
-      <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-md">
-        <div className="h-24 w-full bg-gray-200 dark:bg-gray-700 rounded"></div>
-      </div>
-
-      {/* Feedback Box */}
-      <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-md space-y-4">
-        {/* Rating */}
-        <div className="h-4 w-24 bg-gray-300 dark:bg-gray-600 rounded"></div>
-
-        {/* Strengths */}
-        <div className="space-y-2">
-          <div className="h-4 w-36 bg-gray-300 dark:bg-gray-600 rounded"></div>
-          {[...Array(1)].map((_, i) => (
-            <div key={i} className="h-3 w-full bg-gray-200 dark:bg-gray-700 rounded"></div>
-          ))}
+      
+      {/* Q&A Section Skeleton */}
+      <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl shadow-lg p-6 animate-pulse`}>
+        {/* Question Skeleton */}
+        <div className={`p-6 rounded-xl mb-8 ${darkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
+          <div className={`h-5 w-48 ${darkMode ? 'bg-gray-600' : 'bg-gray-200'} rounded mb-4`}></div>
+          <div className={`h-4 ${darkMode ? 'bg-gray-600' : 'bg-gray-200'} rounded mb-2`}></div>
+          <div className={`h-4 w-5/6 ${darkMode ? 'bg-gray-600' : 'bg-gray-200'} rounded`}></div>
         </div>
-
-        {/* Areas for Improvement */}
-        <div className="space-y-2">
-          <div className="h-4 w-56 bg-gray-300 dark:bg-gray-600 rounded"></div>
-          {[...Array(4)].map((_, i) => (
-            <div key={i} className="h-3 w-full bg-gray-200 dark:bg-gray-700 rounded"></div>
-          ))}
+        
+        {/* Answer Input Skeleton */}
+        <div className="mb-6">
+          <div className={`h-4 w-24 ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded mb-2`}></div>
+          <div className={`h-32 ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded`}></div>
         </div>
-
-        {/* Additional Advice */}
-        <div className="space-y-2">
-          <div className="h-4 w-44 bg-gray-300 dark:bg-gray-600 rounded"></div>
-          <div className="h-3 w-full bg-gray-200 dark:bg-gray-700 rounded"></div>
-          <div className="h-3 w-5/6 bg-gray-200 dark:bg-gray-700 rounded"></div>
+        
+        {/* Submit Button Skeleton */}
+        <div className={`h-12 ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded`}></div>
+        
+        {/* Navigation Buttons Skeleton */}
+        <div className="flex justify-between space-x-4 mt-8">
+          <div className={`flex-1 h-12 ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded`}></div>
+          <div className={`flex-1 h-12 ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded`}></div>
         </div>
-      </div>
-
-      {/* Buttons */}
-      <div className="flex justify-between">
-        <div className="h-10 w-36 bg-gray-300 dark:bg-gray-700 rounded-md"></div>
-        <div className="h-10 w-36 bg-green-300 dark:bg-green-600 rounded-md"></div>
       </div>
     </div>
   );
 };
 
-export default PitchSimulatorSkeleton;
+export default ArenaSkeleton;

@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getIdea, generateCanvas } from '../store/slices/ideaSlice';
+import { getIdea, generateCanvas, clearError } from '../store/slices/ideaSlice';
 import { RootState } from '../store';
 import { useTheme } from '../contexts/ThemeContext';
-import { RefreshCw, AlertCircle } from 'lucide-react';
-import PitchDeckSkeleton from '../components/skeleton/CanvasSkeleton';
+import { RefreshCw, AlertCircle, Layout } from 'lucide-react';
+import CanvasSkeleton from '../components/skeleton/CanvasSkeleton';
+import { motion } from 'framer-motion';
+import InsufficientCreditsModal from '../components/modals/InsufficientCreditsModal';
 
 const Canvas = () => {
   const { id } = useParams();
@@ -13,7 +15,7 @@ const Canvas = () => {
   const dispatch = useDispatch();
   const { darkMode } = useTheme();
   
-  const { currentIdea: idea, loading, error } = useSelector((state: RootState) => state.idea);
+  const { currentIdea: idea, loading, error, creditError } = useSelector((state: RootState) => state.idea);
   const [isGenerating, setIsGenerating] = useState(false);
 
   useEffect(() => {
@@ -39,11 +41,15 @@ const Canvas = () => {
     }
   }, [idea, loading]);
 
+  const handleCloseCreditModal = () => {
+    dispatch(clearError());
+  };
+
   if (loading || isGenerating) {
     return (
-      <div className="grid gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        {[...Array(4)].map((_, idx) => (
-          <PitchDeckSkeleton key={idx} />
+      <div className="grid gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 px-8 py-12">
+        {[...Array(6)].map((_, idx) => (
+          <CanvasSkeleton key={idx} />
         ))}
       </div>
     );
@@ -68,110 +74,223 @@ const Canvas = () => {
   const canvasContent = idea.canvasContent || {};
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} py-12`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className={`text-xl md:text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-            Business Model Canvas
-          </h1>
-          <button
-            onClick={handleGenerateCanvas}
-            disabled={loading || isGenerating}
-            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-xs md:text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <RefreshCw className={`mr-2 h-4 md:h-5 w-4  md:w-5 ${isGenerating ? 'animate-spin' : ''}`} />
-            {isGenerating ? 'Generating...' : 'Regenerate'}
-          </button>
-        </div>
-
-        {Object.keys(canvasContent).length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* Problem & Customer Segments */}
-            <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-lg shadow-lg`}>
-              <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                Problem
-              </h2>
-              <p className={`mb-6 text-justify text-sm md:text-md ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                {canvasContent.problem}
-              </p>
-              
-              <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                Customer Segments
-              </h2>
-              <p className={`text-justify text-sm md:text-md ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                {canvasContent.customerSegments}
-              </p>
-            </div>
-
-            {/* Solution & Value Proposition */}
-            <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-lg shadow-lg`}>
-              <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                Solution
-              </h2>
-              <p className={`mb-6 text-justify text-sm md:text-md  ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                {canvasContent.solution}
-              </p>
-              
-              <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                Unique Value Proposition
-              </h2>
-              <p className={` text-justify text-sm md:text-md ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                {canvasContent.uniqueValueProposition}
-              </p>
-            </div>
-
-            {/* Key Metrics & Channels */}
-            <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-lg shadow-lg`}>
-              <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                Key Metrics
-              </h2>
-              <p className={`mb-6 text-justify text-sm md:text-md  ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                {canvasContent.keyMetrics}
-              </p>
-              
-              <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                Channels
-              </h2>
-              <p className={` text-justify text-sm md:text-md ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                {canvasContent.channels}
-              </p>
-            </div>
-
-            {/* Cost Structure & Revenue Streams */}
-            <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-lg shadow-lg md:col-span-2`}>
-              <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                Cost Structure
-              </h2>
-              <p className={`mb-6 text-justify text-sm md:text-md ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                {canvasContent.costStructure}
-              </p>
-              
-              <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                Revenue Streams
-              </h2>
-              <p className={`text-justify text-sm md:text-md ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                {canvasContent.revenueStreams}
-              </p>
-            </div>
-
-            {/* Unfair Advantage */}
-            <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-lg shadow-lg`}>
-              <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                Unfair Advantage
-              </h2>
-              <p className={`text-justify text-sm md:text-md ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                {canvasContent.unfairAdvantage}
-              </p>
-            </div>
-          </div>
-        ) : (
-          <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-lg p-8 text-center`}>
-            <p className={`text-lg ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-              {isGenerating ? 'Generating canvas...' : 'No business model canvas generated yet. Click the generate button to create one.'}
-            </p>
-          </div>
-        )}
+    <div className={`min-h-screen relative overflow-hidden ${darkMode ? 'bg-gray-900' : 'bg-white'}`}>
+      {/* Animated Background */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className={`absolute -top-40 -right-40 w-80 h-80 rounded-full opacity-20 ${darkMode ? 'bg-gradient-to-br from-purple-500 to-pink-500' : 'bg-gradient-to-br from-blue-400 to-purple-400'} animate-pulse`}></div>
+        <div className={`absolute -bottom-40 -left-40 w-80 h-80 rounded-full opacity-20 ${darkMode ? 'bg-gradient-to-br from-blue-500 to-cyan-500' : 'bg-gradient-to-br from-green-400 to-blue-400'} animate-pulse delay-1000`}></div>
       </div>
+
+      <div className="relative z-10 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Header */}
+          <motion.div 
+            className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="text-center md:text-left mb-6 md:mb-0">
+              <div className="flex items-center justify-center md:justify-start mb-4">
+                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center mr-4`}>
+                  <Layout className="h-8 w-8 text-white" />
+                </div>
+                <h1 className={`text-3xl md:text-4xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  Business Model Canvas
+                </h1>
+              </div>
+              <p className={`text-lg ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                Lean startup methodology visualization
+              </p>
+            </div>
+            <motion.button
+              onClick={handleGenerateCanvas}
+              disabled={loading || isGenerating}
+              className="inline-flex items-center px-6 py-3 rounded-2xl text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-blue-500/25"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <RefreshCw className={`mr-2 h-5 w-5 ${isGenerating ? 'animate-spin' : ''}`} />
+              {isGenerating ? 'Generating... (1 Credit)' : 'Regenerate (1 Credit)'}
+            </motion.button>
+          </motion.div>
+
+          {Object.keys(canvasContent).length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* Problem & Customer Segments */}
+              <motion.div 
+                className={`${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm p-8 rounded-3xl shadow-2xl border ${darkMode ? 'border-gray-700' : 'border-gray-200'} hover:border-red-500/50 transition-all duration-500 hover:scale-105`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                whileHover={{ y: -5 }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-pink-500/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative">
+                  <div className="flex items-center mb-6">
+                    <div className="w-3 h-3 rounded-full bg-red-500 mr-3"></div>
+                    <h2 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                      Problem
+                    </h2>
+                  </div>
+                  <p className={`mb-8 text-justify text-sm md:text-base leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                    {canvasContent.problem}
+                  </p>
+                  
+                  <div className="flex items-center mb-6">
+                    <div className="w-3 h-3 rounded-full bg-blue-500 mr-3"></div>
+                    <h2 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                      Customer Segments
+                    </h2>
+                  </div>
+                  <p className={`text-justify text-sm md:text-base leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                    {canvasContent.customerSegments}
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* Solution & Value Proposition */}
+              <motion.div 
+                className={`${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm p-8 rounded-3xl shadow-2xl border ${darkMode ? 'border-gray-700' : 'border-gray-200'} hover:border-green-500/50 transition-all duration-500 hover:scale-105`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                whileHover={{ y: -5 }}
+              >
+                <div className="relative">
+                  <div className="flex items-center mb-6">
+                    <div className="w-3 h-3 rounded-full bg-green-500 mr-3"></div>
+                    <h2 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                      Solution
+                    </h2>
+                  </div>
+                  <p className={`mb-8 text-justify text-sm md:text-base leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                    {canvasContent.solution}
+                  </p>
+                  
+                  <div className="flex items-center mb-6">
+                    <div className="w-3 h-3 rounded-full bg-purple-500 mr-3"></div>
+                    <h2 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                      Unique Value Proposition
+                    </h2>
+                  </div>
+                  <p className={`text-justify text-sm md:text-base leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                    {canvasContent.uniqueValueProposition}
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* Key Metrics & Channels */}
+              <motion.div 
+                className={`${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm p-8 rounded-3xl shadow-2xl border ${darkMode ? 'border-gray-700' : 'border-gray-200'} hover:border-yellow-500/50 transition-all duration-500 hover:scale-105`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                whileHover={{ y: -5 }}
+              >
+                <div className="relative">
+                  <div className="flex items-center mb-6">
+                    <div className="w-3 h-3 rounded-full bg-yellow-500 mr-3"></div>
+                    <h2 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                      Key Metrics
+                    </h2>
+                  </div>
+                  <p className={`mb-8 text-justify text-sm md:text-base leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                    {canvasContent.keyMetrics}
+                  </p>
+                  
+                  <div className="flex items-center mb-6">
+                    <div className="w-3 h-3 rounded-full bg-indigo-500 mr-3"></div>
+                    <h2 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                      Channels
+                    </h2>
+                  </div>
+                  <p className={`text-justify text-sm md:text-base leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                    {canvasContent.channels}
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* Cost Structure & Revenue Streams */}
+              <motion.div 
+                className={`${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm p-8 rounded-3xl shadow-2xl border ${darkMode ? 'border-gray-700' : 'border-gray-200'} hover:border-orange-500/50 transition-all duration-500 hover:scale-105 md:col-span-2`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                whileHover={{ y: -5 }}
+              >
+                <div className="relative">
+                  <div className="flex items-center mb-6">
+                    <div className="w-3 h-3 rounded-full bg-orange-500 mr-3"></div>
+                    <h2 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                      Cost Structure
+                    </h2>
+                  </div>
+                  <p className={`mb-8 text-justify text-sm md:text-base leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                    {canvasContent.costStructure}
+                  </p>
+                  
+                  <div className="flex items-center mb-6">
+                    <div className="w-3 h-3 rounded-full bg-emerald-500 mr-3"></div>
+                    <h2 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                      Revenue Streams
+                    </h2>
+                  </div>
+                  <p className={`text-justify text-sm md:text-base leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                    {canvasContent.revenueStreams}
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* Unfair Advantage */}
+              <motion.div 
+                className={`${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm p-8 rounded-3xl shadow-2xl border ${darkMode ? 'border-gray-700' : 'border-gray-200'} hover:border-pink-500/50 transition-all duration-500 hover:scale-105`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                whileHover={{ y: -5 }}
+              >
+                <div className="relative">
+                  <div className="flex items-center mb-6">
+                    <div className="w-3 h-3 rounded-full bg-pink-500 mr-3"></div>
+                    <h2 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                      Unfair Advantage
+                    </h2>
+                  </div>
+                  <p className={`text-justify text-sm md:text-base leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                    {canvasContent.unfairAdvantage}
+                  </p>
+                </div>
+              </motion.div>
+            </div>
+          ) : (
+            <motion.div 
+              className={`${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm rounded-3xl shadow-2xl p-12 text-center border ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <div className={`w-24 h-24 rounded-3xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center mx-auto mb-8`}>
+                <Layout className="h-12 w-12 text-white" />
+              </div>
+              <h3 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                {isGenerating ? 'Generating Canvas...' : 'No Business Model Canvas Available'}
+              </h3>
+              <p className={`text-lg ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                {isGenerating ? 'Please wait while we create your business model canvas.' : 'Click the generate button to create your canvas.'}
+              </p>
+            </motion.div>
+          )}
+        </div>
+      </div>
+
+      {/* Insufficient Credits Modal */}
+      <InsufficientCreditsModal
+        isOpen={creditError?.show || false}
+        onClose={handleCloseCreditModal}
+        creditsRequired={creditError?.creditsRequired || 0}
+        creditsAvailable={creditError?.creditsAvailable || 0}
+      />
     </div>
   );
 };

@@ -1,18 +1,22 @@
 import { Routes, Route, Outlet } from 'react-router-dom';
 import { useEffect, lazy, Suspense } from 'react';
 import { useTheme } from './contexts/ThemeContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadUser } from './store/slices/authSlice';
+import { RootState } from './store';
 
 // Components
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import ProtectedRoute from './components/auth/ProtectedRoute';
-import PublicRoute from './components/auth/PublicRoute';
-
 
 // Lazy-loaded pages
 const Landing = lazy(() => import('./pages/Landing'));
 const Login = lazy(() => import('./pages/Login'));
 const Signup = lazy(() => import('./pages/Signup'));
+const EmailVerification = lazy(() => import('./pages/EmailVerification'));
+const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
+const ResetPassword = lazy(() => import('./pages/ResetPassword'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const SubmitIdea = lazy(() => import('./pages/SubmitIdea'));
 const IdeaResults = lazy(() => import('./pages/IdeaResults'));
@@ -25,34 +29,20 @@ const PitchSimulator = lazy(() => import('./pages/PitchSimulator'));
 const PaymentSuccess = lazy(() => import('./pages/PaymentSuccess'));
 const IdeaCompetitors = lazy(() => import('./pages/IdeaCompetitors'));
 const IdeaPitchSimulator = lazy(() => import('./pages/IdeaPitchSimulator'));
+const Profile = lazy(() => import('./pages/Profile'));
+const Credits = lazy(() => import('./pages/Credits'));
 
 // Loading component
-const PageLoader = () => {
-  return (
-    <div className="min-h-screen px-4 py-10 sm:px-10 lg:px-20 bg-gray-50 dark:bg-gray-900">
-      <div className="space-y-6 animate-pulse max-w-4xl mx-auto">
-        {/* Title skeleton */}
-        <div className="h-6 w-2/3 rounded bg-gray-300 dark:bg-gray-700"></div>
-
-        {/* Section box skeletons */}
-        {[1, 2, 3].map((_, i) => (
-          <div
-            key={i}
-            className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow"
-          >
-            <div className="h-4 w-1/2 rounded bg-gray-300 dark:bg-gray-700 mb-4"></div>
-            <div className="h-4 w-full rounded bg-gray-300 dark:bg-gray-700 mb-2"></div>
-            <div className="h-4 w-5/6 rounded bg-gray-300 dark:bg-gray-700"></div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
+const PageLoader = () => (
+  <div className="flex items-center justify-center min-h-screen">
+    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+  </div>
+);
 
 function App() {
   const { darkMode } = useTheme();
+  const dispatch = useDispatch();
+  const { token, isAuthenticated } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
     if (darkMode) {
@@ -62,6 +52,12 @@ function App() {
     }
   }, [darkMode]);
 
+  // Load user on app start if token exists
+  useEffect(() => {
+    if (token && !isAuthenticated) {
+      dispatch(loadUser() as any);
+    }
+  }, [token, isAuthenticated, dispatch]);
   return (
     <div className={`min-h-screen flex flex-col ${darkMode ? 'dark bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
       <Navbar />
@@ -69,28 +65,12 @@ function App() {
         <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path="/" element={<Landing />} />
-            <Route
-  path="/login"
-  element={
-    <PublicRoute>
-      <Login />
-    </PublicRoute>
-  }
-/>
-<Route
-  path="/signup"
-  element={
-    <PublicRoute>
-      <Signup />
-    </PublicRoute>
-  }
-/>
-
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/verify-email" element={<EmailVerification />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             
-            
-
-
-          {/* ... existing routes */}
             {/* Protected Routes */}
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="/submit-idea" element={<ProtectedRoute><SubmitIdea /></ProtectedRoute>} />
@@ -101,9 +81,11 @@ function App() {
             <Route path="/investors" element={<ProtectedRoute><InvestorContacts /></ProtectedRoute>} />
             <Route path="/competitors" element={<ProtectedRoute><CompetitorAnalysis /></ProtectedRoute>} />
             <Route path="/pitch-simulator" element={<ProtectedRoute><PitchSimulator /></ProtectedRoute>} />
+            <Route path="/payment-success" element={<ProtectedRoute><PaymentSuccess /></ProtectedRoute>} />
             <Route path="/competitors/:id" element={<ProtectedRoute><IdeaCompetitors /></ProtectedRoute>} />
             <Route path="/pitch-simulator/:id" element={<ProtectedRoute><IdeaPitchSimulator /></ProtectedRoute>} />
-            <Route path="/payment-success" element={<ProtectedRoute><PaymentSuccess /></ProtectedRoute>} />
+            <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            <Route path="/credits" element={<ProtectedRoute><Credits /></ProtectedRoute>} />
           </Routes>
         </Suspense>
       </main>

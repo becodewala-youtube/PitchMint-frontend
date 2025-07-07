@@ -7,6 +7,9 @@ interface User {
   name: string;
   email: string;
   isPremium: boolean;
+  credits: number;
+  profilePicture?: string;
+  authProvider?: string;
 }
 
 interface AuthState {
@@ -37,10 +40,7 @@ export const register = createAsyncThunk(
   'auth/register',
   async (userData: { name: string; email: string; password: string }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${API_URL}/api/auth/register`, userData, {
-        withCredentials: true,
-      });
-      
+      const response = await axios.post(`${API_URL}/api/auth/register`, userData);
       
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
@@ -57,18 +57,14 @@ export const login = createAsyncThunk(
   'auth/login',
   async (userData: { email: string; password: string }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${API_URL}/api/auth/login`, userData, {
-        /* withCredentials: true, */
-        withCredentials: true,
-      });
-      
+      const response = await axios.post(`${API_URL}/api/auth/login`, userData);
       
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
       
       return response.data;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data.message || 'Login failed');
+      return rejectWithValue(error.response?.data || error.response?.data.message || 'Login failed');
     }
   }
 );
@@ -80,12 +76,16 @@ export const loadUser = createAsyncThunk(
     try {
       const state: any = getState();
       
+      // Check if token exists
+      if (!state.auth.token) {
+        return rejectWithValue('No token found');
+      }
+      
       const config = {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${state.auth.token}`
-        },
-        withCredentials: true,
+        }
       };
       
       const response = await axios.get(`${API_URL}/api/auth/user`, config);
@@ -94,6 +94,9 @@ export const loadUser = createAsyncThunk(
       
       return response.data;
     } catch (error: any) {
+      // Clear invalid token
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
       return rejectWithValue(error.response?.data.message || 'Failed to load user');
     }
   }
@@ -113,6 +116,12 @@ const authSlice = createSlice({
     },
     clearError: (state) => {
       state.error = null;
+    },
+    updateUserCredits: (state, action: PayloadAction<number>) => {
+      if (state.user) {
+        state.user.credits = action.payload;
+        localStorage.setItem('user', JSON.stringify(state.user));
+      }
     }
   },
   extraReducers: (builder) => {
@@ -166,6 +175,6 @@ const authSlice = createSlice({
   }
 });
 
-export const { logout, clearError } = authSlice.actions;
+export const { logout, clearError, updateUserCredits } = authSlice.actions;
 
 export default authSlice.reducer;
