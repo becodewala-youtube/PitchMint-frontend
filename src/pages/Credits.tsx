@@ -42,55 +42,74 @@ const Credits = () => {
     }
   };
 
-  const handlePurchase = async (planId: string) => {
-    setPurchasingPlan(planId);
-    setLoading(true);
-    setError(null);
+const handlePurchase = async (planId: string) => {
+  setPurchasingPlan(planId);
+  setLoading(true);
+  setError(null);
 
-    try {
-      // Create payment intent
-      const response = await axios.post(
-        `${API_URL}/api/credits/purchase`,
-        { planId },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+  try {
+    const response = await axios.post(
+      `${API_URL}/api/credits/purchase`,
+      { planId },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
 
-      const { clientSecret } = response.data;
+    const { clientSecret, paymentIntentId } = response.data;
 
-      if (!clientSecret) {
-        throw new Error('Failed to create payment intent');
-      }
+    if (!clientSecret || !paymentIntentId) {
+      throw new Error('Failed to create payment intent');
+    }
 
-      // Extract payment intent ID from client secret
-      const paymentIntentId = clientSecret.split('_secret')[0];
-      
-      // For demo purposes, simulate successful payment
-      // In production, you would use Stripe Elements to handle the payment
+    // DEMO MODE: Simulate successful payment processing
+    // In production, you would use Stripe Elements here
+    console.log('Demo: Simulating payment processing...');
+    
+    // Simulate payment processing delay
+    setTimeout(async () => {
       try {
+        // DEMO: Simulate successful payment by updating the payment intent
+        // In production, Stripe would handle this automatically
+        await axios.post(
+          `${API_URL}/api/credits/simulate-payment-success`,
+          { paymentIntentId },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        // Now confirm the purchase
         const confirmResponse = await axios.post(
           `${API_URL}/api/credits/confirm-purchase`,
           { paymentIntentId },
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        
+
         if (confirmResponse.data.credits) {
-          // Update local storage and refresh
-          const updatedUser = { ...JSON.parse(localStorage.getItem('user') || '{}'), credits: confirmResponse.data.credits };
+          // Update local user data and reload
+          const updatedUser = { 
+            ...JSON.parse(localStorage.getItem('user') || '{}'), 
+            credits: confirmResponse.data.credits 
+          };
           localStorage.setItem('user', JSON.stringify(updatedUser));
           window.location.reload();
         }
       } catch (confirmError: any) {
-        throw new Error(confirmError.response?.data?.message || 'Payment confirmation failed');
+        console.error('Payment confirmation failed:', confirmError);
+        setError(confirmError.response?.data?.message || 'Payment confirmation failed');
+      } finally {
+        setLoading(false);
+        setPurchasingPlan(null);
       }
-      
-    } catch (error: any) {
-      console.error('Purchase failed:', error);
-      setError(error.response?.data?.message || error.message || 'Purchase failed');
-    } finally {
-      setLoading(false);
-      setPurchasingPlan(null);
-    }
-  };
+    }, 2000);
+
+  } catch (error: any) {
+    console.error('Purchase failed:', error);
+    setError(error.response?.data?.message || error.message || 'Purchase failed');
+    setLoading(false);
+    setPurchasingPlan(null);
+  }
+};
+
+
+
 
   const planArray = Object.entries(plans).map(([id, plan]) => ({ id, ...plan }));
 
