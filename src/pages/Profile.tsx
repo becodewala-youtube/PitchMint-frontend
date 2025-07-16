@@ -91,7 +91,7 @@ const Profile = () => {
     try {
       const updateData: any = {
         name: profileData.name,
-        email: profileData.email
+        
       };
 
       if (profileData.newPassword) {
@@ -314,22 +314,20 @@ const Profile = () => {
                       </div>
                       
                       <div>
-                        <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                          Email Address
-                        </label>
-                        <input
-                          type="email"
-                          value={profileData.email}
-                          onChange={(e) => setProfileData(prev => ({ ...prev, email: e.target.value }))}
-                          className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
-                          disabled={user?.authProvider === 'google'}
-                        />
-                        {user?.authProvider === 'google' && (
-                          <p className={`text-xs mt-1 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                            Email cannot be changed for Google accounts
-                          </p>
-                        )}
-                      </div>
+  <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+    Email Address
+  </label>
+  <input
+    type="email"
+    value={profileData.email}
+    readOnly // ✅ prevents editing
+    className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'} cursor-not-allowed opacity-70`} // optional: make visually clear it's non-editable
+  />
+  <p className={`text-xs mt-1 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+    Email address cannot be changed.
+  </p>
+</div>
+
                     </div>
 
                     <motion.button

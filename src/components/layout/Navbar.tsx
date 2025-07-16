@@ -6,6 +6,7 @@ import { RootState } from '../../store';
 import { logout } from '../../store/slices/authSlice';
 import { useTheme } from '../../contexts/ThemeContext';
 import UpgradeModal from '../premium/UpgradeModal';
+import icon from '../../assets/icon.png'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -41,11 +42,11 @@ const Navbar = () => {
           <div className="flex justify-between h-16">
             <div className="flex items-center">
               <Link to="/" className="flex items-center group">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center mr-3 group-hover:scale-110 transition-transform duration-300">
-                  <span className="text-white font-bold text-lg">P</span>
-                </div>
+                <div className="w-8 h-8 rounded-xl  flex items-center justify-center mr-4">
+              <img src={icon} alt="logo" />
+            </div>
                 <span className={`font-bold text-xl ${darkMode ? 'text-white' : 'text-gray-900'} group-hover:text-purple-500 transition-colors duration-300`}>
-                  Pitch<span className="text-purple-500">Mint</span>
+                  Pitch<span className="text-cyan-500">Mint</span>
                 </span>
               </Link>
             </div>
@@ -74,16 +75,7 @@ const Navbar = () => {
                   >
                     Submit Idea
                   </Link>
-                  <Link 
-                    to="/saved-ideas" 
-                    className={`px-2 xl:px-3 py-2 rounded-xl text-xs xl:text-sm font-medium transition-all duration-300 hover:scale-105 ${
-                      darkMode 
-                        ? 'text-gray-300 hover:text-white hover:bg-gray-700/50' 
-                        : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100/50'
-                    }`}
-                  >
-                    Saved Ideas
-                  </Link>
+                  
                   <Link 
                     to="/competitors" 
                     className={`px-2 xl:px-3 py-2 rounded-xl text-xs xl:text-sm font-medium transition-all duration-300 hover:scale-105 ${
@@ -139,7 +131,7 @@ const Navbar = () => {
                         ? 'text-gray-300 hover:text-white hover:bg-gray-700/50' 
                         : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100/50'
                     }`}>
-                      <User className="w-3 h-3 xl:w-4 xl:h-4 mr-1" />
+                      <img src={user?.profilePicture} alt="profile pic" className='w-6 h-6 rounded-xl mr-2 '/>
                       <span className="hidden xl:inline truncate max-w-20">{user?.name}</span>
                     </button>
                     
@@ -230,7 +222,7 @@ const Navbar = () => {
                 <>
                   <Link 
                     to="/dashboard" 
-                    className={`block px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 ${
+                    className={`block px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
                       darkMode 
                         ? 'text-white hover:bg-gray-700/50' 
                         : 'text-gray-700 hover:bg-gray-100/50'
@@ -241,7 +233,7 @@ const Navbar = () => {
                   </Link>
                   <Link 
                     to="/submit-idea" 
-                    className={`block px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 ${
+                    className={`block px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
                       darkMode 
                         ? 'text-white hover:bg-gray-700/50' 
                         : 'text-gray-700 hover:bg-gray-100/50'
@@ -252,7 +244,7 @@ const Navbar = () => {
                   </Link>
                   <Link 
                     to="/saved-ideas" 
-                    className={`block px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 ${
+                    className={`block px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
                       darkMode 
                         ? 'text-white hover:bg-gray-700/50' 
                         : 'text-gray-700 hover:bg-gray-100/50'
@@ -263,7 +255,7 @@ const Navbar = () => {
                   </Link>
                   <Link 
                     to="/competitors" 
-                    className={`block px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 ${
+                    className={`block px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
                       darkMode 
                         ? 'text-white hover:bg-gray-700/50' 
                         : 'text-gray-700 hover:bg-gray-100/50'
@@ -274,7 +266,7 @@ const Navbar = () => {
                   </Link>
                   <Link 
                     to="/pitch-simulator" 
-                    className={`block px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 ${
+                    className={`block px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
                       darkMode 
                         ? 'text-white hover:bg-gray-700/50' 
                         : 'text-gray-700 hover:bg-gray-100/50'
@@ -285,7 +277,7 @@ const Navbar = () => {
                   </Link>
                   <Link 
                     to="/credits" 
-                    className={`flex items-center px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 ${
+                    className={`flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
                       darkMode 
                         ? 'text-white hover:bg-gray-700/50' 
                         : 'text-gray-700 hover:bg-gray-100/50'
@@ -297,7 +289,7 @@ const Navbar = () => {
                   </Link>
                   <Link 
                     to="/profile" 
-                    className={`flex items-center px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 ${
+                    className={`flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
                       darkMode 
                         ? 'text-white hover:bg-gray-700/50' 
                         : 'text-gray-700 hover:bg-gray-100/50'
@@ -312,7 +304,7 @@ const Navbar = () => {
                       toggleMenu();
                       handleInvestorsClick();
                     }}
-                    className={`flex items-center w-full px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 ${
+                    className={`flex items-center w-full px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
                       user?.isPremium
                         ? darkMode 
                           ? 'text-white hover:bg-gray-700/50' 
@@ -328,7 +320,7 @@ const Navbar = () => {
                       handleLogout();
                       toggleMenu();
                     }}
-                    className="flex items-center w-full px-4 py-3 rounded-xl text-base font-medium text-red-500 hover:bg-red-500/10 transition-all duration-300"
+                    className="flex items-center w-full px-4 py-3 rounded-xl text-sm font-medium text-red-500 hover:bg-red-500/10 transition-all duration-300"
                   >
                     <LogOut size={18} className="mr-2" /> 
                     Logout
@@ -338,7 +330,7 @@ const Navbar = () => {
                 <>
                   <Link 
                     to="/login" 
-                    className={`block px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 ${
+                    className={`block px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
                       darkMode 
                         ? 'text-white hover:bg-gray-700/50' 
                         : 'text-gray-700 hover:bg-gray-100/50'
