@@ -6,6 +6,7 @@ import { RootState } from '../store';
 import { useTheme } from '../contexts/ThemeContext';
 import { motion } from 'framer-motion';
 import GoogleSignIn from '../components/GoogleSignIn';
+import Icon from '../assets/icon.png'
 
 const Signup = () => {
   const [name, setName] = useState('');
@@ -64,10 +65,10 @@ const Signup = () => {
         >
           {/* Header */}
           <div className="text-center">
-            <div className="icon-container icon-purple mx-auto mb-6">
-              <span className="text-white font-bold text-2xl">P</span>
+            <div className="icon-container  mx-auto mb-6">
+             <img src={Icon} alt="login logo" />
             </div>
-            <h2 className={`text-3xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'} mb-2`}>
+            <h2 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'} mb-2`}>
               Create Account
             </h2>
             <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
@@ -159,7 +160,7 @@ const Signup = () => {
                 className={`w-full btn-primary ${
                   loading 
                     ? 'bg-gray-400 cursor-not-allowed' 
-                    : 'btn-primary-purple'
+                    : 'btn-primary-cyan'
                 }`}
                 whileHover={!loading ? { scale: 1.05 } : {}}
                 whileTap={!loading ? { scale: 0.95 } : {}}

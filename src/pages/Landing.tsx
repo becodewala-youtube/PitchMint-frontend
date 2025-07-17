@@ -274,7 +274,7 @@ const Landing = () => {
     <div className={`min-h-screen relative overflow-hidden ${darkMode ? 'bg-gray-900' : 'bg-white'}`}>
       {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className={`absolute -top-40 -right-40 w-80 h-80 rounded-full opacity-20 ${darkMode ? 'bg-gradient-to-br from-purple-500 to-pink-500' : 'bg-gradient-to-br from-blue-400 to-purple-400'} animate-pulse`}></div>
+        <div className={`absolute -top-40 -right-40 w-80 h-80 rounded-full opacity-20 ${darkMode ? 'bg-gradient-to-br from-purple-500 to-cyan-500' : 'bg-gradient-to-br from-blue-400 to-purple-400'} animate-pulse`}></div>
         <div className={`absolute -bottom-40 -left-40 w-80 h-80 rounded-full opacity-20 ${darkMode ? 'bg-gradient-to-br from-blue-500 to-cyan-500' : 'bg-gradient-to-br from-green-400 to-blue-400'} animate-pulse delay-1000`}></div>
         <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full opacity-10 ${darkMode ? 'bg-gradient-to-br from-emerald-500 to-teal-500' : 'bg-gradient-to-br from-purple-400 to-pink-400'} animate-spin-slow`}></div>
         
@@ -292,7 +292,7 @@ const Landing = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <div className={`inline-flex items-center px-4 py-2 rounded-full ${darkMode ? 'bg-gradient-to-r from-purple-900/50 to-pink-900/50 border border-purple-500/30' : 'bg-gradient-to-r from-orange-100 to-pink-100 border border-orange-200'} backdrop-blur-sm`}>
+            <div className={`inline-flex items-center px-4 py-2 rounded-full ${darkMode ? 'bg-gradient-to-r from-purple-900/50 to-cyan-900/50 border border-purple-500/30' : 'bg-gradient-to-r from-orange-100 to-pink-100 border border-orange-200'} backdrop-blur-sm`}>
               <span className="text-2xl mr-2">🚀</span>
               <span className={`text-sm font-medium ${darkMode ? 'text-purple-200' : 'text-orange-800'}`}>
                 #1 AI-Powered Startup Validator
@@ -308,14 +308,14 @@ const Landing = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <span className="block">Validate Your</span>
-              <span className="block bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-purple-400 via-cyan-500 to-cyan-500 bg-clip-text text-transparent">
                 Startup Ideas
               </span>
               <span className="block">with AI Power</span>
             </motion.h1>
             
             <motion.p 
-              className={`text-xl md:text-2xl mb-8 max-w-3xl mx-auto leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}
+              className={`text-lg md:text-xl mb-8 max-w-3xl mx-auto leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
@@ -334,9 +334,9 @@ const Landing = () => {
             >
               <button
                 onClick={() => navigate('/signup')}
-                className="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-2xl shadow-2xl hover:shadow-purple-500/25 transform hover:scale-105 transition-all duration-300 overflow-hidden"
+                className="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-semibold rounded-2xl shadow-2xl hover:shadow-purple-500/25 transform hover:scale-105 transition-all duration-300 overflow-hidden"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-cyan-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <span className="relative flex items-center">
                   Start Validating Free
                   <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -403,7 +403,7 @@ const Landing = () => {
                 Launch Successfully
               </span>
             </h2>
-            <p className={`text-xl ${darkMode ? 'text-gray-400' : 'text-gray-600'} max-w-2xl mx-auto`}>
+            <p className={`text-lg ${darkMode ? 'text-gray-400' : 'text-gray-600'} max-w-2xl mx-auto`}>
               Comprehensive AI-powered tools to validate, refine, and pitch your startup ideas
             </p>
           </motion.div>
@@ -421,13 +421,13 @@ const Landing = () => {
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <div className="relative">
-                  <div className={`w-16 h-16 rounded-2xl ${darkMode ? 'bg-gradient-to-br from-purple-500 to-pink-500' : 'bg-gradient-to-br from-blue-500 to-purple-500'} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                    <feature.icon className="h-8 w-8 text-white" />
+                  <div className={`w-10 h-10 rounded-2xl ${darkMode ? 'bg-gradient-to-br from-purple-500 to-cyan-500' : 'bg-gradient-to-br from-blue-500 to-purple-500'} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                    <feature.icon className="h-4 w-4 text-white" />
                   </div>
                   <h3 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'} group-hover:text-purple-500 transition-colors duration-300`}>
                     {feature.title}
                   </h3>
-                  <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} leading-relaxed`}>
+                  <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'} leading-relaxed`}>
                     {feature.description}
                   </p>
                 </div>
@@ -478,7 +478,7 @@ const Landing = () => {
                     "{testimonial.quote}"
                   </p>
                   <div className="flex items-center">
-                    <div className={`w-12 h-12 rounded-full ${darkMode ? 'bg-gradient-to-br from-purple-500 to-pink-500' : 'bg-gradient-to-br from-blue-500 to-purple-500'} flex items-center justify-center mr-4`}>
+                    <div className={`w-12 h-12 rounded-full ${darkMode ? 'bg-gradient-to-br from-purple-500 to-cyan-500' : 'bg-gradient-to-br from-blue-500 to-purple-500'} flex items-center justify-center mr-4`}>
                       <span className="text-white font-bold text-lg">
                         {testimonial.author.charAt(0)}
                       </span>
@@ -510,7 +510,7 @@ const Landing = () => {
           >
             <h2 className={`text-4xl md:text-6xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Ready to Build the
-              <span className="block bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-purple-400 to-cyan-500 bg-clip-text text-transparent">
                 Next Big Thing?
               </span>
             </h2>
@@ -519,9 +519,9 @@ const Landing = () => {
             </p>
             <button
               onClick={() => navigate('/signup')}
-              className="group relative px-12 py-6 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-xl rounded-3xl shadow-2xl hover:shadow-purple-500/25 transform hover:scale-105 transition-all duration-300 overflow-hidden"
+              className="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-bold text-lg rounded-3xl shadow-2xl hover:shadow-purple-500/25 transform hover:scale-105 transition-all duration-300 overflow-hidden"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-cyan-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               <span className="relative flex items-center">
                 Start Your Journey Today
                 <svg className="w-6 h-6 ml-3 group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">

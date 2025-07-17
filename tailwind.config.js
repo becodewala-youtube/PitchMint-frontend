@@ -53,11 +53,14 @@ export default {
         '.btn-primary': {
           '@apply px-6 py-3 rounded-2xl text-sm font-medium text-white transition-all duration-300 shadow-lg': {},
         },
-        '.btn-primary-purple': {
-          '@apply bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 hover:shadow-purple-500/25': {},
+        '.btn-primary-cyan': {
+          '@apply bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 hover:shadow-purple-500/25': {},
         },
         '.btn-primary-blue': {
           '@apply bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 hover:shadow-blue-500/25': {},
+        },
+        '.btn-primary-red': {
+          '@apply bg-gradient-to-r from-red-600 to-red-600 hover:from-blue-700 hover:to-purple-700 hover:shadow-blue-500/25': {},
         },
         '.btn-primary-green': {
           '@apply bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 hover:shadow-green-500/25': {},
@@ -80,7 +83,7 @@ export default {
 
         // Input Components
         '.input-field': {
-          '@apply w-full px-6 py-4 text-lg rounded-2xl border-2 transition-all duration-300 focus:ring-4 focus:ring-purple-500/20 focus:outline-none': {},
+          '@apply w-full px-4 py-2 text-lg rounded-2xl border-2 transition-all duration-300 focus:ring-4 focus:ring-purple-500/20 focus:outline-none': {},
         },
         '.input-field-dark': {
           '@apply bg-gray-700/50 text-white border-gray-600 placeholder-gray-400 focus:border-purple-500 focus:bg-gray-700': {},
@@ -91,7 +94,7 @@ export default {
 
         // Text Components
         '.text-gradient-primary': {
-          '@apply bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent': {},
+          '@apply bg-gradient-to-r from-purple-400 via-cyan-500 to-red-500 bg-clip-text text-transparent': {},
         },
         '.text-gradient-blue': {
           '@apply bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent': {},
@@ -108,13 +111,13 @@ export default {
 
         // Icon Components
         '.icon-container': {
-          '@apply w-16 h-16 rounded-2xl flex items-center justify-center': {},
+          '@apply w-12 h-12 rounded-2xl flex items-center justify-center': {},
         },
         '.icon-container-lg': {
           '@apply w-24 h-24 rounded-3xl flex items-center justify-center': {},
         },
-        '.icon-purple': {
-          '@apply bg-gradient-to-br from-purple-600 to-pink-600': {},
+        '.icon-cyan': {
+          '@apply bg-gradient-to-br from-purple-600 to-cyan-600': {},
         },
         '.icon-blue': {
           '@apply bg-gradient-to-br from-blue-600 to-purple-600': {},
@@ -151,10 +154,10 @@ export default {
           '@apply text-center mb-12': {},
         },
         '.page-title': {
-          '@apply text-4xl md:text-6xl font-bold mb-4': {},
+          '@apply text-2xl md:text-3xl font-bold mb-4': {},
         },
         '.page-subtitle': {
-          '@apply text-xl': {},
+          '@apply text-lg': {},
         },
         '.section-header': {
           '@apply flex flex-col md:flex-row justify-between items-start md:items-center mb-12': {},

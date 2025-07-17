@@ -45,12 +45,12 @@ const SubmitIdea = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="icon-container-lg icon-purple mx-auto mb-8">
-              <Brain className="h-12 w-12 text-white" />
+            <div className="icon-container icon-cyan mx-auto mb-8">
+              <Brain className="h-8 w-8 text-white" />
             </div>
             <h1 className={`page-title ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Submit Your
-              <span className="block text-gradient-primary">
+              <span className=" ml-2 text-gradient-primary">
                 Startup Idea
               </span>
             </h1>
@@ -61,7 +61,7 @@ const SubmitIdea = () => {
 
           {/* Main Form */}
           <motion.div 
-            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8`}
+            className={`card-glass  ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -90,7 +90,7 @@ const SubmitIdea = () => {
                 <textarea
                   id="idea"
                   name="idea"
-                  rows={8}
+                  rows={6}
                   value={ideaText}
                   onChange={(e) => setIdeaText(e.target.value)}
                   placeholder="Example: A mobile app that uses AI to help people learn new languages through personalized, interactive conversations..."
@@ -105,7 +105,7 @@ const SubmitIdea = () => {
                 <motion.button
                   type="submit"
                   disabled={loading || !ideaText.trim()}
-                  className={`flex-1 btn-primary btn-primary-purple ${
+                  className={`flex-1 btn-primary btn-primary-cyan ${
                     (loading || !ideaText.trim()) ? 'opacity-50 cursor-not-allowed' : ''
                   }`}
                   whileHover={!(loading || !ideaText.trim()) ? { scale: 1.05 } : {}}
@@ -141,7 +141,7 @@ const SubmitIdea = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <h2 className={`text-2xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h2 className={`text-xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Tips for Better Analysis
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -158,10 +158,10 @@ const SubmitIdea = () => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
                 >
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mr-4 mt-1">
-                    <span className="text-white font-bold text-sm">{index + 1}</span>
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center mr-4 mt-1">
+                    <span className="text-white font-bold text-xs">{index + 1}</span>
                   </div>
-                  <span className={`text-lg ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                  <span className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                     {tip}
                   </span>
                 </motion.div>

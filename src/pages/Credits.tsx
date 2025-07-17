@@ -129,12 +129,12 @@ const handlePurchase = async (planId: string) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="icon-container-lg icon-yellow mx-auto mb-8">
-              <CreditCard className="h-12 w-12 text-white" />
+            <div className="icon-container icon-yellow mx-auto mb-8">
+              <CreditCard className="h-6 w-6 text-white" />
             </div>
             <h1 className={`page-title ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Buy
-              <span className="block text-gradient-yellow">
+              <span className="ml-2 text-gradient-yellow">
                 Credits
               </span>
             </h1>
@@ -156,7 +156,7 @@ const handlePurchase = async (planId: string) => {
 
           {/* Current Balance */}
           <motion.div 
-            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8 mb-12 text-center`}
+            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-4 mb-12 text-center`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -164,7 +164,7 @@ const handlePurchase = async (planId: string) => {
             <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Current Balance
             </h2>
-            <div className={`text-6xl font-bold mb-4 text-gradient-yellow`}>
+            <div className={`text-4xl font-bold mb-4 text-gradient-yellow`}>
               {user?.credits || 0}
             </div>
             <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
@@ -188,7 +188,7 @@ const handlePurchase = async (planId: string) => {
                   {/* Plan Icon */}
                   <div className={`icon-container-lg mx-auto mb-6 ${
                     plan.id === 'starter' ? 'icon-blue' :
-                    plan.id === 'pro' ? 'icon-purple' : 'icon-yellow'
+                    plan.id === 'pro' ? 'btn-primary-red' : 'icon-yellow'
                   }`}>
                     {plan.id === 'starter' ? <Zap className="h-12 w-12 text-white" /> :
                      plan.id === 'pro' ? <Star className="h-12 w-12 text-white" /> :
@@ -251,7 +251,7 @@ const handlePurchase = async (planId: string) => {
                     disabled={loading || purchasingPlan === plan.id}
                     className={`w-full btn-primary ${
                       plan.id === 'starter' ? 'btn-primary-blue' :
-                      plan.id === 'pro' ? 'btn-primary-purple' : 'btn-primary-yellow'
+                      plan.id === 'pro' ? 'btn-primary-red' : 'btn-primary-yellow'
                     } ${(loading || purchasingPlan === plan.id) ? 'opacity-50 cursor-not-allowed' : ''}`}
                     whileHover={!(loading || purchasingPlan === plan.id) ? { scale: 1.05 } : {}}
                     whileTap={!(loading || purchasingPlan === plan.id) ? { scale: 0.95 } : {}}
@@ -289,21 +289,21 @@ const handlePurchase = async (planId: string) => {
 
           {/* FAQ Section */}
           <motion.div 
-            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8 mt-12`}
+            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-4 px-6 mt-12`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.0 }}
           >
-            <h2 className={`text-2xl font-bold mb-6 text-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h2 className={`text-xl font-bold mb-6 text-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Frequently Asked Questions
             </h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
-                <h3 className={`font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h3 className={`font-bold  mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   How do credits work?
                 </h3>
-                <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                <p className={` text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                   Each AI-powered feature (idea validation, pitch deck generation, etc.) costs 1 credit. Free users get 3 credits monthly.
                 </p>
               </div>
@@ -312,7 +312,7 @@ const handlePurchase = async (planId: string) => {
                 <h3 className={`font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   Do credits expire?
                 </h3>
-                <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                <p className={` text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                   No! Purchased credits never expire. Only the monthly free credits reset each month.
                 </p>
               </div>
@@ -321,7 +321,7 @@ const handlePurchase = async (planId: string) => {
                 <h3 className={`font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   Can I get a refund?
                 </h3>
-                <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                <p className={` text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                   We offer refunds within 7 days of purchase if you haven't used any of the credits.
                 </p>
               </div>
@@ -330,7 +330,7 @@ const handlePurchase = async (planId: string) => {
                 <h3 className={`font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   Is payment secure?
                 </h3>
-                <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                <p className={`  text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                   Yes! All payments are processed securely through Stripe with industry-standard encryption.
                 </p>
               </div>

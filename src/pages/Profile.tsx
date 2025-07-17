@@ -82,11 +82,18 @@ const Profile = () => {
     setError('');
     setSuccess('');
 
-    if (profileData.newPassword && profileData.newPassword !== profileData.confirmPassword) {
-      setError('New passwords do not match');
-      setLoading(false);
-      return;
-    }
+  if (profileData.newPassword && profileData.newPassword !== profileData.confirmPassword) {
+  setError('New passwords do not match');
+  setLoading(false);
+
+  // Clear error after 3 seconds
+  setTimeout(() => {
+    setError('');
+  }, 3000);
+
+  return;
+}
+
 
     try {
       const updateData: any = {
@@ -186,7 +193,7 @@ const Profile = () => {
           >
             <h1 className={`page-title ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Profile
-              <span className="block text-gradient-primary">
+              <span className="ml-2 text-gradient-primary">
                 Settings
               </span>
             </h1>
@@ -206,7 +213,7 @@ const Profile = () => {
               {/* Profile Picture */}
               <div className="text-center mb-8">
                 <div className="relative inline-block">
-                  <div className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-2xl font-bold">
+                  <div className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center text-white text-2xl font-bold">
                     {user?.profilePicture ? (
                       <img 
                         src={user.profilePicture} 
@@ -250,7 +257,7 @@ const Profile = () => {
                     onClick={() => setActiveTab(tab.id)}
                     className={`w-full flex items-center px-4 py-3 rounded-xl text-left transition-all duration-300 ${
                       activeTab === tab.id
-                        ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
+                        ? 'bg-gradient-to-r from-purple-600 to-cyan-600 text-white'
                         : darkMode
                           ? 'text-gray-300 hover:bg-gray-700/50'
                           : 'text-gray-700 hover:bg-gray-100/50'
@@ -333,7 +340,7 @@ const Profile = () => {
                     <motion.button
                       type="submit"
                       disabled={loading}
-                      className={`btn-primary btn-primary-purple ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      className={`btn-primary btn-primary-cyan ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                       whileHover={!loading ? { scale: 1.05 } : {}}
                       whileTap={!loading ? { scale: 0.95 } : {}}
                     >
@@ -405,7 +412,7 @@ const Profile = () => {
                       <motion.button
                         type="submit"
                         disabled={loading || !profileData.newPassword}
-                        className={`btn-primary btn-primary-green ${(loading || !profileData.newPassword) ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        className={`btn-primary btn-primary-cyan ${(loading || !profileData.newPassword) ? 'opacity-50 cursor-not-allowed' : ''}`}
                         whileHover={!(loading || !profileData.newPassword) ? { scale: 1.05 } : {}}
                         whileTap={!(loading || !profileData.newPassword) ? { scale: 0.95 } : {}}
                       >

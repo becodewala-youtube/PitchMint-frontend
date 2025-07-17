@@ -136,16 +136,16 @@ const PitchSimulator = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className={`w-24 h-24 rounded-3xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center mx-auto mb-8`}>
-              <MessageSquare className="h-12 w-12 text-white" />
+            <div className={`w-12 h-12 rounded-3xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center mx-auto mb-8`}>
+              <MessageSquare className="h-6 w-6 text-white" />
             </div>
-            <h1 className={`text-4xl md:text-6xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h1 className={`text-2xl md:text-3xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Pitch
-              <span className="block bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 bg-clip-text text-transparent">
+              <span className="ml-2 bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 bg-clip-text text-transparent">
                 Simulator
               </span>
             </h1>
-            <p className={`text-xl ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+            <p className={`text-md ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
               Practice your pitch with AI-powered investor Q&A
             </p>
           </motion.div>
@@ -169,7 +169,7 @@ const PitchSimulator = () => {
                     id="pitch"
                     value={pitch}
                     onChange={(e) => setPitch(e.target.value)}
-                    rows={8}
+                    rows={6}
                     className={`w-full px-6 py-4 text-lg rounded-2xl border-2 transition-all duration-300 ${
                       darkMode
                         ? 'bg-gray-700/50 text-white border-gray-600 placeholder-gray-400 focus:border-orange-500 focus:bg-gray-700'
@@ -196,7 +196,7 @@ const PitchSimulator = () => {
                       Simulating...
                     </div>
                   ) : (
-                    <div className="flex items-center">
+                    <div className="flex text-xs md:text-lg items-center">
                       <Play className="w-6 h-6 mr-3" />
                       Start Simulation (1 Credit)
                     </div>

@@ -45,7 +45,7 @@ const Navbar = () => {
                 <div className="w-8 h-8 rounded-xl  flex items-center justify-center mr-4">
               <img src={icon} alt="logo" />
             </div>
-                <span className={`font-bold text-xl ${darkMode ? 'text-white' : 'text-gray-900'} group-hover:text-purple-500 transition-colors duration-300`}>
+                <span className={`font-bold text-xl ${darkMode ? 'text-white' : 'text-gray-900'} group-hover:text-cyan-500 transition-colors duration-300`}>
                   Pitch<span className="text-cyan-500">Mint</span>
                 </span>
               </Link>
@@ -170,7 +170,7 @@ const Navbar = () => {
                   </Link>
                   <Link 
                     to="/signup" 
-                    className="px-4 xl:px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl text-sm font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-purple-500/25"
+                    className="px-4 xl:px-6 py-2 bg-gradient-to-r from-purple-600 to-cyan-600 text-white rounded-xl text-sm font-medium hover:from-purple-700 hover:to-cyan-700 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-purple-500/25"
                   >
                     Sign Up
                   </Link>
@@ -341,7 +341,7 @@ const Navbar = () => {
                   </Link>
                   <Link 
                     to="/signup" 
-                    className="block px-4 py-3 rounded-xl text-base font-medium bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700 transition-all duration-300 mx-2"
+                    className="block px-4 py-3 rounded-xl text-base font-medium bg-gradient-to-r from-purple-600 to-cyan-600 text-white hover:from-purple-700 hover:to-pink-700 transition-all duration-300 mx-2"
                     onClick={toggleMenu}
                   >
                     Sign Up

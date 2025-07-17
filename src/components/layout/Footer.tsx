@@ -1,7 +1,7 @@
 import { useTheme } from '../../contexts/ThemeContext';
 import icon from '../../assets/icon.png'
 import { Twitter, Linkedin, Github } from 'lucide-react';
-
+import { Link } from "react-router-dom"
 
 const Footer = () => {
   const { darkMode } = useTheme();
@@ -28,10 +28,15 @@ const Footer = () => {
   },
 ];
 
-
+const quickLinks = [
+  { name: "Dashboard", path: "/" },
+  { name: "Submit Idea", path: "/submit-idea" },
+  { name: "Saved Ideas", path: "/saved-ideas" },
+  { name: "Investors", path: "/investors" },
+]
   
   return (
-  <footer className={`relative overflow-hidden ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} pt-6 pb-56 md:py-8`}>
+  <footer className={`relative overflow-hidden ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} pt-6 pb-8 md:py-8`}>
     {/* Background Effects */}
     <div className="absolute inset-0 overflow-hidden">
       <div className={`absolute -top-20 -right-20 w-40 h-40 rounded-full opacity-10 ${darkMode ? 'bg-gradient-to-br from-purple-500 to-pink-500' : 'bg-gradient-to-br from-blue-400 to-purple-400'} animate-pulse`}></div>
@@ -73,23 +78,23 @@ const Footer = () => {
         </div>
 <div className='grid grid-cols-2 md:gap-16 '>
         {/* Quick Links */}
-        <div>
-          <h3 className={`text-sm md:text-md font-bold md:mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-            Quick Links
-          </h3>
-          <ul className="md:space-y-3">
-            {['Dashboard', 'Submit Idea', 'Saved Ideas', 'Investors'].map((link) => (
-              <li key={link}>
-                <a
-                  href="#"
-                  className={`text-xs md:text-md ${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors duration-300 hover:translate-x-1 inline-block`}
-                >
-                  {link}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
+       <div>
+  <h3 className={`text-sm md:text-md font-bold md:mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+    Quick Links
+  </h3>
+  <ul className="md:space-y-3 space-y-2">
+    {quickLinks.map((link) => (
+      <li key={link.name}>
+        <Link
+          to={link.path}
+          className={`text-xs md:text-md ${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors duration-300 ease-in-out hover:translate-x-1 hover:tra inline-block`}
+        >
+          {link.name}
+        </Link>
+      </li>
+    ))}
+  </ul>
+</div>
 
         {/* Support */}
         <div>

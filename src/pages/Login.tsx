@@ -6,6 +6,7 @@ import { RootState } from '../store';
 import { useTheme } from '../contexts/ThemeContext';
 import { motion } from 'framer-motion';
 import GoogleSignIn from '../components/GoogleSignIn';
+import Icon from '../assets/icon.png'
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -44,7 +45,7 @@ const Login = () => {
       <div className="bg-animated">
         <div className={`bg-orb ${darkMode ? 'bg-orb-1' : 'bg-orb-light-1'}`}></div>
         <div className={`bg-orb ${darkMode ? 'bg-orb-2' : 'bg-orb-light-2'}`}></div>
-        <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full opacity-10 ${darkMode ? 'bg-gradient-to-br from-emerald-500 to-teal-500' : 'bg-gradient-to-br from-purple-400 to-pink-400'} animate-spin-slow`}></div>
+        <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full opacity-10 ${darkMode ? 'bg-gradient-to-br from-emerald-500 to-teal-500' : 'bg-gradient-to-br from-purple-400 to-cyan-400'} animate-spin-slow`}></div>
       </div>
 
       <div className="relative z-10 max-w-md w-full space-y-8">
@@ -56,10 +57,10 @@ const Login = () => {
         >
           {/* Header */}
           <div className="text-center">
-            <div className="icon-container icon-purple mx-auto mb-6">
-              <span className="text-white font-bold text-2xl">P</span>
+            <div className="icon-container  mx-auto mb-6">
+             <img src={Icon} alt="login logo" />
             </div>
-            <h2 className={`text-3xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'} mb-2`}>
+            <h2 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'} mb-2`}>
               Welcome Back
             </h2>
             <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
@@ -118,7 +119,7 @@ const Login = () => {
             <div className="flex items-center justify-between">
               <Link
                 to="/forgot-password"
-                className="text-sm text-purple-600 hover:text-purple-500 transition-colors duration-300"
+                className="text-sm text-cyan-600 hover:text-cyan-500 transition-colors duration-300"
               >
                 Forgot your password?
               </Link>
@@ -131,7 +132,7 @@ const Login = () => {
                 className={`w-full btn-primary ${
                   loading 
                     ? 'bg-gray-400 cursor-not-allowed' 
-                    : 'btn-primary-purple'
+                    : 'btn-primary-cyan'
                 }`}
                 whileHover={!loading ? { scale: 1.05 } : {}}
                 whileTap={!loading ? { scale: 0.95 } : {}}
@@ -167,7 +168,7 @@ const Login = () => {
                 Don't have an account?{' '}
                 <Link 
                   to="/signup" 
-                  className="font-medium text-purple-600 hover:text-purple-500 transition-colors duration-300"
+                  className="font-medium text-cyan-600 hover:text-cyan-500 transition-colors duration-300"
                 >
                   Sign up
                 </Link>

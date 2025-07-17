@@ -104,30 +104,30 @@ const InvestorContacts = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className={`w-24 h-24 rounded-3xl bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center mx-auto mb-8`}>
-              <Star className="h-12 w-12 text-white" />
+            <div className={`w-12 h-12 rounded-3xl bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center mx-auto mb-8`}>
+              <Star className=" h-6 w-6 text-white" />
             </div>
-            <h1 className={`text-4xl md:text-6xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h1 className={`text-2xl md:text-3xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Investor
-              <span className="block bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent">
+              <span className="ml-2 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent">
                 Directory
               </span>
             </h1>
-            <p className={`text-xl ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+            <p className={`text-md ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
               Connect with top investors, VCs, and accelerators
             </p>
           </motion.div>
 
           {/* Filters */}
           <motion.div 
-            className={`${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm rounded-3xl shadow-2xl p-8 mb-12 border ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}
+            className={`${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm rounded-3xl shadow-2xl p-4 mb-12 border ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <div className="flex items-center mb-6">
-              <Filter className="h-6 w-6 text-purple-500 mr-3" />
-              <h2 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              <Filter className="h-5 w-5 text-purple-500 mr-3" />
+              <h2 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Filter Investors
               </h2>
             </div>
@@ -141,7 +141,7 @@ const InvestorContacts = () => {
                   onChange={(e) => setFilters((prev) => ({ ...prev, type: e.target.value }))}
                   className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 ${
                     darkMode
-                      ? 'border-gray-600 bg-gray-700/50 text-white focus:border-purple-500'
+                      ? 'border-gray-600 bg-gray-800/80 text-white focus:border-purple-500'
                       : 'border-gray-300 bg-white text-gray-900 focus:border-purple-500'
                   } focus:ring-4 focus:ring-purple-500/20 focus:outline-none`}
                 >
@@ -162,7 +162,7 @@ const InvestorContacts = () => {
                   onChange={(e) => setFilters((prev) => ({ ...prev, industry: e.target.value }))}
                   className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 ${
                     darkMode
-                      ? 'border-gray-600 bg-gray-700/50 text-white focus:border-purple-500'
+                      ? 'border-gray-600 bg-gray-800/80 text-white focus:border-purple-500'
                       : 'border-gray-300 bg-white text-gray-900 focus:border-purple-500'
                   } focus:ring-4 focus:ring-purple-500/20 focus:outline-none`}
                 >

@@ -95,15 +95,16 @@ const CompetitorAnalysis = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="icon-container-lg icon-green mx-auto mb-8">
-              <Search className="h-12 w-12 text-white" />
+            <div className="icon-container icon-cyan mx-auto mb-8">
+              <Search className="h-8 w-8 text-white" />
             </div>
-            <h1 className={`page-title ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-              Competitor
-              <span className="block text-gradient-green">
-                Analysis
-              </span>
-            </h1>
+           <h1 className={`page-title ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+  Competitor
+  <span className="ml-2 text-gradient-primary">
+    Analysis
+  </span>
+</h1>
+
             <p className={`page-subtitle ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
               Analyze your competition and understand the market landscape
             </p>
@@ -137,7 +138,7 @@ const CompetitorAnalysis = () => {
               <motion.button
                 type="submit"
                 disabled={loading || !ideaText.trim()}
-                className={`w-full btn-primary btn-primary-green ${
+                className={`w-full btn-primary btn-primary-cyan ${
                   (loading || !ideaText.trim()) ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
                 whileHover={!(loading || !ideaText.trim()) ? { scale: 1.05 } : {}}
