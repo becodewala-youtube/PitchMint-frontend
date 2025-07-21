@@ -139,7 +139,7 @@ const Canvas = () => {
                   
                   <div className="flex items-center mb-6">
                     <div className="w-3 h-3 rounded-full bg-blue-500 mr-3"></div>
-                    <h2 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <h2 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       Customer Segments
                     </h2>
                   </div>
@@ -160,7 +160,7 @@ const Canvas = () => {
                 <div className="relative">
                   <div className="flex items-center mb-6">
                     <div className="w-3 h-3 rounded-full bg-green-500 mr-3"></div>
-                    <h2 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <h2 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       Solution
                     </h2>
                   </div>
@@ -170,7 +170,7 @@ const Canvas = () => {
                   
                   <div className="flex items-center mb-6">
                     <div className="w-3 h-3 rounded-full bg-purple-500 mr-3"></div>
-                    <h2 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <h2 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       Unique Value Proposition
                     </h2>
                   </div>
@@ -191,7 +191,7 @@ const Canvas = () => {
                 <div className="relative">
                   <div className="flex items-center mb-6">
                     <div className="w-3 h-3 rounded-full bg-yellow-500 mr-3"></div>
-                    <h2 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <h2 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       Key Metrics
                     </h2>
                   </div>
@@ -201,7 +201,7 @@ const Canvas = () => {
                   
                   <div className="flex items-center mb-6">
                     <div className="w-3 h-3 rounded-full bg-indigo-500 mr-3"></div>
-                    <h2 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <h2 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       Channels
                     </h2>
                   </div>
@@ -222,7 +222,7 @@ const Canvas = () => {
                 <div className="relative">
                   <div className="flex items-center mb-6">
                     <div className="w-3 h-3 rounded-full bg-orange-500 mr-3"></div>
-                    <h2 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <h2 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       Cost Structure
                     </h2>
                   </div>
@@ -232,7 +232,7 @@ const Canvas = () => {
                   
                   <div className="flex items-center mb-6">
                     <div className="w-3 h-3 rounded-full bg-emerald-500 mr-3"></div>
-                    <h2 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <h2 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       Revenue Streams
                     </h2>
                   </div>
@@ -253,7 +253,7 @@ const Canvas = () => {
                 <div className="relative">
                   <div className="flex items-center mb-6">
                     <div className="w-3 h-3 rounded-full bg-pink-500 mr-3"></div>
-                    <h2 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <h2 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       Unfair Advantage
                     </h2>
                   </div>

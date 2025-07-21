@@ -9,6 +9,7 @@ import { exportAllSlidesToPDF } from '../utils/pdfExport';
 import { motion } from 'framer-motion';
 import InsufficientCreditsModal from '../components/modals/InsufficientCreditsModal';
 import Markdown from 'react-markdown';
+import PitchDeckSkeleton from '../components/skeleton/PitchDeckSkeleton';
 
 const PitchDeck = () => {
   const { id } = useParams();
@@ -75,8 +76,8 @@ const PitchDeck = () => {
 
   if (loading || isGenerating) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="loading-spinner"></div>
+      <div className='px-8 py-4'>
+        <PitchDeckSkeleton />
       </div>
     );
   }
