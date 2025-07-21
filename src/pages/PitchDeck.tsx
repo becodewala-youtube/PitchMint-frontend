@@ -8,6 +8,7 @@ import { ChevronLeft, ChevronRight, RefreshCw, AlertCircle, Download, FileText }
 import { exportAllSlidesToPDF } from '../utils/pdfExport';
 import { motion } from 'framer-motion';
 import InsufficientCreditsModal from '../components/modals/InsufficientCreditsModal';
+import Markdown from 'react-markdown';
 
 const PitchDeck = () => {
   const { id } = useParams();
@@ -129,35 +130,35 @@ const PitchDeck = () => {
             <div className="text-center md:text-left mb-6 md:mb-0">
               <div className="flex items-center justify-center md:justify-start mb-4">
                 <div className="icon-container icon-purple mr-4">
-                  <FileText className="h-8 w-8 text-white" />
+                  <FileText className="h-8 w-8 text-cyan-400" />
                 </div>
-                <h1 className={`text-3xl md:text-4xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h1 className={`text-xl md:text-2xl font-bold text-gradient-primary `}>
                   Pitch Deck
                 </h1>
               </div>
-              <p className={`text-lg ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              <p className={`text-md ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 Professional investor presentation
               </p>
             </div>
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-row sm:flex-row gap-4">
               <motion.button
                 onClick={handleExportPDF}
                 disabled={loading || exportLoading || !slides.length}
-                className="btn-primary btn-primary-green disabled:opacity-50 disabled:cursor-not-allowed"
+                className="btn-primary btn-primary-cyan mt-4 flex disabled:opacity-50 disabled:cursor-not-allowed"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Download className={`mr-2 h-5 w-5 ${exportLoading ? 'animate-spin' : ''}`} />
+                <Download className={`sm:mr-2  h-5 w-5 ${exportLoading ? 'animate-spin' : ''}`} />
                 {exportLoading ? 'Exporting...' : 'Export PDF'}
               </motion.button>
               <motion.button
                 onClick={handleRegeneratePitchDeck}
                 disabled={loading || isGenerating}
-                className="btn-primary btn-primary-purple disabled:opacity-50 disabled:cursor-not-allowed"
+                className="btn-primary btn-primary-cyan flex mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <RefreshCw className={`mr-2 h-5 w-5 ${isGenerating ? 'animate-spin' : ''}`} />
+                <RefreshCw className={`sm:mr-2 mr-1 h-5 w-5 ${isGenerating ? 'animate-spin' : ''}`} />
                 {isGenerating ? 'Generating... (1 Credit)' : 'Regenerate (1 Credit)'}
               </motion.button>
             </div>
@@ -172,7 +173,7 @@ const PitchDeck = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               {/* Slide Navigation */}
-              <div className="flex justify-between items-center p-6 border-b border-gray-200/20">
+              <div className="flex justify-between items-center px-6 border-b border-gray-200/20">
                 <motion.button
                   onClick={prevSlide}
                   className={`p-3 rounded-2xl hover-lift-sm ${
@@ -203,32 +204,32 @@ const PitchDeck = () => {
               </div>
 
               {/* Current Slide */}
-              <div className="p-12 min-h-[500px]">
+              <div className="px-8 py-6 min-h-[500px]">
                 <motion.div
                   key={currentSlide}
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <h2 className="text-4xl font-bold mb-8 text-gradient-primary">
+                  <h2 className="text-2xl font-bold mb-4 text-gradient-primary">
                     {slides[currentSlide].title}
                   </h2>
-                  <div className={`text-lg whitespace-pre-wrap leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    {slides[currentSlide].content}
+                  <div className={`text-md text-justify whitespace-pre-wrap leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                    <Markdown>{slides[currentSlide].content}</Markdown>
                   </div>
                 </motion.div>
               </div>
 
               {/* Slide Thumbnails */}
               <div className="p-6 border-t border-gray-200/20">
-                <div className="grid grid-cols-5 gap-3">
+                <div className="grid grid-cols-3 md:grid-cols-5 gap-3">
                   {slides.map((slide, index) => (
                     <motion.button
                       key={slide.title}
                       onClick={() => setCurrentSlide(index)}
                       className={`p-3 text-xs rounded-xl hover-lift-sm ${
                         currentSlide === index
-                          ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                          ? 'bg-gradient-to-r from-purple-600 to-cyan-600 text-white shadow-lg'
                           : darkMode
                           ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                           : 'bg-gray-100 text-gray-700 hover:bg-gray-200'

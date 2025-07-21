@@ -82,23 +82,23 @@ const SavedIdeas = () => {
           transition={{ duration: 0.8 }}
         >
           <div className="text-center md:text-left">
-            <h1 className={`text-4xl md:text-6xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h1 className={`text-4xl md:text-3xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Your
-              <span className="block bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent">
+              <span className="ml-2 bg-gradient-to-r from-purple-400 via-cyan-500 to-cyan-500 bg-clip-text text-transparent">
                 Startup Ideas
               </span>
             </h1>
-            <p className={`text-xl ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+            <p className={`text-lg ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
               Manage and track your validated ideas
             </p>
           </div>
           <motion.button
             onClick={() => navigate('/submit-idea')}
-            className="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-2xl shadow-2xl hover:shadow-purple-500/25 transform hover:scale-105 transition-all duration-300 overflow-hidden mt-6 md:mt-0"
+            className="group relative px-8 py-4 btn-primary btn-primary-cyan text-white font-semibold rounded-2xl shadow-2xl hover:shadow-purple-500/25 transform hover:scale-105 transition-all duration-300 overflow-hidden mt-6 md:mt-0"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="absolute inset-0 btn-primary btn-primary-cyan opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             <span className="relative flex items-center">
               <Brain className="h-6 w-6 mr-2" />
               Submit New Idea
@@ -122,7 +122,7 @@ const SavedIdeas = () => {
                   <div className="flex justify-between items-start mb-6">
                     <div className="flex-1">
                       <h2
-                        className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'} cursor-pointer hover:text-purple-500 transition-colors duration-300 mb-4`}
+                        className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'} cursor-pointer hover:text-cyan-500 transition-colors duration-300 mb-4`}
                         onClick={() => navigate(`/idea/${idea._id}`)}
                       >
                         {idea.ideaText.length > 150
@@ -130,9 +130,9 @@ const SavedIdeas = () => {
                           : idea.ideaText}
                       </h2>
                       <div className="flex items-center space-x-6 mb-6">
-                        <div className="flex items-center">
-                          <Star className="w-5 h-5 text-yellow-500 mr-2" />
-                          <span className={`text-lg font-bold ${
+                        <div className="flex items-center ">
+                          <Star className="w-4 h-4 text-yellow-500 mr-2 text-xs" />
+                          <span className={`text-sm font-bold ${
                             idea.overallScore >= 80 ? 'text-green-500' :
                             idea.overallScore >= 60 ? 'text-yellow-500' :
                             'text-red-500'
@@ -150,7 +150,7 @@ const SavedIdeas = () => {
                   <div className="flex flex-wrap gap-3">
                     <motion.button
                       onClick={() => navigate(`/pitch-deck/${idea._id}`)}
-                      className={`inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
+                      className={`inline-flex items-center px-4 py-2 rounded-xl text-xs  font-medium transition-all duration-300 ${
                         darkMode
                           ? 'bg-gray-700/50 text-gray-300 hover:bg-purple-600 hover:text-white'
                           : 'bg-gray-100 text-gray-700 hover:bg-purple-600 hover:text-white'
@@ -164,7 +164,7 @@ const SavedIdeas = () => {
 
                     <motion.button
                       onClick={() => navigate(`/canvas/${idea._id}`)}
-                      className={`inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
+                      className={`inline-flex items-center px-4 py-2 rounded-xl text-xs font-medium transition-all duration-300 ${
                         darkMode
                           ? 'bg-gray-700/50 text-gray-300 hover:bg-blue-600 hover:text-white'
                           : 'bg-gray-100 text-gray-700 hover:bg-blue-600 hover:text-white'
@@ -178,7 +178,7 @@ const SavedIdeas = () => {
 
                     <motion.button
                       onClick={() => navigate(`/competitors/${idea._id}`)}
-                      className={`inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
+                      className={`inline-flex items-center px-4 py-2 rounded-xl text-xs font-medium transition-all duration-300 ${
                         darkMode
                           ? 'bg-gray-700/50 text-gray-300 hover:bg-green-600 hover:text-white'
                           : 'bg-gray-100 text-gray-700 hover:bg-green-600 hover:text-white'
@@ -192,7 +192,7 @@ const SavedIdeas = () => {
 
                     <motion.button
                       onClick={() => navigate(`/pitch-simulator/${idea._id}`)}
-                      className={`inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
+                      className={`inline-flex items-center px-4 py-2 rounded-xl text-xs font-medium transition-all duration-300 ${
                         darkMode
                           ? 'bg-gray-700/50 text-gray-300 hover:bg-orange-600 hover:text-white'
                           : 'bg-gray-100 text-gray-700 hover:bg-orange-600 hover:text-white'

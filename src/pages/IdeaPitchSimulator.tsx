@@ -232,14 +232,14 @@ const IdeaPitchSimulator = () => {
           >
             <div className="text-center md:text-left mb-6 md:mb-0">
               <div className="flex items-center justify-center md:justify-start mb-4">
-                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-600 to-red-600 flex items-center justify-center mr-4`}>
-                  <MessageSquare className="h-8 w-8 text-white" />
+                <div className={`w-8 h-8 rounded-2xl bg-gradient-to-br from-orange-600 to-red-600 flex items-center justify-center mr-4`}>
+                  <MessageSquare className="h-4 w-4 text-white" />
                 </div>
-                <h1 className={`text-3xl md:text-4xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h1 className={`text-xl md:text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   Pitch Simulator
                 </h1>
               </div>
-              <p className={`text-lg ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              <p className={`text-md ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 Practice with AI-powered investor Q&A
               </p>
             </div>
@@ -257,16 +257,16 @@ const IdeaPitchSimulator = () => {
 
           {/* Pitch Display */}
           <motion.div 
-            className={`${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm rounded-3xl shadow-2xl p-8 mb-12 border ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}
+            className={`${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm rounded-3xl shadow-2xl px-8 py-4 mb-12 border ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <h2 className={`text-2xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'} flex items-center`}>
+            <h2 className={`text-lg font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'} flex items-center`}>
               <div className="w-3 h-3 rounded-full bg-purple-500 mr-3"></div>
               Your Pitch
             </h2>
-            <p className={`text-sm md:text-lg text-justify leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+            <p className={`text-sm md:text-md text-justify leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
               {idea?.ideaText}
             </p>
           </motion.div>
@@ -274,7 +274,7 @@ const IdeaPitchSimulator = () => {
           {/* Questions and Answers Section */}
           {questions.length > 0 ? (
             <motion.div 
-              className={`${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm rounded-3xl shadow-2xl p-8 border ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}
+              className={`${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm rounded-3xl shadow-2xl px-4 py-4 border ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
@@ -282,20 +282,20 @@ const IdeaPitchSimulator = () => {
               {currentQuestion ? (
                 <div>
                   {/* Question Display */}
-                  <div className={`p-8 rounded-3xl mb-8 ${
+                  <div className={`p-4 rounded-3xl mb-8 ${
                     darkMode ? 'bg-indigo-900/50' : 'bg-indigo-50'
                   }`}>
-                    <div className="flex items-center mb-6">
-                      <MessageSquare className={`h-6 w-6 ${
+                    <div className="flex items-center mb-2">
+                      <MessageSquare className={`h-4 w-4 ${
                         darkMode ? 'text-indigo-400' : 'text-indigo-600'
                       } mr-3`} />
-                      <h3 className={`font-bold text-lg ${
+                      <h3 className={`font-bold text-md ${
                         darkMode ? 'text-indigo-200' : 'text-indigo-900'
                       }`}>
                         Question {currentQuestionIndex + 1} ({currentQuestion.category})
                       </h3>
                     </div>
-                    <p className={`text-lg text-justify leading-relaxed ${
+                    <p className={`text-sm text-justify leading-relaxed ${
                       darkMode ? 'text-white' : 'text-indigo-700'
                     }`}>
                       {currentQuestion.question}
@@ -303,10 +303,10 @@ const IdeaPitchSimulator = () => {
                   </div>
 
                   {/* Answer Input */}
-                  <div className="mb-8">
+                  <div className="mb-6">
                     <label
                       htmlFor="answer"
-                      className={`block text-lg font-semibold mb-4 ${
+                      className={`block text-md font-semibold mb-4 ${
                         darkMode ? 'text-gray-300' : 'text-gray-700'
                       }`}
                     >
@@ -316,8 +316,8 @@ const IdeaPitchSimulator = () => {
                       id="answer"
                       value={answer}
                       onChange={(e) => setAnswer(e.target.value)}
-                      rows={8}
-                      className={`w-full px-6 py-4 text-lg rounded-2xl border-2 transition-all duration-300 ${
+                      rows={6}
+                      className={`w-full px-4 py-4 text-md rounded-2xl border-2 transition-all duration-300 ${
                         darkMode
                           ? 'bg-gray-700/50 text-white border-gray-600 placeholder-gray-400 focus:border-orange-500 focus:bg-gray-700'
                           : 'bg-white text-gray-900 border-gray-300 placeholder-gray-400 focus:border-orange-500 focus:bg-gray-50'
@@ -361,7 +361,7 @@ const IdeaPitchSimulator = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.5 }}
                     >
-                      <h3 className={`text-2xl font-bold ${
+                      <h3 className={`text-lg font-bold ${
                         darkMode ? 'text-white' : 'text-gray-900'
                       }`}>
                         Feedback
@@ -373,7 +373,7 @@ const IdeaPitchSimulator = () => {
                         {/* Rating */}
                         <div className="flex items-center mb-8">
                           <div className="flex-1">
-                            <span className={`text-lg font-semibold ${
+                            <span className={`text-md font-semibold ${
                               darkMode ? 'text-gray-300' : 'text-gray-700'
                             }`}>
                               Rating
@@ -382,7 +382,7 @@ const IdeaPitchSimulator = () => {
                               {[...Array(5)].map((_, i) => (
                                 <Star
                                   key={i}
-                                  className={`h-6 w-6 ${
+                                  className={`h-4 w-4 ${
                                     i < feedback.rating
                                       ? 'text-yellow-400 fill-current'
                                       : darkMode
@@ -391,7 +391,7 @@ const IdeaPitchSimulator = () => {
                                   }`}
                                 />
                               ))}
-                              <span className={`ml-3 text-lg font-bold ${
+                              <span className={`ml-3 text-md font-bold ${
                                 darkMode ? 'text-gray-300' : 'text-gray-700'
                               }`}>
                                 {feedback.rating}/5
@@ -402,7 +402,7 @@ const IdeaPitchSimulator = () => {
 
                         {/* Strengths */}
                         <div className="mb-8">
-                          <h4 className={`text-lg font-bold mb-4 ${
+                          <h4 className={`text-md font-bold mb-4 ${
                             darkMode ? 'text-gray-200' : 'text-gray-900'
                           } flex items-center`}>
                             <div className="w-3 h-3 rounded-full bg-green-500 mr-3"></div>
@@ -422,7 +422,7 @@ const IdeaPitchSimulator = () => {
 
                         {/* Improvements */}
                         <div className="mb-8">
-                          <h4 className={`text-lg font-bold mb-4 ${
+                          <h4 className={`text-md font-bold mb-4 ${
                             darkMode ? 'text-gray-200' : 'text-gray-900'
                           } flex items-center`}>
                             <div className="w-3 h-3 rounded-full bg-amber-500 mr-3"></div>
@@ -442,7 +442,7 @@ const IdeaPitchSimulator = () => {
 
                         {/* Additional Advice */}
                         <div>
-                          <h4 className={`text-lg font-bold mb-4 ${
+                          <h4 className={`text-md font-bold mb-4 ${
                             darkMode ? 'text-gray-200' : 'text-gray-900'
                           } flex items-center`}>
                             <div className="w-3 h-3 rounded-full bg-blue-500 mr-3"></div>

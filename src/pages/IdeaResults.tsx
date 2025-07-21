@@ -93,53 +93,54 @@ const IdeaResults = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className={`text-3xl md:text-4xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h1 className={`text-3xl md:text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Idea Analysis
-              <span className="block text-gradient-primary">
+              <span className="ml-2 text-gradient-primary">
                 Results
               </span>
             </h1>
-            <p className={`text-xl mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
+            <p className={`text-lg mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
               {idea?.ideaText}
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <motion.button
-                onClick={handleGeneratePitchDeck}
-                className="group relative p-4 rounded-2xl bg-gradient-to-br from-purple-600 to-pink-600 text-white font-semibold transition-all duration-300 hover:scale-105 hover:shadow-2xl"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <FileText className="h-6 w-6 mx-auto mb-2" />
-                <span className="text-sm">Pitch Deck</span>
-              </motion.button>
+  onClick={handleGeneratePitchDeck}
+  className="group flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-br from-purple-600 to-pink-600 text-white text-sm font-semibold transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+  whileHover={{ scale: 1.05 }}
+  whileTap={{ scale: 0.95 }}
+>
+  <FileText className="h-4 w-4" />
+  <span>Pitch Deck</span>
+</motion.button>
+
 
               <motion.button
                 onClick={handleGenerateCanvas}
-                className="group relative p-4 rounded-2xl bg-gradient-to-br from-blue-600 to-purple-600 text-white font-semibold transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                className="group flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-br from-blue-600 to-purple-600 text-white text-sm font-semibold transition-all duration-300 hover:scale-105 hover:shadow-2xl"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Layout className="h-6 w-6 mx-auto mb-2" />
+                <Layout className="h-4 w-4 " />
                 <span className="text-sm">Canvas</span>
               </motion.button>
 
               <motion.button
                 onClick={handleCompetitorAnalysis}
-                className="group relative p-4 rounded-2xl bg-gradient-to-br from-green-600 to-blue-600 text-white font-semibold transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                className="group flex items-center justify-center gap-2 px-3 py-2 rounded-2xl bg-gradient-to-br from-green-600 to-blue-600 text-white font-semibold transition-all duration-300 hover:scale-105 hover:shadow-2xl"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Users className="h-6 w-6 mx-auto mb-2" />
+                <Users className="h-4 w-4 " />
                 <span className="text-sm">Competitors</span>
               </motion.button>
 
               <motion.button
                 onClick={handlePitchSimulator}
-                className="group relative p-4 rounded-2xl bg-gradient-to-br from-orange-600 to-red-600 text-white font-semibold transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                className="group flex items-center justify-center gap-2 px-3 py-2 rounded-2xl bg-gradient-to-br from-orange-600 to-red-600 text-white font-semibold transition-all duration-300 hover:scale-105 hover:shadow-2xl"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <MessageSquare className="h-6 w-6 mx-auto mb-2" />
+                <MessageSquare className="h-4 w-4 " />
                 <span className="text-sm">Practice</span>
               </motion.button>
             </div>
@@ -163,15 +164,15 @@ const IdeaResults = () => {
               >
                 <div className={`card-hover-effect bg-gradient-to-br ${score.color}`}></div>
                 <div className="relative text-center">
-                  <h3 className={`text-lg font-semibold mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <h3 className={`text-md font-semibold mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                     {score.label}
                   </h3>
-                  <div className={`text-5xl font-bold mb-2 bg-gradient-to-br ${score.color} bg-clip-text text-transparent`}>
+                  <div className={`text-2xl font-bold mb-2 bg-gradient-to-br ${score.color} bg-clip-text text-transparent`}>
                     {score.value}%
                   </div>
-                  <div className={`w-full bg-gray-200 rounded-full h-3 ${darkMode ? 'bg-gray-700' : 'bg-gray-200'}`}>
+                  <div className={`w-full bg-gray-200 rounded-full h-2 ${darkMode ? 'bg-gray-700' : 'bg-gray-200'}`}>
                     <motion.div
-                      className={`h-3 rounded-full bg-gradient-to-r ${score.color}`}
+                      className={`h-2 rounded-full bg-gradient-to-r ${score.color}`}
                       initial={{ width: 0 }}
                       animate={{ width: `${score.value}%` }}
                       transition={{ duration: 1, delay: 0.5 + index * 0.1 }}
@@ -189,7 +190,7 @@ const IdeaResults = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <h2 className={`text-3xl font-bold mb-8 text-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h2 className={`text-xl font-bold mb-8 text-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Detailed Analysis
             </h2>
             
@@ -208,8 +209,8 @@ const IdeaResults = () => {
                   transition={{ duration: 0.8, delay: 0.8 + index * 0.1 }}
                 >
                   <div className="flex items-center mb-4">
-                    <div className={`w-4 h-4 rounded-full bg-gradient-to-r ${analysis.color} mr-3`}></div>
-                    <h3 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <div className={`w-3 h-3 rounded-full bg-gradient-to-r ${analysis.color} mr-3`}></div>
+                    <h3 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       {analysis.title}
                     </h3>
                   </div>

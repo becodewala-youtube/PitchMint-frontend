@@ -92,14 +92,14 @@ const Canvas = () => {
           >
             <div className="text-center md:text-left mb-6 md:mb-0">
               <div className="flex items-center justify-center md:justify-start mb-4">
-                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center mr-4`}>
-                  <Layout className="h-8 w-8 text-white" />
+                <div className={`w-8 h-8 rounded-2xl bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center mr-4`}>
+                  <Layout className="h-4 w-4 text-white" />
                 </div>
-                <h1 className={`text-3xl md:text-4xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h1 className={`text-xl md:text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   Business Model Canvas
                 </h1>
               </div>
-              <p className={`text-lg ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              <p className={`text-md ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 Lean startup methodology visualization
               </p>
             </div>
@@ -129,7 +129,7 @@ const Canvas = () => {
                 <div className="relative">
                   <div className="flex items-center mb-6">
                     <div className="w-3 h-3 rounded-full bg-red-500 mr-3"></div>
-                    <h2 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <h2 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       Problem
                     </h2>
                   </div>

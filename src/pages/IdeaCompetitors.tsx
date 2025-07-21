@@ -122,21 +122,21 @@ const IdeaCompetitors = () => {
           >
             <div className="text-center md:text-left mb-6 md:mb-0">
               <div className="flex items-center justify-center md:justify-start mb-4">
-                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br from-green-600 to-blue-600 flex items-center justify-center mr-4`}>
-                  <Users className="h-8 w-8 text-white" />
+                <div className={`w-8 h-8 rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center mr-4`}>
+                  <Users className="h-4 w-4 text-white" />
                 </div>
-                <h1 className={`text-3xl md:text-4xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h1 className={`text-xl md:text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   Competitor Analysis
                 </h1>
               </div>
-              <p className={`text-lg ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              <p className={`text-md ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 Market landscape and competitive intelligence
               </p>
             </div>
             <motion.button
               onClick={() => analyzeCompetitors(true)}
               disabled={loading}
-              className="inline-flex items-center px-6 py-3 rounded-2xl text-sm font-medium text-white bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-green-500/25"
+              className="inline-flex items-center px-6 py-3 rounded-2xl text-sm font-medium text-white btn-primary btn-primary-cyan hover:btn-primary  hover:btn-primary-cyan disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-green-500/25"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -147,16 +147,16 @@ const IdeaCompetitors = () => {
 
           {/* Your Idea */}
           <motion.div 
-            className={`${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm rounded-3xl shadow-2xl p-8 mb-12 border ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}
+            className={`${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm rounded-3xl shadow-2xl py-4 px-8 mb-12 border ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <h2 className={`text-2xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'} flex items-center`}>
+            <h2 className={`text-lg font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'} flex items-center`}>
               <div className="w-3 h-3 rounded-full bg-purple-500 mr-3"></div>
               Your Idea
             </h2>
-            <p className={`text-sm md:text-lg text-justify leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            <p className={`text-sm md:text-md text-justify leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               {idea.ideaText}
             </p>
           </motion.div>
@@ -165,16 +165,16 @@ const IdeaCompetitors = () => {
             <>
               {/* Market Overview */}
               <motion.div 
-                className={`${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm rounded-3xl shadow-2xl p-8 mb-12 border ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}
+                className={`${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm rounded-3xl shadow-2xl py-4 px-8  mb-12 border ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
               >
-                <h2 className={`text-2xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'} flex items-center`}>
+                <h2 className={`text-lg font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'} flex items-center`}>
                   <div className="w-3 h-3 rounded-full bg-blue-500 mr-3"></div>
                   Market Overview
                 </h2>
-                <p className={`text-sm md:text-lg text-justify leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                <p className={`text-sm md:text-md text-justify leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                   {analysis.summary}
                 </p>
               </motion.div>
@@ -192,7 +192,7 @@ const IdeaCompetitors = () => {
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-blue-500/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <div className="relative">
-                      <h3 className={`text-2xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'} group-hover:text-green-500 transition-colors duration-300`}>
+                      <h3 className={`text-lg font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'} group-hover:text-green-500 transition-colors duration-300`}>
                         {competitor.name}
                       </h3>
                       <p className={`mb-8 text-sm md:text-base text-justify leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
