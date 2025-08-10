@@ -58,33 +58,38 @@ const GoogleSignIn = ({ onSuccess, onError }: GoogleSignInProps) => {
     };
   }, [darkMode]);
 
-  const handleCredentialResponse = async (response: any) => {
-    try {
-      const result = await axios.post(`${API_URL}/api/auth/google`, {
-        credential: response.credential,
-      });
+ const handleCredentialResponse = async (response: any) => {
+  try {
+    const result = await axios.post(`${API_URL}/api/auth/google`, {
+      credential: response.credential,
+    });
 
-      // Use Redux action to properly handle authentication
-      const authData = {
-        token: result.data.token,
-        user: result.data.user
-      };
+    // CRITICAL FIX: Store token and user data in localStorage
+    localStorage.setItem('token', result.data.token);
+    localStorage.setItem('user', JSON.stringify(result.data.user));
 
-      // Dispatch login action to update Redux store
-      dispatch(login.fulfilled(authData, '', { email: '', password: '' }));
+    // Use Redux action to properly handle authentication
+    const authData = {
+      token: result.data.token,
+      user: result.data.user
+    };
 
-      if (onSuccess) {
-        onSuccess();
-      } else {
-        navigate('/dashboard');
-      }
-    } catch (error: any) {
-      const errorMessage = error.response?.data?.message || 'Google sign-in failed';
-      if (onError) {
-        onError(errorMessage);
-      }
+    // Dispatch login action to update Redux store
+    dispatch(login.fulfilled(authData, '', { email: '', password: '' }));
+
+    if (onSuccess) {
+      onSuccess();
+    } else {
+      navigate('/dashboard');
     }
-  };
+  } catch (error: any) {
+    const errorMessage = error.response?.data?.message || 'Google sign-in failed';
+    if (onError) {
+      onError(errorMessage);
+    }
+  }
+};
+
 
   return (
     <div className="w-full">

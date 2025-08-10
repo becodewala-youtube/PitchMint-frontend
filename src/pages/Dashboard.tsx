@@ -453,23 +453,23 @@ const Dashboard = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
           >
             <div
-              className={`w-32 h-32 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mx-auto mb-8 shadow-2xl`}
+              className={`w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center mx-auto mb-8 shadow-2xl`}
             >
-              <Brain className="h-16 w-16 text-white" />
+              <Brain className="h-8 w-8 text-white" />
             </div>
-            <h3 className={`text-3xl font-bold mb-4 ${darkMode ? "text-white" : "text-gray-900"}`}>
+            <h3 className={`text-xl font-bold mb-4 ${darkMode ? "text-white" : "text-gray-900"}`}>
               Ready to validate your first idea?
             </h3>
-            <p className={`text-xl ${darkMode ? "text-gray-400" : "text-gray-600"} mb-8 max-w-2xl mx-auto`}>
+            <p className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-600"} mb-8 max-w-2xl mx-auto`}>
               Submit your startup idea and get instant AI-powered validation with detailed insights and recommendations.
             </p>
             <button
               onClick={() => navigate("/submit-idea")}
-              className="group px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-lg rounded-2xl shadow-xl hover:shadow-purple-500/25 transition-all duration-300 hover:scale-105"
+              className="group px-6 py-2 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-bold text-lg rounded-2xl shadow-xl hover:shadow-purple-500/25 transition-all duration-300 hover:scale-105"
             >
-              <Plus className="w-6 h-6 mr-3 inline" />
+              <Plus className="w-4 h-4 mr-3 inline" />
               Submit Your First Idea
-              <ArrowRight className="w-6 h-6 ml-3 inline group-hover:translate-x-1 transition-transform duration-300" />
+              <ArrowRight className="w-4 h-4 ml-3 inline group-hover:translate-x-1 transition-transform duration-300" />
             </button>
           </motion.div>
         )}
