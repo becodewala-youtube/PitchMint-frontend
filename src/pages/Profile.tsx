@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
 import { useTheme } from '../contexts/ThemeContext';
 import { motion } from 'framer-motion';
-import { User, Mail, Shield, CreditCard, Camera, Save, AlertCircle, CheckCircle, Star, History } from 'lucide-react';
+import { User, Shield, CreditCard, Camera, Save, AlertCircle, CheckCircle, Star, History ,Eye, EyeOff } from 'lucide-react';
 import axios from 'axios';
 import { API_URL } from '../utils/constants';
 import { loadUser } from '../store/slices/authSlice';
@@ -17,6 +17,8 @@ interface CreditTransaction {
 }
 
 const Profile = () => {
+  const [showNewPassword, setShowNewPassword] = useState(false);
+const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { user, token } = useSelector((state: RootState) => state.auth);
   const { darkMode } = useTheme();
   const dispatch = useDispatch();
@@ -382,53 +384,74 @@ const Profile = () => {
                       </div>
                     </div>
                   ) : (
-                    <form onSubmit={handleProfileUpdate} className="space-y-6">
-                      <div>
-                        <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                          New Password
-                        </label>
-                        <input
-                          type="password"
-                          value={profileData.newPassword}
-                          onChange={(e) => setProfileData(prev => ({ ...prev, newPassword: e.target.value }))}
-                          className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
-                          placeholder="Enter new password"
-                        />
-                      </div>
-                      
-                      <div>
-                        <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                          Confirm New Password
-                        </label>
-                        <input
-                          type="password"
-                          value={profileData.confirmPassword}
-                          onChange={(e) => setProfileData(prev => ({ ...prev, confirmPassword: e.target.value }))}
-                          className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
-                          placeholder="Confirm new password"
-                        />
-                      </div>
+                   <form onSubmit={handleProfileUpdate} className="space-y-6">
+<div className="relative">
+  <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+    New Password
+  </label>
+  <input
+    type={showNewPassword ? 'text' : 'password'}
+    value={profileData.newPassword}
+    onChange={(e) => setProfileData(prev => ({ ...prev, newPassword: e.target.value }))}
+    className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'} pr-10`}
+    placeholder="Enter new password"
+    autoComplete="new-password"
+  />
+  <button
+    type="button"
+    onClick={() => setShowNewPassword(prev => !prev)}
+    className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center"
+    tabIndex={-1}
+    aria-label={showNewPassword ? 'Hide new password' : 'Show new password'}
+  >
+    {showNewPassword ? <EyeOff className="h-5 w-5 text-gray-500" /> : <Eye className="h-5 w-5 text-gray-500" />}
+  </button>
+</div>
 
-                      <motion.button
-                        type="submit"
-                        disabled={loading || !profileData.newPassword}
-                        className={`btn-primary btn-primary-cyan ${(loading || !profileData.newPassword) ? 'opacity-50 cursor-not-allowed' : ''}`}
-                        whileHover={!(loading || !profileData.newPassword) ? { scale: 1.05 } : {}}
-                        whileTap={!(loading || !profileData.newPassword) ? { scale: 0.95 } : {}}
-                      >
-                        {loading ? (
-                          <div className="flex items-center">
-                            <div className="loading-spinner mr-2" />
-                            Updating...
-                          </div>
-                        ) : (
-                          <div className="flex items-center">
-                            <Shield className="w-5 h-5 mr-2" />
-                            Update Password
-                          </div>
-                        )}
-                      </motion.button>
-                    </form>
+<div className="relative">
+  <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+    Confirm New Password
+  </label>
+  <input
+    type={showConfirmPassword ? 'text' : 'password'}
+    value={profileData.confirmPassword}
+    onChange={(e) => setProfileData(prev => ({ ...prev, confirmPassword: e.target.value }))}
+    className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'} pr-10`}
+    placeholder="Confirm new password"
+    autoComplete="new-password"
+  />
+  <button
+    type="button"
+    onClick={() => setShowConfirmPassword(prev => !prev)}
+    className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center"
+    tabIndex={-1}
+    aria-label={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
+  >
+    {showConfirmPassword ? <EyeOff className="h-5 w-5 text-gray-500" /> : <Eye className="h-5 w-5 text-gray-500" />}
+  </button>
+</div>
+
+
+  <motion.button
+    type="submit"
+    disabled={loading || !profileData.newPassword}
+    className={`btn-primary btn-primary-cyan ${(loading || !profileData.newPassword) ? 'opacity-50 cursor-not-allowed' : ''}`}
+    whileHover={!(loading || !profileData.newPassword) ? { scale: 1.05 } : {}}
+    whileTap={!(loading || !profileData.newPassword) ? { scale: 0.95 } : {}}
+  >
+    {loading ? (
+      <div className="flex items-center">
+        <div className="loading-spinner mr-2" />
+        Updating...
+      </div>
+    ) : (
+      <div className="flex items-center">
+        <Shield className="w-5 h-5 mr-2" />
+        Update Password
+      </div>
+    )}
+  </motion.button>
+</form>
                   )}
                 </div>
               )}

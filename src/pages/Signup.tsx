@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../store/slices/authSlice';
 import { RootState } from '../store';
+import { Eye, EyeOff } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { motion } from 'framer-motion';
 import GoogleSignIn from '../components/GoogleSignIn';
@@ -12,6 +13,8 @@ const Signup = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
   
@@ -89,69 +92,84 @@ const Signup = () => {
               </motion.div>
             )}
 
-            <div className="space-y-4">
-              <div>
-                <label htmlFor="name" className="sr-only">
-                  Full Name
-                </label>
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
-                  placeholder="Full Name"
-                />
-              </div>
-              <div>
-                <label htmlFor="email-address" className="sr-only">
-                  Email address
-                </label>
-                <input
-                  id="email-address"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
-                  placeholder="Email address"
-                />
-              </div>
-              <div>
-                <label htmlFor="password" className="sr-only">
-                  Password
-                </label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
-                  placeholder="Password"
-                />
-              </div>
-              <div>
-                <label htmlFor="confirm-password" className="sr-only">
-                  Confirm Password
-                </label>
-                <input
-                  id="confirm-password"
-                  name="confirm-password"
-                  type="password"
-                  required
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
-                  placeholder="Confirm Password"
-                />
-              </div>
-            </div>
+          <div className="space-y-4">
+  <div>
+    <label htmlFor="name" className="sr-only">Full Name</label>
+    <input
+      id="name"
+      name="name"
+      type="text"
+      required
+      value={name}
+      onChange={(e) => setName(e.target.value)}
+      className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
+      placeholder="Full Name"
+    />
+  </div>
+
+  <div>
+    <label htmlFor="email-address" className="sr-only">Email address</label>
+    <input
+      id="email-address"
+      name="email"
+      type="email"
+      autoComplete="email"
+      required
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
+      className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
+      placeholder="Email address"
+    />
+  </div>
+
+  {/* Password Field */}
+  <div className="relative">
+    <label htmlFor="password" className="sr-only">Password</label>
+    <input
+      id="password"
+      name="password"
+      type={showPassword ? 'text' : 'password'}
+      required
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+      className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'} pr-10`}
+      placeholder="Password"
+      autoComplete="new-password" 
+    />
+    <button
+      type="button"
+      onClick={() => setShowPassword(prev => !prev)}
+      className="absolute inset-y-0 right-0 flex items-center pr-3"
+      tabIndex={-1}
+    >
+      {showPassword ? <EyeOff className="h-5 w-5 text-gray-500" /> : <Eye className="h-5 w-5 text-gray-500" />}
+    </button>
+  </div>
+
+  {/* Confirm Password Field */}
+  <div className="relative">
+    <label htmlFor="confirm-password" className="sr-only">Confirm Password</label>
+    <input
+      id="confirm-password"
+      name="confirm-password"
+      type={showConfirmPassword ? 'text' : 'password'}
+      required
+      value={confirmPassword}
+      onChange={(e) => setConfirmPassword(e.target.value)}
+      className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'} pr-10`}
+      placeholder="Confirm Password"
+      autoComplete="new-password" 
+    />
+    <button
+      type="button"
+      onClick={() => setShowConfirmPassword(prev => !prev)}
+      className="absolute inset-y-0 right-0 flex items-center pr-3"
+      tabIndex={-1}
+    >
+      {showConfirmPassword ? <EyeOff className="h-5 w-5 text-gray-500" /> : <Eye className="h-5 w-5 text-gray-500" />}
+    </button>
+  </div>
+</div>
 
             <div>
               <motion.button

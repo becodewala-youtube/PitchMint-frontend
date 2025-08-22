@@ -147,7 +147,7 @@ const IdeaResults = () => {
           </motion.div>
 
           {/* Score Overview */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12 ">
             {[
               { label: 'Overall Score', value: idea.overallScore, color: 'from-purple-500 to-pink-500' },
               { label: 'Market Demand', value: idea.marketDemandScore, color: 'from-green-500 to-blue-500' },
@@ -156,20 +156,23 @@ const IdeaResults = () => {
             ].map((score, index) => (
               <motion.div
                 key={score.label}
-                className={`group card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} card-hover p-8`}
+                className={`group card-glass hover:text-white ${darkMode ? 'card-glass-dark' : 'card-glass-light'} card-hover p-8`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 + index * 0.1 }}
                 whileHover={{ y: -5 }}
               >
                 <div className={`card-hover-effect bg-gradient-to-br ${score.color}`}></div>
-                <div className="relative text-center">
-                  <h3 className={`text-md font-semibold mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                <div className="relative text-center ">
+                  <h3 className={`text-md font-semibold mb-2 ${darkMode ? 'text-white' : 'text-gray-700 group-hover:text-white'}`}>
                     {score.label}
                   </h3>
-                  <div className={`text-2xl font-bold mb-2 bg-gradient-to-br ${score.color} bg-clip-text text-transparent`}>
-                    {score.value}%
-                  </div>
+                 <div
+  className={`text-2xl font-bold mb-2 bg-gradient-to-br ${score.color} bg-clip-text text-transparent group-hover:bg-none group-hover:text-white`}
+>
+  {score.value}%
+</div>
+
                   <div className={`w-full bg-gray-200 rounded-full h-2 ${darkMode ? 'bg-gray-700' : 'bg-gray-200'}`}>
                     <motion.div
                       className={`h-2 rounded-full bg-gradient-to-r ${score.color}`}

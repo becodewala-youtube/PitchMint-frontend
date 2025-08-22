@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../store/slices/authSlice';
 import { RootState } from '../store';
 import { useTheme } from '../contexts/ThemeContext';
+import { Eye, EyeOff } from 'lucide-react';
 import { motion } from 'framer-motion';
 import GoogleSignIn from '../components/GoogleSignIn';
 import Icon from '../assets/icon.png'
@@ -11,6 +12,7 @@ import Icon from '../assets/icon.png'
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false); 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { darkMode } = useTheme();
@@ -98,20 +100,35 @@ const Login = () => {
                 />
               </div>
               <div>
-                <label htmlFor="password" className="sr-only">
-                  Password
-                </label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
-                  placeholder="Password"
-                />
+                <div className="relative">
+  <label htmlFor="password" className="sr-only">
+    Password
+  </label>
+  <input
+    id="password"
+    name="password"
+    type={showPassword ? 'text' : 'password'}
+    autoComplete="current-password"
+    required
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+    className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'} pr-10`} // Add pr-10 for icon space
+    placeholder="Password"
+    
+  />
+  <button
+    type="button"
+    onClick={() => setShowPassword((prev) => !prev)}
+    className="absolute inset-y-0 right-0 flex items-center pr-3 focus:outline-none"
+    tabIndex={-1} // optional to prevent tab focus on icon
+  >
+    {showPassword ? (
+      <EyeOff className="h-5 w-5 text-gray-500" />
+    ) : (
+      <Eye className="h-5 w-5 text-gray-500" />
+    )}
+  </button>
+</div>
               </div>
             </div>
 
