@@ -70,17 +70,16 @@ const Login = () => {
 
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             {error && (
-              <motion.div 
-                className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-2xl relative" 
-                role="alert"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3 }}
-              >
-                <span className="block sm:inline">{error}</span>
-              </motion.div>
-            )}
-
+  <motion.div 
+    className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-2xl relative" 
+    role="alert"
+    initial={{ opacity: 0, scale: 0.95 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 0.3 }}
+  >
+    <span className="block sm:inline">{error}</span>
+  </motion.div>
+)}
             <div className="space-y-4">
               <div>
                 <label htmlFor="email-address" className="sr-only">

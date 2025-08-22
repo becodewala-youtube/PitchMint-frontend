@@ -52,6 +52,7 @@ export const register = createAsyncThunk(
   }
 );
 
+
 // Login User
 export const login = createAsyncThunk(
   'auth/login',
@@ -64,7 +65,9 @@ export const login = createAsyncThunk(
       
       return response.data;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data || error.response?.data.message || 'Login failed');
+      // ✅ Always return a string here:
+      const message = error.response?.data?.message || 'Login failed';
+      return rejectWithValue(message);
     }
   }
 );
