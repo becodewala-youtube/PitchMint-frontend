@@ -23,17 +23,24 @@ const PaymentSuccess = () => {
           throw new Error('No session ID found');
         }
         const token = localStorage.getItem('token');
-        // Verify the payment session
-        await axios.get(`${API_URL}/api/payment/verify/${sessionId}`, {
+        
+        // Check if this is a credit purchase or premium upgrade
+        const response = await axios.get(`${API_URL}/api/payment/verify/${sessionId}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
+          
         // Reload user data to get updated premium status
         await dispatch(loadUser() as any);
         
-        // Redirect to investors page
-        navigate('/investors');
+        // Redirect based on payment type
+        const paymentType = response.data.type;
+        if (paymentType === 'credit_purchase') {
+          navigate('/credits');
+        } else {
+          navigate('/investors');
+        }
       } catch (err: any) {
         setError(err.response?.data?.message || 'Failed to verify payment');
         setTimeout(() => navigate('/dashboard'), 3000);

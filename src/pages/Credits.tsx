@@ -48,58 +48,15 @@ const handlePurchase = async (planId: string) => {
   setError(null);
 
   try {
+    // Create Stripe checkout session
     const response = await axios.post(
-      `${API_URL}/api/credits/purchase`,
+      `${API_URL}/api/credits/create-checkout-session`,
       { planId },
       { headers: { Authorization: `Bearer ${token}` } }
     );
 
-    const { clientSecret, paymentIntentId } = response.data;
-
-    if (!clientSecret || !paymentIntentId) {
-      throw new Error('Failed to create payment intent');
-    }
-
-    // DEMO MODE: Simulate successful payment processing
-    // In production, you would use Stripe Elements here
-    console.log('Demo: Simulating payment processing...');
-    
-    // Simulate payment processing delay
-    setTimeout(async () => {
-      try {
-        // DEMO: Simulate successful payment by updating the payment intent
-        // In production, Stripe would handle this automatically
-        await axios.post(
-          `${API_URL}/api/credits/simulate-payment-success`,
-          { paymentIntentId },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-
-        // Now confirm the purchase
-        const confirmResponse = await axios.post(
-          `${API_URL}/api/credits/confirm-purchase`,
-          { paymentIntentId },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-
-        if (confirmResponse.data.credits) {
-          // Update local user data and reload
-          const updatedUser = { 
-            ...JSON.parse(localStorage.getItem('user') || '{}'), 
-            credits: confirmResponse.data.credits 
-          };
-          localStorage.setItem('user', JSON.stringify(updatedUser));
-          window.location.reload();
-        }
-      } catch (confirmError: any) {
-        console.error('Payment confirmation failed:', confirmError);
-        setError(confirmError.response?.data?.message || 'Payment confirmation failed');
-      } finally {
-        setLoading(false);
-        setPurchasingPlan(null);
-      }
-    }, 2000);
-
+    // Redirect to Stripe checkout
+    window.location.href = response.data.url;
   } catch (error: any) {
     console.error('Purchase failed:', error);
     setError(error.response?.data?.message || error.message || 'Purchase failed');
