@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useState } from 'react';
-import { Menu, X, Moon, Sun, LogOut, Star, User, CreditCard } from 'lucide-react';
+import { Menu, X, Moon, Sun, LogOut, Star, User, CreditCard, ChevronDown, Brain, FileText, Users, MessageSquare, TrendingUp, Target } from 'lucide-react';
 import { RootState } from '../../store';
 import { logout } from '../../store/slices/authSlice';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -10,6 +10,7 @@ import icon from '../../assets/icon.png'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showToolsDropdown, setShowToolsDropdown] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const { user, isAuthenticated } = useSelector((state: RootState) => state.auth);
   const { darkMode, toggleDarkMode } = useTheme();
@@ -65,37 +66,78 @@ const Navbar = () => {
                   >
                     Dashboard
                   </Link>
-                  <Link 
-                    to="/submit-idea" 
-                    className={`px-2 xl:px-3 py-2 rounded-xl text-xs xl:text-sm font-medium transition-all duration-300 hover:scale-105 ${
-                      darkMode 
-                        ? 'text-gray-300 hover:text-white hover:bg-gray-700/50' 
-                        : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100/50'
-                    }`}
-                  >
-                    Submit Idea
-                  </Link>
                   
-                  <Link 
-                    to="/competitors" 
-                    className={`px-2 xl:px-3 py-2 rounded-xl text-xs xl:text-sm font-medium transition-all duration-300 hover:scale-105 ${
-                      darkMode 
-                        ? 'text-gray-300 hover:text-white hover:bg-gray-700/50' 
-                        : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100/50'
-                    }`}
-                  >
-                    Competitors
-                  </Link>
-                  <Link 
-                    to="/pitch-simulator" 
-                    className={`px-2 xl:px-3 py-2 rounded-xl text-xs xl:text-sm font-medium transition-all duration-300 hover:scale-105 ${
-                      darkMode 
-                        ? 'text-gray-300 hover:text-white hover:bg-gray-700/50' 
-                        : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100/50'
-                    }`}
-                  >
-                    Pitch Arena
-                  </Link>
+                  {/* Tools Dropdown */}
+                  <div className="relative group">
+                    <button
+                      onMouseEnter={() => setShowToolsDropdown(true)}
+                      onMouseLeave={() => setShowToolsDropdown(false)}
+                      className={`flex items-center px-2 xl:px-3 py-2 rounded-xl text-xs xl:text-sm font-medium transition-all duration-300 hover:scale-105 ${
+                        darkMode 
+                          ? 'text-gray-300 hover:text-white hover:bg-gray-700/50' 
+                          : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100/50'
+                      }`}
+                    >
+                      Tools
+                      <ChevronDown className="w-3 h-3 xl:w-4 xl:h-4 ml-1" />
+                    </button>
+                    
+                    {/* Dropdown Menu */}
+                    <div 
+                      className={`absolute left-0 mt-2 w-56 rounded-xl shadow-lg transition-all duration-300 ${
+                        showToolsDropdown ? 'opacity-100 visible' : 'opacity-0 invisible'
+                      } ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} border z-50`}
+                      onMouseEnter={() => setShowToolsDropdown(true)}
+                      onMouseLeave={() => setShowToolsDropdown(false)}
+                    >
+                      <Link
+                        to="/submit-idea"
+                        className={`flex items-center px-4 py-3 text-sm rounded-t-xl transition-colors ${
+                          darkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50'
+                        }`}
+                      >
+                        <Brain className="w-4 h-4 mr-3" />
+                        Submit Idea
+                      </Link>
+                      <Link
+                        to="/competitors"
+                        className={`flex items-center px-4 py-3 text-sm transition-colors ${
+                          darkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50'
+                        }`}
+                      >
+                        <Users className="w-4 h-4 mr-3" />
+                        Competitors
+                      </Link>
+                      <Link
+                        to="/pitch-simulator"
+                        className={`flex items-center px-4 py-3 text-sm transition-colors ${
+                          darkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50'
+                        }`}
+                      >
+                        <MessageSquare className="w-4 h-4 mr-3" />
+                        Pitch Arena
+                      </Link>
+                      <Link
+                        to="/market-research"
+                        className={`flex items-center px-4 py-3 text-sm transition-colors ${
+                          darkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50'
+                        }`}
+                      >
+                        <TrendingUp className="w-4 h-4 mr-3" />
+                        Market Research
+                      </Link>
+                      <Link
+                        to="/investor-matching"
+                        className={`flex items-center px-4 py-3 text-sm rounded-b-xl transition-colors ${
+                          darkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50'
+                        }`}
+                      >
+                        <Target className="w-4 h-4 mr-3" />
+                        Investor Matching
+                      </Link>
+                    </div>
+                  </div>
+
                   <button
                     onClick={handleInvestorsClick}
                     className={`flex items-center px-2 xl:px-3 py-2 rounded-xl text-xs xl:text-sm font-medium transition-all duration-300 hover:scale-105 ${
@@ -254,6 +296,17 @@ const Navbar = () => {
                     Saved Ideas
                   </Link>
                   <Link 
+                    to="/submit-idea" 
+                    className={`block px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
+                      darkMode 
+                        ? 'text-white hover:bg-gray-700/50' 
+                        : 'text-gray-700 hover:bg-gray-100/50'
+                    }`}
+                    onClick={toggleMenu}
+                  >
+                    Submit Idea
+                  </Link>
+                  <Link 
                     to="/competitors" 
                     className={`block px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
                       darkMode 
@@ -274,6 +327,28 @@ const Navbar = () => {
                     onClick={toggleMenu}
                   >
                     Pitch Arena
+                  </Link>
+                  <Link 
+                    to="/market-research" 
+                    className={`block px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
+                      darkMode 
+                        ? 'text-white hover:bg-gray-700/50' 
+                        : 'text-gray-700 hover:bg-gray-100/50'
+                    }`}
+                    onClick={toggleMenu}
+                  >
+                    Market Research
+                  </Link>
+                  <Link 
+                    to="/investor-matching" 
+                    className={`block px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
+                      darkMode 
+                        ? 'text-white hover:bg-gray-700/50' 
+                        : 'text-gray-700 hover:bg-gray-100/50'
+                    }`}
+                    onClick={toggleMenu}
+                  >
+                    Investor Matching
                   </Link>
                   <Link 
                     to="/credits" 
