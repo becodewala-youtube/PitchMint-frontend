@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIdea, generateCanvas, clearError } from '../store/slices/ideaSlice';
@@ -8,6 +8,7 @@ import { RefreshCw, AlertCircle, Layout } from 'lucide-react';
 import CanvasSkeleton from '../components/skeleton/CanvasSkeleton';
 import { motion } from 'framer-motion';
 import InsufficientCreditsModal from '../components/modals/InsufficientCreditsModal';
+import ReactMarkdown from 'react-markdown';
 
 const Canvas = () => {
   const { id } = useParams();
@@ -133,9 +134,17 @@ const Canvas = () => {
                       Problem
                     </h2>
                   </div>
-                  <p className={`mb-8 text-justify text-sm md:text-base leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    {canvasContent.problem}
-                  </p>
+             <p
+  className={`prose prose-sm md:prose-base max-w-none text-justify leading-relaxed ${
+    darkMode ? 'prose-invert text-gray-300' : 'text-gray-700'
+  }`}
+>
+  <ReactMarkdown>
+    {canvasContent.problem }
+  </ReactMarkdown>
+</p>
+
+
                   
                   <div className="flex items-center mb-6">
                     <div className="w-3 h-3 rounded-full bg-blue-500 mr-3"></div>
@@ -144,7 +153,10 @@ const Canvas = () => {
                     </h2>
                   </div>
                   <p className={`text-justify text-sm md:text-base leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    {canvasContent.customerSegments}
+                    
+                      <ReactMarkdown>
+    {canvasContent.customerSegments}
+  </ReactMarkdown>
                   </p>
                 </div>
               </motion.div>
@@ -165,7 +177,7 @@ const Canvas = () => {
                     </h2>
                   </div>
                   <p className={`mb-8 text-justify text-sm md:text-base leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    {canvasContent.solution}
+                    <ReactMarkdown>{canvasContent.solution}</ReactMarkdown>
                   </p>
                   
                   <div className="flex items-center mb-6">
@@ -175,7 +187,7 @@ const Canvas = () => {
                     </h2>
                   </div>
                   <p className={`text-justify text-sm md:text-base leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    {canvasContent.uniqueValueProposition}
+                    <ReactMarkdown>{canvasContent.uniqueValueProposition}</ReactMarkdown>
                   </p>
                 </div>
               </motion.div>
@@ -196,7 +208,7 @@ const Canvas = () => {
                     </h2>
                   </div>
                   <p className={`mb-8 text-justify text-sm md:text-base leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    {canvasContent.keyMetrics}
+                    <ReactMarkdown>{canvasContent.keyMetrics}</ReactMarkdown>
                   </p>
                   
                   <div className="flex items-center mb-6">
@@ -206,7 +218,7 @@ const Canvas = () => {
                     </h2>
                   </div>
                   <p className={`text-justify text-sm md:text-base leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    {canvasContent.channels}
+                   <ReactMarkdown>{canvasContent.channels}</ReactMarkdown>
                   </p>
                 </div>
               </motion.div>
@@ -227,7 +239,7 @@ const Canvas = () => {
                     </h2>
                   </div>
                   <p className={`mb-8 text-justify text-sm md:text-base leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    {canvasContent.costStructure}
+                    <ReactMarkdown>{canvasContent.costStructure}</ReactMarkdown>
                   </p>
                   
                   <div className="flex items-center mb-6">
@@ -237,7 +249,7 @@ const Canvas = () => {
                     </h2>
                   </div>
                   <p className={`text-justify text-sm md:text-base leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    {canvasContent.revenueStreams}
+                    <ReactMarkdown>{canvasContent.revenueStreams}</ReactMarkdown>
                   </p>
                 </div>
               </motion.div>
@@ -258,7 +270,7 @@ const Canvas = () => {
                     </h2>
                   </div>
                   <p className={`text-justify text-sm md:text-base leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    {canvasContent.unfairAdvantage}
+                    <ReactMarkdown>{canvasContent.unfairAdvantage}</ReactMarkdown>
                   </p>
                 </div>
               </motion.div>

@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { Menu, X, Moon, Sun, LogOut, Star, User, CreditCard, ChevronDown, Brain, FileText, Users, MessageSquare, TrendingUp, Target } from 'lucide-react';
+import { History as HistoryIcon } from 'lucide-react';
 import { RootState } from '../../store';
 import { logout } from '../../store/slices/authSlice';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -134,6 +135,15 @@ const Navbar = () => {
                       >
                         <Target className="w-4 h-4 mr-3" />
                         Investor Matching
+                      </Link>
+                      <Link
+                        to="/history"
+                        className={`flex items-center px-4 py-3 text-sm rounded-b-xl transition-colors ${
+                          darkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50'
+                        }`}
+                      >
+                        <HistoryIcon className="w-4 h-4 mr-3" />
+                        History
                       </Link>
                     </div>
                   </div>
@@ -349,6 +359,17 @@ const Navbar = () => {
                     onClick={toggleMenu}
                   >
                     Investor Matching
+                  </Link>
+                  <Link 
+                    to="/history" 
+                    className={`block px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
+                      darkMode 
+                        ? 'text-white hover:bg-gray-700/50' 
+                        : 'text-gray-700 hover:bg-gray-100/50'
+                    }`}
+                    onClick={toggleMenu}
+                  >
+                    History
                   </Link>
                   <Link 
                     to="/credits" 

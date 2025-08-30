@@ -46,6 +46,37 @@ const CollaborativePitchDeck = () => {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
 
   useEffect(() => {
+    // Load pitch deck data
+    const loadPitchDeck = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/api/idea/${id}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        
+        const idea = response.data;
+        if (idea.pitchDeckContent) {
+          const slideData = [
+            { title: 'Problem', content: idea.pitchDeckContent.problem },
+            { title: 'Solution', content: idea.pitchDeckContent.solution },
+            { title: 'Market Size', content: idea.pitchDeckContent.marketSize },
+            { title: 'Business Model', content: idea.pitchDeckContent.businessModel },
+            { title: 'Competition', content: idea.pitchDeckContent.competitors },
+            { title: 'Go-to-Market Strategy', content: idea.pitchDeckContent.goToMarket },
+            { title: 'Team', content: idea.pitchDeckContent.team },
+            { title: 'Financials', content: idea.pitchDeckContent.financials },
+            { title: 'Milestones', content: idea.pitchDeckContent.milestones },
+            { title: 'Ask & Use of Funds', content: idea.pitchDeckContent.askAndUse }
+          ];
+          setSlides(slideData);
+        }
+      } catch (error) {
+        console.error('Failed to load pitch deck:', error);
+      }
+    };
+
+    loadPitchDeck();
+  }, [id, token]);
+  useEffect(() => {
     // Initialize WebSocket for real-time collaboration
     const ws = new WebSocket(`ws://localhost:5000/collaborate/${id}`);
     wsRef.current = ws;
@@ -126,7 +157,7 @@ const CollaborativePitchDeck = () => {
     try {
       const response = await axios.post(
         `${API_URL}/api/pitch-deck/talking-points/${id}`,
-        {},
+        { slideIndex: currentSlide },
         {
           headers: {
             Authorization: `Bearer ${token}`,

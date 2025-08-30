@@ -33,6 +33,8 @@ const Profile = lazy(() => import('./pages/Profile'));
 const Credits = lazy(() => import('./pages/Credits'));
 const MarketResearch = lazy(() => import('./pages/MarketResearch'));
 const InvestorMatchmaking = lazy(() => import('./pages/InvestorMatchmaking'));
+const History = lazy(() => import('./pages/History'));
+const CollaborativePitchDeck = lazy(() => import('./pages/CollaborativePitchDeck'));
 
 // Loading component
 const PageLoader = () => (
@@ -90,6 +92,8 @@ function App() {
             <Route path="/credits" element={<ProtectedRoute><Credits /></ProtectedRoute>} />
             <Route path="/market-research" element={<ProtectedRoute><MarketResearch /></ProtectedRoute>} />
             <Route path="/investor-matching" element={<ProtectedRoute><InvestorMatchmaking /></ProtectedRoute>} />
+            <Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} />
+            <Route path="/collaborative-pitch/:id" element={<ProtectedRoute><CollaborativePitchDeck /></ProtectedRoute>} />
           </Routes>
         </Suspense>
       </main>

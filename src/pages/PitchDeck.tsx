@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getIdea, generatePitchDeck, clearError } from '../store/slices/ideaSlice';
 import { RootState } from '../store';
 import { useTheme } from '../contexts/ThemeContext';
-import { ChevronLeft, ChevronRight, RefreshCw, AlertCircle, Download, FileText } from 'lucide-react';
+import { ChevronLeft, ChevronRight, RefreshCw, AlertCircle, Download, FileText, Users } from 'lucide-react';
 import { exportAllSlidesToPDF } from '../utils/pdfExport';
 import { motion } from 'framer-motion';
 import InsufficientCreditsModal from '../components/modals/InsufficientCreditsModal';
@@ -151,6 +151,16 @@ const PitchDeck = () => {
               >
                 <Download className={`sm:mr-2  h-5 w-5 ${exportLoading ? 'animate-spin' : ''}`} />
                 {exportLoading ? 'Exporting...' : 'Export PDF'}
+              </motion.button>
+              <motion.button
+                onClick={() => navigate(`/collaborative-pitch/${id}`)}
+                disabled={loading || !slides.length}
+                className="btn-primary btn-primary-green mt-4 flex disabled:opacity-50 disabled:cursor-not-allowed"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Users className="sm:mr-2 h-5 w-5" />
+                Collaborate
               </motion.button>
               <motion.button
                 onClick={handleRegeneratePitchDeck}
