@@ -41,6 +41,10 @@ const CollaborativePitchDeck = () => {
   const [showComments, setShowComments] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [talkingPoints, setTalkingPoints] = useState<string[]>([]);
+  const [showInviteModal, setShowInviteModal] = useState(false);
+  const [scriptLoading, setScriptLoading] = useState(false);
+  const [inviteEmail, setInviteEmail] = useState('');
+  const [saveLoading, setSaveLoading] = useState(false);
   
   const wsRef = useRef<WebSocket | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -68,6 +72,17 @@ const CollaborativePitchDeck = () => {
             { title: 'Ask & Use of Funds', content: idea.pitchDeckContent.askAndUse }
           ];
           setSlides(slideData);
+          
+          // Load existing comments and talking points
+          if (idea.collaborativeData) {
+            setComments(idea.collaborativeData.comments || []);
+            const currentSlideTalkingPoints = idea.collaborativeData.talkingPoints?.find(
+              tp => tp.slideIndex === currentSlide
+            );
+            if (currentSlideTalkingPoints) {
+              setTalkingPoints(currentSlideTalkingPoints.points || []);
+            }
+          }
         }
       } catch (error) {
         console.error('Failed to load pitch deck:', error);
@@ -112,51 +127,70 @@ const CollaborativePitchDeck = () => {
     };
   }, [id]);
 
-  const handleSlideEdit = (slideIndex: number, content: string) => {
+  const handleSlideEdit = async (slideIndex: number, content: string) => {
+    setSaveLoading(true);
+    try {
+      await axios.put(`${API_URL}/api/pitchdeck/collaborative/${id}/slide`, {
+        slideIndex,
+        content,
+        slideTitle: slides[slideIndex]?.title
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
     setSlides(prev => prev.map((slide, index) => 
       index === slideIndex ? { ...slide, content } : slide
     ));
 
-    // Send update to other collaborators
-    if (wsRef.current) {
-      wsRef.current.send(JSON.stringify({
-        type: 'slide_update',
-        slideIndex,
-        content,
-        userId: user?._id
-      }));
+      // Send update to other collaborators
+      if (wsRef.current) {
+        wsRef.current.send(JSON.stringify({
+          type: 'slide_update',
+          slideIndex,
+          content,
+          userId: user?._id
+        }));
+      }
+    } catch (error) {
+      console.error('Failed to save slide:', error);
+    } finally {
+      setSaveLoading(false);
     }
   };
 
-  const handleAddComment = (e: React.FormEvent) => {
+  const handleAddComment = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    const comment: Comment = {
-      id: Date.now().toString(),
-      userId: user?._id || '',
-      userName: user?.name || '',
-      text: newComment,
-      slideIndex: currentSlide,
-      position: { x: 50, y: 50 }, // Default position
-      createdAt: new Date().toISOString()
-    };
+    try {
+      const response = await axios.post(`${API_URL}/api/pitchdeck/collaborative/${id}/comment`, {
+        text: newComment,
+        slideIndex: currentSlide,
+        position: { x: 50, y: 50 }
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
 
-    setComments(prev => [...prev, comment]);
-    setNewComment('');
+      const comment = response.data.comment;
+      setComments(prev => [...prev, comment]);
+      setNewComment('');
 
-    // Send to other collaborators
-    if (wsRef.current) {
-      wsRef.current.send(JSON.stringify({
-        type: 'comment_add',
-        comment
-      }));
+      // Send to other collaborators
+      if (wsRef.current) {
+        wsRef.current.send(JSON.stringify({
+          type: 'comment_add',
+          comment
+        }));
+      }
+    } catch (error) {
+      console.error('Failed to add comment:', error);
     }
   };
 
   const generateTalkingPoints = async () => {
+    setScriptLoading(true);
     try {
       const response = await axios.post(
-        `${API_URL}/api/pitch-deck/talking-points/${id}`,
+        `${API_URL}/api/pitchdeck/talking-points/${id}`,
         { slideIndex: currentSlide },
         {
           headers: {
@@ -167,6 +201,8 @@ const CollaborativePitchDeck = () => {
       setTalkingPoints(response.data.talkingPoints);
     } catch (error) {
       console.error('Failed to generate talking points');
+    } finally {
+      setScriptLoading(false);
     }
   };
 
@@ -190,7 +226,7 @@ const CollaborativePitchDeck = () => {
         
         try {
           const response = await axios.post(
-            `${API_URL}/api/pitch-deck/voice-feedback/${id}`,
+            `${API_URL}/api/pitchdeck/voice-feedback/${id}`,
             formData,
             {
               headers: {
@@ -218,6 +254,33 @@ const CollaborativePitchDeck = () => {
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
       setIsRecording(false);
+    }
+  }
+
+
+  const handleDeleteComment = async (commentId: string) => {
+    try {
+      await axios.delete(`${API_URL}/api/pitchdeck/collaborative/${id}/comment/${commentId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      setComments(prev => prev.filter(comment => comment.id !== commentId));
+    } catch (error) {
+      console.error('Failed to delete comment:', error);
+    }
+  };
+  
+  const handleInviteCollaborator = async () => {
+    try {
+      // For now, just copy the collaboration link to clipboard
+      const collaborationLink = `${window.location.origin}/collaborative-pitch/${id}`;
+      await navigator.clipboard.writeText(collaborationLink);
+      alert('Collaboration link copied to clipboard! Share it with your team members.');
+      setShowInviteModal(false);
+      setInviteEmail('');
+    } catch (error) {
+      console.error('Failed to copy link:', error);
+      alert('Failed to copy link. Please try again.');
     }
   };
 
@@ -247,10 +310,11 @@ const CollaborativePitchDeck = () => {
             <div className="flex items-center space-x-4">
               <button
                 onClick={generateTalkingPoints}
+                disabled={scriptLoading}
                 className="btn-primary btn-primary-blue"
               >
-                <Edit3 className="h-4 w-4 mr-2" />
-                Generate Script
+                <Edit3 className={`h-4 w-4 mr-2 ${scriptLoading ? 'animate-spin' : ''}`} />
+                {scriptLoading ? 'Generating...' : 'Generate Script'}
               </button>
               
               <button
@@ -357,6 +421,12 @@ const CollaborativePitchDeck = () => {
                             top: `${comment.position.y}%`
                           }}
                         >
+                            <button
+                              onClick={() => handleDeleteComment(comment.id)}
+                              className="ml-auto text-red-500 hover:text-red-700 text-xs"
+                            >
+                              Delete
+                            </button>
                           <div className="w-4 h-4 bg-yellow-500 rounded-full cursor-pointer"></div>
                           <div className={`absolute top-6 left-0 w-64 p-3 rounded-xl shadow-lg ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} border z-10`}>
                             <div className="flex items-center mb-2">
@@ -504,14 +574,104 @@ const CollaborativePitchDeck = () => {
                 </div>
                 
                 <button className="w-full mt-4 btn-secondary btn-secondary-dark">
-                  <Share2 className="h-4 w-4 mr-2" />
+                  <Share2 className="h-4 w-4 mr-2" onClick={() => setShowInviteModal(true)} />
                   Invite Collaborators
                 </button>
               </motion.div>
             </div>
           </div>
+
+          {/* Invite Modal */}
+          {showInviteModal && (
+            <div className="fixed inset-0 z-50 overflow-y-auto">
+              <div className="flex items-center justify-center min-h-screen px-4">
+                <div className="fixed inset-0 bg-black opacity-50" onClick={() => setShowInviteModal(false)}></div>
+                
+                <div className={`relative ${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl max-w-md w-full p-6`}>
+                  <h3 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    Invite Collaborators
+                  </h3>
+                  <p className={`text-sm mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                    Share this link with your team members to collaborate on the pitch deck.
+                  </p>
+                  <button
+                    onClick={handleInviteCollaborator}
+                    className="w-full btn-primary btn-primary-blue"
+                  >
+                    Copy Collaboration Link
+                  </button>
+                  <button
+                    onClick={() => setShowInviteModal(false)}
+                    className="w-full mt-3 btn-secondary btn-secondary-light"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
+
+      {/* Invite Modal */}
+      {showInviteModal && (
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="flex items-center justify-center min-h-screen px-4">
+            <div className="fixed inset-0 bg-black opacity-50" onClick={() => setShowInviteModal(false)}></div>
+            
+            <div className={`relative ${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl max-w-md w-full p-6`}>
+              <h3 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                Invite Collaborators
+              </h3>
+              <p className={`text-sm mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                Share this link with your team members to collaborate on the pitch deck.
+              </p>
+              <button
+                onClick={handleInviteCollaborator}
+                className="w-full btn-primary btn-primary-blue"
+              >
+                Copy Collaboration Link
+              </button>
+              <button
+                onClick={() => setShowInviteModal(false)}
+                className="w-full mt-3 btn-secondary btn-secondary-light"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Invite Modal */}
+      {showInviteModal && (
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="flex items-center justify-center min-h-screen px-4">
+            <div className="fixed inset-0 bg-black opacity-50" onClick={() => setShowInviteModal(false)}></div>
+            
+            <div className={`relative ${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl max-w-md w-full p-6`}>
+              <h3 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                Invite Collaborators
+              </h3>
+              <p className={`text-sm mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                Share this link with your team members to collaborate on the pitch deck.
+              </p>
+              <button
+                onClick={handleInviteCollaborator}
+                className="w-full btn-primary btn-primary-blue"
+              >
+                Copy Collaboration Link
+              </button>
+              <button
+                onClick={() => setShowInviteModal(false)}
+                className="w-full mt-3 btn-secondary btn-secondary-light"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

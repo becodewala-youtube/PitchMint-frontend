@@ -138,7 +138,7 @@ const Navbar = () => {
                       </Link>
                       <Link
                         to="/history"
-                        className={`flex items-center px-4 py-3 text-sm rounded-b-xl transition-colors ${
+                        className={`flex items-center px-4 py-3 text-sm transition-colors ${
                           darkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50'
                         }`}
                       >
@@ -183,7 +183,28 @@ const Navbar = () => {
                         ? 'text-gray-300 hover:text-white hover:bg-gray-700/50' 
                         : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100/50'
                     }`}>
-                      <img src={user?.profilePicture} alt="profile pic" className='w-6 h-6 rounded-xl mr-2 '/>
+                      {user?.profilePicture ? (
+  <img 
+    src={user.profilePicture} 
+    alt="Profile" 
+    className="w-6 h-6 rounded-full mr-2 object-cover"
+    onError={(e) => {
+      // If image fails, fallback to first letter
+      e.currentTarget.style.display = 'none';
+      e.currentTarget.insertAdjacentHTML(
+        "afterend",
+        `<div class="w-6 h-6 rounded-full mr-2 bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center text-white text-xs font-bold">
+           ${user?.name?.charAt(0).toUpperCase()}
+         </div>`
+      );
+    }}
+  />
+) : (
+  <div className="w-6 h-6 rounded-full mr-2 bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center text-white text-xs font-bold">
+    {user?.name?.charAt(0).toUpperCase()}
+  </div>
+)}
+
                       <span className="hidden xl:inline truncate max-w-20">{user?.name}</span>
                     </button>
                     

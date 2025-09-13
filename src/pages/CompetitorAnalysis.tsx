@@ -8,6 +8,7 @@ import { AlertCircle, Search } from 'lucide-react';
 import { motion } from 'framer-motion';
 import InsufficientCreditsModal from '../components/modals/InsufficientCreditsModal';
 import { clearError } from '../store/slices/ideaSlice';
+import Markdown from 'react-markdown';
 
 interface Competitor {
   name: string;
@@ -196,7 +197,7 @@ const CompetitorAnalysis = () => {
                   Market Overview
                 </h3>
                 <p className={`text-lg ${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
-                  {analysis.summary}
+                  <Markdown>{analysis.summary}</Markdown>
                 </p>
               </motion.div>
 

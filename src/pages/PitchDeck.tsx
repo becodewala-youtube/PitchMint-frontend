@@ -152,7 +152,9 @@ const PitchDeck = () => {
                 <Download className={`sm:mr-2  h-5 w-5 ${exportLoading ? 'animate-spin' : ''}`} />
                 {exportLoading ? 'Exporting...' : 'Export PDF'}
               </motion.button>
-              <motion.button
+
+              {/* future enhancement feature and as of now i stopped at tis point of time and will do in later */}
+              {/* <motion.button
                 onClick={() => navigate(`/collaborative-pitch/${id}`)}
                 disabled={loading || !slides.length}
                 className="btn-primary btn-primary-green mt-4 flex disabled:opacity-50 disabled:cursor-not-allowed"
@@ -161,7 +163,7 @@ const PitchDeck = () => {
               >
                 <Users className="sm:mr-2 h-5 w-5" />
                 Collaborate
-              </motion.button>
+              </motion.button> */}
               <motion.button
                 onClick={handleRegeneratePitchDeck}
                 disabled={loading || isGenerating}
