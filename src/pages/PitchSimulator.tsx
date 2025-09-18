@@ -127,41 +127,41 @@ const PitchSimulator = () => {
         <div className={`absolute -bottom-40 -left-40 w-80 h-80 rounded-full opacity-20 ${darkMode ? 'bg-gradient-to-br from-blue-500 to-cyan-500' : 'bg-gradient-to-br from-green-400 to-blue-400'} animate-pulse delay-1000`}></div>
       </div>
 
-      <div className="relative z-10 py-12">
+      <div className="relative z-10 py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <motion.div 
-            className="text-center mb-12"
+            className="text-center mb-8"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className={`w-12 h-12 rounded-3xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center mx-auto mb-8`}>
-              <MessageSquare className="h-6 w-6 text-white" />
+            <div className={`w-10 h-10 rounded-3xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center mx-auto mb-4`}>
+              <MessageSquare className="h-5 w-5 text-white" />
             </div>
-            <h1 className={`text-2xl md:text-3xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h1 className={`text-2xl md:text-2xl font-bold mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Pitch
               <span className="ml-2 bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 bg-clip-text text-transparent">
                 Simulator
               </span>
             </h1>
-            <p className={`text-md ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+            <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
               Practice your pitch with AI-powered investor Q&A
             </p>
           </motion.div>
 
           <motion.div 
-            className={`${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm rounded-3xl shadow-2xl p-8 border ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}
+            className={`${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm rounded-3xl shadow-2xl px-6 py-5 border ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             {!questions.length ? (
               <form onSubmit={handleSimulate}>
-                <div className="mb-8">
+                <div className="mb-4">
                   <label
                     htmlFor="pitch"
-                    className={`block text-lg font-semibold mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
+                    className={`block text-md font-semibold mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
                   >
                     Your Pitch
                   </label>
@@ -170,11 +170,11 @@ const PitchSimulator = () => {
                     value={pitch}
                     onChange={(e) => setPitch(e.target.value)}
                     rows={6}
-                    className={`w-full px-6 py-4 text-lg rounded-2xl border-2 transition-all duration-300 ${
+                    className={`w-full px-6 py-4 text-md rounded-2xl border-2 transition-all duration-300 ${
                       darkMode
                         ? 'bg-gray-700/50 text-white border-gray-600 placeholder-gray-400 focus:border-orange-500 focus:bg-gray-700'
                         : 'bg-white text-gray-900 border-gray-300 placeholder-gray-400 focus:border-orange-500 focus:bg-gray-50'
-                    } focus:ring-4 focus:ring-orange-500/20 focus:outline-none`}
+                    } focus:ring-2 focus:ring-orange-500/20 focus:outline-none`}
                     placeholder="Enter your startup pitch..."
                   />
                 </div>
@@ -182,7 +182,7 @@ const PitchSimulator = () => {
                 <motion.button
                   type="submit"
                   disabled={loading || !pitch.trim()}
-                  className={`w-full flex justify-center py-4 px-8 rounded-2xl text-lg font-semibold text-white transition-all duration-300 ${
+                  className={`w-full flex justify-center py-2 px-8 rounded-2xl text-lg font-semibold text-white transition-all duration-300 ${
                     (loading || !pitch.trim())
                       ? 'bg-gray-400 cursor-not-allowed'
                       : 'bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 hover:scale-105 shadow-2xl hover:shadow-orange-500/25'
@@ -196,7 +196,7 @@ const PitchSimulator = () => {
                       Simulating...
                     </div>
                   ) : (
-                    <div className="flex text-xs md:text-lg items-center">
+                    <div className="flex text-xs md:text-md items-center">
                       <Play className="w-6 h-6 mr-3" />
                       Start Simulation (1 Credit)
                     </div>

@@ -163,7 +163,7 @@ const Dashboard = () => {
         <div className="absolute bottom-32 left-40 w-5 h-5 bg-cyan-400 rounded-full animate-bounce delay-3000 opacity-60"></div>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Enhanced Welcome Header */}
         <motion.div
           className="text-center mb-12"
@@ -174,7 +174,7 @@ const Dashboard = () => {
           <div className="flex items-center justify-center mb-6">
             
             <div className="text-left">
-              <h1 className={`text-xl md:text-3xl font-black ${darkMode ? "text-white" : "text-gray-900"}`}>
+              <h1 className={`text-xl md:text-2xl font-black ${darkMode ? "text-white" : "text-gray-900"}`}>
                 Welcome back,
                 <span className=" bg-gradient-to-r from-cyan-500 via-cyan-500 to-cyan-500 bg-clip-text text-transparent">
                   {user?.name}!
@@ -191,7 +191,7 @@ const Dashboard = () => {
 )}
 
               </h1>
-              <p className={`md:text-xl text-center ${darkMode ? "text-gray-300" : "text-gray-600"} font-medium mt-2`} >
+              <p className={`md:text-md text-center ${darkMode ? "text-gray-400" : "text-gray-600"} font-medium mt-1`} >
                 Your startup journey dashboard
               </p>
             </div>
@@ -203,7 +203,7 @@ const Dashboard = () => {
         </motion.div>
 
         {/* Enhanced Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.name}
@@ -226,16 +226,16 @@ const Dashboard = () => {
                 <div className="flex-1">
                   <div className="flex items-center mb-4">
                     <div
-                      className={`md:w-16 md:h-16 w-8 h-8 rounded-2xl bg-gradient-to-br ${stat.gradient} flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform duration-500`}
+                      className={`md:w-10 md:h-10 w-6 h-6 rounded-2xl bg-gradient-to-br ${stat.gradient} flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform duration-500`}
                     >
-                      <stat.icon className="md:h-8 md:w-8 h-4 w-4  text-white" />
+                      <stat.icon className="md:h-5 md:w-5 h-3 w-3  text-white" />
                     </div>
                     <div className="ml-4">
                       <p className={`md:text-sm text-xs font-medium ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
                         {stat.name}
                       </p>
                       <p
-                        className={`md:text-xl text-xs font-black ${
+                        className={`md:text-lg text-xs font-black ${
                           darkMode
                             ? "text-white group-hover:text-purple-400"
                             : "text-gray-900 group-hover:text-purple-600"
@@ -266,7 +266,7 @@ const Dashboard = () => {
           transition={{ duration: 0.8, delay: 0.4 }}
         >
           <div className="text-left mb-6 flex flex-col justify-start">
-            <h2 className={`text-md md:text-xl font-black mb-4 ${darkMode ? "text-white" : "text-gray-900"}`}>
+            <h2 className={`text-md md:text-lg font-black mb-2 ${darkMode ? "text-white" : "text-gray-900"}`}>
               Quick Actions
             </h2>
             <p className={`md:text-sm text-xs ${darkMode ? "text-gray-400" : "text-gray-600"} font-medium`}>
@@ -335,9 +335,9 @@ const Dashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center justify-between mb-6">
               <div>
-                <h2 className={`text-md md:text-xl font-black ${darkMode ? "text-white" : "text-gray-900"}`}>
+                <h2 className={`text-md md:text-lg font-black ${darkMode ? "text-white" : "text-gray-900"}`}>
                   Recent Ideas
                 </h2>
                 <p className={`md:text-sm text-xs ${darkMode ? "text-gray-400" : "text-gray-600"} font-medium mt-2`}>
@@ -346,7 +346,7 @@ const Dashboard = () => {
               </div>
               <button
                 onClick={() => navigate("/saved-ideas")}
-                className="group flex items-center md:px-4 md:py-2 px-2 py-1 text-xs md:text-md bg-gradient-to-r from-cyan-600 to-cyan-600 text-white font-semibold rounded-2xl shadow-xl hover:shadow-purple-500/25 transition-all duration-300 hover:scale-105"
+                className="group flex items-center md:px-4 md:py-2 px-2 py-1 text-xs md:text-md bg-gradient-to-r from-cyan-600 to-cyan-600 text-white font-semibold rounded-2xl shadow-xl hover:shadow-cyan-500/25 transition-all duration-300 hover:scale-105"
               >
                 View All
                 <ArrowRight className="md:w-5 md:h-5 w-2 h-2 ml-2 group-hover:translate-x-1 transition-transform duration-300" />

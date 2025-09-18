@@ -141,8 +141,8 @@ const InvestorMatchmaking = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="icon-container icon-purple mx-auto mb-8">
-              <Target className="h-8 w-8 text-white" />
+            <div className="icon-container icon-purple mx-auto mb-2">
+              <Target className="h-6 w-6 dark:text-white text-black" />
             </div>
             <h1 className={`page-title ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Investor
@@ -248,19 +248,19 @@ const InvestorMatchmaking = () => {
               <motion.button
                 type="submit"
                 disabled={loading || !criteria.industry || !criteria.stage}
-                className={`w-full btn-primary btn-primary-purple ${
+                className={`w-full btn-primary btn-primary-purple bg-cyan-500 ${
                   (loading || !criteria.industry || !criteria.stage) ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
                 whileHover={!(loading || !criteria.industry || !criteria.stage) ? { scale: 1.05 } : {}}
                 whileTap={!(loading || !criteria.industry || !criteria.stage) ? { scale: 0.95 } : {}}
               >
                 {loading ? (
-                  <div className="flex items-center justify-center">
+                  <div className="flex items-center justify-center ">
                     <div className="loading-spinner mr-3" />
                     Finding Matches...
                   </div>
                 ) : (
-                  <div className="flex items-center justify-center text-black dark:text-white">
+                  <div className="flex items-center justify-center  text-white ">
                     <Search className="w-6 h-6 mr-3 " />
                     Find Investor Matches (2 Credits)
                   </div>

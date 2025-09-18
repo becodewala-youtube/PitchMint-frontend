@@ -95,25 +95,25 @@ const InvestorContacts = () => {
         <div className={`absolute -bottom-40 -left-40 w-80 h-80 rounded-full opacity-20 ${darkMode ? 'bg-gradient-to-br from-blue-500 to-cyan-500' : 'bg-gradient-to-br from-green-400 to-blue-400'} animate-pulse delay-1000`}></div>
       </div>
 
-      <div className="relative z-10 py-12">
+      <div className="relative z-10 py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <motion.div 
-            className="text-center mb-12"
+            className="text-center mb-8"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className={`w-12 h-12 rounded-3xl bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center mx-auto mb-8`}>
-              <Star className=" h-6 w-6 text-white" />
+            <div className={`w-8 h-8 rounded-3xl bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center mx-auto mb-4`}>
+              <Star className=" h-5 w-5 text-white" />
             </div>
-            <h1 className={`text-2xl md:text-3xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h1 className={`text-2xl md:text-xl font-bold mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Investor
               <span className="ml-2 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent">
                 Directory
               </span>
             </h1>
-            <p className={`text-md ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+            <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
               Connect with top investors, VCs, and accelerators
             </p>
           </motion.div>
@@ -125,9 +125,9 @@ const InvestorContacts = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <div className="flex items-center mb-6">
+            <div className="flex items-center mb-4">
               <Filter className="h-5 w-5 text-purple-500 mr-3" />
-              <h2 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h2 className={`text-md font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Filter Investors
               </h2>
             </div>
@@ -139,7 +139,7 @@ const InvestorContacts = () => {
                 <select
                   value={filters.type}
                   onChange={(e) => setFilters((prev) => ({ ...prev, type: e.target.value }))}
-                  className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 ${
+                  className={`w-full px-4 py-2 rounded-2xl border-2 transition-all duration-300 ${
                     darkMode
                       ? 'border-gray-600 bg-gray-800/80 text-white focus:border-purple-500'
                       : 'border-gray-300 bg-white text-gray-900 focus:border-purple-500'
@@ -190,10 +190,10 @@ const InvestorContacts = () => {
                   whileHover={{ y: -5 }}
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/10 to-orange-500/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  <div className="relative p-8">
-                    <div className="flex items-start justify-between mb-6">
+                  <div className="relative p-6">
+                    <div className="flex items-start justify-between mb-4">
                       <div className="flex-1">
-                        <h3 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'} group-hover:text-yellow-500 transition-colors duration-300 mb-2`}>
+                        <h3 className={`text-md font-bold ${darkMode ? 'text-white' : 'text-gray-900'} group-hover:text-yellow-500 transition-colors duration-300 mb-2`}>
                           {investor.name}
                         </h3>
                         <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
@@ -254,7 +254,7 @@ const InvestorContacts = () => {
                       href={investor.contactLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center w-full justify-center px-6 py-3 rounded-2xl text-sm font-medium text-white bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700 transition-all duration-300 shadow-lg hover:shadow-yellow-500/25"
+                      className="inline-flex items-center w-full justify-center px-6 py-2 rounded-2xl text-sm font-medium text-white bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700 transition-all duration-300 shadow-lg hover:shadow-yellow-500/25"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >

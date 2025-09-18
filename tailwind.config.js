@@ -51,7 +51,7 @@ export default {
 
         // Button Components
         '.btn-primary': {
-          '@apply px-6 py-3 rounded-2xl text-sm font-medium text-white transition-all duration-300 shadow-lg': {},
+          '@apply px-6 py-2 rounded-2xl text-sm font-medium text-white transition-all duration-300 shadow-lg': {},
         },
         '.btn-primary-cyan': {
           '@apply bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 hover:shadow-purple-500/25': {},
@@ -83,7 +83,7 @@ export default {
 
         // Input Components
         '.input-field': {
-          '@apply w-full px-4 py-2 text-lg rounded-2xl border-2 transition-all duration-300 focus:ring-4 focus:ring-purple-500/20 focus:outline-none': {},
+          '@apply w-full px-4 py-2  rounded-2xl border-2 transition-all duration-300 focus:ring-2 focus:ring-purple-500/20 focus:outline-none': {},
         },
         '.input-field-dark': {
           '@apply bg-gray-700/50 text-white border-gray-600 placeholder-gray-400 focus:border-purple-500 focus:bg-gray-700': {},
@@ -111,10 +111,13 @@ export default {
 
         // Icon Components
         '.icon-container': {
-          '@apply w-12 h-12 rounded-2xl flex items-center justify-center': {},
+          '@apply w-8 h-8 rounded-2xl flex items-center justify-center': {},
         },
         '.icon-container-lg': {
           '@apply w-24 h-24 rounded-3xl flex items-center justify-center': {},
+        },
+         '.icon-container-md': {
+          '@apply w-12 h-12 rounded-3xl flex items-center justify-center': {},
         },
         '.icon-cyan': {
           '@apply bg-gradient-to-br from-purple-600 to-cyan-600': {},
@@ -143,7 +146,7 @@ export default {
           '@apply bg-white': {},
         },
         '.content-wrapper': {
-          '@apply relative z-10 py-8': {},
+          '@apply relative z-10 py-4': {},
         },
         '.max-container': {
           '@apply max-w-7xl mx-auto px-2 sm:px-6 lg:px-8': {},
@@ -151,13 +154,13 @@ export default {
 
         // Header Components
         '.page-header': {
-          '@apply text-center mb-12': {},
+          '@apply text-center mb-8': {},
         },
         '.page-title': {
-          '@apply text-2xl md:text-3xl font-bold mb-4': {},
+          '@apply text-xl md:text-2xl font-bold mb-1': {},
         },
         '.page-subtitle': {
-          '@apply text-lg': {},
+          '@apply md:text-sm': {},
         },
         '.section-header': {
           '@apply flex flex-col md:flex-row justify-between items-start md:items-center mb-12': {},

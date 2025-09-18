@@ -303,12 +303,12 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
               {/* Profile Tab */}
               {activeTab === 'profile' && (
-                <div className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8`}>
-                  <h2 className={`text-2xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <div className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} py-4 px-6`}>
+                  <h2 className={`text-lg font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                     Profile Information
                   </h2>
                   
-                  <form onSubmit={handleProfileUpdate} className="space-y-6">
+                  <form onSubmit={handleProfileUpdate} className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
@@ -318,7 +318,7 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
                           type="text"
                           value={profileData.name}
                           onChange={(e) => setProfileData(prev => ({ ...prev, name: e.target.value }))}
-                          className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
+                          className={`input-field text-sm ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
                         />
                       </div>
                       
@@ -330,7 +330,7 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     type="email"
     value={profileData.email}
     readOnly // ✅ prevents editing
-    className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'} cursor-not-allowed opacity-70`} // optional: make visually clear it's non-editable
+    className={`input-field text-sm ${darkMode ? 'input-field-dark' : 'input-field-light'} cursor-not-allowed opacity-70`} // optional: make visually clear it's non-editable
   />
   <p className={`text-xs mt-1 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
     Email address cannot be changed.
@@ -364,8 +364,8 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
               {/* Security Tab */}
               {activeTab === 'security' && (
-                <div className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8`}>
-                  <h2 className={`text-2xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <div className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} py-4 px-6`}>
+                  <h2 className={`text-lg font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                     Security Settings
                   </h2>
                   
@@ -393,7 +393,7 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     type={showNewPassword ? 'text' : 'password'}
     value={profileData.newPassword}
     onChange={(e) => setProfileData(prev => ({ ...prev, newPassword: e.target.value }))}
-    className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'} pr-10`}
+    className={`input-field text-sm ${darkMode ? 'input-field-dark' : 'input-field-light'} pr-10`}
     placeholder="Enter new password"
     autoComplete="new-password"
   />
@@ -416,7 +416,7 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     type={showConfirmPassword ? 'text' : 'password'}
     value={profileData.confirmPassword}
     onChange={(e) => setProfileData(prev => ({ ...prev, confirmPassword: e.target.value }))}
-    className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'} pr-10`}
+    className={`input-field text-sm ${darkMode ? 'input-field-dark' : 'input-field-light'} pr-10`}
     placeholder="Confirm new password"
     autoComplete="new-password"
   />
@@ -460,13 +460,13 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
               {activeTab === 'credits' && (
                 <div className="space-y-6">
                   {/* Credit Balance */}
-                  <div className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8`}>
+                  <div className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} py-4 px-6`}>
                     <div className="flex items-center justify-between mb-6">
-                      <h2 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                      <h2 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                         Credit Balance
                       </h2>
                       <div className="text-right">
-                        <div className={`text-3xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                        <div className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                           {creditBalance}
                         </div>
                         <div className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
@@ -475,7 +475,7 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
                       </div>
                     </div>
                     
-                    <div className={`p-4 rounded-2xl ${darkMode ? 'bg-blue-900/20' : 'bg-blue-50'} border ${darkMode ? 'border-blue-800' : 'border-blue-200'}`}>
+                    <div className={`p-3 rounded-2xl ${darkMode ? 'bg-blue-900/20' : 'bg-blue-50'} border ${darkMode ? 'border-blue-800' : 'border-blue-200'}`}>
                       <p className={`text-sm ${darkMode ? 'text-blue-300' : 'text-blue-700'}`}>
                         Credits reset monthly. Free users get 3 credits per month. Upgrade for more credits!
                       </p>
@@ -483,8 +483,8 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
                   </div>
 
                   {/* Credit History */}
-                  <div className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8`}>
-                    <h3 className={`text-xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'} flex items-center`}>
+                  <div className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} py-4 px-6`}>
+                    <h3 className={`text-lg font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'} flex items-center`}>
                       <History className="w-6 h-6 mr-2" />
                       Transaction History
                     </h3>
@@ -499,7 +499,7 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
                             }`}
                           >
                             <div>
-                              <p className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                              <p className={`font-medium text-sm ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                                 {transaction.description}
                               </p>
                               <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>

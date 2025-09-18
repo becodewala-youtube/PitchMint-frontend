@@ -45,8 +45,8 @@ const SubmitIdea = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="icon-container icon-cyan mx-auto mb-8">
-              <Brain className="h-8 w-8 text-white" />
+            <div className="icon-container icon-cyan mx-auto mb-4">
+              <Brain className="h-6 w-6 text-white" />
             </div>
             <h1 className={`page-title ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Submit Your
@@ -61,7 +61,7 @@ const SubmitIdea = () => {
 
           {/* Main Form */}
           <motion.div 
-            className={`card-glass  ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8`}
+            className={`card-glass  ${darkMode ? 'card-glass-dark' : 'card-glass-light'} py-4 px-6`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -83,7 +83,7 @@ const SubmitIdea = () => {
               <div>
                 <label
                   htmlFor="idea"
-                  className={`block text-lg font-semibold mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
+                  className={`block text-md font-semibold mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
                 >
                   Describe your startup idea
                 </label>

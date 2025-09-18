@@ -141,8 +141,8 @@ const MarketResearch = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="icon-container icon-blue mx-auto mb-8">
-              <TrendingUp className="h-8 w-8 text-white" />
+            <div className="icon-container icon-blue mx-auto mb-2">
+              <TrendingUp className="h-5 w-5 text-white" />
             </div>
             <h1 className={`page-title ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               AI-Powered
@@ -157,14 +157,14 @@ const MarketResearch = () => {
 
           {/* Input Form */}
           <motion.div 
-            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8 mb-12`}
+            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} py-4 px-5 mb-12`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <form onSubmit={handleAnalyze} className="space-y-6">
               <div>
-                <label className={`block text-lg font-semibold mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                <label className={`block text-md font-semibold mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                   Startup Idea
                 </label>
                 <textarea
@@ -178,7 +178,7 @@ const MarketResearch = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className={`block text-lg font-semibold mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <label className={`block text-md font-semibold mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                     Industry
                   </label>
                   <select
@@ -194,7 +194,7 @@ const MarketResearch = () => {
                 </div>
 
                 <div>
-                  <label className={`block text-lg font-semibold mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <label className={`block text-md font-semibold mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                     Target Region
                   </label>
                   <select

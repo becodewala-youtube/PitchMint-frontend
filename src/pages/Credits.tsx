@@ -86,8 +86,8 @@ const handlePurchase = async (planId: string) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="icon-container icon-yellow mx-auto mb-8">
-              <CreditCard className="h-6 w-6 text-white" />
+            <div className="icon-container icon-yellow mx-auto mb-2">
+              <CreditCard className="h-5 w-5 text-white" />
             </div>
             <h1 className={`page-title ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Buy
@@ -113,18 +113,18 @@ const handlePurchase = async (planId: string) => {
 
           {/* Current Balance */}
           <motion.div 
-            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-4 mb-12 text-center`}
+            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-2 mb-12 text-center`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h2 className={`text-lg font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Current Balance
             </h2>
-            <div className={`text-4xl font-bold mb-4 text-gradient-yellow`}>
+            <div className={`text-2xl font-bold mb-1 text-gradient-yellow`}>
               {user?.credits || 0}
             </div>
-            <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+            <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
               Credits Available
             </p>
           </motion.div>
@@ -134,7 +134,7 @@ const handlePurchase = async (planId: string) => {
             {planArray.map((plan, index) => (
               <motion.div
                 key={plan.id}
-                className={`group card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} card-hover p-8 text-center`}
+                className={`group card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} card-hover py-6  px-4 text-center`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 + index * 0.1 }}
@@ -143,26 +143,26 @@ const handlePurchase = async (planId: string) => {
                 <div className="card-hover-effect"></div>
                 <div className="relative">
                   {/* Plan Icon */}
-                  <div className={`icon-container-lg mx-auto mb-6 ${
+                  <div className={`icon-container-md mx-auto mb-4 ${
                     plan.id === 'starter' ? 'icon-blue' :
                     plan.id === 'pro' ? 'btn-primary-red' : 'icon-yellow'
                   }`}>
-                    {plan.id === 'starter' ? <Zap className="h-12 w-12 text-white" /> :
-                     plan.id === 'pro' ? <Star className="h-12 w-12 text-white" /> :
-                     <Sparkles className="h-12 w-12 text-white" />}
+                    {plan.id === 'starter' ? <Zap className="h-6 w-6 text-white" /> :
+                     plan.id === 'pro' ? <Star className="h-6 w-6 text-white" /> :
+                     <Sparkles className="h-6 w-6 text-white" />}
                   </div>
 
                   {/* Plan Details */}
-                  <h3 className={`text-2xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <h3 className={`text-lg font-bold  ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                     {plan.name}
                   </h3>
-                  <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-6`}>
+                  <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-4`}>
                     {plan.description}
                   </p>
 
                   {/* Credits */}
                   <div className="mb-6">
-                    <div className={`text-4xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <div className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       {plan.credits}
                     </div>
                     <div className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
@@ -172,7 +172,7 @@ const handlePurchase = async (planId: string) => {
 
                   {/* Price */}
                   <div className="mb-8">
-                    <div className={`text-3xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <div className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       ${(plan.price / 100).toFixed(2)}
                     </div>
                     <div className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
@@ -181,7 +181,7 @@ const handlePurchase = async (planId: string) => {
                   </div>
 
                   {/* Features */}
-                  <div className="mb-8 space-y-3">
+                  <div className="mb-8 space-y-2">
                     <div className="flex items-center justify-center">
                       <Check className="w-5 h-5 text-green-500 mr-2" />
                       <span className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
@@ -228,21 +228,7 @@ const handlePurchase = async (planId: string) => {
           </div>
 
           {/* Demo Notice */}
-          <motion.div 
-            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-6 mt-8`}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-          >
-            <div className="text-center">
-              <h3 className={`text-lg font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                Demo Mode
-              </h3>
-              <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                This is a demo. In production, this would integrate with Stripe for secure payments.
-              </p>
-            </div>
-          </motion.div>
+          
 
           {/* FAQ Section */}
           <motion.div 
@@ -251,7 +237,7 @@ const handlePurchase = async (planId: string) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.0 }}
           >
-            <h2 className={`text-xl font-bold mb-6 text-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h2 className={`text-lg font-bold mb-6 text-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Frequently Asked Questions
             </h2>
             

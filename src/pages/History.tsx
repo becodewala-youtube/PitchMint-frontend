@@ -1052,8 +1052,8 @@ const History = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="icon-container icon-purple mx-auto mb-8">
-              <HistoryIcon className="h-8 w-8 text-white" />
+            <div className="icon-container icon-purple mx-auto mb-2">
+              <HistoryIcon className="h-6 w-6 text-white" />
             </div>
             <h1 className={`page-title ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Activity
@@ -1068,14 +1068,14 @@ const History = () => {
 
           {/* Filters */}
           <motion.div 
-            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-6 mb-8`}
+            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} py-4 px-6 mb-6`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <div className="flex items-center mb-4">
+            <div className="flex items-center mb-3">
               <Filter className="h-5 w-5 text-purple-500 mr-3" />
-              <h2 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h2 className={`text-md font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Filter Activities
               </h2>
             </div>
@@ -1086,7 +1086,7 @@ const History = () => {
                   <button
                     key={service.value}
                     onClick={() => setSelectedFilter(service.value)}
-                    className={`flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
+                    className={`flex items-center px-4 py-2 rounded-xl text-xs font-medium transition-all duration-300 ${
                       selectedFilter === service.value
                         ? 'bg-gradient-to-r from-cyan-500 to-cyan-500 text-white'
                         : darkMode
@@ -1094,7 +1094,7 @@ const History = () => {
                           : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
                   >
-                    <Icon className="w-4 h-4 mr-2" />
+                    <Icon className="w-3 h-3 mr-2" />
                     {service.label}
                   </button>
                 );
@@ -1110,7 +1110,7 @@ const History = () => {
                 return (
                   <motion.div
                     key={activity._id}
-                    className={`group card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} card-hover p-6`}
+                    className={`group card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} card-hover py-4 px-5`}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.4 + index * 0.1 }}
@@ -1120,13 +1120,13 @@ const History = () => {
                     <div className="relative flex items-start justify-between">
                       <div className="flex items-start flex-1">
                         <div className={`icon-container bg-gradient-to-br ${getServiceColor(activity.serviceType)} mr-4`}>
-                          <Icon className="h-6 w-6 text-white" />
+                          <Icon className="h-4 w-4 text-white" />
                         </div>
                         <div className="flex-1">
-                          <h3 className={`text-lg font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'} group-hover:text-purple-500 transition-colors duration-300`}>
+                          <h3 className={`text-md font-bold mb-1 ${darkMode ? 'text-white' : 'text-gray-900'} group-hover:text-purple-500 transition-colors duration-300`}>
                             {activity.title}
                           </h3>
-                          <p className={`text-sm mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                          <p className={`text-xs mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                             {activity.description}
                           </p>
                           <div className="flex items-center space-x-4 text-xs">
@@ -1148,7 +1148,7 @@ const History = () => {
                       </div>
                       <button
                         onClick={() => handleViewDetails(activity)}
-                        className="btn-primary btn-primary-cyan text-sm flex"
+                        className="btn-primary btn-primary-cyan text-xs flex"
                       >
                         <Eye className="w-4 h-4 mr-2" />
                         View Details

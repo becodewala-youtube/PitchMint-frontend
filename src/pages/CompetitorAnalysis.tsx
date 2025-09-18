@@ -96,8 +96,8 @@ const CompetitorAnalysis = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="icon-container icon-cyan mx-auto mb-8">
-              <Search className="h-8 w-8 text-white" />
+            <div className="icon-container icon-cyan mx-auto mb-4">
+              <Search className="h-5 w-5 text-white" />
             </div>
            <h1 className={`page-title ${darkMode ? 'text-white' : 'text-gray-900'}`}>
   Competitor
@@ -113,7 +113,7 @@ const CompetitorAnalysis = () => {
 
           {/* Main Form */}
           <motion.div 
-            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8 mb-12`}
+            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} px-5 py-5 mb-12`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
