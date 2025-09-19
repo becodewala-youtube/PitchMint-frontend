@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { History as HistoryIcon, Brain, Users, MessageSquare, TrendingUp, Target, Filter, Calendar, Eye } from 'lucide-react';
 import axios from 'axios';
 import { API_URL } from '../utils/constants';
+import ActivityHistorySkeleton from '../components/skeleton/ActivityHistorySkeleton';
 
 // ============ BASE INTERFACES ============
 
@@ -1030,8 +1031,8 @@ const History = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="loading-spinner"></div>
+      <div className='mx-8 md:mx-24'>
+        <ActivityHistorySkeleton />
       </div>
     );
   }
@@ -1110,7 +1111,7 @@ const History = () => {
                 return (
                   <motion.div
                     key={activity._id}
-                    className={`group card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} card-hover py-4 px-5`}
+                    className={`group card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} card-hover py-4 px-3 md:px-5`}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.4 + index * 0.1 }}
@@ -1119,17 +1120,17 @@ const History = () => {
                     <div className={`card-hover-effect bg-gradient-to-br ${getServiceColor(activity.serviceType)}`}></div>
                     <div className="relative flex items-start justify-between">
                       <div className="flex items-start flex-1">
-                        <div className={`icon-container bg-gradient-to-br ${getServiceColor(activity.serviceType)} mr-4`}>
+                        <div className={`icon-container bg-gradient-to-br ${getServiceColor(activity.serviceType)} mr-2 md:mr-4`}>
                           <Icon className="h-4 w-4 text-white" />
                         </div>
                         <div className="flex-1">
-                          <h3 className={`text-md font-bold mb-1 ${darkMode ? 'text-white' : 'text-gray-900'} group-hover:text-purple-500 transition-colors duration-300`}>
+                          <h3 className={`text-sm sm:text-md font-bold mb-1 ${darkMode ? 'text-white' : 'text-gray-900'} group-hover:text-purple-500 transition-colors duration-300`}>
                             {activity.title}
                           </h3>
                           <p className={`text-xs mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                             {activity.description}
                           </p>
-                          <div className="flex items-center space-x-4 text-xs">
+                          <div className="flex items-center space-x-4 text-xs ">
                             <div className="flex items-center">
                               <Calendar className="w-4 h-4 mr-1 text-blue-500" />
                               <span className={`${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
@@ -1148,7 +1149,7 @@ const History = () => {
                       </div>
                       <button
                         onClick={() => handleViewDetails(activity)}
-                        className="btn-primary btn-primary-cyan text-xs flex"
+                        className="btn-primary px-2 btn-primary-cyan text-xs flex"
                       >
                         <Eye className="w-4 h-4 mr-2" />
                         View Details

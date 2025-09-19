@@ -164,7 +164,7 @@ const MarketResearch = () => {
           >
             <form onSubmit={handleAnalyze} className="space-y-6">
               <div>
-                <label className={`block text-md font-semibold mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                <label className={`block text-sm sm:text-md font-semibold mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                   Startup Idea
                 </label>
                 <textarea
@@ -178,13 +178,13 @@ const MarketResearch = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className={`block text-md font-semibold mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <label className={`block text-sm sm:text-md font-semibold mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                     Industry
                   </label>
                   <select
                     value={industry}
                     onChange={(e) => setIndustry(e.target.value)}
-                    className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
+                    className={`input-field text-sm sm:text-md ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
                   >
                     <option value="">Select Industry</option>
                     {industries.map((ind) => (
@@ -194,13 +194,13 @@ const MarketResearch = () => {
                 </div>
 
                 <div>
-                  <label className={`block text-md font-semibold mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <label className={`block text-sm sm:text-md font-semibold mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                     Target Region
                   </label>
                   <select
                     value={targetRegion}
                     onChange={(e) => setTargetRegion(e.target.value)}
-                    className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
+                    className={`input-field text-sm sm:text-md ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
                   >
                     <option value="">Select Region</option>
                     {regions.map((region) => (
@@ -213,20 +213,20 @@ const MarketResearch = () => {
               <motion.button
                 type="submit"
                 disabled={loading || !ideaText.trim() || !industry || !targetRegion}
-                className={`w-full btn-primary btn-primary-blue ${
+                className={`w-full btn-primary btn-primary-blue text-xs sm:text-md ${
                   (loading || !ideaText.trim() || !industry || !targetRegion) ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
                 whileHover={!(loading || !ideaText.trim() || !industry || !targetRegion) ? { scale: 1.05 } : {}}
                 whileTap={!(loading || !ideaText.trim() || !industry || !targetRegion) ? { scale: 0.95 } : {}}
               >
                 {loading ? (
-                  <div className="flex items-center justify-center">
+                  <div className="flex items-center justify-center  ">
                     <div className="loading-spinner mr-3" />
                     Analyzing Market...
                   </div>
                 ) : (
-                  <div className="flex items-center justify-center">
-                    <Search className="w-6 h-6 mr-3" />
+                  <div className="flex items-center justify-center ">
+                    <Search className="w-5 h-5 mr-3" />
                     Generate Market Analysis (2 Credits)
                   </div>
                 )}

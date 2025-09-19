@@ -163,7 +163,7 @@ const InvestorMatchmaking = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <form onSubmit={handleSearch} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-xs sm:text-sm">
                 <div>
                   <label className={`block text-sm font-semibold mb-3 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                     Industry
@@ -248,7 +248,7 @@ const InvestorMatchmaking = () => {
               <motion.button
                 type="submit"
                 disabled={loading || !criteria.industry || !criteria.stage}
-                className={`w-full btn-primary btn-primary-purple bg-cyan-500 ${
+                className={`w-full btn-primary btn-primary-purple bg-cyan-500 text-xs sm:text-sm ${
                   (loading || !criteria.industry || !criteria.stage) ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
                 whileHover={!(loading || !criteria.industry || !criteria.stage) ? { scale: 1.05 } : {}}
@@ -261,7 +261,7 @@ const InvestorMatchmaking = () => {
                   </div>
                 ) : (
                   <div className="flex items-center justify-center  text-white ">
-                    <Search className="w-6 h-6 mr-3 " />
+                    <Search className="w-5 h-5 mr-3 " />
                     Find Investor Matches (2 Credits)
                   </div>
                 )}
