@@ -293,34 +293,34 @@ const History = () => {
 
             case 'idea_validation':
   return (
-    <div className="space-y-6">
+    <div className=" sm:space-y-6 space-y-4">
       {/* Idea Description */}
       <div>
         <h4 className={`font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
           Idea Overview
         </h4>
-        <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+        <p className={`text-sm text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
           {activity.data.ideaText}
         </p>
       </div>
 
       {/* Scores Section */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className={`p-4 rounded-xl ${darkMode ? 'bg-blue-900/50' : 'bg-blue-50'}`}>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs sm:text-md">
+        <div className={`p-4 rounded-xl ${darkMode ? 'bg-blue-900/50' : 'bg-blue-50'} text-xs sm:text-md `}>
           <h5 className="font-bold text-blue-500">Market Demand</h5>
-          <p className="text-lg font-bold">{activity.data.scores?.marketDemand || 0}/100</p>
+          <p className=" font-bold ">{activity.data.scores?.marketDemand || 0}/100</p>
         </div>
         <div className={`p-4 rounded-xl ${darkMode ? 'bg-red-900/50' : 'bg-red-50'}`}>
           <h5 className="font-bold text-red-500">Competition</h5>
-          <p className="text-lg font-bold">{activity.data.scores?.competition || 0}/100</p>
+          <p className=" font-bold">{activity.data.scores?.competition || 0}/100</p>
         </div>
         <div className={`p-4 rounded-xl ${darkMode ? 'bg-green-900/50' : 'bg-green-50'}`}>
           <h5 className="font-bold text-green-500">Monetization</h5>
-          <p className="text-lg font-bold">{activity.data.scores?.monetization || 0}/100</p>
+          <p className=" font-bold">{activity.data.scores?.monetization || 0}/100</p>
         </div>
         <div className={`p-4 rounded-xl ${darkMode ? 'bg-purple-900/50' : 'bg-purple-50'}`}>
           <h5 className="font-bold text-purple-500">Overall</h5>
-          <p className="text-lg font-bold">{activity.data.scores?.overall || 0}/100</p>
+          <p className=" font-bold">{activity.data.scores?.overall || 0}/100</p>
         </div>
       </div>
 
@@ -330,15 +330,15 @@ const History = () => {
           <h4 className={`font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
             Market Demand
           </h4>
-          <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+          <p className={`text-sm text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
             {activity.data.analysis?.marketDemand?.text}
           </p>
         </div>
         <div>
-          <h4 className={`font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+          <h4 className={`font-bold mb-2  ${darkMode ? 'text-white' : 'text-gray-900'}`}>
             Competition
           </h4>
-          <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+          <p className={`text-sm text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
             {activity.data.analysis?.competition?.text}
           </p>
         </div>
@@ -346,7 +346,7 @@ const History = () => {
           <h4 className={`font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
             Monetization
           </h4>
-          <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+          <p className={`text-sm text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
             {activity.data.analysis?.monetization?.text}
           </p>
         </div>
@@ -354,7 +354,7 @@ const History = () => {
           <h4 className={`font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
             Overall Assessment
           </h4>
-          <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+          <p className={`text-sm text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
             {activity.data.analysis?.overall?.text}
           </p>
         </div>
@@ -385,13 +385,13 @@ const History = () => {
 
            case 'investor_matching':
   return (
-    <div className="space-y-6">
+    <div className="sm:space-y-6 space-y-4">
       {/* Search Criteria */}
       <div>
         <h4 className={`font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
           Search Criteria
         </h4>
-        <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}>
+        <div className={`p-3 sm:p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
             <div>
               <span className="font-medium">Industry:</span> {activity.data.criteria?.industry || 'N/A'}
@@ -425,15 +425,15 @@ const History = () => {
               {/* Header */}
               <div className="flex justify-between items-start mb-3">
                 <div>
-                  <h5 className={`font-bold text-lg ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <h5 className={`font-bold text-md sm:text-lg ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                     {match.name}
                   </h5>
-                  <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                  <p className={`text-xs sm:text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                     {match.type} • {match.location}
                   </p>
                 </div>
                 <div className="text-right">
-                  <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-green-100 text-green-800">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs sm:text-sm font-bold bg-green-100 text-green-800">
                     {match.matchScore}% Match
                   </span>
                   {match.portfolioSize && (
@@ -524,14 +524,14 @@ const History = () => {
             
             case 'competitor_analysis':
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Market Overview */}
       <div>
-        <h4 className={`font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+        <h4 className={`font-bold mb-3 text-sm ${darkMode ? 'text-white' : 'text-gray-900'}`}>
           Market Overview
         </h4>
         <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}>
-          <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
+          <p className={`text-sm text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
             {activity.data.summary}
           </p>
         </div>
@@ -539,17 +539,17 @@ const History = () => {
 
       {/* Competitors */}
       <div>
-        <h4 className={`font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+        <h4 className={`font-bold mb-3 text-sm ${darkMode ? 'text-white' : 'text-gray-900'}`}>
           Competitor Analysis ({activity.data.competitors?.length || 0} competitors)
         </h4>
         <div className="space-y-6">
           {activity.data.competitors?.map((competitor, index) => (
-            <div key={index} className={`p-6 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}>
+            <div key={index} className={`p-4 sm:p-6 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}>
               {/* Competitor Header */}
-              <h5 className={`font-bold text-lg mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h5 className={`font-bold text-sm sm:text-md mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 {competitor.name}
               </h5>
-              <p className={`text-sm mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
+              <p className={`text-sm mb-4 text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
                 {competitor.description}
               </p>
 
@@ -558,8 +558,8 @@ const History = () => {
                 {/* Strengths & Opportunities */}
                 <div className="space-y-4">
                   <div className={`p-4 rounded-xl ${darkMode ? 'bg-green-900/30' : 'bg-green-50'}`}>
-                    <h6 className="font-bold text-green-600 mb-2 flex items-center">
-                      <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                    <h6 className="font-bold text-green-600 text-sm mb-2 flex items-center">
+                      <span className="w-2 h-2  bg-green-500 rounded-full mr-2"></span>
                       Strengths
                     </h6>
                     <ul className="space-y-1">
@@ -572,7 +572,7 @@ const History = () => {
                   </div>
                   
                   <div className={`p-4 rounded-xl ${darkMode ? 'bg-blue-900/30' : 'bg-blue-50'}`}>
-                    <h6 className="font-bold text-blue-600 mb-2 flex items-center">
+                    <h6 className="font-bold text-blue-600 text-sm mb-2 flex items-center">
                       <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
                       Opportunities
                     </h6>
@@ -589,7 +589,7 @@ const History = () => {
                 {/* Weaknesses & Threats */}
                 <div className="space-y-4">
                   <div className={`p-4 rounded-xl ${darkMode ? 'bg-red-900/30' : 'bg-red-50'}`}>
-                    <h6 className="font-bold text-red-600 mb-2 flex items-center">
+                    <h6 className="font-bold text-red-600 text-sm mb-2 flex items-center">
                       <span className="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
                       Weaknesses
                     </h6>
@@ -603,7 +603,7 @@ const History = () => {
                   </div>
                   
                   <div className={`p-4 rounded-xl ${darkMode ? 'bg-yellow-900/30' : 'bg-yellow-50'}`}>
-                    <h6 className="font-bold text-yellow-600 mb-2 flex items-center">
+                    <h6 className="font-bold text-yellow-600 text-sm mb-2 flex items-center">
                       <span className="w-2 h-2 bg-yellow-500 rounded-full mr-2"></span>
                       Threats
                     </h6>
@@ -715,7 +715,7 @@ const History = () => {
       {/* Market Trends */}
       {activity.data.trends && (
         <div>
-          <h4 className={`font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+          <h4 className={`font-bold text-sm sm:text-md mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
             Market Trends
           </h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -741,13 +741,13 @@ const History = () => {
       {/* Customer Personas */}
       {activity.data.personas && (
         <div>
-          <h4 className={`font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+          <h4 className={`font-bold text-sm sm:text-md mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
             Customer Personas
           </h4>
           <div className="space-y-4">
             {activity.data.personas.map((persona, index) => (
               <div key={index} className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}>
-                <h5 className={`font-bold text-lg mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h5 className={`font-bold sm:text-md mb-2 text-sm ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   {persona.name}
                 </h5>
                 
@@ -820,14 +820,14 @@ const History = () => {
       {/* Competitor Activity */}
       {activity.data.competitorActivity && (
         <div>
-          <h4 className={`font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+          <h4 className={`font-bold text-sm sm:text-md mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
             Competitor Activity
           </h4>
           <div className="space-y-2">
             {activity.data.competitorActivity.map((competitor, index) => (
               <div key={index} className={`p-3 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}>
                 <div className="flex justify-between items-center">
-                  <h6 className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <h6 className={`font-medium text-xs sm:text-sm ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                     {competitor.name}
                   </h6>
                   <div className="flex gap-4 text-xs">
@@ -849,8 +849,8 @@ const History = () => {
   );
            case 'pitch_simulator':
   return (
-    <div className="space-y-6">
-      <h4 className={`font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+    <div className="space-y-4 sm:space-y-6">
+      <h4 className={`font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
         Q&A Session
       </h4>
 
@@ -858,15 +858,15 @@ const History = () => {
       {activity.data.questions?.map((qa: any, index: number) => (
         <div
           key={index}
-          className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}
+          className={`p-3 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}
         >
           {/* Question */}
           <div
-            className={`p-3 rounded-xl mb-3 ${
+            className={`p-2 rounded-xl mb-3 ${
               darkMode ? '' : ''
             }`}
           >
-            <h5 className="font-bold text-indigo-500">Q: {qa.question}</h5>
+            <h5 className="font-bold text-sm text-blue-500">Q: {qa.question}</h5>
           </div>
 
           {/* Answer */}
@@ -932,26 +932,26 @@ const History = () => {
       {/* Case 2: Single answered question with feedback */}
       {activity.data.question && (
         <div
-          className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}
+          className={`p-3 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}
         >
           {/* Question */}
           <div
-            className={`p-3 rounded-xl mb-3 ${
+            className={`p-2 rounded-xl mb-3 ${
               darkMode ? '' : ''
             }`}
           >
-            <h5 className="font-bold text-indigo-500">Q: {activity.data.question}</h5>
+            <h5 className="font-bold text-xs sm:text-sm text-indigo-500">Q: {activity.data.question}</h5>
           </div>
 
           {/* Answer */}
           {activity.data.answer && (
             <div
-              className={`p-3 rounded-xl mb-3 ${
+              className={`p-3 rounded-xl mb-3 text-xs sm:text-sm ${
                 darkMode ? 'bg-green-900/50' : 'bg-green-50'
               }`}
             >
-              <h5 className="font-bold text-green-500 mb-2">Your Answer</h5>
-              <p className={darkMode ? 'text-gray-200' : 'text-gray-800'}>
+              <h5 className="font-bold  text-green-500 mb-2">Your Answer</h5>
+              <p className={ darkMode ? 'text-gray-200' : 'text-gray-800'}>
                 {activity.data.answer}
               </p>
             </div>
@@ -964,15 +964,15 @@ const History = () => {
                 darkMode ? 'bg-gray-800/70' : 'bg-gray-100'
               }`}
             >
-              <h5 className="font-bold mb-3 text-yellow-500">Investor Feedback</h5>
+              <h5 className="font-bold mb-2 text-yellow-500 text-xs sm:text-sm">Investor Feedback</h5>
 
               <p className="mb-2">
-                <span className="font-semibold">Rating:</span> ⭐ {activity.data.feedback.rating}/5
+                <span className="font-semibold text-xs sm:text-sm">Rating:</span> ⭐ {activity.data.feedback.rating}/5
               </p>
 
               {activity.data.feedback.strengths?.length > 0 && (
-                <div className="mb-3">
-                  <h6 className="font-semibold text-green-500">Strengths</h6>
+                <div className="mb-3 text-xs sm:text-sm">
+                  <h6 className="font-semibold  text-green-500">Strengths</h6>
                   <ul className="list-disc list-inside space-y-1">
                     {activity.data.feedback.strengths.map((point: string, idx: number) => (
                       <li
@@ -987,7 +987,7 @@ const History = () => {
               )}
 
               {activity.data.feedback.improvements?.length > 0 && (
-                <div className="mb-3">
+                <div className="mb-3 text-xs sm:text-sm text-justify">
                   <h6 className="font-semibold text-red-500">Improvements</h6>
                   <ul className="list-disc list-inside space-y-1">
                     {activity.data.feedback.improvements.map(
@@ -1005,8 +1005,8 @@ const History = () => {
               )}
 
               {activity.data.feedback.additionalAdvice && (
-                <div>
-                  <h6 className="font-semibold text-blue-500">Additional Advice</h6>
+                <div className='text-xs sm:text-sm text-justify'>
+                  <h6 className="font-semibold text-blue-500 ">Additional Advice</h6>
                   <p className={darkMode ? 'text-gray-300' : 'text-gray-700'}>
                     {activity.data.feedback.additionalAdvice}
                   </p>
@@ -1189,9 +1189,9 @@ const History = () => {
           <div className="flex items-center justify-center min-h-screen px-4">
             <div className="fixed inset-0 bg-black opacity-50" onClick={() => setShowModal(false)}></div>
             
-            <div className={`relative ${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl max-w-4xl w-full max-h-[80vh] overflow-y-auto p-8`}>
+            <div className={`relative ${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl max-w-4xl w-full max-h-[80vh] overflow-y-auto p-4 sm:p-8`}>
               <div className="flex justify-between items-start mb-6">
-                <h2 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h2 className={`text-md sm:text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   {selectedActivity.title}
                 </h2>
                 <button
@@ -1202,7 +1202,7 @@ const History = () => {
                 </button>
               </div>
               
-              <div className={`p-6 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} max-h-96 overflow-y-auto`}>
+              <div className={`p-4 sm:p-6 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} max-h-96 overflow-y-auto`}>
                 {renderActivityDetails(selectedActivity)}
               </div>
             </div>
