@@ -1,4 +1,3 @@
-"use client"
 
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
@@ -163,10 +162,10 @@ const Dashboard = () => {
         <div className="absolute bottom-32 left-40 w-5 h-5 bg-cyan-400 rounded-full animate-bounce delay-3000 opacity-60"></div>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         {/* Enhanced Welcome Header */}
         <motion.div
-          className="text-center mb-12"
+          className="text-center mb-8"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
@@ -174,7 +173,7 @@ const Dashboard = () => {
           <div className="flex items-center justify-center mb-6">
             
             <div className="text-left">
-              <h1 className={`text-xl md:text-2xl font-black ${darkMode ? "text-white" : "text-gray-900"}`}>
+              <h1 className={`text-md md:text-xl font-black ${darkMode ? "text-white" : "text-gray-900"}`}>
                 Welcome back,
                 <span className=" bg-gradient-to-r from-cyan-500 via-cyan-500 to-cyan-500 bg-clip-text text-transparent">
                   {user?.name}!
@@ -191,7 +190,7 @@ const Dashboard = () => {
 )}
 
               </h1>
-              <p className={`md:text-md text-center ${darkMode ? "text-gray-400" : "text-gray-600"} font-medium mt-1`} >
+              <p className={`md:text-sm text-xs text-center ${darkMode ? "text-gray-400" : "text-gray-600"} font-medium mt-1`} >
                 Your startup journey dashboard
               </p>
             </div>
@@ -266,10 +265,10 @@ const Dashboard = () => {
           transition={{ duration: 0.8, delay: 0.4 }}
         >
           <div className="text-left mb-6 flex flex-col justify-start">
-            <h2 className={`text-md md:text-lg font-black mb-2 ${darkMode ? "text-white" : "text-gray-900"}`}>
+            <h2 className={`text-sm md:text-md font-black mb-1 ${darkMode ? "text-white" : "text-gray-900"}`}>
               Quick Actions
             </h2>
-            <p className={`md:text-sm text-xs ${darkMode ? "text-gray-400" : "text-gray-600"} font-medium`}>
+            <p className={` text-xs ${darkMode ? "text-gray-400" : "text-gray-600"} font-medium`}>
               Take your startup to the next level
             </p>
           </div>
@@ -308,11 +307,11 @@ const Dashboard = () => {
       <action.icon className="h-4 w-4 text-white" />
     </div>
 
-    <h3 className={`md:text-md text-sm font-bold mb-2 ${darkMode ? "text-white group-hover:text-purple-400" : "text-gray-900 group-hover:text-purple-600"} transition-colors duration-500`}>
+    <h3 className={` text-sm md:text-sm font-bold mb-2 ${darkMode ? "text-white group-hover:text-purple-400" : "text-gray-900 group-hover:text-purple-600"} transition-colors duration-500`}>
       {action.title}
     </h3>
 
-    <p className={`md:text-xs text-xs ${darkMode ? "text-gray-400" : "text-gray-600"} leading-relaxed mb-4`}>
+    <p className={` text-xs ${darkMode ? "text-gray-400" : "text-gray-600"} leading-relaxed mb-4`}>
       {action.description}
     </p>
 
@@ -329,120 +328,167 @@ const Dashboard = () => {
 
         {/* Enhanced Recent Ideas */}
         {ideas.length > 0 && (
-          <motion.div
-            className="mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            <div className="flex items-center justify-between mb-6">
+  <motion.div
+    className="mb-16"
+    initial={{ opacity: 0, y: 30 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.8, delay: 0.6 }}
+  >
+    {/* Header */}
+    <div className="flex items-center justify-between mb-4">
               <div>
-                <h2 className={`text-md md:text-lg font-black ${darkMode ? "text-white" : "text-gray-900"}`}>
+                <h2 className={`text-sm md:text-md  font-black ${darkMode ? "text-white" : "text-gray-900"}`}>
                   Recent Ideas
                 </h2>
-                <p className={`md:text-sm text-xs ${darkMode ? "text-gray-400" : "text-gray-600"} font-medium mt-2`}>
+                <p className={`md:text-sm text-xs ${darkMode ? "text-gray-400" : "text-gray-600"} font-medium mt-1`}>
                   Your latest validated concepts
                 </p>
               </div>
               <button
                 onClick={() => navigate("/saved-ideas")}
-                className="group flex items-center md:px-4 md:py-2 px-2 py-1 text-xs md:text-md bg-gradient-to-r from-cyan-600 to-cyan-600 text-white font-semibold rounded-2xl shadow-xl hover:shadow-cyan-500/25 transition-all duration-300 hover:scale-105"
+                className="group flex items-center md:px-4 md:py-2 px-2 py-1 text-xs md:text-md bg-gradient-to-r from-cyan-600 to-cyan-600 text-white font-semibold rounded-2xl shadow-xl hover:shadow-purple-500/25 transition-all duration-300 hover:scale-105"
               >
                 View All
                 <ArrowRight className="md:w-5 md:h-5 w-2 h-2 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
               </button>
             </div>
 
-           <div
-  className={`rounded-3xl ${
-    darkMode ? "bg-gray-800/80" : "bg-white/80"
-  } backdrop-blur-xl border ${
-    darkMode ? "border-gray-700" : "border-gray-200"
-  } shadow-2xl overflow-x-hidden w-full`}
->
-  <div className="w-full">
-    <table className="min-w-[800px] w-full text-sm">
-      <thead className={`${darkMode ? "bg-gray-700/50" : "bg-gray-50/50"}`}>
-        <tr>
-          {["Idea", "Score", "Status", "Date", ""].map((title, i) => (
-            <th
-              key={i}
-              className={`px-4 md:px-8 text-left text-xs md:text-sm font-bold uppercase tracking-wider ${
-                darkMode ? "text-gray-300" : "text-gray-700"
-              } py-2 md:py-4`}
-            >
-              {title}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody className={`divide-y ${darkMode ? "divide-gray-700" : "divide-gray-200"}`}>
-        {ideas.slice(0, 5).map((idea, index) => (
-          <motion.tr
-            key={idea._id}
-            className={`group cursor-pointer transition-all duration-300 ${
-              darkMode ? "hover:bg-gray-700/50" : "hover:bg-gray-50/50"
-            }`}
-            onClick={() => navigate(`/idea/${idea._id}`)}
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            whileHover={{ scale: 1.01 }}
+
+    {/* Table Wrapper */}
+    <div
+      className={`rounded-3xl overflow-x-hidden ${
+        darkMode ? "bg-gray-800/80" : "bg-white/80"
+      } backdrop-blur-xl border ${
+        darkMode ? "border-gray-700" : "border-gray-200"
+      } shadow-2xl overflow-x-auto w-full`}
+    >
+      <div className="w-full">
+        <table className="min-w-full text-sm">
+          <thead
+            className={`${darkMode ? "bg-gray-700/50" : "bg-gray-50/50"}`}
           >
-            <td className={`py-4 px-4 md:px-8 ${darkMode ? "text-gray-300" : "text-gray-900"}`}>
-              <div className="flex items-start flex-col">
-                <p className="font-semibold text-xs md:text-md">
-                  {idea.ideaText.length > 60 ? `${idea.ideaText.substring(0, 60)}...` : idea.ideaText}
-                </p>
-                <p className={`md:text-xs text-xs/10 ${darkMode ? "text-gray-400" : "text-gray-500"}`}>Startup Idea</p>
-              </div>
-            </td>
-
-            <td className="px-4 md:px-8 py-4">
-              <div
-                className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold shadow-lg ${
-                  idea.overallScore >= 80
-                    ? "bg-gradient-to-r from-green-500 to-emerald-500 text-white"
-                    : idea.overallScore >= 60
-                      ? "bg-gradient-to-r from-yellow-500 to-orange-500 text-white"
-                      : "bg-gradient-to-r from-red-500 to-pink-500 text-white"
-                }`}
+            <tr>
+              {/* Always show Idea column */}
+              <th
+                className={`px-3 sm:px-6 text-left text-[10px] sm:text-xs font-bold uppercase tracking-wider ${
+                  darkMode ? "text-gray-300" : "text-gray-700"
+                } py-1 sm:py-4`}
               >
-                <Star className="w-4 h-4 mr-2" />
-                {idea.overallScore}%
-              </div>
-            </td>
+                Idea
+              </th>
+              {/* Hide these on small screens */}
+              <th className="hidden sm:table-cell px-6 text-left text-xs font-bold uppercase tracking-wider">
+                Score
+              </th>
+              <th className="hidden sm:table-cell px-6 text-left text-xs font-bold uppercase tracking-wider">
+                Status
+              </th>
+              <th className="hidden sm:table-cell px-6 text-left text-xs font-bold uppercase tracking-wider">
+                Date
+              </th>
+              <th className="hidden sm:table-cell px-6"></th>
+            </tr>
+          </thead>
+          <tbody
+            className={`divide-y ${
+              darkMode ? "divide-gray-700" : "divide-gray-200"
+            }`}
+          >
+            {ideas.slice(0, 5).map((idea, index) => (
+              <motion.tr
+                key={idea._id}
+                className={`group cursor-pointer transition-all duration-300 ${
+                  darkMode
+                    ? "hover:bg-gray-700/50"
+                    : "hover:bg-gray-50/50"
+                }`}
+                onClick={() => navigate(`/idea/${idea._id}`)}
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ scale: 1.01 }}
+              >
+                {/* Always show Idea title */}
+                <td
+                  className={`py-2 px-3 sm:px-6 ${
+                    darkMode ? "text-gray-300" : "text-gray-900"
+                  }`}
+                >
+                  <div className="flex flex-col">
+                    <p className="font-semibold text-xs ">
+                      {idea.ideaText.length > 60
+                        ? `${idea.ideaText.substring(0, 60)}...`
+                        : idea.ideaText}
+                    </p>
+                    <p
+                      className={`hidden sm:block text-xs ${
+                        darkMode ? "text-gray-400" : "text-gray-500"
+                      }`}
+                    >
+                      Startup Idea
+                    </p>
+                  </div>
+                </td>
 
-            <td className="py-4 px-4 md:px-8">
-              <div className="flex items-center text-xs md:text-sm">
-                <CheckCircle2 className="w-4 h-4 text-green-500 mr-2" />
-                <span className={`font-medium ${darkMode ? "text-green-400" : "text-green-600"}`}>Validated</span>
-              </div>
-            </td>
+                {/* These only visible on sm+ */}
+                <td className="hidden sm:table-cell px-6 py-2">
+                  {/* Score Badge */}
+                  <div
+                    className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold shadow-lg ${
+                      idea.overallScore >= 80
+                        ? "bg-gradient-to-r from-green-500 to-emerald-500 text-white"
+                        : idea.overallScore >= 60
+                        ? "bg-gradient-to-r from-yellow-500 to-orange-500 text-white"
+                        : "bg-gradient-to-r from-red-500 to-pink-500 text-white"
+                    }`}
+                  >
+                    <Star className="w-3 h-3 mr-2" />
+                    {idea.overallScore}%
+                  </div>
+                </td>
 
-            <td className={`py-4 px-4 md:px-8 ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
-              <div className="flex items-center text-xs md:text-sm">
-                <Calendar className="w-4 h-4 mr-2" />
-                {new Date(idea.createdAt).toLocaleDateString()}
-              </div>
-            </td>
+                <td className="hidden sm:table-cell px-6 py-4">
+                  <div className="flex items-center text-xs ">
+                    <CheckCircle2 className="w-4 h-4 text-green-500 mr-2" />
+                    <span
+                      className={`font-medium ${
+                        darkMode ? "text-green-400" : "text-green-600"
+                      }`}
+                    >
+                      Validated
+                    </span>
+                  </div>
+                </td>
 
-            <td className="py-4 px-4 md:px-8">
-              <ChevronRight
-                className={`w-5 h-5 ${
-                  darkMode ? "text-gray-400 group-hover:text-purple-400" : "text-gray-400 group-hover:text-purple-600"
-                } transition duration-300 group-hover:translate-x-1`}
-              />
-            </td>
-          </motion.tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-</div>
+                <td
+                  className={`hidden sm:table-cell px-6 py-4 ${
+                    darkMode ? "text-gray-400" : "text-gray-600"
+                  }`}
+                >
+                  <div className="flex items-center text-xs ">
+                    <Calendar className="w-3 h-3 mr-2" />
+                    {new Date(idea.createdAt).toLocaleDateString()}
+                  </div>
+                </td>
 
-          </motion.div>
-        )}
+                <td className="hidden sm:table-cell px-6 py-4">
+                  <ChevronRight
+                    className={`w-4 h-4 ${
+                      darkMode
+                        ? "text-gray-400 group-hover:text-purple-400"
+                        : "text-gray-400 group-hover:text-purple-600"
+                    } transition duration-300 group-hover:translate-x-1`}
+                  />
+                </td>
+              </motion.tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </motion.div>
+)}
+
 
         {/* Empty State */}
         {ideas.length === 0 && (
