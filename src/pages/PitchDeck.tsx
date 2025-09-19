@@ -22,11 +22,12 @@ const PitchDeck = () => {
   const [exportLoading, setExportLoading] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
 
-  useEffect(() => {
-    if (id) {
-      dispatch(getIdea(id) as any);
-    }
-  }, [dispatch, id]);
+ useEffect(() => {
+  if (id && !idea) {  // only fetch if not already in store
+    dispatch(getIdea(id) as any);
+  }
+}, [dispatch, id, idea]);
+
 
   const handleRegeneratePitchDeck = async () => {
     if (id && !isGenerating && !loading) {
@@ -129,15 +130,15 @@ const PitchDeck = () => {
             transition={{ duration: 0.8 }}
           >
             <div className="text-left mb-6 md:mb-0">
-              <div className="flex items-center justify-center md:justify-start mb-4">
-                <div className="icon-container icon-purple mr-4">
-                  <FileText className="h-6 w-6 text-cyan-400" />
+              <div className="flex justify-start mb-2">
+                <div className="icon-container icon-purple mr-2">
+                  <FileText className="h-5 w-5 text-cyan-400" />
                 </div>
-                <h1 className={`text-lg md:text-2xl font-bold text-gradient-primary `}>
+                <h1 className={`text-md sm:text-lg mt-1 md:text-2xl font-bold text-gradient-primary `}>
                   Pitch Deck
                 </h1>
               </div>
-              <p className={`text-md ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              <p className={`text-sm sm:text-md ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 Professional investor presentation
               </p>
             </div>
@@ -145,11 +146,11 @@ const PitchDeck = () => {
               <motion.button
                 onClick={handleExportPDF}
                 disabled={loading || exportLoading || !slides.length}
-                className="btn-primary btn-primary-cyan mt-4 flex disabled:opacity-50 disabled:cursor-not-allowed"
+                className="btn-primary btn-primary-cyan text-xs sm:text-sm mt-4 flex disabled:opacity-50 disabled:cursor-not-allowed"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Download className={`sm:mr-2  h-5 w-5 ${exportLoading ? 'animate-spin' : ''}`} />
+                <Download className={`sm:mr-2  h-4 w-4 ${exportLoading ? 'animate-spin' : ''}`} />
                 {exportLoading ? 'Exporting...' : 'Export PDF'}
               </motion.button>
 
@@ -167,11 +168,11 @@ const PitchDeck = () => {
               <motion.button
                 onClick={handleRegeneratePitchDeck}
                 disabled={loading || isGenerating}
-                className="btn-primary btn-primary-cyan flex mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="btn-primary btn-primary-cyan text-xs sm:text-sm flex mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <RefreshCw className={`sm:mr-2 mr-1 h-5 w-5 ${isGenerating ? 'animate-spin' : ''}`} />
+                <RefreshCw className={`sm:mr-2 mr-1 h-4 w-4 ${isGenerating ? 'animate-spin' : ''}`} />
                 {isGenerating ? 'Generating... (1 Credit)' : 'Regenerate (1 Credit)'}
               </motion.button>
             </div>
@@ -217,17 +218,17 @@ const PitchDeck = () => {
               </div>
 
               {/* Current Slide */}
-              <div className="px-8 py-6 min-h-[500px]">
+              <div className="px-8 py-4 min-h-[400px]">
                 <motion.div
                   key={currentSlide}
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <h2 className="text-2xl font-bold mb-4 text-gradient-primary">
+                  <h2 className="text-md sm:text-xl font-bold mb-2 text-gradient-primary">
                     {slides[currentSlide].title}
                   </h2>
-                  <div className={`text-md text-justify whitespace-pre-wrap leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <div className={`text-sm sm:text-md text-justify whitespace-pre-wrap leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                     <Markdown>{slides[currentSlide].content}</Markdown>
                   </div>
                 </motion.div>

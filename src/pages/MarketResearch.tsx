@@ -266,21 +266,21 @@ const MarketResearch = () => {
                 ].map((market, index) => (
                   <motion.div
                     key={market.title}
-                    className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} card-hover p-8`}
+                    className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} card-hover p-6`}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.6 + index * 0.1 }}
                   >
-                    <div className={`icon-container bg-gradient-to-br ${market.color} mb-6`}>
-                      <market.icon className="h-8 w-8 text-white" />
+                    <div className={`icon-container bg-gradient-to-br ${market.color} mb-2 sm:mb-4`}>
+                      <market.icon className="h-5 w-5 text-white" />
                     </div>
-                    <h3 className={`text-lg font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <h3 className={`text-md sm:text-lg font-bold mb-2 sm:mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       {market.title}
                     </h3>
-                    <div className={`text-3xl font-bold mb-4 text-gradient-blue`}>
+                    <div className={`text-md sm:text-lg font-bold mb-2 sm:mb-4 text-gradient-blue`}>
                       ${(market.data.value / 1000000).toFixed(1)}B
                     </div>
-                    <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                    <p className={`text-xs sm:text-sm text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                       {market.data.description}
                     </p>
                   </motion.div>
@@ -289,42 +289,42 @@ const MarketResearch = () => {
 
               {/* Market Trends */}
               <motion.div 
-                className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8`}
+                className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-6`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.8 }}
               >
-                <h2 className={`text-2xl font-bold mb-8 ${darkMode ? 'text-white' : 'text-gray-900'} flex items-center`}>
-                  <TrendingUp className="h-8 w-8 mr-4 text-green-500" />
+                <h2 className={`text-sm  sm:text-xl font-bold mb-5 ${darkMode ? 'text-white' : 'text-gray-900'} flex items-center`}>
+                  <TrendingUp className="h-6 w-6 mr-4 text-green-500" />
                   Market Trends & Competitor Activity
                 </h2>
                 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                   {/* Trends */}
                   <div>
-                    <h3 className={`text-lg font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <h3 className={`text-sm sm:text-md font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       Search Trends
                     </h3>
                     <div className="space-y-4">
                       {marketData.trends.map((trend, index) => (
                         <div
                           key={index}
-                          className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border ${darkMode ? 'border-gray-600' : 'border-gray-200'}`}
+                          className={`p-3 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border ${darkMode ? 'border-gray-600' : 'border-gray-200'}`}
                         >
                           <div className="flex items-center justify-between mb-2">
-                            <h4 className={`font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                            <h4 className={`font-bold text-xs sm:text-sm ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                               {trend.keyword}
                             </h4>
-                            <span className={`text-sm font-bold ${
+                            <span className={`text-xs font-bold ${
                               trend.interest >= 70 ? 'text-green-500' :
                               trend.interest >= 40 ? 'text-yellow-500' : 'text-red-500'
                             }`}>
                               {trend.interest}%
                             </span>
                           </div>
-                          <div className={`w-full bg-gray-200 rounded-full h-2 ${darkMode ? 'bg-gray-600' : 'bg-gray-200'}`}>
+                          <div className={`w-full bg-gray-200 rounded-full h-1 sm:h-2   ${darkMode ? 'bg-gray-600' : 'bg-gray-200'}`}>
                             <div
-                              className={`h-2 rounded-full ${
+                              className={`h-1 sm:h-2 rounded-full ${
                                 trend.interest >= 70 ? 'bg-green-500' :
                                 trend.interest >= 40 ? 'bg-yellow-500' : 'bg-red-500'
                               }`}
@@ -341,7 +341,7 @@ const MarketResearch = () => {
 
                   {/* Competitor Activity */}
                   <div>
-                    <h3 className={`text-lg font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <h3 className={`text-md font-bold mb-2 sm:mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       Competitor Activity
                     </h3>
                     <div className="space-y-4">
@@ -350,7 +350,7 @@ const MarketResearch = () => {
                           key={index}
                           className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border ${darkMode ? 'border-gray-600' : 'border-gray-200'}`}
                         >
-                          <h4 className={`font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                          <h4 className={`font-bold text-sm mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                             {competitor.name}
                           </h4>
                           <div className="grid grid-cols-2 gap-4 text-sm">
@@ -358,7 +358,7 @@ const MarketResearch = () => {
                               <span className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                                 Funding Rounds: 
                               </span>
-                              <span className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                              <span className={`font-medium ml-2 text-xs sm:text-sm ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                                 {competitor.fundingRounds}
                               </span>
                             </div>
@@ -366,7 +366,7 @@ const MarketResearch = () => {
                               <span className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                                 Market Share: 
                               </span>
-                              <span className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                              <span className={`ml-2 font-medium text-xs sm:text-sm ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                                 {competitor.marketShare}
                               </span>
                             </div>
@@ -383,13 +383,13 @@ const MarketResearch = () => {
 
               {/* Customer Personas */}
               <motion.div 
-                className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8`}
+                className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-6`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 1.0 }}
               >
-                <h2 className={`text-2xl font-bold mb-8 ${darkMode ? 'text-white' : 'text-gray-900'} flex items-center`}>
-                  <Users className="h-8 w-8 mr-4 text-blue-500" />
+                <h2 className={`text-md sm:text-xl font-bold mb-4 sm:mb-6 ${darkMode ? 'text-white' : 'text-gray-900'} flex items-center`}>
+                  <Users className="h-5 w-5 mr-4 text-blue-500" />
                   Customer Personas
                 </h2>
                 
@@ -397,15 +397,15 @@ const MarketResearch = () => {
                   {marketData.personas.map((persona, index) => (
                     <div
                       key={index}
-                      className={`p-6 rounded-2xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border ${darkMode ? 'border-gray-600' : 'border-gray-200'}`}
+                      className={`px-5 py-4  rounded-2xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border ${darkMode ? 'border-gray-600' : 'border-gray-200'}`}
                     >
-                      <h3 className={`text-xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                      <h3 className={`text-sm sm:text-lg font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                         {persona.name}
                       </h3>
                       
                       <div className="space-y-6">
                         <div>
-                          <h4 className={`font-semibold mb-3 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
+                          <h4 className={`font-semibold mb-3 text-sm ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
                             Demographics
                           </h4>
                           <div className="grid grid-cols-2 gap-2 text-sm">
@@ -429,7 +429,7 @@ const MarketResearch = () => {
                         </div>
                         
                         <div>
-                          <h4 className={`font-semibold mb-3 ${darkMode ? 'text-green-400' : 'text-green-600'}`}>
+                          <h4 className={`font-semibold text-sm mb-3 ${darkMode ? 'text-green-400' : 'text-green-600'}`}>
                             Values & Interests
                           </h4>
                           <div className="flex flex-wrap gap-2">
@@ -442,7 +442,7 @@ const MarketResearch = () => {
                         </div>
                         
                         <div>
-                          <h4 className={`font-semibold mb-3 ${darkMode ? 'text-orange-400' : 'text-orange-600'}`}>
+                          <h4 className={`font-semibold text-sm mb-3 ${darkMode ? 'text-orange-400' : 'text-orange-600'}`}>
                             Pain Points
                           </h4>
                           <ul className="text-sm space-y-1">
@@ -455,7 +455,7 @@ const MarketResearch = () => {
                         </div>
 
                         <div>
-                          <h4 className={`font-semibold mb-3 ${darkMode ? 'text-purple-400' : 'text-purple-600'}`}>
+                          <h4 className={`font-semibold text-sm mb-3 ${darkMode ? 'text-purple-400' : 'text-purple-600'}`}>
                             Buying Behavior
                           </h4>
                           <div className="text-sm space-y-2">

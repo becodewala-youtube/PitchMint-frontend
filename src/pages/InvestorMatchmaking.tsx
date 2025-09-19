@@ -273,7 +273,7 @@ const InvestorMatchmaking = () => {
           {hasSearched && (
             <div>
               {matches.length > 0 ? (
-                <div className="space-y-8">
+                <div className="space-y-6">
                   {/* Results Header */}
                   <motion.div 
                     className="text-center"
@@ -281,10 +281,10 @@ const InvestorMatchmaking = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.4 }}
                   >
-                    <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <h2 className={`text-lg font-bold m-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       Found {matches.length} Investor Match{matches.length !== 1 ? 'es' : ''}
                     </h2>
-                    <p className={`text-lg ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                    <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                       Ranked by compatibility with your startup
                     </p>
                   </motion.div>
@@ -294,7 +294,7 @@ const InvestorMatchmaking = () => {
                     {matches.map((investor, index) => (
                       <motion.div
                         key={investor._id}
-                        className={`group card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} card-hover p-8`}
+                        className={`group card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} card-hover p-6`}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.6 + index * 0.1 }}
@@ -302,27 +302,27 @@ const InvestorMatchmaking = () => {
                       >
                         <div className="card-hover-effect"></div>
                         <div className="relative">
-                          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-6">
+                          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-4">
                             <div className="flex-1">
-                              <div className="flex items-center mb-4">
-                                <h3 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'} group-hover:text-purple-500 transition-colors duration-300 mr-4`}>
+                              <div className="flex items-center mb-2">
+                                <h3 className={`text-md sm:text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'} group-hover:text-purple-500 transition-colors duration-300 mr-4`}>
                                   {investor.name}
                                 </h3>
-                                <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                                <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
                                   darkMode ? 'bg-gray-700 text-gray-300' : 'bg-gray-100 text-gray-800'
                                 }`}>
                                   {investor.type}
                                 </span>
                               </div>
                               
-                              <p className={`text-lg mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
+                              <p className={`text-sm sm:text-md text-justify mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
                                 {investor.description}
                               </p>
                             </div>
 
                             {/* Match Score */}
                             <div className="text-center lg:text-right lg:ml-8">
-                              <div className={`inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br ${getMatchScoreBg(investor.matchScore)} text-white font-bold text-xl shadow-xl`}>
+                              <div className={`inline-flex items-center justify-center text-xs sm:text-lg w-8 sm:w-16 h-8 sm:h-16 rounded-full bg-gradient-to-br ${getMatchScoreBg(investor.matchScore)} text-white font-bold text-xl shadow-xl`}>
                                 {investor.matchScore}%
                               </div>
                               <p className={`text-sm mt-2 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
@@ -333,15 +333,15 @@ const InvestorMatchmaking = () => {
 
                           {/* Match Reasons */}
                           <div className="mb-6">
-                            <h4 className={`text-lg font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'} flex items-center`}>
-                              <Award className="w-5 h-5 mr-2 text-purple-500" />
+                            <h4 className={`text-sm sm:text-md font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'} flex items-center`}>
+                              <Award className="w-4 h-4 mr-2 text-purple-500" />
                               Why This Match
                             </h4>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                               {investor.matchReasons.map((reason, i) => (
                                 <div key={i} className="flex items-start">
                                   <div className="w-2 h-2 rounded-full bg-purple-500 mt-2 mr-3 flex-shrink-0"></div>
-                                  <span className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                                  <span className={`text-xs sm:text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                                     {reason}
                                   </span>
                                 </div>
@@ -424,7 +424,7 @@ const InvestorMatchmaking = () => {
                             href={investor.contactLink}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center w-full justify-center px-8 py-4 rounded-2xl text-lg font-semibold text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-purple-500/25"
+                            className="inline-flex items-center w-full justify-center px-6 py-2 rounded-2xl text-sm font-semibold text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-purple-500/25"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                           >
