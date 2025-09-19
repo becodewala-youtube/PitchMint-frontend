@@ -72,35 +72,35 @@ const SavedIdeas = () => {
       <div className={`absolute -bottom-40 -left-40 w-80 h-80 rounded-full opacity-20 ${darkMode ? 'bg-gradient-to-br from-blue-500 to-cyan-500' : 'bg-gradient-to-br from-green-400 to-blue-400'} animate-pulse delay-1000`}></div>
     </div>
 
-    <div className="relative z-10 py-12">
+    <div className="relative z-10 py-6">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div 
-          className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12"
+          className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 sm:mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <div className="text-center md:text-left">
-            <h1 className={`text-4xl md:text-3xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+          <div className="text-left">
+            <h1 className={`text-lg md:text-xl font-bold mb-1  ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Your
               <span className="ml-2 bg-gradient-to-r from-purple-400 via-cyan-500 to-cyan-500 bg-clip-text text-transparent">
                 Startup Ideas
               </span>
             </h1>
-            <p className={`text-lg ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+            <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
               Manage and track your validated ideas
             </p>
           </div>
           <motion.button
             onClick={() => navigate('/submit-idea')}
-            className="group relative px-8 py-4 btn-primary btn-primary-cyan text-white font-semibold rounded-2xl shadow-2xl hover:shadow-purple-500/25 transform hover:scale-105 transition-all duration-300 overflow-hidden mt-6 md:mt-0"
+            className="group relative px-2 sm:px-8 py-2 btn-primary btn-primary-cyan text-white font-semibold rounded-2xl shadow-2xl hover:shadow-purple-500/25 transform hover:scale-105 transition-all duration-300 overflow-hidden mt-6 md:mt-0"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <div className="absolute inset-0 btn-primary btn-primary-cyan opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <span className="relative flex items-center">
-              <Brain className="h-6 w-6 mr-2" />
+            <div className="absolute  inset-0 btn-primary btn-primary-cyan opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <span className="relative flex items-center text-xs">
+              <Brain className="h-4 w-6 mr-2" />
               Submit New Idea
             </span>
           </motion.button>
@@ -111,7 +111,7 @@ const SavedIdeas = () => {
             {ideas.map((idea, index) => (
               <motion.div
                 key={idea._id}
-                className={`group relative p-8 rounded-3xl ${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm border ${darkMode ? 'border-gray-700' : 'border-gray-200'} hover:border-purple-500/50 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl`}
+                className={`group relative px-6 py-4 rounded-3xl ${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm border ${darkMode ? 'border-gray-700' : 'border-gray-200'} hover:border-purple-500/50 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: index * 0.1 }}
@@ -119,20 +119,20 @@ const SavedIdeas = () => {
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <div className="relative">
-                  <div className="flex justify-between items-start mb-6">
+                  <div className="flex justify-between items-start mb-4">
                     <div className="flex-1">
                       <h2
-                        className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'} cursor-pointer hover:text-cyan-500 transition-colors duration-300 mb-4`}
+                        className={` text-md font-bold ${darkMode ? 'text-white' : 'text-gray-900'} cursor-pointer hover:text-cyan-500 transition-colors duration-300 mb-4`}
                         onClick={() => navigate(`/idea/${idea._id}`)}
                       >
                         {idea.ideaText.length > 150
                           ? `${idea.ideaText.substring(0, 150)}...`
                           : idea.ideaText}
                       </h2>
-                      <div className="flex items-center space-x-6 mb-6">
+                      <div className="flex items-center space-x-6 mb-1">
                         <div className="flex items-center ">
-                          <Star className="w-4 h-4 text-yellow-500 mr-2 text-xs" />
-                          <span className={`text-sm font-bold ${
+                          <Star className="w-3 h-3 text-yellow-500 mr-2 text-xs" />
+                          <span className={`text-xs font-bold ${
                             idea.overallScore >= 80 ? 'text-green-500' :
                             idea.overallScore >= 60 ? 'text-yellow-500' :
                             'text-red-500'
@@ -140,21 +140,21 @@ const SavedIdeas = () => {
                             Score: {idea.overallScore}%
                           </span>
                         </div>
-                        <span className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                        <span className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
                           {new Date(idea.createdAt).toLocaleDateString()}
                         </span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex flex-wrap gap-3">
+                  <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
                     <motion.button
                       onClick={() => navigate(`/pitch-deck/${idea._id}`)}
-                      className={`inline-flex items-center px-4 py-2 rounded-xl text-xs  font-medium transition-all duration-300 ${
+                      className={`inline-flex items-center px-4 py-1 sm:py-2 rounded-xl text-xs  font-medium transition-all duration-300 ${
                         darkMode
                           ? 'bg-gray-700/50 text-gray-300 hover:bg-purple-600 hover:text-white'
                           : 'bg-gray-100 text-gray-700 hover:bg-purple-600 hover:text-white'
-                      } hover:scale-105`}
+                      } hover:scale-105 `}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >

@@ -128,12 +128,12 @@ const PitchDeck = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="text-center md:text-left mb-6 md:mb-0">
+            <div className="text-left mb-6 md:mb-0">
               <div className="flex items-center justify-center md:justify-start mb-4">
                 <div className="icon-container icon-purple mr-4">
-                  <FileText className="h-8 w-8 text-cyan-400" />
+                  <FileText className="h-6 w-6 text-cyan-400" />
                 </div>
-                <h1 className={`text-xl md:text-2xl font-bold text-gradient-primary `}>
+                <h1 className={`text-lg md:text-2xl font-bold text-gradient-primary `}>
                   Pitch Deck
                 </h1>
               </div>
