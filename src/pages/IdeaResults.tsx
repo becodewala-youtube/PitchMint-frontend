@@ -16,11 +16,11 @@ const IdeaResults = () => {
   
   const { currentIdea: idea, loading, error } = useSelector((state: RootState) => state.idea);
 
-  useEffect(() => {
-    if (id) {
-      dispatch(getIdea(id) as any);
-    }
-  }, [dispatch, id]);
+useEffect(() => {
+  if (id && !idea) {  // only fetch if not already in store
+    dispatch(getIdea(id) as any);
+  }
+}, [dispatch, id, idea]);
 
   const handleGeneratePitchDeck = () => {
     if (id) {
@@ -88,18 +88,18 @@ const IdeaResults = () => {
         <div className="max-container">
           {/* Idea Overview */}
           <motion.div 
-            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8 mb-12`}
+            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} px-6 py-5 mb-6`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className={`text-3xl md:text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h1 className={`text-md md:text-lg font-bold mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Idea Analysis
               <span className="ml-2 text-gradient-primary">
                 Results
               </span>
             </h1>
-            <p className={`text-lg mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
+            <p className={`text-sm text-justify sm:text-md mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
               {idea?.ideaText}
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -109,8 +109,8 @@ const IdeaResults = () => {
   whileHover={{ scale: 1.05 }}
   whileTap={{ scale: 0.95 }}
 >
-  <FileText className="h-4 w-4" />
-  <span>Pitch Deck</span>
+  <FileText className="h-3 sm:h-4 w-3 sm:w-4" />
+  <span className='text-xs sm:text-sm'>Pitch Deck</span>
 </motion.button>
 
 
@@ -120,8 +120,8 @@ const IdeaResults = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Layout className="h-4 w-4 " />
-                <span className="text-sm">Canvas</span>
+                <Layout className="h-3 sm:h-4 w-3 sm:w-4 " />
+                <span className="text-xs sm:text-sm">Canvas</span>
               </motion.button>
 
               <motion.button
@@ -130,8 +130,8 @@ const IdeaResults = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Users className="h-4 w-4 " />
-                <span className="text-sm">Competitors</span>
+                <Users className="h-3 sm:h-4 w-3 sm:w-4 " />
+                <span className="text-xs sm:text-sm">Competitors</span>
               </motion.button>
 
               <motion.button
@@ -140,14 +140,14 @@ const IdeaResults = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <MessageSquare className="h-4 w-4 " />
-                <span className="text-sm">Practice</span>
+                <MessageSquare className="h-3 sm:h-4 w-3 sm:w-4 " />
+                <span className="text-xs sm:text-sm">Practice</span>
               </motion.button>
             </div>
           </motion.div>
 
           {/* Score Overview */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12 ">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8 ">
             {[
               { label: 'Overall Score', value: idea.overallScore, color: 'from-purple-500 to-pink-500' },
               { label: 'Market Demand', value: idea.marketDemandScore, color: 'from-green-500 to-blue-500' },
@@ -156,7 +156,7 @@ const IdeaResults = () => {
             ].map((score, index) => (
               <motion.div
                 key={score.label}
-                className={`group card-glass hover:text-white ${darkMode ? 'card-glass-dark' : 'card-glass-light'} card-hover p-8`}
+                className={`group card-glass hover:text-white ${darkMode ? 'card-glass-dark' : 'card-glass-light'} card-hover p-3 sm:p-5`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 + index * 0.1 }}
@@ -164,18 +164,18 @@ const IdeaResults = () => {
               >
                 <div className={`card-hover-effect bg-gradient-to-br ${score.color}`}></div>
                 <div className="relative text-center ">
-                  <h3 className={`text-md font-semibold mb-2 ${darkMode ? 'text-white' : 'text-gray-700 group-hover:text-white'}`}>
+                  <h3 className={`text-xs sm:text-sm font-semibold mb-1 ${darkMode ? 'text-white' : 'text-gray-700 group-hover:text-white'}`}>
                     {score.label}
                   </h3>
                  <div
-  className={`text-2xl font-bold mb-2 bg-gradient-to-br ${score.color} bg-clip-text text-transparent group-hover:bg-none group-hover:text-white`}
+  className={`text-md sm:text-xl font-bold mb-2 bg-gradient-to-br ${score.color} bg-clip-text text-transparent group-hover:bg-none group-hover:text-white`}
 >
   {score.value}%
 </div>
 
-                  <div className={`w-full bg-gray-200 rounded-full h-2 ${darkMode ? 'bg-gray-700' : 'bg-gray-200'}`}>
+                  <div className={`w-full bg-gray-200 rounded-full h-1 sm:h-2 ${darkMode ? 'bg-gray-700' : 'bg-gray-200'}`}>
                     <motion.div
-                      className={`h-2 rounded-full bg-gradient-to-r ${score.color}`}
+                      className={`h-1 sm:h-2 rounded-full bg-gradient-to-r ${score.color}`}
                       initial={{ width: 0 }}
                       animate={{ width: `${score.value}%` }}
                       transition={{ duration: 1, delay: 0.5 + index * 0.1 }}
@@ -188,12 +188,12 @@ const IdeaResults = () => {
 
           {/* Detailed Analysis */}
           <motion.div 
-            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8`}
+            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-3 sm:p-5`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <h2 className={`text-xl font-bold mb-8 text-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h2 className={`text-md sm:text-lg font-bold mb-6 text-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Detailed Analysis
             </h2>
             
@@ -213,11 +213,11 @@ const IdeaResults = () => {
                 >
                   <div className="flex items-center mb-4">
                     <div className={`w-3 h-3 rounded-full bg-gradient-to-r ${analysis.color} mr-3`}></div>
-                    <h3 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <h3 className={`text-sm sm:text-md font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       {analysis.title}
                     </h3>
                   </div>
-                  <p className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
+                  <p className={`text-xs sm:text-sm text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
                     {analysis.content}
                   </p>
                 </motion.div>

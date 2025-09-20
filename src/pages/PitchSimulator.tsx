@@ -136,10 +136,10 @@ const PitchSimulator = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className={`w-10 h-10 rounded-3xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center mx-auto mb-4`}>
+            <div className={`w-10 h-10 rounded-3xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center mx-auto mb-2 sm:mb-4`}>
               <MessageSquare className="h-5 w-5 text-white" />
             </div>
-            <h1 className={`text-2xl md:text-2xl font-bold mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h1 className={`text-xl md:text-2xl font-bold mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Pitch
               <span className="ml-2 bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 bg-clip-text text-transparent">
                 Simulator
@@ -151,17 +151,17 @@ const PitchSimulator = () => {
           </motion.div>
 
           <motion.div 
-            className={`${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm rounded-3xl shadow-2xl px-6 py-5 border ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}
+            className={`${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm rounded-3xl shadow-2xl px-4 sm:px-6 py-5 border ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             {!questions.length ? (
               <form onSubmit={handleSimulate}>
-                <div className="mb-4">
+                <div className="mb-2 sm:mb-4">
                   <label
                     htmlFor="pitch"
-                    className={`block text-md font-semibold mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
+                    className={`block text-md font-semibold mb-2 sm:mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
                   >
                     Your Pitch
                   </label>
@@ -170,7 +170,7 @@ const PitchSimulator = () => {
                     value={pitch}
                     onChange={(e) => setPitch(e.target.value)}
                     rows={6}
-                    className={`w-full px-6 py-4 text-md rounded-2xl border-2 transition-all duration-300 ${
+                    className={`w-full px-6 py-4 text-sm sm:text-md rounded-2xl border-2 transition-all duration-300 ${
                       darkMode
                         ? 'bg-gray-700/50 text-white border-gray-600 placeholder-gray-400 focus:border-orange-500 focus:bg-gray-700'
                         : 'bg-white text-gray-900 border-gray-300 placeholder-gray-400 focus:border-orange-500 focus:bg-gray-50'
@@ -205,22 +205,22 @@ const PitchSimulator = () => {
               </form>
             ) : (
               <div>
-                <div className={`p-6 rounded-2xl mb-8 ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}>
-                  <h3 className={`font-semibold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <div className={`p-6 rounded-2xl mb-6 ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}>
+                  <h3 className={`font-semibold mb-2 sm:mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                     Your Pitch
                   </h3>
-                  <p className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
+                  <p className={`text-sm sm:tex-md text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
                     {pitch}
                   </p>
                 </div>
 
                 {currentQuestion ? (
                   <div>
-                    <div className={`p-8 rounded-3xl mb-8 ${darkMode ? 'bg-indigo-900/50' : 'bg-indigo-50'}`}>
-                      <h3 className={`font-bold text-lg mb-4 ${darkMode ? 'text-indigo-200' : 'text-indigo-900'}`}>
+                    <div className={`px-6 py-4 rounded-3xl mb-6 ${darkMode ? 'bg-indigo-900/50' : 'bg-indigo-50'}`}>
+                      <h3 className={`font-bold text-sm sm:text-md mb-2 ${darkMode ? 'text-indigo-200' : 'text-indigo-900'}`}>
                         Investor Question ({currentQuestion.category})
                       </h3>
-                      <p className={`text-lg leading-relaxed ${darkMode ? 'text-white' : 'text-indigo-700'}`}>
+                      <p className={`text-sm text-justify sm:text-md leading-relaxed ${darkMode ? 'text-white' : 'text-indigo-700'}`}>
                         {currentQuestion.question}
                       </p>
                     </div>
@@ -228,7 +228,7 @@ const PitchSimulator = () => {
                     <div className="mb-8">
                       <label
                         htmlFor="answer"
-                        className={`block text-lg font-semibold mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
+                        className={`block text-sm sm:text-md font-semibold mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
                       >
                         Your Answer
                       </label>
@@ -237,7 +237,7 @@ const PitchSimulator = () => {
                         value={answer}
                         onChange={(e) => setAnswer(e.target.value)}
                         rows={6}
-                        className={`w-full px-6 py-4 text-lg rounded-2xl border-2 transition-all duration-300 ${
+                        className={`w-full px-6 py-4 text-xs sm:text-sm rounded-2xl border-2 transition-all duration-300 ${
                           darkMode
                             ? 'bg-gray-700/50 text-white border-gray-600 placeholder-gray-400 focus:border-orange-500 focus:bg-gray-700'
                             : 'bg-white text-gray-900 border-gray-300 placeholder-gray-400 focus:border-orange-500 focus:bg-gray-50'
@@ -249,7 +249,7 @@ const PitchSimulator = () => {
                     <motion.button
                       onClick={handleAnswer}
                       disabled={loading || !answer.trim()}
-                      className={`w-full flex justify-center py-4 px-8 rounded-2xl text-lg font-semibold text-white transition-all duration-300 ${
+                      className={`w-full flex justify-center py-2 px-8 rounded-2xl text-xs sm:text-sm font-semibold text-white transition-all duration-300 ${
                         (loading || !answer.trim())
                           ? 'bg-gray-400 cursor-not-allowed'
                           : 'bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 hover:scale-105 shadow-2xl hover:shadow-orange-500/25'
@@ -264,7 +264,7 @@ const PitchSimulator = () => {
                         </div>
                       ) : (
                         <div className="flex items-center">
-                          <Send className="w-6 h-6 mr-3" />
+                          <Send className="w-4 sm:w-5 h-4 sm:h-5 mr-3" />
                           Submit Answer
                         </div>
                       )}
@@ -272,28 +272,28 @@ const PitchSimulator = () => {
 
                     {feedback && (
                       <motion.div 
-                        className="mt-8 space-y-6"
+                        className="mt-8 space-y-4"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
                       >
-                        <h3 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                        <h3 className={`text-sm sm:text-md font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                           Feedback
                         </h3>
                         
-                        <div className={`p-8 rounded-3xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'}`}>
-                          <div className="space-y-6">
+                        <div className={`py-5 px-5 sm:px-8 rounded-3xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'}`}>
+                          <div className="space-y-4">
                             <div>
-                              <h4 className={`font-semibold mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                              <h4 className={`text-sm sm:text-md font-semibold mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                                 Rating: {feedback.rating}/5
                               </h4>
                             </div>
 
                             <div>
-                              <h4 className={`font-semibold mb-3 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                              <h4 className={` text-sm font-semibold mb-3 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                                 Strengths
                               </h4>
-                              <ul className="list-disc pl-6 space-y-2">
+                              <ul className="list-disc text-xs sm:text-sm text-justify pl-6 space-y-2">
                                 {feedback.strengths.map((strength, index) => (
                                   <li key={index} className={darkMode ? 'text-gray-400' : 'text-gray-600'}>
                                     {strength}
@@ -303,10 +303,10 @@ const PitchSimulator = () => {
                             </div>
 
                             <div>
-                              <h4 className={`font-semibold mb-3 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                              <h4 className={`text-sm font-semibold mb-3 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                                 Areas for Improvement
                               </h4>
-                              <ul className="list-disc pl-6 space-y-2">
+                              <ul className="list-disc pl-6 text-xs sm:text-sm text-justify space-y-2">
                                 {feedback.improvements.map((improvement, index) => (
                                   <li key={index} className={darkMode ? 'text-gray-400' : 'text-gray-600'}>
                                     {improvement}
@@ -316,17 +316,17 @@ const PitchSimulator = () => {
                             </div>
 
                             <div>
-                              <h4 className={`font-semibold mb-3 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                              <h4 className={`text-sm font-semibold mb-3 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                                 Additional Advice
                               </h4>
-                              <p className={darkMode ? 'text-gray-400' : 'text-gray-600'}>
+                              <p className={darkMode ? 'text-gray-400  text-xs sm:text-sm text-justify' : 'text-gray-600 text-xs sm:text-sm text-justify'}>
                                 {feedback.additionalAdvice}
                               </p>
                             </div>
 
                             <motion.button
                               onClick={handleNextQuestion}
-                              className="w-full py-4 px-8 rounded-2xl text-lg font-semibold text-white bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-green-500/25"
+                              className="w-full py-1 px-8 rounded-2xl text-sm sm:text-md font-semibold text-white bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-green-500/25"
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
                             >
@@ -341,11 +341,11 @@ const PitchSimulator = () => {
                   <div className="text-center py-12">
                     <motion.button
                       onClick={() => setCurrentQuestion(questions[0])}
-                      className="inline-flex items-center px-8 py-4 rounded-2xl text-lg font-semibold text-white bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 transition-all duration-300 shadow-lg hover:shadow-orange-500/25"
+                      className="inline-flex items-center px-8 py-2 rounded-2xl text-md font-semibold text-white bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 transition-all duration-300 shadow-lg hover:shadow-orange-500/25"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
-                      <MessageSquare className="w-6 h-6 mr-3" />
+                      <MessageSquare className="w-5 h-5 mr-3" />
                       Start Q&A Session
                     </motion.button>
                   </div>

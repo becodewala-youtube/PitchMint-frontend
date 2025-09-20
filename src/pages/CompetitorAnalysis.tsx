@@ -106,14 +106,14 @@ const CompetitorAnalysis = () => {
   </span>
 </h1>
 
-            <p className={`page-subtitle ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+            <p className={`page-subtitle text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
               Analyze your competition and understand the market landscape
             </p>
           </motion.div>
 
           {/* Main Form */}
           <motion.div 
-            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} px-5 py-5 mb-12`}
+            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} px-5 py-4 sm:py-5 mb-12`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -122,7 +122,7 @@ const CompetitorAnalysis = () => {
               <div className="mb-6">
                 <label
                   htmlFor="idea"
-                  className={`block text-lg font-semibold mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
+                  className={`block text-md sm:text-lg font-semibold mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
                 >
                   Describe your startup idea
                 </label>
@@ -139,7 +139,7 @@ const CompetitorAnalysis = () => {
               <motion.button
                 type="submit"
                 disabled={loading || !ideaText.trim()}
-                className={`w-full btn-primary btn-primary-cyan ${
+                className={`w-full btn-primary btn-primary-cyan text-xs sm:text-sm ${
                   (loading || !ideaText.trim()) ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
                 whileHover={!(loading || !ideaText.trim()) ? { scale: 1.05 } : {}}
@@ -152,7 +152,7 @@ const CompetitorAnalysis = () => {
                   </div>
                 ) : (
                   <div className="flex items-center">
-                    <Search className="w-6 h-6 mr-3" />
+                    <Search className="w-4 sm:w-6 h-4 sm:h-6 mr-3" />
                     Analyze Competitors (1 Credit)
                   </div>
                 )}
@@ -181,22 +181,22 @@ const CompetitorAnalysis = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className={`text-3xl font-bold mb-8 text-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h2 className={`text-lg sm:text-xl font-bold mb-4 sm:mb-6 text-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Analysis Results
               </h2>
               
               {/* Summary */}
               <motion.div 
-                className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8 mb-8`}
+                className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} px-6 sm:px-8 py-6 mb-6`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
               >
-                <h3 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'} flex items-center`}>
+                <h3 className={`text-md sm:text-lg font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'} flex items-center`}>
                   <div className="dot-indicator bg-blue-500"></div>
                   Market Overview
                 </h3>
-                <p className={`text-lg ${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
+                <p className={`text-xs sm:text-sm text-justify ${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
                   <Markdown>{analysis.summary}</Markdown>
                 </p>
               </motion.div>
@@ -206,7 +206,7 @@ const CompetitorAnalysis = () => {
                 {analysis.competitors.map((competitor, index) => (
                   <motion.div
                     key={index}
-                    className={`group card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} card-hover p-8`}
+                    className={`group card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} card-hover px-8 py-6`}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.4 + index * 0.1 }}
@@ -214,23 +214,23 @@ const CompetitorAnalysis = () => {
                   >
                     <div className="card-hover-effect"></div>
                     <div className="relative">
-                      <h3 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'} group-hover:text-green-500 transition-colors duration-300`}>
+                      <h3 className={`text-md sm:text-lg font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'} group-hover:text-green-500 transition-colors duration-300`}>
                         {competitor.name}
                       </h3>
-                      <p className={`mb-6 text-lg ${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
+                      <p className={`mb-6 text-xs sm:text-sm text-justify ${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
                         {competitor.description}
                       </p>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {/* Strengths */}
                         <div>
-                          <h4 className="font-bold mb-3 text-green-500 flex items-center">
+                          <h4 className="font-bold mb-3 text-green-500 flex items-center text-sm">
                             <div className="dot-indicator bg-green-500"></div>
                             Strengths
                           </h4>
                           <ul className="space-y-2">
                             {competitor.swot.strengths.map((strength, i) => (
-                              <li key={i} className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} flex items-start`}>
+                              <li key={i} className={`text-xs sm:text-sm text-justify ${darkMode ? 'text-gray-400' : 'text-gray-600'} flex items-start`}>
                                 <span className="text-green-500 mr-2">•</span>
                                 {strength}
                               </li>
@@ -240,13 +240,13 @@ const CompetitorAnalysis = () => {
 
                         {/* Weaknesses */}
                         <div>
-                          <h4 className="font-bold mb-3 text-red-500 flex items-center">
+                          <h4 className="font-bold mb-3 text-red-500 flex items-center text-sm">
                             <div className="dot-indicator bg-red-500"></div>
                             Weaknesses
                           </h4>
                           <ul className="space-y-2">
                             {competitor.swot.weaknesses.map((weakness, i) => (
-                              <li key={i} className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} flex items-start`}>
+                              <li key={i} className={`text-xs sm:text-sm text-justify ${darkMode ? 'text-gray-400' : 'text-gray-600'} flex items-start`}>
                                 <span className="text-red-500 mr-2">•</span>
                                 {weakness}
                               </li>
@@ -256,13 +256,13 @@ const CompetitorAnalysis = () => {
 
                         {/* Opportunities */}
                         <div>
-                          <h4 className="font-bold mb-3 text-blue-500 flex items-center">
+                          <h4 className="font-bold mb-3 text-blue-500 flex items-center text-sm">
                             <div className="dot-indicator bg-blue-500"></div>
                             Opportunities
                           </h4>
                           <ul className="space-y-2">
                             {competitor.swot.opportunities.map((opportunity, i) => (
-                              <li key={i} className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} flex items-start`}>
+                              <li key={i} className={`text-xs sm:text-sm text-justify ${darkMode ? 'text-gray-400' : 'text-gray-600'} flex items-start`}>
                                 <span className="text-blue-500 mr-2">•</span>
                                 {opportunity}
                               </li>
@@ -272,13 +272,13 @@ const CompetitorAnalysis = () => {
 
                         {/* Threats */}
                         <div>
-                          <h4 className="font-bold mb-3 text-orange-500 flex items-center">
+                          <h4 className="font-bold mb-3 text-orange-500 flex items-center text-sm">
                             <div className="dot-indicator bg-orange-500"></div>
                             Threats
                           </h4>
                           <ul className="space-y-2">
                             {competitor.swot.threats.map((threat, i) => (
-                              <li key={i} className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} flex items-start`}>
+                              <li key={i} className={`text-xs sm:text-sm text-justify ${darkMode ? 'text-gray-400' : 'text-gray-600'} flex items-start`}>
                                 <span className="text-orange-500 mr-2">•</span>
                                 {threat}
                               </li>

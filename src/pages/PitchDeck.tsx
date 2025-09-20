@@ -218,7 +218,7 @@ const PitchDeck = () => {
               </div>
 
               {/* Current Slide */}
-              <div className="px-8 py-4 min-h-[400px]">
+              <div className="px-8 py-4 min-h-[300px]">
                 <motion.div
                   key={currentSlide}
                   initial={{ opacity: 0, x: 20 }}

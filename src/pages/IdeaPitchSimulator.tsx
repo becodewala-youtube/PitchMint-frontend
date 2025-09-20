@@ -39,11 +39,12 @@ const IdeaPitchSimulator = () => {
   const [answer, setAnswer] = useState('');
   const [feedback, setFeedback] = useState<Feedback | null>(null);
   const [loading, setLoading] = useState(false);
+  const [isEvaluating, setIsEvaluating] = useState(false); // New state for evaluation
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const loadIdeaData = async () => {
-      if (id) {
+      if (id && !idea) {
         try {
           await dispatch(getIdea(id) as any);
         } catch (err) {
@@ -52,7 +53,7 @@ const IdeaPitchSimulator = () => {
       }
     };
     loadIdeaData();
-  }, [dispatch, id]);
+  }, [dispatch, id, idea]);
 
   useEffect(() => {
     if (idea?.pitchSimulation?.questions) {
@@ -129,11 +130,17 @@ const IdeaPitchSimulator = () => {
     }
   };
 
-  const handleAnswer = async () => {
-    if (!currentQuestion || !idea?._id) return;
+  // Updated handleAnswer function
+  const handleAnswer = async (e?: React.FormEvent) => {
+    // Prevent form submission and page reload
+    if (e) {
+      e.preventDefault();
+    }
+    
+    if (!currentQuestion || !idea?._id || !answer.trim()) return;
     
     try {
-      setLoading(true);
+      setIsEvaluating(true); // Set evaluating state
       setError(null);
 
       const response = await axios.post(
@@ -165,7 +172,7 @@ const IdeaPitchSimulator = () => {
     } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to evaluate answer');
     } finally {
-      setLoading(false);
+      setIsEvaluating(false); // Reset evaluating state
     }
   };
 
@@ -221,52 +228,52 @@ const IdeaPitchSimulator = () => {
         <div className={`absolute -bottom-40 -left-40 w-80 h-80 rounded-full opacity-20 ${darkMode ? 'bg-gradient-to-br from-blue-500 to-cyan-500' : 'bg-gradient-to-br from-green-400 to-blue-400'} animate-pulse delay-1000`}></div>
       </div>
 
-      <div className="relative z-10 py-12">
+      <div className="relative z-10 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <motion.div 
-            className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12"
+            className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="text-center md:text-left mb-6 md:mb-0">
-              <div className="flex items-center justify-center md:justify-start mb-4">
+            <div className="text-left md:text-left mb-4 sm:mb-6 md:mb-0">
+              <div className="flex items-center md:justify-start mb-2 sm:mb-3">
                 <div className={`w-8 h-8 rounded-2xl bg-gradient-to-br from-orange-600 to-red-600 flex items-center justify-center mr-4`}>
                   <MessageSquare className="h-4 w-4 text-white" />
                 </div>
-                <h1 className={`text-xl md:text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h1 className={`text-md md:text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   Pitch Simulator
                 </h1>
               </div>
-              <p className={`text-md ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              <p className={`text-xs sm:text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 Practice with AI-powered investor Q&A
               </p>
             </div>
             <motion.button
               onClick={() => simulatePitch()}
               disabled={loading}
-              className="inline-flex items-center px-6 py-3 rounded-2xl text-sm font-medium text-white bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-orange-500/25"
+              className="inline-flex items-center px-6 py-2 sm:py-3 rounded-2xl text-xs font-medium text-white bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-orange-500/25"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <RefreshCw className={`mr-2 h-5 w-5 ${loading ? 'animate-spin' : ''}`} />
+              <RefreshCw className={`mr-2 h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
               Regenerate Questions
             </motion.button>
           </motion.div>
 
           {/* Pitch Display */}
           <motion.div 
-            className={`${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm rounded-3xl shadow-2xl px-8 py-4 mb-12 border ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}
+            className={`${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm rounded-3xl shadow-2xl px-5 sm:px-8 py-4 mb-6 border ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <h2 className={`text-lg font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'} flex items-center`}>
+            <h2 className={`text-sm sm:text-md font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'} flex items-center`}>
               <div className="w-3 h-3 rounded-full bg-purple-500 mr-3"></div>
               Your Pitch
             </h2>
-            <p className={`text-sm md:text-md text-justify leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+            <p className={`text-xs sm:text-sm md:text-md text-justify leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
               {idea?.ideaText}
             </p>
           </motion.div>
@@ -274,7 +281,7 @@ const IdeaPitchSimulator = () => {
           {/* Questions and Answers Section */}
           {questions.length > 0 ? (
             <motion.div 
-              className={`${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm rounded-3xl shadow-2xl px-4 py-4 border ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}
+              className={`${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm rounded-3xl shadow-2xl px-4 py-3 border ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
@@ -282,107 +289,112 @@ const IdeaPitchSimulator = () => {
               {currentQuestion ? (
                 <div>
                   {/* Question Display */}
-                  <div className={`p-4 rounded-3xl mb-8 ${
+                  <div className={`p-3 rounded-3xl mb-6 ${
                     darkMode ? 'bg-indigo-900/50' : 'bg-indigo-50'
                   }`}>
                     <div className="flex items-center mb-2">
                       <MessageSquare className={`h-4 w-4 ${
                         darkMode ? 'text-indigo-400' : 'text-indigo-600'
                       } mr-3`} />
-                      <h3 className={`font-bold text-md ${
+                      <h3 className={`font-bold text-sm ${
                         darkMode ? 'text-indigo-200' : 'text-indigo-900'
                       }`}>
                         Question {currentQuestionIndex + 1} ({currentQuestion.category})
                       </h3>
                     </div>
-                    <p className={`text-sm text-justify leading-relaxed ${
+                    <p className={`text-xs sm:text-sm text-justify leading-relaxed ${
                       darkMode ? 'text-white' : 'text-indigo-700'
                     }`}>
                       {currentQuestion.question}
                     </p>
                   </div>
 
-                  {/* Answer Input */}
-                  <div className="mb-6">
-                    <label
-                      htmlFor="answer"
-                      className={`block text-md font-semibold mb-4 ${
-                        darkMode ? 'text-gray-300' : 'text-gray-700'
-                      }`}
-                    >
-                      Your Answer
-                    </label>
-                    <textarea
-                      id="answer"
-                      value={answer}
-                      onChange={(e) => setAnswer(e.target.value)}
-                      rows={6}
-                      className={`w-full px-4 py-4 text-md rounded-2xl border-2 transition-all duration-300 ${
-                        darkMode
-                          ? 'bg-gray-700/50 text-white border-gray-600 placeholder-gray-400 focus:border-orange-500 focus:bg-gray-700'
-                          : 'bg-white text-gray-900 border-gray-300 placeholder-gray-400 focus:border-orange-500 focus:bg-gray-50'
-                      } focus:ring-4 focus:ring-orange-500/20 focus:outline-none`}
-                      placeholder="Type your answer..."
-                    />
-                  </div>
+                  {/* Answer Form - Wrap in form to handle Enter key */}
+                  <form onSubmit={handleAnswer}>
+                    {/* Answer Input */}
+                    <div className="mb-6">
+                      <label
+                        htmlFor="answer"
+                        className={`block text-sm font-semibold mb-3 ${
+                          darkMode ? 'text-gray-300' : 'text-gray-700'
+                        }`}
+                      >
+                        Your Answer
+                      </label>
+                      <textarea
+                        id="answer"
+                        value={answer}
+                        onChange={(e) => setAnswer(e.target.value)}
+                        rows={6}
+                        disabled={isEvaluating}
+                        className={`w-full px-4 py-4 text-xs sm:text-sm rounded-2xl border-2 transition-all duration-300 ${
+                          darkMode
+                            ? 'bg-gray-700/50 text-white border-gray-600 placeholder-gray-400 focus:border-orange-500 focus:bg-gray-700'
+                            : 'bg-white text-gray-900 border-gray-300 placeholder-gray-400 focus:border-orange-500 focus:bg-gray-50'
+                        } focus:ring-2 focus:ring-orange-500/20 focus:outline-none disabled:opacity-50`}
+                        placeholder="Type your answer..."
+                      />
+                    </div>
 
-                  {/* Submit Button (only if feedback not shown) */}
-                  {!feedback && (
-                    <motion.button
-                      onClick={handleAnswer}
-                      disabled={loading || !answer.trim()}
-                      className={`w-full flex justify-center items-center py-4 px-8 rounded-2xl text-lg font-semibold text-white transition-all duration-300 ${
-                        loading || !answer.trim()
-                          ? 'bg-gray-400 cursor-not-allowed'
-                          : 'bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 hover:scale-105 shadow-2xl hover:shadow-orange-500/25'
-                      }`}
-                      whileHover={!(loading || !answer.trim()) ? { scale: 1.05 } : {}}
-                      whileTap={!(loading || !answer.trim()) ? { scale: 0.95 } : {}}
-                    >
-                      {loading ? (
-                        <>
-                          <div className="animate-spin rounded-full h-6 w-6 border-2 border-white border-t-transparent mr-3" />
-                          Evaluating...
-                        </>
-                      ) : (
-                        <>
-                          <Send className="w-6 h-6 mr-3" />
-                          Submit Answer
-                        </>
-                      )}
-                    </motion.button>
-                  )}
+                    {/* Submit Button (only if feedback not shown) */}
+                    {!feedback && (
+                      <motion.button
+                        type="button" // Changed to button to prevent form submission
+                        onClick={(e) => handleAnswer(e)}
+                        disabled={isEvaluating || !answer.trim()}
+                        className={`w-full flex justify-center items-center py-2 px-8 rounded-2xl text-xs sm:text-sm font-semibold text-white transition-all duration-300 ${
+                          isEvaluating || !answer.trim()
+                            ? 'bg-gray-400 cursor-not-allowed'
+                            : 'bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 hover:scale-105 shadow-2xl hover:shadow-orange-500/25'
+                        }`}
+                        whileHover={!(isEvaluating || !answer.trim()) ? { scale: 1.05 } : {}}
+                        whileTap={!(isEvaluating || !answer.trim()) ? { scale: 0.95 } : {}}
+                      >
+                        {isEvaluating ? (
+                          <>
+                            <div className="animate-spin rounded-full h-6 w-6 border-2 border-white border-t-transparent mr-3" />
+                            Evaluating Answer...
+                          </>
+                        ) : (
+                          <>
+                            <Send className="w-4 h-4 mr-3" />
+                            Submit Answer
+                          </>
+                        )}
+                      </motion.button>
+                    )}
+                  </form>
 
                   {/* Feedback Section */}
                   {feedback && (
                     <motion.div 
-                      className="mt-8 space-y-8"
+                      className="mt-6 space-y-4 sm:space-y-6"
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.5 }}
                     >
-                      <h3 className={`text-lg font-bold ${
+                      <h3 className={`text-sm sm:text-md font-bold ${
                         darkMode ? 'text-white' : 'text-gray-900'
                       }`}>
                         Feedback
                       </h3>
                       
-                      <div className={`p-8 rounded-3xl ${
+                      <div className={`py-4 sm:py-5 px-5 sm:px-7 rounded-3xl ${
                         darkMode ? 'bg-gray-700/50' : 'bg-gray-50'
                       }`}>
                         {/* Rating */}
-                        <div className="flex items-center mb-8">
+                        <div className="flex items-center mb-4">
                           <div className="flex-1">
-                            <span className={`text-md font-semibold ${
+                            <span className={`text-sm font-semibold ${
                               darkMode ? 'text-gray-300' : 'text-gray-700'
                             }`}>
                               Rating
                             </span>
-                            <div className="flex items-center mt-2">
+                            <div className="flex items-center mt-2 text-xs sm:text-md">
                               {[...Array(5)].map((_, i) => (
                                 <Star
                                   key={i}
-                                  className={`h-4 w-4 ${
+                                  className={`sm:h-4 h-3 sm:w-4 w-3 ${
                                     i < feedback.rating
                                       ? 'text-yellow-400 fill-current'
                                       : darkMode
@@ -391,7 +403,7 @@ const IdeaPitchSimulator = () => {
                                   }`}
                                 />
                               ))}
-                              <span className={`ml-3 text-md font-bold ${
+                              <span className={`ml-3 sm:text-md font-bold ${
                                 darkMode ? 'text-gray-300' : 'text-gray-700'
                               }`}>
                                 {feedback.rating}/5
@@ -402,7 +414,7 @@ const IdeaPitchSimulator = () => {
 
                         {/* Strengths */}
                         <div className="mb-8">
-                          <h4 className={`text-md font-bold mb-4 ${
+                          <h4 className={`text-sm font-bold mb-4 ${
                             darkMode ? 'text-gray-200' : 'text-gray-900'
                           } flex items-center`}>
                             <div className="w-3 h-3 rounded-full bg-green-500 mr-3"></div>
@@ -410,8 +422,8 @@ const IdeaPitchSimulator = () => {
                           </h4>
                           <ul className="space-y-3">
                             {feedback.strengths.map((strength, index) => (
-                              <li key={index} className="flex items-start">
-                                <CheckCircle className="h-5 w-5 text-green-500 mr-3 mt-1 flex-shrink-0" />
+                              <li key={index} className="flex items-start text-xs sm:text-sm">
+                                <CheckCircle className="h-3 sm:h-5 w-3 sm:w-5 text-green-500 mr-3 mt-1 flex-shrink-0" />
                                 <span className={`text-justify leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                                   {strength}
                                 </span>
@@ -422,7 +434,7 @@ const IdeaPitchSimulator = () => {
 
                         {/* Improvements */}
                         <div className="mb-8">
-                          <h4 className={`text-md font-bold mb-4 ${
+                          <h4 className={`text-sm font-bold mb-4 ${
                             darkMode ? 'text-gray-200' : 'text-gray-900'
                           } flex items-center`}>
                             <div className="w-3 h-3 rounded-full bg-amber-500 mr-3"></div>
@@ -430,8 +442,8 @@ const IdeaPitchSimulator = () => {
                           </h4>
                           <ul className="space-y-3">
                             {feedback.improvements.map((improvement, index) => (
-                              <li key={index} className="flex items-start">
-                                <AlertCircle className="h-5 w-5 text-amber-500 mr-3 mt-1 flex-shrink-0" />
+                              <li key={index} className="flex items-start text-xs sm:text-sm">
+                                <AlertCircle className="h-3 sm:h-5 w-3 sm:w-5 text-amber-500 mr-3 mt-1 flex-shrink-0" />
                                 <span className={`text-justify leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                                   {improvement}
                                 </span>
@@ -442,13 +454,13 @@ const IdeaPitchSimulator = () => {
 
                         {/* Additional Advice */}
                         <div>
-                          <h4 className={`text-md font-bold mb-4 ${
+                          <h4 className={`text-sm font-bold mb-4 ${
                             darkMode ? 'text-gray-200' : 'text-gray-900'
                           } flex items-center`}>
                             <div className="w-3 h-3 rounded-full bg-blue-500 mr-3"></div>
                             Additional Advice
                           </h4>
-                          <p className={`text-justify leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                          <p className={`text-justify text-xs sm:text-sm leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                             {feedback.additionalAdvice}
                           </p>
                         </div>
@@ -461,7 +473,7 @@ const IdeaPitchSimulator = () => {
                     <motion.button
                       onClick={handlePrevQuestion}
                       disabled={currentQuestionIndex === 0}
-                      className={`flex-1 py-4 px-6 rounded-2xl font-semibold transition-all duration-300 ${
+                      className={`flex-1 py-2 px-6 rounded-2xl text-xs sm:text-sm font-semibold transition-all duration-300 ${
                         currentQuestionIndex === 0
                           ? 'bg-gray-400 cursor-not-allowed text-white'
                           : darkMode
@@ -471,14 +483,14 @@ const IdeaPitchSimulator = () => {
                       whileHover={currentQuestionIndex !== 0 ? { scale: 1.05 } : {}}
                       whileTap={currentQuestionIndex !== 0 ? { scale: 0.95 } : {}}
                     >
-                      <ChevronLeft className="w-5 h-5 inline mr-2" />
+                      <ChevronLeft className="w-4 h-4 inline mr-2" />
                       Previous Question
                     </motion.button>
 
                     <motion.button
                       onClick={handleNextQuestion}
                       disabled={currentQuestionIndex === questions.length - 1}
-                      className={`flex-1 py-4 px-6 rounded-2xl font-semibold text-white transition-all duration-300 ${
+                      className={`flex-1 py-2 px-6 rounded-2xl text-xs sm:text-sm font-semibold text-white transition-all duration-300 ${
                         currentQuestionIndex === questions.length - 1
                           ? 'bg-gray-400 cursor-not-allowed'
                           : 'bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 hover:scale-105 shadow-lg hover:shadow-green-500/25'
@@ -487,7 +499,7 @@ const IdeaPitchSimulator = () => {
                       whileTap={currentQuestionIndex !== questions.length - 1 ? { scale: 0.95 } : {}}
                     >
                       Next Question
-                      <ChevronRight className="w-5 h-5 inline ml-2" />
+                      <ChevronRight className="w-4 h-4 inline ml-2" />
                     </motion.button>
                   </div>
                 </div>
@@ -507,27 +519,27 @@ const IdeaPitchSimulator = () => {
             </motion.div>
           ) : (
             <motion.div 
-              className={`${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm rounded-3xl shadow-2xl p-12 text-center border ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}
+              className={`${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm rounded-3xl shadow-2xl p-5 text-center border ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <div className={`w-24 h-24 rounded-3xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center mx-auto mb-8`}>
-                <MessageSquare className="h-12 w-12 text-white" />
+              <div className={`w-12 h-12 rounded-3xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center mx-auto mb-6`}>
+                <MessageSquare className="h-6 w-6 text-white" />
               </div>
-              <h3 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h3 className={`text-lg font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 No Questions Available
               </h3>
-              <p className={`text-lg mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              <p className={`text-sm mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                 Click the regenerate button to create investor questions for your pitch.
               </p>
               <motion.button
                 onClick={simulatePitch}
-                className="inline-flex items-center px-8 py-4 rounded-2xl text-lg font-semibold text-white bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 transition-all duration-300 shadow-lg hover:shadow-orange-500/25"
+                className="inline-flex items-center px-8 py-3 rounded-2xl text-sm font-semibold text-white bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 transition-all duration-300 shadow-lg hover:shadow-orange-500/25"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Play className="w-6 h-6 mr-3" />
+                <Play className="w-5 h-5 mr-3" />
                 Generate Questions
               </motion.button>
             </motion.div>

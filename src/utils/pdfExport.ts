@@ -71,8 +71,24 @@ export const exportAllSlidesToPDF = async (slides: any[], filename: string, dark
       
       slideDiv.innerHTML = `
         <div style="height: 100%; display: flex; flex-direction: column;">
-          <h2 style="font-size: 48px; font-weight: bold; margin-bottom: 40px; background: linear-gradient(135deg, #8b5cf6, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: #8b5cf6;">${slides[i].title}</h2>
-          <div style="font-size: 18px; line-height: 1.8; white-space: pre-wrap; flex: 1; overflow: hidden;">${slides[i].content}</div>
+          <div style="
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  text-align: center;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 40px;
+">
+  <h2 style="
+    font-size: 48px;
+    font-weight: bold;
+    color: white;
+    margin: 0;
+  ">
+    ${slides[i].title}
+  </h2>
+</div>
+
+          <div style="font-size: 18px; line-height: 1.8; white-space: pre-wrap; flex: 1; overflow: hidden; text-align: justify; ">${slides[i].content}</div>
         </div>
       `;
       

@@ -20,10 +20,10 @@ const Canvas = () => {
   const [isGenerating, setIsGenerating] = useState(false);
 
   useEffect(() => {
-    if (id) {
-      dispatch(getIdea(id) as any);
-    }
-  }, [dispatch, id]);
+  if (id && !idea) {  // only fetch if not already in store
+    dispatch(getIdea(id) as any);
+  }
+}, [dispatch, id, idea]);
 
   const handleGenerateCanvas = async () => {
     if (id && !isGenerating && !loading) {
@@ -82,36 +82,36 @@ const Canvas = () => {
         <div className={`absolute -bottom-40 -left-40 w-80 h-80 rounded-full opacity-20 ${darkMode ? 'bg-gradient-to-br from-blue-500 to-cyan-500' : 'bg-gradient-to-br from-green-400 to-blue-400'} animate-pulse delay-1000`}></div>
       </div>
 
-      <div className="relative z-10 py-12">
+      <div className="relative z-10 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <motion.div 
-            className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12"
+            className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="text-center md:text-left mb-6 md:mb-0">
-              <div className="flex items-center justify-center md:justify-start mb-4">
+            <div className="text-left md:text-left mb-6 md:mb-0">
+              <div className="flex items-center justify-center md:justify-start mb-3">
                 <div className={`w-8 h-8 rounded-2xl bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center mr-4`}>
                   <Layout className="h-4 w-4 text-white" />
                 </div>
-                <h1 className={`text-xl md:text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h1 className={`text-md md:text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   Business Model Canvas
                 </h1>
               </div>
-              <p className={`text-md ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              <p className={`text-xs sm:text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 Lean startup methodology visualization
               </p>
             </div>
             <motion.button
               onClick={handleGenerateCanvas}
               disabled={loading || isGenerating}
-              className="inline-flex items-center px-6 py-3 rounded-2xl text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-blue-500/25"
+              className="inline-flex items-center px-6 py-2 rounded-2xl text-xs sm:text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-blue-500/25"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <RefreshCw className={`mr-2 h-5 w-5 ${isGenerating ? 'animate-spin' : ''}`} />
+              <RefreshCw className={`mr-2 h-4 w-4 ${isGenerating ? 'animate-spin' : ''}`} />
               {isGenerating ? 'Generating... (1 Credit)' : 'Regenerate (1 Credit)'}
             </motion.button>
           </motion.div>
@@ -120,7 +120,7 @@ const Canvas = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {/* Problem & Customer Segments */}
               <motion.div 
-                className={`${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm p-8 rounded-3xl shadow-2xl border ${darkMode ? 'border-gray-700' : 'border-gray-200'} hover:border-red-500/50 transition-all duration-500 hover:scale-105`}
+                className={`${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm p-6 rounded-3xl shadow-2xl border ${darkMode ? 'border-gray-700' : 'border-gray-200'} hover:border-red-500/50 transition-all duration-500 hover:scale-105`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
@@ -128,14 +128,14 @@ const Canvas = () => {
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-pink-500/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <div className="relative">
-                  <div className="flex items-center mb-6">
+                  <div className="flex items-center mb-4">
                     <div className="w-3 h-3 rounded-full bg-red-500 mr-3"></div>
-                    <h2 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <h2 className={`text-sm sm:text-md font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       Problem
                     </h2>
                   </div>
              <p
-  className={`prose prose-sm md:prose-base max-w-none text-justify leading-relaxed ${
+  className={`prose prose-sm text-xs md:prose-base sm:text-sm  max-w-none text-justify leading-relaxed mb-2 ${
     darkMode ? 'prose-invert text-gray-300' : 'text-gray-700'
   }`}
 >
@@ -146,13 +146,13 @@ const Canvas = () => {
 
 
                   
-                  <div className="flex items-center mb-6">
+                  <div className="flex items-center mb-3">
                     <div className="w-3 h-3 rounded-full bg-blue-500 mr-3"></div>
-                    <h2 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <h2 className={`text-sm sm:text-md font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       Customer Segments
                     </h2>
                   </div>
-                  <p className={`text-justify text-sm md:text-base leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <p className={`text-justify text-xs md:prose-base sm:text-sm  leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                     
                       <ReactMarkdown>
     {canvasContent.customerSegments}
@@ -170,23 +170,23 @@ const Canvas = () => {
                 whileHover={{ y: -5 }}
               >
                 <div className="relative">
-                  <div className="flex items-center mb-6">
+                  <div className="flex items-center mb-3">
                     <div className="w-3 h-3 rounded-full bg-green-500 mr-3"></div>
-                    <h2 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <h2 className={`text-sm sm:text-md font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       Solution
                     </h2>
                   </div>
-                  <p className={`mb-8 text-justify text-sm md:text-base leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <p className={`mb-8 text-justify text-xs md:prose-base sm:text-sm  leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                     <ReactMarkdown>{canvasContent.solution}</ReactMarkdown>
                   </p>
                   
-                  <div className="flex items-center mb-6">
+                  <div className="flex items-center mb-3">
                     <div className="w-3 h-3 rounded-full bg-purple-500 mr-3"></div>
-                    <h2 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <h2 className={`text-sm sm:text-md font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       Unique Value Proposition
                     </h2>
                   </div>
-                  <p className={`text-justify text-sm md:text-base leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <p className={`text-justify text-xs md:prose-base sm:text-sm  leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                     <ReactMarkdown>{canvasContent.uniqueValueProposition}</ReactMarkdown>
                   </p>
                 </div>
@@ -201,23 +201,23 @@ const Canvas = () => {
                 whileHover={{ y: -5 }}
               >
                 <div className="relative">
-                  <div className="flex items-center mb-6">
+                  <div className="flex items-center mb-3">
                     <div className="w-3 h-3 rounded-full bg-yellow-500 mr-3"></div>
-                    <h2 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <h2 className={`text-sm sm:text-md font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       Key Metrics
                     </h2>
                   </div>
-                  <p className={`mb-8 text-justify text-sm md:text-base leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <p className={`mb-8 text-justify text-xs md:prose-base sm:text-sm  leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                     <ReactMarkdown>{canvasContent.keyMetrics}</ReactMarkdown>
                   </p>
                   
-                  <div className="flex items-center mb-6">
+                  <div className="flex items-center mb-3">
                     <div className="w-3 h-3 rounded-full bg-indigo-500 mr-3"></div>
-                    <h2 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <h2 className={`text-sm sm:text-md font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       Channels
                     </h2>
                   </div>
-                  <p className={`text-justify text-sm md:text-base leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <p className={`text-justify text-xs md:prose-base sm:text-sm  leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                    <ReactMarkdown>{canvasContent.channels}</ReactMarkdown>
                   </p>
                 </div>
@@ -232,23 +232,23 @@ const Canvas = () => {
                 whileHover={{ y: -5 }}
               >
                 <div className="relative">
-                  <div className="flex items-center mb-6">
+                  <div className="flex items-center mb-4">
                     <div className="w-3 h-3 rounded-full bg-orange-500 mr-3"></div>
-                    <h2 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <h2 className={`text-sm sm:text-md font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       Cost Structure
                     </h2>
                   </div>
-                  <p className={`mb-8 text-justify text-sm md:text-base leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <p className={`mb-8 text-justify text-xs md:prose-base sm:text-sm text leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                     <ReactMarkdown>{canvasContent.costStructure}</ReactMarkdown>
                   </p>
                   
-                  <div className="flex items-center mb-6">
+                  <div className="flex items-center mb-4">
                     <div className="w-3 h-3 rounded-full bg-emerald-500 mr-3"></div>
-                    <h2 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <h2 className={`text-sm sm:text-md font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       Revenue Streams
                     </h2>
                   </div>
-                  <p className={`text-justify text-sm md:text-base leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <p className={`text-justify text-xs md:prose-base sm:text-sm text leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                     <ReactMarkdown>{canvasContent.revenueStreams}</ReactMarkdown>
                   </p>
                 </div>
@@ -263,13 +263,13 @@ const Canvas = () => {
                 whileHover={{ y: -5 }}
               >
                 <div className="relative">
-                  <div className="flex items-center mb-6">
+                  <div className="flex items-center mb-4">
                     <div className="w-3 h-3 rounded-full bg-pink-500 mr-3"></div>
-                    <h2 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <h2 className={`text-sm sm:text-md font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       Unfair Advantage
                     </h2>
                   </div>
-                  <p className={`text-justify text-sm md:text-base leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <p className={`text-justify text-xs md:prose-base sm:text-sm text leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                     <ReactMarkdown>{canvasContent.unfairAdvantage}</ReactMarkdown>
                   </p>
                 </div>
