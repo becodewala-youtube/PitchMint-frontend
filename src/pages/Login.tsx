@@ -42,7 +42,7 @@ const Login = () => {
   };
 
   return (
-    <div className={`page-container ${darkMode ? 'page-container-dark' : 'page-container-light'} flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8`}>
+    <div className={`relative overflow-hidden ${darkMode ? 'page-container-dark' : 'page-container-light'} flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8`}>
       {/* Animated Background */}
       <div className="bg-animated">
         <div className={`bg-orb ${darkMode ? 'bg-orb-1' : 'bg-orb-light-1'}`}></div>
@@ -55,17 +55,17 @@ const Login = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8`}
+          className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} px-5 py-6 sm:p-8`}
         >
           {/* Header */}
           <div className="text-center">
-            <div className="icon-container  mx-auto mb-6">
+            <div className="icon-container  mx-auto mb-2 sm:mb-6">
              <img src={Icon} alt="login logo" />
             </div>
-            <h2 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'} mb-2`}>
+            <h2 className={`text-lg sm:text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'} sm:mb-2`}>
               Welcome Back
             </h2>
-            <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+            <p className={`text-xs sm:text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
               Sign in to your account
             </p>
           </div>
@@ -95,7 +95,7 @@ const Login = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
+                  className={`input-field  text-sm  ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
                   placeholder="Email address"
                 />
               </div>
@@ -112,7 +112,7 @@ const Login = () => {
     required
     value={password}
     onChange={(e) => setPassword(e.target.value)}
-    className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'} pr-10`} // Add pr-10 for icon space
+    className={`input-field  text-sm ${darkMode ? 'input-field-dark' : 'input-field-light'} pr-10`} // Add pr-10 for icon space
     placeholder="Password"
     
   />
@@ -135,7 +135,7 @@ const Login = () => {
             <div className="flex items-center justify-between">
               <Link
                 to="/forgot-password"
-                className="text-sm text-cyan-600 hover:text-cyan-500 transition-colors duration-300"
+                className="text-xs sm:text-sm text-cyan-600 hover:text-cyan-500 transition-colors duration-300"
               >
                 Forgot your password?
               </Link>
@@ -145,7 +145,7 @@ const Login = () => {
               <motion.button
                 type="submit"
                 disabled={loading}
-                className={`w-full btn-primary ${
+                className={`w-full btn-primary py-1 ${
                   loading 
                     ? 'bg-gray-400 cursor-not-allowed' 
                     : 'btn-primary-cyan'
@@ -180,7 +180,7 @@ const Login = () => {
             <GoogleSignIn onSuccess={handleGoogleSuccess} onError={handleGoogleError} />
 
             <div className="text-center">
-              <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+              <p className={`text-xs sm:text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                 Don't have an account?{' '}
                 <Link 
                   to="/signup" 

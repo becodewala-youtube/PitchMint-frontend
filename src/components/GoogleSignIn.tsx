@@ -41,7 +41,7 @@ const GoogleSignIn = ({ onSuccess, onError }: GoogleSignInProps) => {
           document.getElementById('google-signin-button'),
           {
             theme: darkMode ? 'filled_black' : 'outline',
-            size: 'large',
+            size: 'medium',
             width: '100%',
             text: 'continue_with',
             shape: 'rectangular',
