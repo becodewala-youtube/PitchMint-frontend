@@ -284,7 +284,7 @@ const Landing = () => {
 
       {/* Hero Section */}
       <div className="relative z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-16 sm:pb-16">
           {/* Product Hunt Badge */}
           <motion.div 
             className="flex justify-center mb-8"
@@ -293,8 +293,8 @@ const Landing = () => {
             transition={{ duration: 0.6 }}
           >
             <div className={`inline-flex items-center px-4 py-2 rounded-full ${darkMode ? 'bg-gradient-to-r from-purple-900/50 to-cyan-900/50 border border-purple-500/30' : 'bg-gradient-to-r from-orange-100 to-pink-100 border border-orange-200'} backdrop-blur-sm`}>
-              <span className="text-2xl mr-2">🚀</span>
-              <span className={`text-sm font-medium ${darkMode ? 'text-purple-200' : 'text-orange-800'}`}>
+              <span className="text-sm sm:text-2xl mr-2">🚀</span>
+              <span className={`text-xs sm:text-sm font-medium ${darkMode ? 'text-purple-200' : 'text-orange-800'}`}>
                 #1 AI-Powered Startup Validator
               </span>
             </div>
@@ -302,7 +302,7 @@ const Landing = () => {
 
           <div className="text-center">
             <motion.h1 
-              className={`text-5xl md:text-7xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}
+              className={`text-4xl md:text-7xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -315,7 +315,7 @@ const Landing = () => {
             </motion.h1>
             
             <motion.p 
-              className={`text-lg md:text-xl mb-8 max-w-3xl mx-auto leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}
+              className={`text-sm md:text-xl mb-8 max-w-3xl mx-auto leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
@@ -334,7 +334,7 @@ const Landing = () => {
             >
               <button
                 onClick={() => navigate('/signup')}
-                className="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-semibold rounded-2xl shadow-2xl hover:shadow-purple-500/25 transform hover:scale-105 transition-all duration-300 overflow-hidden"
+                className="group relative px-8 py-2 sm:py-4 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-semibold rounded-2xl shadow-2xl hover:shadow-purple-500/25 transform hover:scale-105 transition-all duration-300 overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-cyan-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <span className="relative flex items-center">
@@ -347,7 +347,7 @@ const Landing = () => {
               
               <button
                 onClick={() => navigate('/login')}
-                className={`px-8 py-4 font-semibold rounded-2xl border-2 transition-all duration-300 hover:scale-105 ${
+                className={`px-8 py-2 sm:py-4 font-semibold rounded-2xl border-2 transition-all duration-300 hover:scale-105 ${
                   darkMode 
                     ? 'border-gray-600 text-gray-300 hover:border-purple-500 hover:text-purple-400 hover:bg-purple-500/10' 
                     : 'border-gray-300 text-gray-700 hover:border-purple-500 hover:text-purple-600 hover:bg-purple-50'
@@ -364,7 +364,7 @@ const Landing = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.8 }}
             >
-              <div className="flex items-center">
+              {/* <div className="flex items-center">
                 <svg className="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
@@ -375,20 +375,20 @@ const Landing = () => {
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
                 <span className={darkMode ? 'text-gray-400' : 'text-gray-600'}>No Credit Card Required</span>
-              </div>
-              <div className="flex items-center">
+              </div> */}
+              {/* <div className="flex items-center">
                 <svg className="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
                 <span className={darkMode ? 'text-gray-400' : 'text-gray-600'}>Instant Results</span>
-              </div>
+              </div> */}
             </motion.div>
           </div>
         </div>
       </div>
 
       {/* Features Section */}
-      <div className={`relative z-10 py-24 ${darkMode ? 'bg-gray-800/50' : 'bg-gray-50/50'} backdrop-blur-sm`}>
+      <div className={`relative z-10 py-8 sm:py-24 ${darkMode ? 'bg-gray-800/50' : 'bg-gray-50/50'} backdrop-blur-sm`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div 
             className="text-center mb-16"
@@ -397,13 +397,13 @@ const Landing = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className={`text-4xl md:text-5xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h2 className={`text-3xl md:text-5xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Everything You Need to
               <span className="block bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
                 Launch Successfully
               </span>
             </h2>
-            <p className={`text-lg ${darkMode ? 'text-gray-400' : 'text-gray-600'} max-w-2xl mx-auto`}>
+            <p className={`text-sm sm:text-lg ${darkMode ? 'text-gray-400' : 'text-gray-600'} max-w-2xl mx-auto`}>
               Comprehensive AI-powered tools to validate, refine, and pitch your startup ideas
             </p>
           </motion.div>
@@ -412,7 +412,7 @@ const Landing = () => {
             {features.map((feature, index) => (
               <motion.div
                 key={index}
-                className={`group relative p-8 rounded-3xl ${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm border ${darkMode ? 'border-gray-700' : 'border-gray-200'} hover:border-purple-500/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl`}
+                className={`group relative p-4 sm:p-8 rounded-3xl ${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm border ${darkMode ? 'border-gray-700' : 'border-gray-200'} hover:border-purple-500/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl`}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: index * 0.1 }}
@@ -421,13 +421,13 @@ const Landing = () => {
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <div className="relative">
-                  <div className={`w-10 h-10 rounded-2xl ${darkMode ? 'bg-gradient-to-br from-purple-500 to-cyan-500' : 'bg-gradient-to-br from-blue-500 to-purple-500'} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                  <div className={`w-10 h-10 rounded-2xl ${darkMode ? 'bg-gradient-to-br from-purple-500 to-cyan-500' : 'bg-gradient-to-br from-blue-500 to-purple-500'} flex items-center justify-center mb-2 sm:mb-6 group-hover:scale-110 transition-transform duration-300`}>
                     <feature.icon className="h-4 w-4 text-white" />
                   </div>
-                  <h3 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'} group-hover:text-purple-500 transition-colors duration-300`}>
+                  <h3 className={`text-md sm:text-xl font-bold mb-2 sm:mb-4 ${darkMode ? 'text-white' : 'text-gray-900'} group-hover:text-purple-500 transition-colors duration-300`}>
                     {feature.title}
                   </h3>
-                  <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'} leading-relaxed`}>
+                  <p className={`text-xs sm:text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'} leading-relaxed`}>
                     {feature.description}
                   </p>
                 </div>
@@ -438,16 +438,16 @@ const Landing = () => {
       </div>
 
       {/* Testimonials Section */}
-      <div className="relative z-10 py-24">
+      <div className="relative z-10 py-8 sm:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div 
-            className="text-center mb-16"
+            className="text-center mb-8 sm:mb-16"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className={`text-4xl md:text-5xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h2 className={`text-3xl md:text-5xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Trusted by
               <span className="block bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
                 Successful Founders
@@ -459,7 +459,7 @@ const Landing = () => {
             {testimonials.map((testimonial, index) => (
               <motion.div
                 key={index}
-                className={`group relative p-8 rounded-3xl ${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm border ${darkMode ? 'border-gray-700' : 'border-gray-200'} hover:border-blue-500/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl`}
+                className={`group relative p-4 sm:p-8 rounded-3xl ${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} backdrop-blur-sm border ${darkMode ? 'border-gray-700' : 'border-gray-200'} hover:border-blue-500/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl`}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: index * 0.2 }}
@@ -467,27 +467,27 @@ const Landing = () => {
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-green-500/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <div className="relative">
-                  <div className="flex items-center mb-6">
+                  <div className="flex items-center mb-2 sm:mb-6">
                     {[...Array(5)].map((_, i) => (
-                      <svg key={i} className="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                      <svg key={i} className="w-4 sm:w-5 h-4 sm:h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                       </svg>
                     ))}
                   </div>
-                  <p className={`text-lg italic mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
+                  <p className={`text-sm sm:text-lg italic mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
                     "{testimonial.quote}"
                   </p>
                   <div className="flex items-center">
-                    <div className={`w-12 h-12 rounded-full ${darkMode ? 'bg-gradient-to-br from-purple-500 to-cyan-500' : 'bg-gradient-to-br from-blue-500 to-purple-500'} flex items-center justify-center mr-4`}>
-                      <span className="text-white font-bold text-lg">
+                    <div className={`w-8 sm:w-12 h-8 sm:h-12 rounded-full ${darkMode ? 'bg-gradient-to-br from-purple-500 to-cyan-500' : 'bg-gradient-to-br from-blue-500 to-purple-500'} flex items-center justify-center mr-4`}>
+                      <span className="text-white font-bold text-sm sm:text-lg">
                         {testimonial.author.charAt(0)}
                       </span>
                     </div>
                     <div>
-                      <p className={`font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                      <p className={`text-sm sm:text-md font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                         {testimonial.author}
                       </p>
-                      <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                      <p className={`text-xs sm:text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
                         {testimonial.role}
                       </p>
                     </div>
@@ -500,7 +500,7 @@ const Landing = () => {
       </div>
 
       {/* CTA Section */}
-      <div className={`relative z-10 py-24 ${darkMode ? 'bg-gradient-to-br from-gray-800 to-gray-900' : 'bg-gradient-to-br from-gray-50 to-white'}`}>
+      <div className={`relative z-10 py-8 sm:py-24 ${darkMode ? 'bg-gradient-to-br from-gray-800 to-gray-900' : 'bg-gradient-to-br from-gray-50 to-white'}`}>
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -508,18 +508,18 @@ const Landing = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className={`text-4xl md:text-6xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h2 className={`text-3xl md:text-6xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Ready to Build the
               <span className="block bg-gradient-to-r from-purple-400 to-cyan-500 bg-clip-text text-transparent">
                 Next Big Thing?
               </span>
             </h2>
-            <p className={`text-xl mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+            <p className={`text-sm sm:text-xl mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
               Join thousands of entrepreneurs who've validated their ideas with AI
             </p>
             <button
               onClick={() => navigate('/signup')}
-              className="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-bold text-lg rounded-3xl shadow-2xl hover:shadow-purple-500/25 transform hover:scale-105 transition-all duration-300 overflow-hidden"
+              className="group relative px-8 py-2 sm:py-4 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-bold text-sm sm:text-lg rounded-3xl shadow-2xl hover:shadow-purple-500/25 transform hover:scale-105 transition-all duration-300 overflow-hidden"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-cyan-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               <span className="relative flex items-center">
