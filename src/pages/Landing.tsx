@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
-import { Lightbulb, Rocket, Award, Brain, FileText, Users, MessageSquare } from 'lucide-react';
+import { Lightbulb, Rocket, Award, Brain, FileText, Users, MessageSquare, TrendingUp, Target } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { useEffect, useState } from 'react';
@@ -249,6 +249,26 @@ const Landing = () => {
       icon: MessageSquare,
       title: 'Pitch Simulator',
       description: 'Practice your pitch with AI-powered investor Q&A and get real-time feedback to improve.'
+    },
+    {
+      icon: Users,
+      title: 'Smart Investor Matching',
+      description: 'AI-powered investor matchmaking based on your startup stage, industry, and funding requirements with compatibility scoring.'
+    },
+    {
+      icon: MessageSquare,
+      title: 'Advanced Market Research',
+      description: 'Generate TAM/SAM/SOM analysis, customer personas, and market trends with comprehensive competitive intelligence.'
+    },
+    {
+      icon: TrendingUp,
+      title: 'Business Model Canvas',
+      description: 'Create lean startup canvases with detailed analysis of your value proposition, channels, and revenue streams.'
+    },
+    {
+      icon: Target,
+      title: 'Activity History & Analytics',
+      description: 'Track your validation journey with detailed history of all analyses, pitch simulations, and investor interactions.'
     }
   ];
 
