@@ -42,7 +42,7 @@ const Login = () => {
   };
 
   return (
-    <div className={`relative overflow-hidden ${darkMode ? 'page-container-dark' : 'page-container-light'} flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8`}>
+    <div className={`page-container ${darkMode ? 'page-container-dark' : 'page-container-light'} flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8`}>
       {/* Animated Background */}
       <div className="bg-animated">
         <div className={`bg-orb ${darkMode ? 'bg-orb-1' : 'bg-orb-light-1'}`}></div>
@@ -62,7 +62,7 @@ const Login = () => {
             <div className="icon-container  mx-auto mb-2 sm:mb-6">
              <img src={Icon} alt="login logo" />
             </div>
-            <h2 className={`text-lg sm:text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'} sm:mb-2`}>
+            <h2 className={`text-lg sm:text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'} sm:mb-2`}>
               Welcome Back
             </h2>
             <p className={`text-xs sm:text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>

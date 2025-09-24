@@ -64,17 +64,17 @@ const Signup = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8`}
+          className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} px-5 py-6 sm:p-8`}
         >
           {/* Header */}
           <div className="text-center">
-            <div className="icon-container  mx-auto mb-6">
+            <div className="icon-container  mx-auto mb-2 sm:mb-6">
              <img src={Icon} alt="login logo" />
             </div>
-            <h2 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'} mb-2`}>
+            <h2 className={`text-lg sm:text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}  sm:mb-2`}>
               Create Account
             </h2>
-            <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+            <p className={`text-xs sm:text-sm  ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
               Join thousands of entrepreneurs
             </p>
           </div>
@@ -102,7 +102,7 @@ const Signup = () => {
       required
       value={name}
       onChange={(e) => setName(e.target.value)}
-      className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
+      className={`input-field text-sm ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
       placeholder="Full Name"
     />
   </div>
@@ -117,7 +117,7 @@ const Signup = () => {
       required
       value={email}
       onChange={(e) => setEmail(e.target.value)}
-      className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
+      className={`input-field text-sm ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
       placeholder="Email address"
     />
   </div>
@@ -132,7 +132,7 @@ const Signup = () => {
       required
       value={password}
       onChange={(e) => setPassword(e.target.value)}
-      className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'} pr-10`}
+      className={`input-field text-sm ${darkMode ? 'input-field-dark' : 'input-field-light'} pr-10`}
       placeholder="Password"
       autoComplete="new-password" 
     />
@@ -156,7 +156,7 @@ const Signup = () => {
       required
       value={confirmPassword}
       onChange={(e) => setConfirmPassword(e.target.value)}
-      className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'} pr-10`}
+      className={`input-field text-sm ${darkMode ? 'input-field-dark' : 'input-field-light'} pr-10`}
       placeholder="Confirm Password"
       autoComplete="new-password" 
     />
@@ -175,7 +175,7 @@ const Signup = () => {
               <motion.button
                 type="submit"
                 disabled={loading}
-                className={`w-full btn-primary ${
+                className={`w-full py-1 sm:py-2 btn-primary ${
                   loading 
                     ? 'bg-gray-400 cursor-not-allowed' 
                     : 'btn-primary-cyan'
@@ -210,7 +210,7 @@ const Signup = () => {
             <GoogleSignIn onSuccess={handleGoogleSuccess} onError={handleGoogleError} />
 
             <div className="text-center">
-              <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+              <p className={`text-xs sm:text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                 Already have an account?{' '}
                 <Link 
                   to="/login" 
