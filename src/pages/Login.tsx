@@ -17,6 +17,8 @@ const Login = () => {
   const dispatch = useDispatch();
   const { darkMode } = useTheme();
   
+
+  
   const { loading, error } = useSelector((state: RootState) => state.auth);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -30,16 +32,16 @@ const Login = () => {
     }
   };
 
-  const handleGoogleSuccess = () => {
-    // Small delay to ensure Redux state is updated
-    setTimeout(() => {
-      navigate('/dashboard');
-    }, 100);
-  };
 
-  const handleGoogleError = (error: string) => {
-    setError(error);
-  };
+
+const handleGoogleSuccess = () => {
+  
+  navigate('/dashboard');
+};
+
+ const handleGoogleError = (error: string) => {
+  setError(error);
+};
 
   return (
     <div className={`page-container ${darkMode ? 'page-container-dark' : 'page-container-light'} flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8`}>
