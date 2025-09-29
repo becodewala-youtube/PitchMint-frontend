@@ -181,10 +181,7 @@ const UpgradeModal = ({ isOpen, onClose }: UpgradeModalProps) => {
                 <Star className="h-5 w-5 text-yellow-500 mr-2" />
                 Access to investor directory
               </li>
-              <li className="flex items-center">
-                <Star className="h-5 w-5 text-yellow-500 mr-2" />
-                Unlimited pitch deck generations
-              </li>
+             
               <li className="flex items-center">
                 <Star className="h-5 w-5 text-yellow-500 mr-2" />
                 Priority support
