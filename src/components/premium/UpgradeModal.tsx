@@ -220,7 +220,7 @@ const UpgradeModal = ({ isOpen, onClose }: UpgradeModalProps) => {
                   Processing...
                 </div>
               ) : (
-                'Upgrade Now - ₹2' // Fixed: Shows correct price based on backend (200 paise = ₹2)
+                'Upgrade Now - ₹29' 
               )}
             </button>
           </div>
