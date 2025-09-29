@@ -6,6 +6,12 @@ import { RootState } from '../../store';
 import { useTheme } from '../../contexts/ThemeContext';
 import { Star, X } from 'lucide-react';
 
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
+
 interface UpgradeModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -14,14 +20,20 @@ interface UpgradeModalProps {
 const UpgradeModal = ({ isOpen, onClose }: UpgradeModalProps) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { token } = useSelector((state: RootState) => state.auth);
+  const { token, user } = useSelector((state: RootState) => state.auth);
   const { darkMode } = useTheme();
 
   const handleUpgrade = async () => {
+    if (!window.Razorpay) {
+      setError('Payment gateway not loaded. Please refresh the page.');
+      return;
+    }
+
     try {
       setLoading(true);
       setError(null);
 
+      
       const response = await axios.post(
         `${API_URL}/api/payment/create-checkout-session`,
         {},
@@ -32,13 +44,106 @@ const UpgradeModal = ({ isOpen, onClose }: UpgradeModalProps) => {
         }
       );
 
-      window.location.href = response.data.url;
+     
+      const { orderId, amount, currency, keyId, userEmail, userName } = response.data;
+
+      const options = {
+        key: keyId,
+        amount: amount,
+        currency: currency,
+        name: 'PitchMint',
+        description: 'Premium Upgrade',
+        order_id: orderId,
+        prefill: {
+          name: userName || user?.name || '',
+          email: userEmail || user?.email || '',
+        },
+        theme: {
+          color: '#8B5CF6'
+        },
+        handler: async function (response: any) {
+          
+          try {
+            setLoading(true);
+            // Verify payment on backend
+            const verifyResponse = await axios.post(
+              `${API_URL}/api/payment/verify-premium`,
+              {
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+              },
+              { 
+                headers: { Authorization: `Bearer ${token}` },
+                timeout: 15000
+              }
+            );
+            
+            
+            // Show success message
+            alert('Premium upgrade successful! Page will reload to reflect changes.');
+            
+            // Close modal and refresh page
+            onClose();
+            window.location.reload();
+            
+          } catch (verifyError: any) {
+            console.error('Premium payment verification failed:', verifyError);
+            setError(
+              verifyError.response?.data?.message || 
+              'Payment verification failed. Please contact support if amount was debited.'
+            );
+          } finally {
+            setLoading(false);
+          }
+        },
+        modal: {
+          ondismiss: function() {
+          
+            setLoading(false);
+          }
+        }
+      };
+
+      
+      const rzp = new window.Razorpay(options);
+      
+      rzp.on('payment.failed', function (response: any) {
+        console.error('Premium payment failed:', response.error);
+        setError(`Payment failed: ${response.error.description}`);
+        setLoading(false);
+      });
+
+      rzp.open();
+
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to process upgrade');
-    } finally {
+      console.error('Premium upgrade failed:', err);
+      
+      let errorMessage = 'Failed to create payment order';
+      if (err.response) {
+        errorMessage = err.response.data?.message || `Server error: ${err.response.status}`;
+      } else if (err.request) {
+        errorMessage = 'Network error. Please check your connection.';
+      }
+      
+      setError(errorMessage);
       setLoading(false);
     }
   };
+
+  // Load Razorpay script on component mount
+  useState(() => {
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.async = true;
+    document.body.appendChild(script);
+    
+    return () => {
+      if (document.body.contains(script)) {
+        document.body.removeChild(script);
+      }
+    };
+  });
 
   if (!isOpen) return null;
 
@@ -89,7 +194,15 @@ const UpgradeModal = ({ isOpen, onClose }: UpgradeModalProps) => {
 
           {error && (
             <div className="mt-4 p-3 bg-red-100 text-red-700 rounded-md">
-              {error}
+              <div className="flex justify-between items-start">
+                <span>{error}</span>
+                <button 
+                  onClick={() => setError(null)}
+                  className="ml-2 text-red-500 hover:text-red-700"
+                >
+                  ×
+                </button>
+              </div>
             </div>
           )}
 
@@ -101,12 +214,19 @@ const UpgradeModal = ({ isOpen, onClose }: UpgradeModalProps) => {
                 loading ? 'opacity-50 cursor-not-allowed' : ''
               }`}
             >
-              {loading ? 'Processing...' : 'Upgrade Now - $29/month'}
+              {loading ? (
+                <div className="flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white mr-2"></div>
+                  Processing...
+                </div>
+              ) : (
+                'Upgrade Now - ₹2' // Fixed: Shows correct price based on backend (200 paise = ₹2)
+              )}
             </button>
           </div>
 
           <p className={`mt-4 text-sm text-center ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-            Secure payment powered by Stripe
+            Secure payment powered by Razorpay
           </p>
         </div>
       </div>

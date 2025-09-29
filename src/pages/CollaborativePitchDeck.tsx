@@ -236,8 +236,7 @@ const CollaborativePitchDeck = () => {
             }
           );
           
-          // Handle voice feedback
-          console.log('Voice feedback:', response.data);
+          
         } catch (error) {
           console.error('Failed to process voice feedback');
         }
