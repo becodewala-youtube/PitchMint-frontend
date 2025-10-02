@@ -35,6 +35,13 @@ const MarketResearch = lazy(() => import('./pages/MarketResearch'));
 const InvestorMatchmaking = lazy(() => import('./pages/InvestorMatchmaking'));
 const History = lazy(() => import('./pages/History'));
 const CollaborativePitchDeck = lazy(() => import('./pages/CollaborativePitchDeck'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
+const TermsOfService = lazy(() => import('./pages/TermsOfService'));
+const RefundPolicy = lazy(() => import('./pages/RefundPolicy'));
+const ShippingPolicy = lazy(() => import('./pages/ShippingPolicy'));
+const HelpCenter = lazy(() => import('./pages/HelpCenter'));
+const Contact = lazy(() => import('./pages/Contact'));
+
 
 // Loading component
 const PageLoader = () => (
@@ -94,6 +101,16 @@ function App() {
             <Route path="/investor-matching" element={<ProtectedRoute><InvestorMatchmaking /></ProtectedRoute>} />
             <Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} />
             <Route path="/collaborative-pitch/:id" element={<ProtectedRoute><CollaborativePitchDeck /></ProtectedRoute>} />
+
+
+            {/* Legal and Support Pages */}
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/terms" element={<TermsOfService />} />
+            <Route path="/refund" element={<RefundPolicy />} />
+            <Route path="/shipping" element={<ShippingPolicy />} />
+            <Route path="/help" element={<HelpCenter />} />
+            <Route path="/contact" element={<Contact />} />
+
           </Routes>
         </Suspense>
       </main>

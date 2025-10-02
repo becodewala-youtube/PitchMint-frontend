@@ -102,14 +102,19 @@ const quickLinks = [
             Support
           </h3>
           <ul className="md:space-y-3">
-            {['Help Center', 'Contact Us', 'Privacy Policy', 'Terms of Service'].map((link) => (
-              <li key={link}>
-                <a
-                  href="#"
+            {[
+              { name: 'Help Center', path: '/help' },
+              { name: 'Contact Us', path: '/contact' },
+              { name: 'Privacy Policy', path: '/privacy' },
+              { name: 'Terms of Service', path: '/terms' }
+            ].map((link) => (
+              <li key={link.name}>
+                <Link
+                  to={link.path}
                   className={`text-xs md:text-md ${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors duration-300 hover:translate-x-1 inline-block`}
                 >
-                  {link}
-                </a>
+                  {link.name}
+                </Link>
               </li>
             ))}
           </ul>
@@ -122,7 +127,16 @@ const quickLinks = [
           <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-4 md:mb-0`}>
             &copy; {new Date().getFullYear()} PitchMint. All rights reserved.
           </p>
-          <div className="flex items-center space-x-6">
+          <div className="flex items-center space-x-6 text-sm">
+            <Link to="/privacy" className={`${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors`}>
+              Privacy
+            </Link>
+            <Link to="/terms" className={`${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors`}>
+              Terms
+            </Link>
+            <Link to="/refund" className={`${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors`}>
+              Refunds
+            </Link>
             <span className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
               Made with ❤️ for entrepreneurs
             </span>
