@@ -105,7 +105,7 @@ const quickLinks = [
             {[
               { name: 'Help Center', path: '/help' },
               { name: 'Contact Us', path: '/contact' },
-              { name: 'Privacy Policy', path: '/privacy' },
+              { name: 'About Us', path: '/about' },
               { name: 'Terms of Service', path: '/terms' }
             ].map((link) => (
               <li key={link.name}>

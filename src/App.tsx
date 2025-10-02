@@ -41,6 +41,7 @@ const RefundPolicy = lazy(() => import('./pages/RefundPolicy'));
 const ShippingPolicy = lazy(() => import('./pages/ShippingPolicy'));
 const HelpCenter = lazy(() => import('./pages/HelpCenter'));
 const Contact = lazy(() => import('./pages/Contact'));
+const About = lazy(() => import('./pages/About'));
 
 
 // Loading component
@@ -110,7 +111,7 @@ function App() {
             <Route path="/shipping" element={<ShippingPolicy />} />
             <Route path="/help" element={<HelpCenter />} />
             <Route path="/contact" element={<Contact />} />
-
+            <Route path="/about" element={<About />} />
           </Routes>
         </Suspense>
       </main>
