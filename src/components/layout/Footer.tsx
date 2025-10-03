@@ -122,12 +122,12 @@ const quickLinks = [
       </div>
 
       {/* Bottom Bar */}
-      <div className={`pt-8 border-t ${darkMode ? 'border-gray-800' : 'border-gray-200'}`}>
+      <div className={`pt-6 border-t ${darkMode ? 'border-gray-800' : 'border-gray-200'}`}>
         <div className="flex flex-col md:flex-row justify-between items-center">
-          <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-4 md:mb-0`}>
+          <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-4 md:mb-0`}>
             &copy; {new Date().getFullYear()} PitchMint. All rights reserved.
           </p>
-          <div className="flex items-center space-x-6 text-sm">
+          <div className="flex items-center space-x-6 text-xs">
             <Link to="/privacy" className={`${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors`}>
               Privacy
             </Link>
@@ -137,7 +137,7 @@ const quickLinks = [
             <Link to="/refund" className={`${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors`}>
               Refunds
             </Link>
-            <span className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+            <span className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
               Made with ❤️ for entrepreneurs
             </span>
           </div>
