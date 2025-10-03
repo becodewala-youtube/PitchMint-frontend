@@ -51,7 +51,7 @@ export default {
 
         // Button Components
         '.btn-primary': {
-          '@apply px-6 py-2 rounded-2xl text-sm font-medium text-white transition-all duration-300 shadow-lg': {},
+          '@apply px-6 py-3 rounded-2xl text-sm font-medium text-white transition-all duration-300 shadow-lg': {},
         },
         '.btn-primary-cyan': {
           '@apply bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 hover:shadow-purple-500/25': {},

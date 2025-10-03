@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, Clock, MessageSquare, Users } from 'lucide-react';
+import { Mail, Send,  MessageSquare } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
   const { darkMode } = useTheme();
@@ -15,33 +16,7 @@ const Contact = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const contactMethods = [
-    {
-      icon: Mail,
-      title: "Email Support",
-      description: "Get detailed help via email",
-      contact: "support@pitchmint.com",
-      responseTime: "Within 24 hours",
-      color: "from-blue-500 to-cyan-500"
-    },
-    {
-      icon: MessageSquare,
-      title: "Live Chat",
-      description: "Chat with our support team",
-      contact: "Available 9 AM - 6 PM IST",
-      responseTime: "Instant response",
-      color: "from-green-500 to-emerald-500"
-    },
-    {
-      icon: Users,
-      title: "Business Inquiries",
-      description: "Partnership and enterprise solutions",
-      contact: "business@pitchmint.com",
-      responseTime: "Within 48 hours",
-      color: "from-purple-500 to-pink-500"
-    }
-  ];
-
+  
   const categories = [
     { value: 'general', label: 'General Support' },
     { value: 'technical', label: 'Technical Issue' },
@@ -50,12 +25,34 @@ const Contact = () => {
     { value: 'business', label: 'Business Inquiry' }
   ];
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e : React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     
-    // Simulate form submission
-    setTimeout(() => {
+    try {
+      // EmailJS configuration
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+      const publicKey = import.meta.env.VITE_EMAIL_PUBLIC_KEY; 
+      
+      // Prepare template parameters
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        subject: formData.subject,
+        category: categories.find(cat => cat.value === formData.category)?.label,
+        message: formData.message,
+        to_email: import.meta.env.VITE_EMAILJS_EMAILID
+      };
+      
+      // Send email using EmailJS
+      await emailjs.send(
+        serviceId,
+        templateId,
+        templateParams,
+        publicKey
+      );
+      
       setLoading(false);
       setSuccess(true);
       setFormData({
@@ -65,10 +62,19 @@ const Contact = () => {
         message: '',
         category: 'general'
       });
-    }, 2000);
+      
+      // Hide success message after 5 seconds
+      setTimeout(() => {
+        setSuccess(false);
+      }, 5000);
+    } catch (error) {
+      console.error('Failed to send email:', error);
+      setLoading(false);
+      alert('Failed to send message. Please try again or contact us directly at antik8795@gmail.com');
+    }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (e : React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData(prev => ({
       ...prev,
       [e.target.name]: e.target.value
@@ -91,8 +97,8 @@ const Contact = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="icon-container icon-cyan mx-auto mb-8">
-              <Mail className="h-8 w-8 text-white" />
+            <div className="icon-container icon-cyan mx-auto mb-2">
+              <Mail className="h-4 w-4 text-white" />
             </div>
             <h1 className={`page-title ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Contact
@@ -105,15 +111,15 @@ const Contact = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-1 gap-12">
             {/* Contact Form */}
             <motion.div 
-              className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8`}
+              className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} px-6 py-4`}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <h2 className={`text-2xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h2 className={`text-md font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Send us a Message
               </h2>
               
@@ -142,7 +148,7 @@ const Contact = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
+                      className={`input-field py-1 text-sm ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
                       placeholder="Your full name"
                     />
                   </div>
@@ -156,7 +162,7 @@ const Contact = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
+                      className={`input-field py-1 text-sm ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
                       placeholder="your@email.com"
                     />
                   </div>
@@ -170,7 +176,7 @@ const Contact = () => {
                     name="category"
                     value={formData.category}
                     onChange={handleChange}
-                    className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
+                    className={`input-field py-1 text-sm ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
                   >
                     {categories.map((cat) => (
                       <option key={cat.value} value={cat.value}>
@@ -190,7 +196,7 @@ const Contact = () => {
                     value={formData.subject}
                     onChange={handleChange}
                     required
-                    className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
+                    className={`input-field py-1 text-sm ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
                     placeholder="Brief description of your inquiry"
                   />
                 </div>
@@ -205,7 +211,7 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     rows={6}
-                    className={`input-field ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
+                    className={`input-field py-1 text-sm ${darkMode ? 'input-field-dark' : 'input-field-light'}`}
                     placeholder="Please provide details about your inquiry..."
                   />
                 </div>
@@ -234,71 +240,7 @@ const Contact = () => {
               </form>
             </motion.div>
 
-            {/* Contact Information */}
-            <motion.div 
-              className="space-y-6"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              {contactMethods.map((method, index) => (
-                <motion.div
-                  key={method.title}
-                  className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-6`}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.6 + index * 0.1 }}
-                >
-                  <div className="flex items-start">
-                    <div className={`icon-container bg-gradient-to-br ${method.color} mr-4 flex-shrink-0`}>
-                      <method.icon className="h-6 w-6 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className={`text-lg font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                        {method.title}
-                      </h3>
-                      <p className={`text-sm mb-2 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                        {method.description}
-                      </p>
-                      <p className={`font-medium mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                        {method.contact}
-                      </p>
-                      <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                        {method.responseTime}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-
-              {/* Office Information */}
-              <motion.div
-                className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-6`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.9 }}
-              >
-                <div className="flex items-start">
-                  <div className="icon-container icon-yellow mr-4 flex-shrink-0">
-                    <MapPin className="h-6 w-6 text-white" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className={`text-lg font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                      Office Address
-                    </h3>
-                    <p className={`text-sm mb-2 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                      Visit us for in-person meetings
-                    </p>
-                    <p className={`font-medium mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                      PitchMint Technologies Pvt. Ltd.
-                    </p>
-                    <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                      Bangalore, Karnataka, India
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            </motion.div>
+           
           </div>
         </div>
       </div>

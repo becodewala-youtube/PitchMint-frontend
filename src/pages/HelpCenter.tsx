@@ -21,32 +21,7 @@ const HelpCenter = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-  const categories = [
-    {
-      icon: Brain,
-      title: "Getting Started",
-      description: "Learn how to validate your first startup idea",
-      color: "from-purple-500 to-pink-500"
-    },
-    {
-      icon: CreditCard,
-      title: "Credits & Billing",
-      description: "Understanding credits, payments, and refunds",
-      color: "from-blue-500 to-cyan-500"
-    },
-    {
-      icon: FileText,
-      title: "AI Features",
-      description: "Pitch decks, market research, and competitor analysis",
-      color: "from-green-500 to-emerald-500"
-    },
-    {
-      icon: Users,
-      title: "Collaboration",
-      description: "Working with team members on pitch decks",
-      color: "from-orange-500 to-red-500"
-    }
-  ];
+ 
 
   const faqs = [
     {
@@ -74,11 +49,7 @@ const HelpCenter = () => {
       question: "Can I regenerate AI content if I'm not satisfied?",
       answer: "Yes! You can regenerate any AI content (pitch decks, analysis, etc.) by clicking the regenerate button. Each regeneration costs 1 credit."
     },
-    {
-      category: "Collaboration",
-      question: "How do I invite team members to collaborate?",
-      answer: "In the collaborative pitch deck view, click 'Invite Collaborators' to get a shareable link. Team members can join using this link to edit slides and add comments in real-time."
-    },
+    
     {
       category: "Getting Started",
       question: "What makes a good startup idea description?",
@@ -109,7 +80,7 @@ const HelpCenter = () => {
         <div className={`bg-orb ${darkMode ? 'bg-orb-2' : 'bg-orb-light-2'}`}></div>
       </div>
 
-      <div className="content-wrapper">
+      <div className="content-wrapper ">
         <div className="max-container">
           {/* Header */}
           <motion.div 
@@ -118,8 +89,8 @@ const HelpCenter = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="icon-container icon-blue mx-auto mb-8">
-              <HelpCircle className="h-8 w-8 text-white" />
+            <div className="icon-container icon-blue mx-auto mb-3">
+              <HelpCircle className="h-5 w-5 text-white" />
             </div>
             <h1 className={`page-title ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Help
@@ -134,7 +105,7 @@ const HelpCenter = () => {
 
           {/* Search */}
           <motion.div 
-            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-6 mb-12`}
+            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-3 mb-8`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -146,47 +117,25 @@ const HelpCenter = () => {
                 placeholder="Search for help articles..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className={`w-full pl-12 pr-4 py-4 rounded-2xl border-2 transition-all duration-300 ${
+                className={`w-full pl-12 pr-4 py-2 text-sm rounded-2xl border-2 transition-all duration-300 ${
                   darkMode
                     ? 'bg-gray-700/50 text-white border-gray-600 placeholder-gray-400 focus:border-blue-500'
                     : 'bg-white text-gray-900 border-gray-300 placeholder-gray-400 focus:border-blue-500'
-                } focus:ring-4 focus:ring-blue-500/20 focus:outline-none`}
+                } focus:ring-2 focus:ring-blue-500/20 focus:outline-none`}
               />
             </div>
           </motion.div>
 
-          {/* Help Categories */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-            {categories.map((category, index) => (
-              <motion.div
-                key={category.title}
-                className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} card-hover p-6 text-center`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 + index * 0.1 }}
-                whileHover={{ y: -5 }}
-              >
-                <div className={`icon-container bg-gradient-to-br ${category.color} mx-auto mb-4`}>
-                  <category.icon className="h-6 w-6 text-white" />
-                </div>
-                <h3 className={`text-lg font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                  {category.title}
-                </h3>
-                <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                  {category.description}
-                </p>
-              </motion.div>
-            ))}
-          </div>
+        
 
           {/* FAQ Section */}
           <motion.div 
-            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8 mb-12`}
+            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} py-3 px-4 mb-8`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
           >
-            <h2 className={`text-2xl font-bold mb-8 text-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h2 className={`text-lg font-bold mb-5 text-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Frequently Asked Questions
             </h2>
             <div className="space-y-4">
@@ -197,7 +146,7 @@ const HelpCenter = () => {
                 >
                   <button
                     onClick={() => toggleFaq(index)}
-                    className={`w-full text-left p-6 flex items-center justify-between hover:bg-gray-50/50 ${
+                    className={`w-full text-left py-3 px-4 flex items-center justify-between hover:bg-gray-50/50 ${
                       darkMode ? 'hover:bg-gray-700/50' : ''
                     } transition-colors duration-300 rounded-2xl`}
                   >
@@ -207,7 +156,7 @@ const HelpCenter = () => {
                       }`}>
                         {faq.category}
                       </span>
-                      <h3 className={`text-lg font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                      <h3 className={`text-md font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                         {faq.question}
                       </h3>
                     </div>
@@ -222,9 +171,9 @@ const HelpCenter = () => {
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
-                      className="px-6 pb-6"
+                      className="px-4 py-2"
                     >
-                      <p className={`leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                      <p className={`leading-relaxed text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                         {faq.answer}
                       </p>
                     </motion.div>
@@ -236,63 +185,50 @@ const HelpCenter = () => {
 
           {/* Contact Support */}
           <motion.div 
-            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8 text-center`}
+            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} px-4 py-3  text-center`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.0 }}
           >
-            <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h2 className={`text-lg font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Still Need Help?
             </h2>
-            <p className={`text-lg mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            <p className={`text-sm mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               Our support team is here to help you succeed with your startup journey.
             </p>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="text-center">
-                <div className="icon-container icon-blue mx-auto mb-4">
-                  <Mail className="h-6 w-6 text-white" />
+                <div className="icon-container icon-blue mx-auto mb-3">
+                  <Mail className="h-4 w-4 text-white" />
                 </div>
-                <h3 className={`text-lg font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h3 className={`text-md font-bold mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   Email Support
                 </h3>
-                <p className={`text-sm mb-4 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                <p className={`text-xs mb-3 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                   Get detailed help via email
                 </p>
                 <a
                   href="mailto:support@pitchmint.com"
-                  className="btn-primary btn-primary-blue text-sm"
+                  className="btn-primary btn-primary-blue text-xs"
                 >
                   Send Email
                 </a>
               </div>
               
-              <div className="text-center">
-                <div className="icon-container icon-green mx-auto mb-4">
-                  <MessageSquare className="h-6 w-6 text-white" />
-                </div>
-                <h3 className={`text-lg font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                  Live Chat
-                </h3>
-                <p className={`text-sm mb-4 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                  Chat with our support team
-                </p>
-                <button className="btn-primary btn-primary-green text-sm">
-                  Start Chat
-                </button>
-              </div>
+             
               
               <div className="text-center">
-                <div className="icon-container icon-orange mx-auto mb-4">
-                  <Clock className="h-6 w-6 text-white" />
+                <div className="icon-container icon-orange mx-auto mb-3">
+                  <Clock className="h-4 w-4 text-white" />
                 </div>
-                <h3 className={`text-lg font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h3 className={`text-md font-bold mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   Response Time
                 </h3>
-                <p className={`text-sm mb-4 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                <p className={`text-xs mb-3 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                   We typically respond within
                 </p>
-                <span className="inline-block px-3 py-1 rounded-full text-sm font-medium bg-orange-100 text-orange-800">
+                <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
                   24 hours
                 </span>
               </div>

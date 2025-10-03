@@ -83,8 +83,8 @@ const PrivacyPolicy = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="icon-container icon-blue mx-auto mb-8">
-              <Shield className="h-8 w-8 text-white" />
+            <div className="icon-container icon-blue mx-auto mb-3">
+              <Shield className="h-5 w-5 text-white" />
             </div>
             <h1 className={`page-title ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Privacy
@@ -95,19 +95,19 @@ const PrivacyPolicy = () => {
             <p className={`page-subtitle ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
               How we protect and handle your data
             </p>
-            <p className={`text-sm mt-4 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+            <p className={`text-sm mt-1 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
               Last updated: {new Date().toLocaleDateString()}
             </p>
           </motion.div>
 
           {/* Introduction */}
           <motion.div 
-            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8 mb-12`}
+            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-4 mb-8`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <p className={`text-lg leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            <p className={`text-md leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               At PitchMint, we are committed to protecting your privacy and ensuring the security of your personal information. 
               This Privacy Policy explains how we collect, use, and safeguard your data when you use our AI-powered startup 
               validation platform. By using PitchMint, you agree to the practices described in this policy.
@@ -124,11 +124,11 @@ const PrivacyPolicy = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 + index * 0.1 }}
               >
-                <div className="flex items-center mb-6">
+                <div className="flex items-center mb-4">
                   <div className="icon-container icon-blue mr-4">
-                    <section.icon className="h-6 w-6 text-white" />
+                    <section.icon className="h-4 w-4 text-white" />
                   </div>
-                  <h2 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <h2 className={`text-md font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                     {section.title}
                   </h2>
                 </div>
@@ -136,7 +136,7 @@ const PrivacyPolicy = () => {
                   {section.content.map((item, i) => (
                     <li key={i} className="flex items-start">
                       <div className="w-2 h-2 rounded-full bg-blue-500 mt-2 mr-4 flex-shrink-0"></div>
-                      <span className={`text-lg leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                      <span className={`text-sm leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                         {item}
                       </span>
                     </li>
@@ -146,34 +146,7 @@ const PrivacyPolicy = () => {
             ))}
           </div>
 
-          {/* Contact Section */}
-          <motion.div 
-            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8 mt-12 text-center`}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.0 }}
-          >
-            <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-              Questions About Privacy?
-            </h2>
-            <p className={`text-lg mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-              If you have any questions about this Privacy Policy or our data practices, please contact us.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="mailto:privacy@pitchmint.com"
-                className="btn-primary btn-primary-blue"
-              >
-                Email Privacy Team
-              </a>
-              <a
-                href="/contact"
-                className={`btn-secondary ${darkMode ? 'btn-secondary-dark' : 'btn-secondary-light'}`}
-              >
-                Contact Support
-              </a>
-            </div>
-          </motion.div>
+        
         </div>
       </div>
     </div>

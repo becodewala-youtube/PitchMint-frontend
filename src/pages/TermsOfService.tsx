@@ -93,8 +93,8 @@ const TermsOfService = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="icon-container icon-purple mx-auto mb-8">
-              <FileText className="h-8 w-8 text-white" />
+            <div className="icon-container icon-purple mx-auto mb-3">
+              <FileText className="h-5 w-5 text-white" />
             </div>
             <h1 className={`page-title ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Terms of
@@ -105,19 +105,19 @@ const TermsOfService = () => {
             <p className={`page-subtitle ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
               Legal terms and conditions for using PitchMint
             </p>
-            <p className={`text-sm mt-4 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+            <p className={`text-sm mt-2 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
               Last updated: {new Date().toLocaleDateString()}
             </p>
           </motion.div>
 
           {/* Introduction */}
           <motion.div 
-            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8 mb-12`}
+            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-4 mb-8`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <p className={`text-lg leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            <p className={`text-md leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               Welcome to PitchMint! These Terms of Service ("Terms") govern your use of our AI-powered startup 
               validation platform. Please read these terms carefully before using our services. By creating an 
               account or using PitchMint, you agree to be bound by these terms.
@@ -129,16 +129,16 @@ const TermsOfService = () => {
             {sections.map((section, index) => (
               <motion.div
                 key={section.title}
-                className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8`}
+                className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-5`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 + index * 0.1 }}
               >
                 <div className="flex items-center mb-6">
                   <div className="icon-container icon-purple mr-4">
-                    <section.icon className="h-6 w-6 text-white" />
+                    <section.icon className="h-5 w-5 text-white" />
                   </div>
-                  <h2 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <h2 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                     {section.title}
                   </h2>
                 </div>
@@ -146,7 +146,7 @@ const TermsOfService = () => {
                   {section.content.map((item, i) => (
                     <li key={i} className="flex items-start">
                       <div className="w-2 h-2 rounded-full bg-purple-500 mt-2 mr-4 flex-shrink-0"></div>
-                      <span className={`text-lg leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                      <span className={`text-sm leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                         {item}
                       </span>
                     </li>
@@ -156,34 +156,7 @@ const TermsOfService = () => {
             ))}
           </div>
 
-          {/* Contact Section */}
-          <motion.div 
-            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8 mt-12 text-center`}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.0 }}
-          >
-            <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-              Questions About These Terms?
-            </h2>
-            <p className={`text-lg mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-              If you have any questions about these Terms of Service, please contact our legal team.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="mailto:legal@pitchmint.com"
-                className="btn-primary btn-primary-purple"
-              >
-                Email Legal Team
-              </a>
-              <a
-                href="/contact"
-                className={`btn-secondary ${darkMode ? 'btn-secondary-dark' : 'btn-secondary-light'}`}
-              >
-                Contact Support
-              </a>
-            </div>
-          </motion.div>
+          
         </div>
       </div>
     </div>
