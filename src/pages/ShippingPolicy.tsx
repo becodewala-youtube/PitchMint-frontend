@@ -76,8 +76,8 @@ const ShippingPolicy = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="icon-container icon-orange mx-auto mb-8">
-              <Zap className="h-8 w-8 text-white" />
+            <div className="icon-container icon-orange mx-auto mb-3">
+              <Zap className="h-4 w-4 text-white" />
             </div>
             <h1 className={`page-title ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Service
@@ -88,47 +88,47 @@ const ShippingPolicy = () => {
             <p className={`page-subtitle ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
               Instant digital service delivery and access
             </p>
-            <p className={`text-sm mt-4 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+            <p className={`text-sm mt-2 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
               Last updated: {new Date().toLocaleDateString()}
             </p>
           </motion.div>
 
           {/* Digital Services Notice */}
           <motion.div 
-            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8 mb-12 text-center`}
+            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-4 mb-12 text-center`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <div className="icon-container-lg icon-blue mx-auto mb-6">
-              <Server className="h-12 w-12 text-white" />
+            <div className="icon-container-md icon-blue mx-auto mb-3">
+              <Server className="h-6 w-6 text-white" />
             </div>
-            <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h2 className={`text-lg font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               100% Digital Services
             </h2>
-            <p className={`text-lg leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            <p className={`text-md leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               PitchMint provides exclusively digital services. There are no physical products to ship. 
               All features, credits, and AI-generated content are delivered instantly through our platform.
             </p>
           </motion.div>
 
           {/* Delivery Features */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
             {deliveryFeatures.map((feature, index) => (
               <motion.div
                 key={feature.title}
-                className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8`}
+                className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} px-4 py-3`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 + index * 0.1 }}
               >
-                <div className={`icon-container bg-gradient-to-br ${feature.color} mb-6`}>
-                  <feature.icon className="h-6 w-6 text-white" />
+                <div className={`icon-container bg-gradient-to-br ${feature.color} mb-2`}>
+                  <feature.icon className="h-4 w-4 text-white" />
                 </div>
-                <h3 className={`text-xl font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h3 className={`text-md font-bold mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   {feature.title}
                 </h3>
-                <p className={`leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                <p className={`leading-relaxed text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                   {feature.description}
                 </p>
               </motion.div>
@@ -137,12 +137,12 @@ const ShippingPolicy = () => {
 
           {/* Service Delivery Times */}
           <motion.div 
-            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8 mb-12`}
+            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-5 mb-8`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
           >
-            <h2 className={`text-2xl font-bold mb-8 text-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h2 className={`text-lg font-bold mb-3 text-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Service Delivery Times
             </h2>
             <div className="overflow-x-auto">
@@ -183,20 +183,20 @@ const ShippingPolicy = () => {
 
           {/* Technical Requirements */}
           <motion.div 
-            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8 mb-12`}
+            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-5 mb-8`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.0 }}
           >
-            <div className="flex items-center mb-6">
+            <div className="flex items-center mb-4">
               <Shield className="h-6 w-6 text-blue-500 mr-3" />
-              <h2 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h2 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Technical Requirements
               </h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
-                <h3 className={`text-lg font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h3 className={`text-md font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   For Optimal Experience
                 </h3>
                 <ul className="space-y-2">
@@ -206,7 +206,7 @@ const ShippingPolicy = () => {
                     "JavaScript enabled",
                     "Cookies enabled for authentication"
                   ].map((req, i) => (
-                    <li key={i} className="flex items-start">
+                    <li key={i} className="flex items-start text-sm">
                       <div className="w-2 h-2 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0"></div>
                       <span className={`${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                         {req}
@@ -216,7 +216,7 @@ const ShippingPolicy = () => {
                 </ul>
               </div>
               <div>
-                <h3 className={`text-lg font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h3 className={`text-md font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   Service Availability
                 </h3>
                 <ul className="space-y-2">
@@ -226,7 +226,7 @@ const ShippingPolicy = () => {
                     "Automatic failover and redundancy",
                     "Regular maintenance windows (announced in advance)"
                   ].map((feature, i) => (
-                    <li key={i} className="flex items-start">
+                    <li key={i} className="flex items-start text-sm">
                       <div className="w-2 h-2 rounded-full bg-green-500 mt-2 mr-3 flex-shrink-0"></div>
                       <span className={`${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                         {feature}
@@ -240,20 +240,20 @@ const ShippingPolicy = () => {
 
           {/* Contact Section */}
           <motion.div 
-            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-8 text-center`}
+            className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-4 text-center`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.2 }}
           >
-            <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h2 className={`text-lg font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Service Issues?
             </h2>
-            <p className={`text-lg mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            <p className={`text-md mb-3 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               If you experience any issues with service delivery, our support team is ready to help.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="mailto:support@pitchmint.com"
+                href="mailto:antik8795@gmail.com"
                 className="btn-primary btn-primary-orange"
               >
                 Report Issue
