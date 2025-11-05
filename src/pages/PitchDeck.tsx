@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getIdea, generatePitchDeck, clearError } from '../store/slices/ideaSlice';
 import { RootState } from '../store';
 import { useTheme } from '../contexts/ThemeContext';
-import { ChevronLeft, ChevronRight, RefreshCw, AlertCircle, Download, FileText, Users } from 'lucide-react';
+import { ChevronLeft, ChevronRight, RefreshCw, AlertCircle, Download, FileText, Sparkles, Presentation, ArrowRight } from 'lucide-react';
 import { exportAllSlidesToPDF } from '../utils/pdfExport';
 import { motion } from 'framer-motion';
 import InsufficientCreditsModal from '../components/modals/InsufficientCreditsModal';
@@ -22,12 +22,11 @@ const PitchDeck = () => {
   const [exportLoading, setExportLoading] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
 
- useEffect(() => {
-  if (id && !idea) {  // only fetch if not already in store
-    dispatch(getIdea(id) as any);
-  }
-}, [dispatch, id, idea]);
-
+  useEffect(() => {
+    if (id && !idea) {
+      dispatch(getIdea(id) as any);
+    }
+  }, [dispatch, id, idea]);
 
   const handleRegeneratePitchDeck = async () => {
     if (id && !isGenerating && !loading) {
@@ -77,7 +76,7 @@ const PitchDeck = () => {
 
   if (loading || isGenerating) {
     return (
-      <div className='px-8 py-4'>
+      <div className='px-8 py-6'>
         <PitchDeckSkeleton />
       </div>
     );
@@ -85,12 +84,19 @@ const PitchDeck = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <AlertCircle className="mx-auto h-12 w-12 text-red-500" />
-          <h3 className="mt-2 text-xl font-medium text-red-500">Error</h3>
-          <p className="mt-1 text-gray-500">{error}</p>
-        </div>
+      <div className={`min-h-screen flex items-center justify-center ${darkMode ? 'bg-[#0a0118]' : 'bg-gray-50'}`}>
+        <motion.div 
+          className="text-center"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-red-500 to-pink-500 flex items-center justify-center mx-auto mb-6 shadow-2xl shadow-red-500/50">
+            <AlertCircle className="h-10 w-10 text-white" />
+          </div>
+          <h3 className={`text-2xl font-black mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Oops! Something went wrong</h3>
+          <p className={`text-lg ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{error}</p>
+        </motion.div>
       </div>
     );
   }
@@ -100,182 +106,273 @@ const PitchDeck = () => {
   }
 
   const slides = idea.pitchDeckContent ? [
-    { title: 'Problem', content: idea.pitchDeckContent.problem },
-    { title: 'Solution', content: idea.pitchDeckContent.solution },
-    { title: 'Market Size', content: idea.pitchDeckContent.marketSize },
-    { title: 'Business Model', content: idea.pitchDeckContent.businessModel },
-    { title: 'Competition', content: idea.pitchDeckContent.competitors },
-    { title: 'Go-to-Market Strategy', content: idea.pitchDeckContent.goToMarket },
-    { title: 'Team', content: idea.pitchDeckContent.team },
-    { title: 'Financials', content: idea.pitchDeckContent.financials },
-    { title: 'Milestones', content: idea.pitchDeckContent.milestones },
-    { title: 'Ask & Use of Funds', content: idea.pitchDeckContent.askAndUse }
+    { title: 'Problem', content: idea.pitchDeckContent.problem, gradient: 'from-red-500 to-pink-500' },
+    { title: 'Solution', content: idea.pitchDeckContent.solution, gradient: 'from-emerald-500 to-teal-500' },
+    { title: 'Market Size', content: idea.pitchDeckContent.marketSize, gradient: 'from-blue-500 to-indigo-500' },
+    { title: 'Business Model', content: idea.pitchDeckContent.businessModel, gradient: 'from-purple-500 to-fuchsia-500' },
+    { title: 'Competition', content: idea.pitchDeckContent.competitors, gradient: 'from-orange-500 to-amber-500' },
+    { title: 'Go-to-Market Strategy', content: idea.pitchDeckContent.goToMarket, gradient: 'from-cyan-500 to-blue-500' },
+    { title: 'Team', content: idea.pitchDeckContent.team, gradient: 'from-violet-500 to-purple-500' },
+    { title: 'Financials', content: idea.pitchDeckContent.financials, gradient: 'from-green-500 to-emerald-500' },
+    { title: 'Milestones', content: idea.pitchDeckContent.milestones, gradient: 'from-pink-500 to-rose-500' },
+    { title: 'Ask & Use of Funds', content: idea.pitchDeckContent.askAndUse, gradient: 'from-indigo-500 to-violet-500' }
   ] : [];
 
   return (
-    <div className={`page-container ${darkMode ? 'page-container-dark' : 'page-container-light'}`}>
-      {/* Animated Background */}
-      <div className="bg-animated">
-        <div className={`bg-orb ${darkMode ? 'bg-orb-1' : 'bg-orb-light-1'}`}></div>
-        <div className={`bg-orb ${darkMode ? 'bg-orb-2' : 'bg-orb-light-2'}`}></div>
+    <div className={`min-h-screen relative overflow-hidden ${darkMode ? 'bg-[#0a0118]' : 'bg-gray-50'}`}>
+      {/* Enhanced Animated Background */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        {/* Primary Gradient Orbs */}
+        <div
+          className={`absolute top-0 right-1/4 w-[600px] h-[600px] rounded-full blur-3xl animate-pulse ${
+            darkMode
+              ? "bg-gradient-to-br from-violet-600/30 via-purple-600/20 to-fuchsia-600/30"
+              : "bg-gradient-to-br from-violet-300/40 via-purple-300/30 to-fuchsia-300/40"
+          }`}
+          style={{ animationDuration: '8s' }}
+        ></div>
+        <div
+          className={`absolute bottom-0 left-1/4 w-[500px] h-[500px] rounded-full blur-3xl animate-pulse ${
+            darkMode
+              ? "bg-gradient-to-br from-cyan-600/30 via-blue-600/20 to-indigo-600/30"
+              : "bg-gradient-to-br from-cyan-300/40 via-blue-300/30 to-indigo-300/40"
+          }`}
+          style={{ animationDuration: '10s', animationDelay: '2s' }}
+        ></div>
+        <div
+          className={`absolute top-1/2 right-1/3 transform -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full blur-3xl animate-pulse ${
+            darkMode
+              ? "bg-gradient-to-br from-emerald-600/20 via-teal-600/10 to-cyan-600/20"
+              : "bg-gradient-to-br from-emerald-300/30 via-teal-300/20 to-cyan-300/30"
+          }`}
+          style={{ animationDuration: '12s', animationDelay: '4s' }}
+        ></div>
+
+        {/* Mesh Gradient Overlay */}
+        <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-b from-transparent via-purple-500/5 to-transparent' : 'bg-gradient-to-b from-transparent via-purple-200/10 to-transparent'}`} />
+        
+        {/* Animated Grid */}
+        <div className={`absolute inset-0 ${darkMode ? 'bg-[linear-gradient(rgba(139,92,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.03)_1px,transparent_1px)]' : 'bg-[linear-gradient(rgba(139,92,246,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.05)_1px,transparent_1px)]'} bg-[size:64px_64px]`} />
+
+        {/* Floating Elements */}
+        <div className="absolute top-20 left-[10%] w-2 h-2 bg-violet-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3s', animationDelay: '0s' }}></div>
+        <div className="absolute top-40 right-[15%] w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '4s', animationDelay: '1s' }}></div>
+        <div className="absolute bottom-32 left-[20%] w-2.5 h-2.5 bg-fuchsia-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3.5s', animationDelay: '2s' }}></div>
       </div>
 
-      <div className="content-wrapper">
-        <div className="max-container">
-          {/* Header */}
-          <motion.div 
-            className="section-header"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <div className="text-left mb-6 md:mb-0">
-              <div className="flex justify-start mb-2">
-                <div className="icon-container icon-purple mr-2">
-                  <FileText className="h-5 w-5 text-cyan-400" />
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {/* Enhanced Header */}
+        <motion.div 
+          className="mb-6"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+            <div>
+              <div className="flex items-center gap-3 mb-2">
+                <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br from-violet-600 to-purple-500 flex items-center justify-center shadow-2xl ${darkMode ? 'shadow-violet-500/50' : 'shadow-violet-500/30'}`}>
+                  <Presentation className="w-6 h-6 text-white" />
                 </div>
-                <h1 className={`text-md sm:text-lg mt-1 md:text-2xl font-bold text-gradient-primary `}>
-                  Pitch Deck
-                </h1>
+                <div>
+                  <h1 className={`text-2xl md:text-3xl font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    Pitch{" "}
+                    <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent">
+                      Deck
+                    </span>
+                  </h1>
+                </div>
               </div>
-              <p className={`text-sm sm:text-md ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'} font-medium flex items-center gap-2 ml-15`}>
+                <Sparkles className="w-4 h-4 text-violet-400" />
                 Professional investor presentation
               </p>
             </div>
-            <div className="flex flex-row sm:flex-row gap-4">
+
+            {/* Action Buttons */}
+            <div className="flex flex-wrap gap-3">
               <motion.button
                 onClick={handleExportPDF}
                 disabled={loading || exportLoading || !slides.length}
-                className="btn-primary btn-primary-cyan text-xs sm:text-sm mt-4 flex disabled:opacity-50 disabled:cursor-not-allowed"
+                className="group px-4 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold text-sm rounded-xl shadow-lg hover:shadow-xl hover:shadow-emerald-500/50 transition-all duration-300 hover:scale-105 inline-flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Download className={`sm:mr-2  h-4 w-4 ${exportLoading ? 'animate-spin' : ''}`} />
+                <Download className={`w-4 h-4 mr-2 ${exportLoading ? 'animate-spin' : ''}`} />
                 {exportLoading ? 'Exporting...' : 'Export PDF'}
               </motion.button>
 
-              {/* future enhancement feature and as of now i stopped at tis point of time and will do in later */}
-              {/* <motion.button
-                onClick={() => navigate(`/collaborative-pitch/${id}`)}
-                disabled={loading || !slides.length}
-                className="btn-primary btn-primary-green mt-4 flex disabled:opacity-50 disabled:cursor-not-allowed"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Users className="sm:mr-2 h-5 w-5" />
-                Collaborate
-              </motion.button> */}
               <motion.button
                 onClick={handleRegeneratePitchDeck}
                 disabled={loading || isGenerating}
-                className="btn-primary btn-primary-cyan text-xs sm:text-sm flex mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="group px-4 py-2.5 bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 text-white font-bold text-sm rounded-xl shadow-lg hover:shadow-xl hover:shadow-violet-500/50 transition-all duration-300 hover:scale-105 inline-flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <RefreshCw className={`sm:mr-2 mr-1 h-4 w-4 ${isGenerating ? 'animate-spin' : ''}`} />
-                {isGenerating ? 'Generating... (1 Credit)' : 'Regenerate (1 Credit)'}
+                <RefreshCw className={`w-4 h-4 mr-2 ${isGenerating ? 'animate-spin' : ''}`} />
+                {isGenerating ? 'Generating...' : 'Regenerate (1 Credit)'}
               </motion.button>
             </div>
-          </motion.div>
+          </div>
+        </motion.div>
 
-          {slides.length > 0 ? (
-            <motion.div 
-              id="pitch-deck-content" 
-              className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} overflow-hidden`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              {/* Slide Navigation */}
-              <div className="flex justify-between items-center px-6 border-b border-gray-200/20">
+        {slides.length > 0 ? (
+          <motion.div 
+            id="pitch-deck-content"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            {/* Main Slide Card */}
+            <div className={`relative overflow-hidden rounded-3xl mb-6 ${
+              darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'
+            } backdrop-blur-xl`}>
+              {/* Slide Navigation Header */}
+              <div className={`flex justify-between items-center px-6 py-4 border-b ${darkMode ? 'border-gray-800' : 'border-gray-200'}`}>
                 <motion.button
                   onClick={prevSlide}
-                  className={`p-3 rounded-2xl hover-lift-sm ${
+                  className={`group w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 ${
                     darkMode
-                      ? 'hover:bg-gray-700 text-gray-300'
-                      : 'hover:bg-gray-100 text-gray-600'
-                  }`}
+                      ? 'bg-gray-800/50 hover:bg-gradient-to-r hover:from-violet-600 hover:to-purple-600 text-gray-300 hover:text-white border border-gray-700/50'
+                      : 'bg-gray-100 hover:bg-gradient-to-r hover:from-violet-600 hover:to-purple-600 text-gray-600 hover:text-white border border-gray-200'
+                  } hover:scale-110`}
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                 >
-                  <ChevronLeft className="h-6 w-6" />
+                  <ChevronLeft className="h-5 w-5" />
                 </motion.button>
-                <span className={`text-sm font-medium ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                  Slide {currentSlide + 1} of {slides.length}
-                </span>
+
+                <div className="text-center">
+                  <div className={`text-lg font-bold mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    Slide {currentSlide + 1} of {slides.length}
+                  </div>
+                  <div className={`inline-flex items-center px-3 py-1 rounded-lg text-xs font-semibold bg-gradient-to-r ${slides[currentSlide].gradient} text-white`}>
+                    {slides[currentSlide].title}
+                  </div>
+                </div>
+
                 <motion.button
                   onClick={nextSlide}
-                  className={`p-3 rounded-2xl hover-lift-sm ${
+                  className={`group w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 ${
                     darkMode
-                      ? 'hover:bg-gray-700 text-gray-300'
-                      : 'hover:bg-gray-100 text-gray-600'
-                  }`}
+                      ? 'bg-gray-800/50 hover:bg-gradient-to-r hover:from-violet-600 hover:to-purple-600 text-gray-300 hover:text-white border border-gray-700/50'
+                      : 'bg-gray-100 hover:bg-gradient-to-r hover:from-violet-600 hover:to-purple-600 text-gray-600 hover:text-white border border-gray-200'
+                  } hover:scale-110`}
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                 >
-                  <ChevronRight className="h-6 w-6" />
+                  <ChevronRight className="h-5 w-5" />
                 </motion.button>
               </div>
 
-              {/* Current Slide */}
-              <div className="px-8 py-4 min-h-[300px]">
+              {/* Current Slide Content */}
+              <div className="px-8 py-8 min-h-[400px]">
                 <motion.div
                   key={currentSlide}
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5 }}
+                  className="relative"
                 >
-                  <h2 className="text-md sm:text-xl font-bold mb-2 text-gradient-primary">
-                    {slides[currentSlide].title}
-                  </h2>
-                  <div className={`text-sm sm:text-md text-justify whitespace-pre-wrap leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  {/* Slide Title with Gradient Accent */}
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className={`w-1 h-12 rounded-full bg-gradient-to-b ${slides[currentSlide].gradient}`}></div>
+                    <h2 className={`text-2xl md:text-3xl font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                      {slides[currentSlide].title}
+                    </h2>
+                  </div>
+
+                  {/* Slide Content */}
+                  <div className={`prose prose-lg max-w-none text-justify leading-relaxed ${
+                    darkMode 
+                      ? 'prose-invert prose-headings:text-white prose-p:text-gray-300 prose-strong:text-white prose-ul:text-gray-300' 
+                      : 'prose-headings:text-gray-900 prose-p:text-gray-700 prose-strong:text-gray-900 prose-ul:text-gray-700'
+                  }`}>
                     <Markdown>{slides[currentSlide].content}</Markdown>
                   </div>
                 </motion.div>
               </div>
+            </div>
 
-              {/* Slide Thumbnails */}
-              <div className="p-6 border-t border-gray-200/20">
-                <div className="grid grid-cols-3 md:grid-cols-5 gap-3">
-                  {slides.map((slide, index) => (
-                    <motion.button
-                      key={slide.title}
-                      onClick={() => setCurrentSlide(index)}
-                      className={`p-3 text-xs rounded-xl hover-lift-sm ${
-                        currentSlide === index
-                          ? 'bg-gradient-to-r from-purple-600 to-cyan-600 text-white shadow-lg'
-                          : darkMode
-                          ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      {slide.title}
-                    </motion.button>
-                  ))}
+            {/* Slide Thumbnails */}
+            <div className={`relative overflow-hidden rounded-3xl p-6 ${
+              darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'
+            } backdrop-blur-xl`}>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className={`text-sm font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  All Slides
+                </h3>
+                <div className={`text-xs font-medium ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                  {slides.length} slides total
                 </div>
               </div>
-            </motion.div>
-          ) : (
-            <motion.div 
-              className={`card-glass ${darkMode ? 'card-glass-dark' : 'card-glass-light'} p-12 text-center`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <div className="icon-container-lg icon-purple mx-auto mb-8">
-                <FileText className="h-12 w-12 text-white" />
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                {slides.map((slide, index) => (
+                  <motion.button
+                    key={slide.title}
+                    onClick={() => setCurrentSlide(index)}
+                    className={`group relative overflow-hidden p-4 rounded-xl transition-all duration-300 ${
+                      currentSlide === index
+                        ? `bg-gradient-to-br ${slide.gradient} text-white shadow-xl`
+                        : darkMode
+                        ? 'bg-gray-800/50 text-gray-300 hover:bg-gray-800 border border-gray-700/50'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-200'
+                    } hover:scale-105`}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    {/* Gradient overlay for non-active slides */}
+                    {currentSlide !== index && (
+                      <div className={`absolute inset-0 bg-gradient-to-br ${slide.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}></div>
+                    )}
+
+                    <div className="relative">
+                      <div className={`text-xs font-bold mb-2 ${currentSlide === index ? 'text-white' : ''}`}>
+                        {index + 1}
+                      </div>
+                      <div className={`text-xs font-semibold line-clamp-2 ${currentSlide === index ? 'text-white' : ''}`}>
+                        {slide.title}
+                      </div>
+                    </div>
+                  </motion.button>
+                ))}
               </div>
-              <h3 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                {isGenerating ? 'Generating Pitch Deck...' : 'No Pitch Deck Available'}
-              </h3>
-              <p className={`text-lg ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                {isGenerating ? 'Please wait while we create your professional pitch deck.' : 'Click the generate button to create your pitch deck.'}
-              </p>
-            </motion.div>
-          )}
-        </div>
+            </div>
+          </motion.div>
+        ) : (
+          <motion.div 
+            className="text-center py-16"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className={`w-24 h-24 rounded-3xl bg-gradient-to-br from-violet-600 to-fuchsia-500 flex items-center justify-center mx-auto mb-6 shadow-2xl ${darkMode ? 'shadow-violet-500/50' : 'shadow-violet-500/30'}`}>
+              <FileText className="h-12 w-12 text-white" />
+            </div>
+            <h3 className={`text-2xl font-black mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              {isGenerating ? 'Generating Your Pitch Deck...' : 'No Pitch Deck Available'}
+            </h3>
+            <p className={`text-lg mb-8 ${darkMode ? 'text-gray-400' : 'text-gray-600'} max-w-2xl mx-auto`}>
+              {isGenerating 
+                ? 'Please wait while we create your professional pitch deck with AI-powered insights.' 
+                : 'Click the generate button to create a comprehensive investor presentation.'}
+            </p>
+            {!isGenerating && (
+              <motion.button
+                onClick={handleRegeneratePitchDeck}
+                disabled={loading}
+                className="group px-8 py-4 bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 text-white font-bold text-sm rounded-2xl shadow-2xl hover:shadow-violet-500/50 transition-all duration-300 hover:scale-105 inline-flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Sparkles className="w-5 h-5 mr-3" />
+                Generate Pitch Deck (1 Credit)
+                <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform duration-300" />
+              </motion.button>
+            )}
+          </motion.div>
+        )}
       </div>
 
       {/* Insufficient Credits Modal */}

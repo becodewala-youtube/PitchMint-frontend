@@ -9,6 +9,7 @@ import { RootState } from './store';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import ProtectedRoute from './components/auth/ProtectedRoute';
+import PublicRoute from './components/auth/PublicRoute';
 
 // Lazy-loaded pages
 const Landing = lazy(() => import('./pages/Landing'));
@@ -43,7 +44,6 @@ const HelpCenter = lazy(() => import('./pages/HelpCenter'));
 const Contact = lazy(() => import('./pages/Contact'));
 const About = lazy(() => import('./pages/About'));
 
-
 // Loading component
 const PageLoader = () => (
   <div className="flex items-center justify-center min-h-screen">
@@ -70,6 +70,7 @@ function App() {
       dispatch(loadUser() as any);
     }
   }, [token, isAuthenticated, dispatch]);
+
   return (
     <div className={`min-h-screen flex flex-col ${darkMode ? 'dark bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
       <Navbar />
@@ -77,11 +78,13 @@ function App() {
         <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path="/" element={<Landing />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/verify-email" element={<EmailVerification />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
+            
+            {/* Public Auth Routes - redirect to dashboard if already logged in */}
+            <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+            <Route path="/signup" element={<PublicRoute><Signup /></PublicRoute>} />
+            <Route path="/verify-email" element={<PublicRoute><EmailVerification /></PublicRoute>} />
+            <Route path="/forgot-password" element={<PublicRoute><ForgotPassword /></PublicRoute>} />
+            <Route path="/reset-password" element={<PublicRoute><ResetPassword /></PublicRoute>} />
             
             {/* Protected Routes */}
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
@@ -102,7 +105,6 @@ function App() {
             <Route path="/investor-matching" element={<ProtectedRoute><InvestorMatchmaking /></ProtectedRoute>} />
             <Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} />
             <Route path="/collaborative-pitch/:id" element={<ProtectedRoute><CollaborativePitchDeck /></ProtectedRoute>} />
-
 
             {/* Legal and Support Pages */}
             <Route path="/privacy" element={<PrivacyPolicy />} />
