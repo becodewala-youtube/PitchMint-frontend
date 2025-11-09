@@ -121,32 +121,7 @@ useEffect(() => {
     <div className={`min-h-screen relative overflow-hidden ${darkMode ? 'bg-[#0a0118]' : 'bg-gray-50'}`}>
       {/* Enhanced Animated Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        {/* Primary Gradient Orbs */}
-        <div
-          className={`absolute top-0 right-1/4 w-[600px] h-[600px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-emerald-600/30 via-teal-600/20 to-cyan-600/30"
-              : "bg-gradient-to-br from-emerald-300/40 via-teal-300/30 to-cyan-300/40"
-          }`}
-          style={{ animationDuration: '8s' }}
-        ></div>
-        <div
-          className={`absolute bottom-0 left-1/4 w-[500px] h-[500px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-orange-600/30 via-amber-600/20 to-yellow-600/30"
-              : "bg-gradient-to-br from-orange-300/40 via-amber-300/30 to-yellow-300/40"
-          }`}
-          style={{ animationDuration: '10s', animationDelay: '2s' }}
-        ></div>
-        <div
-          className={`absolute top-1/2 right-1/3 transform -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-blue-600/20 via-indigo-600/10 to-purple-600/20"
-              : "bg-gradient-to-br from-blue-300/30 via-indigo-300/20 to-purple-300/30"
-          }`}
-          style={{ animationDuration: '12s', animationDelay: '4s' }}
-        ></div>
-
+       
         {/* Mesh Gradient Overlay */}
         <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-b from-transparent via-emerald-500/5 to-transparent' : 'bg-gradient-to-b from-transparent via-emerald-200/10 to-transparent'}`} />
         
@@ -169,12 +144,12 @@ useEffect(() => {
         >
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
             <div>
-              <div className="flex items-center gap-3 mb-2">
-                <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-500 flex items-center justify-center shadow-2xl ${darkMode ? 'shadow-emerald-500/50' : 'shadow-emerald-500/30'}`}>
-                  <Target className="w-6 h-6 text-white" />
+              <div className="flex items-center gap-3 mb-1">
+                <div className={`w-6 sm:w-8 h-6 sm:h-8 rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-500 flex items-center justify-center shadow-2xl ${darkMode ? 'shadow-emerald-500/50' : 'shadow-emerald-500/30'}`}>
+                  <Target className="w-4 h-4 text-white" />
                 </div>
                 <div>
-                  <h1 className={`text-2xl md:text-3xl font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <h1 className={`text-md md:text-xl font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                     Competitor{" "}
                     <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent">
                       Analysis
@@ -182,7 +157,7 @@ useEffect(() => {
                   </h1>
                 </div>
               </div>
-              <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'} font-medium flex items-center gap-2 ml-15`}>
+              <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'} font-medium flex items-center gap-2 ml-15`}>
                 <Sparkles className="w-4 h-4 text-emerald-400" />
                 Market landscape and competitive intelligence
               </p>
@@ -191,7 +166,7 @@ useEffect(() => {
             <motion.button
               onClick={() => analyzeCompetitors(true)}
               disabled={loading}
-              className="group px-4 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold text-sm rounded-xl shadow-lg hover:shadow-xl hover:shadow-emerald-500/50 transition-all duration-300 hover:scale-105 inline-flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
+              className="group px-4 py-1 sm:py-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold text-xs rounded-xl shadow-lg hover:shadow-xl hover:shadow-emerald-500/50 transition-all duration-300 hover:scale-105 inline-flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -203,7 +178,7 @@ useEffect(() => {
 
         {/* Your Idea Card */}
         <motion.div 
-          className={`relative overflow-hidden rounded-3xl p-6 mb-6 ${
+          className={`relative overflow-hidden rounded-3xl p-3 mb-6 ${
             darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'
           } backdrop-blur-xl`}
           initial={{ opacity: 0, y: 30 }}
@@ -213,14 +188,14 @@ useEffect(() => {
           <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 via-purple-500/10 to-fuchsia-500/10 opacity-50"></div>
           <div className="relative">
             <div className="flex items-start gap-3 mb-4">
-              <div className={`w-10 h-10 rounded-xl bg-gradient-to-br from-violet-600 to-purple-500 flex items-center justify-center flex-shrink-0 shadow-lg`}>
+              <div className={` hidden  w-8 h-8 rounded-xl bg-gradient-to-br from-violet-600 to-purple-500 sm:flex items-center justify-center flex-shrink-0 shadow-lg`}>
                 <Lightbulb className="w-5 h-5 text-white" />
               </div>
               <div className="flex-1">
                 <h2 className={`text-sm font-bold mb-2 ${darkMode ? 'text-violet-400' : 'text-violet-600'}`}>
                   Your Startup Idea
                 </h2>
-                <p className={`text-sm md:text-base text-justify leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                <p className={`text-xs md:text-sm text-justify leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                   {idea.ideaText}
                 </p>
               </div>
@@ -232,7 +207,7 @@ useEffect(() => {
           <>
             {/* Market Overview Card */}
             <motion.div 
-              className={`relative overflow-hidden rounded-3xl p-6 mb-8 ${
+              className={`relative overflow-hidden rounded-3xl p-3 mb-8 ${
                 darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'
               } backdrop-blur-xl`}
               initial={{ opacity: 0, y: 30 }}
@@ -241,15 +216,15 @@ useEffect(() => {
             >
               <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-teal-500/10 to-cyan-500/10 opacity-50"></div>
               <div className="relative">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className={`w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-500 flex items-center justify-center shadow-lg`}>
-                    <TrendingUp className="w-5 h-5 text-white" />
+                <div className="flex items-center gap-3 mb-2">
+                  <div className={`w-8 h-8 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-500 flex items-center justify-center shadow-lg`}>
+                    <TrendingUp className="w-4 h-4 text-white" />
                   </div>
-                  <h2 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <h2 className={`text-sm sm:text-md font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                     Market Overview
                   </h2>
                 </div>
-                <p className={`text-sm md:text-base text-justify leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                <p className={`text-xs md:text-sm text-justify leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                   {analysis.summary}
                 </p>
               </div>
@@ -257,13 +232,13 @@ useEffect(() => {
 
             {/* Competitors Grid */}
             <div className="mb-6">
-              <h2 className={`text-xl md:text-2xl font-black mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h2 className={`text-md md:text-lg font-black mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Key{" "}
                 <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent">
                   Competitors
                 </span>
               </h2>
-              <p className={`text-sm mb-6 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              <p className={`text-xs mb-6 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 Detailed SWOT analysis of {analysis.competitors.length} major competitors
               </p>
             </div>
@@ -272,7 +247,7 @@ useEffect(() => {
               {analysis.competitors.map((competitor, index) => (
                 <motion.div
                   key={index}
-                  className={`group relative overflow-hidden rounded-3xl p-6 ${
+                  className={`group relative overflow-hidden rounded-3xl p-3 ${
                     darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'
                   } backdrop-blur-xl hover:scale-[1.02] transition-all duration-500`}
                   initial={{ opacity: 0, y: 30 }}
@@ -289,15 +264,15 @@ useEffect(() => {
                   <div className="relative">
                     {/* Competitor Header */}
                     <div className="flex items-center gap-3 mb-4 pb-4 border-b border-gray-800/50">
-                      <div className={`w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-500 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                        <Users className="w-5 h-5 text-white" />
+                      <div className={`w-8 h-8 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-500 hidden sm:flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                        <Users className="w-4 h-4 text-white" />
                       </div>
-                      <h3 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                      <h3 className={`text-sm font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                         {competitor.name}
                       </h3>
                     </div>
 
-                    <p className={`mb-6 text-sm text-justify leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                    <p className={`mb-6 text-xs text-justify leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                       {competitor.description}
                     </p>
 
@@ -306,8 +281,8 @@ useEffect(() => {
                       {/* Strengths */}
                       <div className={`p-4 rounded-xl ${darkMode ? 'bg-emerald-900/20 border border-emerald-500/20' : 'bg-emerald-50 border border-emerald-200'}`}>
                         <div className="flex items-center gap-2 mb-3">
-                          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shadow-lg">
-                            <CheckCircle2 className="w-4 h-4 text-white" />
+                          <div className="w-6 sm:w-8 h-6 sm:h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shadow-lg">
+                            <CheckCircle2 className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
                           </div>
                           <h4 className="font-bold text-sm text-emerald-500">
                             Strengths
@@ -326,8 +301,8 @@ useEffect(() => {
                       {/* Weaknesses */}
                       <div className={`p-4 rounded-xl ${darkMode ? 'bg-red-900/20 border border-red-500/20' : 'bg-red-50 border border-red-200'}`}>
                         <div className="flex items-center gap-2 mb-3">
-                          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-red-500 to-pink-500 flex items-center justify-center shadow-lg">
-                            <XCircle className="w-4 h-4 text-white" />
+                          <div className="w-6 sm:w-8 h-6 sm:h-8 rounded-lg bg-gradient-to-br from-red-500 to-pink-500 flex items-center justify-center shadow-lg">
+                            <XCircle className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
                           </div>
                           <h4 className="font-bold text-sm text-red-500">
                             Weaknesses
@@ -346,8 +321,8 @@ useEffect(() => {
                       {/* Opportunities */}
                       <div className={`p-4 rounded-xl ${darkMode ? 'bg-blue-900/20 border border-blue-500/20' : 'bg-blue-50 border border-blue-200'}`}>
                         <div className="flex items-center gap-2 mb-3">
-                          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg">
-                            <Lightbulb className="w-4 h-4 text-white" />
+                          <div className="w-6 sm:w-8 h-6 sm:h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg">
+                            <Lightbulb className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
                           </div>
                           <h4 className="font-bold text-sm text-blue-500">
                             Opportunities
@@ -366,8 +341,8 @@ useEffect(() => {
                       {/* Threats */}
                       <div className={`p-4 rounded-xl ${darkMode ? 'bg-orange-900/20 border border-orange-500/20' : 'bg-orange-50 border border-orange-200'}`}>
                         <div className="flex items-center gap-2 mb-3">
-                          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center shadow-lg">
-                            <AlertTriangle className="w-4 h-4 text-white" />
+                          <div className="w-6 sm:w-8 h-6 sm:h-8 rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center shadow-lg">
+                            <AlertTriangle className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
                           </div>
                           <h4 className="font-bold text-sm text-orange-500">
                             Threats

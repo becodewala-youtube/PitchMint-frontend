@@ -144,34 +144,7 @@ const IdeaResults = () => {
       {/* Enhanced Animated Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         {/* Primary Gradient Orbs */}
-        <div
-          className={`absolute top-0 right-1/4 w-[600px] h-[600px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-violet-600/30 via-purple-600/20 to-fuchsia-600/30"
-              : "bg-gradient-to-br from-violet-300/40 via-purple-300/30 to-fuchsia-300/40"
-          }`}
-          style={{ animationDuration: '8s' }}
-        ></div>
-        <div
-          className={`absolute bottom-0 left-1/4 w-[500px] h-[500px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-cyan-600/30 via-blue-600/20 to-indigo-600/30"
-              : "bg-gradient-to-br from-cyan-300/40 via-blue-300/30 to-indigo-300/40"
-          }`}
-          style={{ animationDuration: '10s', animationDelay: '2s' }}
-        ></div>
-        <div
-          className={`absolute top-1/2 right-1/3 transform -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-emerald-600/20 via-teal-600/10 to-cyan-600/20"
-              : "bg-gradient-to-br from-emerald-300/30 via-teal-300/20 to-cyan-300/30"
-          }`}
-          style={{ animationDuration: '12s', animationDelay: '4s' }}
-        ></div>
-
-        {/* Mesh Gradient Overlay */}
-        <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-b from-transparent via-purple-500/5 to-transparent' : 'bg-gradient-to-b from-transparent via-purple-200/10 to-transparent'}`} />
-        
+       
         {/* Animated Grid */}
         <div className={`absolute inset-0 ${darkMode ? 'bg-[linear-gradient(rgba(139,92,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.03)_1px,transparent_1px)]' : 'bg-[linear-gradient(rgba(139,92,246,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.05)_1px,transparent_1px)]'} bg-[size:64px_64px]`} />
 
@@ -191,47 +164,47 @@ const IdeaResults = () => {
         >
           {/* Title */}
           <div className="flex items-center gap-3 mb-4">
-            <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br from-violet-600 to-fuchsia-500 flex items-center justify-center shadow-2xl ${darkMode ? 'shadow-violet-500/50' : 'shadow-violet-500/30'}`}>
-              <Sparkles className="w-6 h-6 text-white" />
+            <div className={`w-8 h-8 rounded-2xl bg-gradient-to-br from-violet-600 to-fuchsia-500 flex items-center justify-center shadow-2xl ${darkMode ? 'shadow-violet-500/50' : 'shadow-violet-500/30'}`}>
+              <Sparkles className="w-4 h-4 text-white" />
             </div>
             <div>
-              <h1 className={`text-2xl md:text-3xl font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h1 className={`text-mf md:text-lg font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Idea Analysis{" "}
                 <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent">
                   Results
                 </span>
               </h1>
-              <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'} font-medium`}>
+              <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'} font-medium`}>
                 Comprehensive validation and insights
               </p>
             </div>
           </div>
 
           {/* Idea Card */}
-          <div className={`relative overflow-hidden rounded-3xl p-6 mb-6 ${
+          <div className={`relative overflow-hidden rounded-3xl p-2 sm:p-3 mb-6 ${
             darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'
           } backdrop-blur-xl`}>
             <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 via-purple-500/10 to-fuchsia-500/10 opacity-50"></div>
             <div className="relative">
               <div className="flex items-start gap-3 mb-4">
-                <div className={`w-10 h-10 rounded-xl bg-gradient-to-br from-violet-600 to-purple-500 flex items-center justify-center flex-shrink-0 shadow-lg`}>
-                  <CheckCircle2 className="w-5 h-5 text-white" />
+                <div className={`w-6 sm:w-8 h-6 sm:h-8 rounded-xl bg-gradient-to-br from-violet-600 to-purple-500 flex items-center justify-center flex-shrink-0 shadow-lg`}>
+                  <CheckCircle2 className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
                 </div>
                 <div className="flex-1">
-                  <h3 className={`text-sm font-bold mb-2 ${darkMode ? 'text-violet-400' : 'text-violet-600'}`}>
+                  <h3 className={`text-sm font-bold mb-1 ${darkMode ? 'text-violet-400' : 'text-violet-600'}`}>
                     Your Startup Idea
                   </h3>
-                  <p className={`text-sm md:text-base text-justify leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <p className={`text-xs md:text-sm text-justify leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                     {idea?.ideaText}
                   </p>
                 </div>
               </div>
 
               {/* Action Buttons */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-5">
                 <motion.button
                   onClick={handleGeneratePitchDeck}
-                  className={`group/btn inline-flex items-center justify-center px-4 py-3 rounded-xl text-xs font-bold transition-all duration-300 ${
+                  className={`group/btn inline-flex items-center justify-center px-4 py-1 sm:py-2 rounded-xl text-xs font-bold transition-all duration-300 ${
                     darkMode
                       ? 'bg-gray-800/50 text-gray-300 hover:bg-gradient-to-r hover:from-violet-600 hover:to-purple-600 hover:text-white border border-gray-700/50 hover:border-violet-500/50'
                       : 'bg-gray-100 text-gray-700 hover:bg-gradient-to-r hover:from-violet-600 hover:to-purple-600 hover:text-white border border-gray-200 hover:border-violet-300'
@@ -245,7 +218,7 @@ const IdeaResults = () => {
 
                 <motion.button
                   onClick={handleGenerateCanvas}
-                  className={`group/btn inline-flex items-center justify-center px-4 py-3 rounded-xl text-xs font-bold transition-all duration-300 ${
+                  className={`group/btn inline-flex items-center justify-center px-4 py-1 sm:py-2 rounded-xl text-xs font-bold transition-all duration-300 ${
                     darkMode
                       ? 'bg-gray-800/50 text-gray-300 hover:bg-gradient-to-r hover:from-cyan-600 hover:to-blue-600 hover:text-white border border-gray-700/50 hover:border-cyan-500/50'
                       : 'bg-gray-100 text-gray-700 hover:bg-gradient-to-r hover:from-cyan-600 hover:to-blue-600 hover:text-white border border-gray-200 hover:border-cyan-300'
@@ -259,7 +232,7 @@ const IdeaResults = () => {
 
                 <motion.button
                   onClick={handleCompetitorAnalysis}
-                  className={`group/btn inline-flex items-center justify-center px-4 py-3 rounded-xl text-xs font-bold transition-all duration-300 ${
+                  className={`group/btn inline-flex items-center justify-center px-4 py-1 sm:py-2 rounded-xl text-xs font-bold transition-all duration-300 ${
                     darkMode
                       ? 'bg-gray-800/50 text-gray-300 hover:bg-gradient-to-r hover:from-emerald-600 hover:to-teal-600 hover:text-white border border-gray-700/50 hover:border-emerald-500/50'
                       : 'bg-gray-100 text-gray-700 hover:bg-gradient-to-r hover:from-emerald-600 hover:to-teal-600 hover:text-white border border-gray-200 hover:border-emerald-300'
@@ -273,7 +246,7 @@ const IdeaResults = () => {
 
                 <motion.button
                   onClick={handlePitchSimulator}
-                  className={`group/btn inline-flex items-center justify-center px-4 py-3 rounded-xl text-xs font-bold transition-all duration-300 ${
+                  className={`group/btn inline-flex items-center justify-center px-4 py-1 sm:py-2 rounded-xl text-xs font-bold transition-all duration-300 ${
                     darkMode
                       ? 'bg-gray-800/50 text-gray-300 hover:bg-gradient-to-r hover:from-orange-600 hover:to-red-600 hover:text-white border border-gray-700/50 hover:border-orange-500/50'
                       : 'bg-gray-100 text-gray-700 hover:bg-gradient-to-r hover:from-orange-600 hover:to-red-600 hover:text-white border border-gray-200 hover:border-orange-300'
@@ -294,7 +267,7 @@ const IdeaResults = () => {
           {scoreData.map((score, index) => (
             <motion.div
               key={score.label}
-              className={`group relative overflow-hidden rounded-2xl md:rounded-3xl p-5 ${
+              className={`group relative overflow-hidden rounded-2xl md:rounded-3xl p-4 ${
                 darkMode
                   ? "bg-gray-900/50 border border-gray-800/50"
                   : "bg-white border border-gray-200"
@@ -315,18 +288,18 @@ const IdeaResults = () => {
               />
 
               <div className="relative">
-                <div className="flex items-start justify-between mb-4">
+                <div className="flex items-start justify-between mb-2">
                   <div
-                    className={`w-10 h-10 rounded-xl bg-gradient-to-br ${score.gradient} flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}
+                    className={`w-6 sm:w-8 h-6 sm:h-8 rounded-xl bg-gradient-to-br ${score.gradient} flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}
                   >
-                    <score.icon className="w-5 h-5 text-white" />
+                    <score.icon className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
                   </div>
                 </div>
 
                 <h3 className={`text-xs font-semibold mb-1 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                   {score.label}
                 </h3>
-                <p className={`text-3xl font-black mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <p className={`text-md sm:text-xl font-black mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   {score.value}%
                 </p>
                 <p className={`text-xs ${darkMode ? 'text-gray-500' : 'text-gray-500'}`}>
@@ -334,7 +307,7 @@ const IdeaResults = () => {
                 </p>
 
                 {/* Progress Bar */}
-                <div className={`w-full mt-4 rounded-full h-2 ${darkMode ? 'bg-gray-800' : 'bg-gray-200'} overflow-hidden`}>
+                <div className={`w-full mt-2 sm:mt-4 rounded-full h-1 sm:h-2 ${darkMode ? 'bg-gray-800' : 'bg-gray-200'} overflow-hidden`}>
                   <motion.div
                     className={`h-2 rounded-full bg-gradient-to-r ${score.gradient}`}
                     initial={{ width: 0 }}
@@ -354,13 +327,13 @@ const IdeaResults = () => {
           transition={{ duration: 0.8, delay: 0.6 }}
         >
           <div className="mb-6">
-            <h2 className={`text-xl md:text-2xl font-black mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h2 className={`text-md md:text-lg font-black mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Detailed{" "}
               <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent">
                 Analysis
               </span>
             </h2>
-            <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+            <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
               In-depth breakdown of your startup idea
             </p>
           </div>
@@ -369,7 +342,7 @@ const IdeaResults = () => {
             {analysisData.map((analysis, index) => (
               <motion.div
                 key={analysis.title}
-                className={`group relative overflow-hidden rounded-2xl p-6 ${
+                className={`group relative overflow-hidden rounded-2xl p-3 ${
                   darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'
                 } backdrop-blur-xl hover:scale-[1.02] transition-all duration-500`}
                 initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
@@ -381,15 +354,15 @@ const IdeaResults = () => {
                 <div className={`absolute inset-0 bg-gradient-to-br ${analysis.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}></div>
 
                 <div className="relative">
-                  <div className="flex items-center mb-4">
-                    <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${analysis.gradient} flex items-center justify-center mr-3 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                      <analysis.icon className="w-5 h-5 text-white" />
+                  <div className="flex items-center mb-2">
+                    <div className={`w-8 h-8 rounded-xl bg-gradient-to-br ${analysis.gradient} flex items-center justify-center mr-3 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                      <analysis.icon className="w-4 h-4 text-white" />
                     </div>
-                    <h3 className={`text-base font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <h3 className={`text-sm font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       {analysis.title}
                     </h3>
                   </div>
-                  <p className={`text-sm text-justify leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                  <p className={`text-xs text-justify leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                     {analysis.content}
                   </p>
                 </div>

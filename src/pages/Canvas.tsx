@@ -158,30 +158,7 @@ const Canvas = () => {
     <div className={`min-h-screen relative overflow-hidden ${darkMode ? 'bg-[#0a0118]' : 'bg-gray-50'}`}>
       {/* Enhanced Animated Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div
-          className={`absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-violet-600/30 via-purple-600/20 to-fuchsia-600/30"
-              : "bg-gradient-to-br from-violet-300/40 via-purple-300/30 to-fuchsia-300/40"
-          }`}
-          style={{ animationDuration: '8s' }}
-        ></div>
-        <div
-          className={`absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-cyan-600/30 via-blue-600/20 to-indigo-600/30"
-              : "bg-gradient-to-br from-cyan-300/40 via-blue-300/30 to-indigo-300/40"
-          }`}
-          style={{ animationDuration: '10s', animationDelay: '2s' }}
-        ></div>
-        <div
-          className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-emerald-600/20 via-teal-600/10 to-cyan-600/20"
-              : "bg-gradient-to-br from-emerald-300/30 via-teal-300/20 to-cyan-300/30"
-          }`}
-          style={{ animationDuration: '12s', animationDelay: '4s' }}
-        ></div>
+        
 
         {/* Mesh Gradient Overlay */}
         <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-b from-transparent via-purple-500/5 to-transparent' : 'bg-gradient-to-b from-transparent via-purple-200/10 to-transparent'}`} />
@@ -190,25 +167,25 @@ const Canvas = () => {
         <div className={`absolute inset-0 ${darkMode ? 'bg-[linear-gradient(rgba(139,92,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.03)_1px,transparent_1px)]' : 'bg-[linear-gradient(rgba(139,92,246,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.05)_1px,transparent_1px)]'} bg-[size:64px_64px]`} />
       </div>
 
-      <div className="relative z-10 py-8 sm:py-12">
+      <div className="relative z-10 py-8 sm:py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <motion.div 
-            className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4"
+            className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 sm:mb-10 gap-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
             <div className="text-left">
-              <div className="flex items-center mb-3">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 shadow-2xl shadow-blue-500/50 flex items-center justify-center mr-4">
-                  <Layout className="h-7 w-7 text-white" />
+              <div className="flex items-center mb-1 sm:mb-3">
+                <div className="w-6 sm:w-8 h-6 sm:h-8 rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 shadow-2xl shadow-blue-500/50 flex items-center justify-center mr-4">
+                  <Layout className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
                 </div>
                 <div>
-                  <h1 className={`text-2xl md:text-3xl font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <h1 className={`text-md md:text-lg font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                     Business Model Canvas
                   </h1>
-                  <p className={`text-sm md:text-base ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                  <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                     Lean startup methodology visualization
                   </p>
                 </div>
@@ -217,7 +194,7 @@ const Canvas = () => {
             <motion.button
               onClick={handleGenerateCanvas}
               disabled={loading || isGenerating}
-              className={`group relative flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm md:text-base transition-all duration-300 shadow-xl overflow-hidden ${
+              className={`group relative flex items-center gap-2 px-6 py-1 sm:py-2 rounded-xl font-bold text-xs transition-all duration-300 shadow-xl overflow-hidden ${
                 loading || isGenerating
                   ? "bg-gray-400 cursor-not-allowed"
                   : darkMode
@@ -230,7 +207,7 @@ const Canvas = () => {
               {!(loading || isGenerating) && (
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600" />
               )}
-              <RefreshCw className={`relative z-10 h-5 w-5 ${isGenerating ? 'animate-spin' : ''}`} />
+              <RefreshCw className={`relative z-10 h-4 w-4 ${isGenerating ? 'animate-spin' : ''}`} />
               <span className="relative z-10">
                 {isGenerating ? 'Generating...' : 'Regenerate'} (1 Credit)
               </span>
@@ -242,7 +219,7 @@ const Canvas = () => {
               {canvasSections.map((section, index) => (
                 <motion.div
                   key={section.title}
-                  className={`group relative p-6 md:p-8 rounded-3xl backdrop-blur-xl border transition-all duration-500 hover:scale-105 cursor-pointer overflow-hidden ${section.span} ${
+                  className={`group relative p-3 md:p-4 rounded-3xl backdrop-blur-xl border transition-all duration-500 hover:scale-105 cursor-pointer overflow-hidden ${section.span} ${
                     darkMode ? "bg-gray-900/50 border-gray-800/50" : "bg-white/80 border-gray-200"
                   }`}
                   initial={{ opacity: 0, y: 20 }}
@@ -255,15 +232,15 @@ const Canvas = () => {
                   
                   <div className="relative">
                     <div className="flex items-center mb-4">
-                      <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${section.gradient} flex items-center justify-center mr-3 shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
-                        <section.icon className="w-6 h-6 text-white" />
+                      <div className={`w-6 sm:w-8 h-6 sm:h-8 rounded-xl bg-gradient-to-br ${section.gradient} flex items-center justify-center mr-3 shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
+                        <section.icon className="w-4 h-4 text-white" />
                       </div>
-                      <h2 className={`text-base md:text-lg font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                      <h2 className={`text-sm md:text-sm font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                         {section.title}
                       </h2>
                     </div>
                     
-                    <div className={`prose prose-sm md:prose-base max-w-none text-justify leading-relaxed ${
+                    <div className={`prose prose-sm text-xs sm:text-sm md:prose-base max-w-none text-justify leading-relaxed ${
                       darkMode ? 'prose-invert text-gray-300' : 'text-gray-700'
                     }`}>
                       <ReactMarkdown>{section.content || 'No content available'}</ReactMarkdown>

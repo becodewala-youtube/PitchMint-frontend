@@ -71,35 +71,12 @@ useEffect(() => {
     <div className={`min-h-screen relative overflow-hidden ${darkMode ? 'bg-[#0a0118]' : 'bg-gray-50'}`}>
       {/* Enhanced Animated Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        {/* Primary Gradient Orbs */}
-        <div
-          className={`absolute top-0 right-1/4 w-[600px] h-[600px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-violet-600/30 via-purple-600/20 to-fuchsia-600/30"
-              : "bg-gradient-to-br from-violet-300/40 via-purple-300/30 to-fuchsia-300/40"
-          }`}
-          style={{ animationDuration: '8s' }}
-        ></div>
-        <div
-          className={`absolute bottom-0 left-1/4 w-[500px] h-[500px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-cyan-600/30 via-blue-600/20 to-indigo-600/30"
-              : "bg-gradient-to-br from-cyan-300/40 via-blue-300/30 to-indigo-300/40"
-          }`}
-          style={{ animationDuration: '10s', animationDelay: '2s' }}
-        ></div>
-        <div
-          className={`absolute top-1/2 right-1/3 transform -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-emerald-600/20 via-teal-600/10 to-cyan-600/20"
-              : "bg-gradient-to-br from-emerald-300/30 via-teal-300/20 to-cyan-300/30"
-          }`}
-          style={{ animationDuration: '12s', animationDelay: '4s' }}
-        ></div>
+        
 
         {/* Mesh Gradient Overlay */}
         <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-b from-transparent via-purple-500/5 to-transparent' : 'bg-gradient-to-b from-transparent via-purple-200/10 to-transparent'}`} />
         
+       
         {/* Animated Grid */}
         <div className={`absolute inset-0 ${darkMode ? 'bg-[linear-gradient(rgba(139,92,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.03)_1px,transparent_1px)]' : 'bg-[linear-gradient(rgba(139,92,246,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.05)_1px,transparent_1px)]'} bg-[size:64px_64px]`} />
 
@@ -119,12 +96,12 @@ useEffect(() => {
         >
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
             <div>
-              <div className="flex items-center gap-3 mb-2">
-                <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br from-violet-600 to-fuchsia-500 flex items-center justify-center shadow-2xl ${darkMode ? 'shadow-violet-500/50' : 'shadow-violet-500/30'}`}>
-                  <Brain className="w-6 h-6 text-white" />
+              <div className="flex items-center gap-3 mb-1">
+                <div className={`w-8 h-8 rounded-2xl bg-gradient-to-br from-violet-600 to-fuchsia-500 flex items-center justify-center shadow-2xl ${darkMode ? 'shadow-violet-500/50' : 'shadow-violet-500/30'}`}>
+                  <Brain className="w-4 h-4 text-white" />
                 </div>
                 <div>
-                  <h1 className={`text-2xl md:text-3xl font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <h1 className={`text-md md:text-xl font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                     Your{" "}
                     <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent">
                       Startup Ideas
@@ -132,37 +109,37 @@ useEffect(() => {
                   </h1>
                 </div>
               </div>
-              <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'} font-medium flex items-center gap-2 ml-15`}>
+              <p className={`text-xs sm:text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'} font-medium flex items-center gap-2 ml-15`}>
                 <TrendingUp className="w-4 h-4 text-violet-400" />
                 Manage and track your validated concepts
               </p>
             </div>
             <motion.button
               onClick={() => navigate('/submit-idea')}
-              className="group px-6 py-3 bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 text-white font-bold text-sm rounded-xl shadow-xl hover:shadow-2xl hover:shadow-violet-500/50 transition-all duration-300 hover:scale-105 inline-flex items-center"
+              className="group px-6 py-1 sm:py-2 bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 text-white font-bold text-xs sm:text-sm rounded-xl shadow-xl hover:shadow-2xl hover:shadow-violet-500/50 transition-all duration-300 hover:scale-105 inline-flex items-center"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Plus className="w-5 h-5 mr-2" />
+              <Plus className="w-4 sm:w-5 h-4 sm:h-5 mr-2" />
               Submit New Idea
-              <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+              <ArrowRight className="w-4 sm:w-5 h-4 sm:h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
             </motion.button>
           </div>
 
           {/* Stats Summary Bar */}
           {ideas.length > 0 && (
-            <div className={`relative overflow-hidden rounded-2xl p-4 ${darkMode ? 'bg-gradient-to-r from-violet-600/10 via-purple-600/10 to-fuchsia-600/10 border border-violet-500/20' : 'bg-gradient-to-r from-violet-100 via-purple-100 to-fuchsia-100 border border-violet-200'}`}>
+            <div className={`relative overflow-hidden rounded-2xl p-2 sm:p-3 ${darkMode ? 'bg-gradient-to-r from-violet-600/10 via-purple-600/10 to-fuchsia-600/10 border border-violet-500/20' : 'bg-gradient-to-r from-violet-100 via-purple-100 to-fuchsia-100 border border-violet-200'}`}>
               <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-r from-violet-600/5 via-purple-600/5 to-fuchsia-600/5' : 'bg-gradient-to-r from-violet-50 via-purple-50 to-fuchsia-50'} backdrop-blur-3xl`} />
               <div className="relative flex flex-wrap items-center justify-between gap-4">
                 <div className="flex items-center gap-2">
-                  <Sparkles className="w-5 h-5 text-violet-400" />
-                  <span className={`text-sm font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <Sparkles className="w-4 h-4 text-violet-400" />
+                  <span className={`text-xs font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                     {ideas.length} {ideas.length === 1 ? 'Idea' : 'Ideas'} Validated
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Star className="w-5 h-5 text-amber-400" />
-                  <span className={`text-sm font-semibold ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <Star className="w-4 h-4 text-amber-400" />
+                  <span className={`text-xs font-semibold ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                     Avg Score: {ideas.length ? Math.round(ideas.reduce((acc, idea) => acc + idea.overallScore, 0) / ideas.length) : 0}%
                   </span>
                 </div>
@@ -176,7 +153,7 @@ useEffect(() => {
             {ideas.map((idea, index) => (
               <motion.div
                 key={idea._id}
-                className={`group relative overflow-hidden rounded-3xl p-6 ${
+                className={`group relative overflow-hidden rounded-3xl px-4 py-3 ${
                   darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'
                 } backdrop-blur-xl hover:scale-[1.01] transition-all duration-500 cursor-pointer`}
                 initial={{ opacity: 0, y: 30 }}
@@ -188,7 +165,7 @@ useEffect(() => {
                 <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 via-purple-500/10 to-fuchsia-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                 {/* Glow Effect */}
-                <div className="absolute -inset-1 bg-gradient-to-br from-violet-600 via-purple-600 to-fuchsia-600 opacity-0 group-hover:opacity-20 blur-2xl transition-opacity duration-500" />
+                <div className="absolute -inset-1 bg-gradient-to-br  opacity-0 group-hover:opacity-20 blur-2xl transition-opacity duration-500" />
 
                 <div className="relative">
                   {/* Header Section */}
@@ -197,28 +174,28 @@ useEffect(() => {
                       className="flex-1 cursor-pointer"
                       onClick={() => navigate(`/idea/${idea._id}`)}
                     >
-                      <h2 className={`text-lg font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'} group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-violet-400 group-hover:to-fuchsia-400 group-hover:bg-clip-text transition-all duration-300`}>
+                      <h2 className={`text-xs sm:text-sm font-semibold sm:font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'} group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-violet-400 group-hover:to-fuchsia-400 group-hover:bg-clip-text transition-all duration-300`}>
                         {idea.ideaText.length > 150
                           ? `${idea.ideaText.substring(0, 150)}...`
                           : idea.ideaText}
                       </h2>
                       <div className="flex flex-wrap items-center gap-4">
                         {/* Score Badge */}
-                        <div className={`inline-flex items-center px-4 py-2 rounded-xl text-sm font-bold shadow-lg ${
+                        <div className={`inline-flex items-center px-3 py-1 rounded-xl text-xs font-bold shadow-lg ${
                           idea.overallScore >= 80
                             ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-emerald-500/50'
                             : idea.overallScore >= 60
                             ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-amber-500/50'
                             : 'bg-gradient-to-r from-red-500 to-pink-500 text-white shadow-red-500/50'
                         }`}>
-                          <Star className="w-4 h-4 mr-2" />
+                          <Star className="w-3 h-3 mr-2" />
                           {idea.overallScore}% Score
                         </div>
 
                         {/* Date */}
                         <div className="flex items-center gap-2">
                           <Calendar className={`w-4 h-4 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`} />
-                          <span className={`text-sm font-medium ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                          <span className={`text-xs font-medium ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                             {new Date(idea.createdAt).toLocaleDateString('en-US', { 
                               month: 'short', 
                               day: 'numeric', 
@@ -234,7 +211,7 @@ useEffect(() => {
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
                     <motion.button
                       onClick={() => navigate(`/pitch-deck/${idea._id}`)}
-                      className={`group/btn inline-flex items-center justify-center px-4 py-3 rounded-xl text-xs font-bold transition-all duration-300 ${
+                      className={`group/btn inline-flex items-center justify-center px-2 sm:px-4 py-1 sm:py-2 rounded-xl text-xs font-bold transition-all duration-300 ${
                         darkMode
                           ? 'bg-gray-800/50 text-gray-300 hover:bg-gradient-to-r hover:from-violet-600 hover:to-purple-600 hover:text-white border border-gray-700/50 hover:border-violet-500/50'
                           : 'bg-gray-100 text-gray-700 hover:bg-gradient-to-r hover:from-violet-600 hover:to-purple-600 hover:text-white border border-gray-200 hover:border-violet-300'
@@ -248,7 +225,7 @@ useEffect(() => {
 
                     <motion.button
                       onClick={() => navigate(`/canvas/${idea._id}`)}
-                      className={`group/btn inline-flex items-center justify-center px-4 py-3 rounded-xl text-xs font-bold transition-all duration-300 ${
+                      className={`group/btn inline-flex items-center justify-center px-2 sm:px-4 py-1 sm:py-2 rounded-xl text-xs font-bold transition-all duration-300 ${
                         darkMode
                           ? 'bg-gray-800/50 text-gray-300 hover:bg-gradient-to-r hover:from-cyan-600 hover:to-blue-600 hover:text-white border border-gray-700/50 hover:border-cyan-500/50'
                           : 'bg-gray-100 text-gray-700 hover:bg-gradient-to-r hover:from-cyan-600 hover:to-blue-600 hover:text-white border border-gray-200 hover:border-cyan-300'
@@ -262,7 +239,7 @@ useEffect(() => {
 
                     <motion.button
                       onClick={() => navigate(`/competitors/${idea._id}`)}
-                      className={`group/btn inline-flex items-center justify-center px-4 py-3 rounded-xl text-xs font-bold transition-all duration-300 ${
+                      className={`group/btn inline-flex items-center justify-center px-2 sm:px-4 py-1 sm:py-2 rounded-xl text-xs font-bold transition-all duration-300 ${
                         darkMode
                           ? 'bg-gray-800/50 text-gray-300 hover:bg-gradient-to-r hover:from-emerald-600 hover:to-teal-600 hover:text-white border border-gray-700/50 hover:border-emerald-500/50'
                           : 'bg-gray-100 text-gray-700 hover:bg-gradient-to-r hover:from-emerald-600 hover:to-teal-600 hover:text-white border border-gray-200 hover:border-emerald-300'
@@ -276,7 +253,7 @@ useEffect(() => {
 
                     <motion.button
                       onClick={() => navigate(`/pitch-simulator/${idea._id}`)}
-                      className={`group/btn inline-flex items-center justify-center px-4 py-3 rounded-xl text-xs font-bold transition-all duration-300 ${
+                      className={`group/btn inline-flex items-center justify-center px-2 sm:px-4 py-1 sm:py-2 rounded-xl text-xs font-bold transition-all duration-300 ${
                         darkMode
                           ? 'bg-gray-800/50 text-gray-300 hover:bg-gradient-to-r hover:from-orange-600 hover:to-red-600 hover:text-white border border-gray-700/50 hover:border-orange-500/50'
                           : 'bg-gray-100 text-gray-700 hover:bg-gradient-to-r hover:from-orange-600 hover:to-red-600 hover:text-white border border-gray-200 hover:border-orange-300'
@@ -290,7 +267,7 @@ useEffect(() => {
 
                     <motion.button
                       onClick={() => handleDeleteClick(idea._id)}
-                      className={`group/btn inline-flex items-center justify-center px-4 py-3 rounded-xl text-xs font-bold transition-all duration-300 ${
+                      className={`group/btn inline-flex items-center justify-center px-2 sm:px-4 py-1 sm:py-2 rounded-xl text-xs font-bold transition-all duration-300 ${
                         darkMode
                           ? 'bg-gray-800/50 text-red-400 hover:bg-gradient-to-r hover:from-red-600 hover:to-pink-600 hover:text-white border border-gray-700/50 hover:border-red-500/50'
                           : 'bg-gray-100 text-red-600 hover:bg-gradient-to-r hover:from-red-600 hover:to-pink-600 hover:text-white border border-gray-200 hover:border-red-300'
