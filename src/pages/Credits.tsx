@@ -220,17 +220,17 @@ useEffect(() => {
         >
           <div className="flex justify-center mb-4">
             <div className="flex items-center gap-4 text-center">
-              <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-600 to-orange-500 flex items-center justify-center shadow-2xl ${darkMode ? "shadow-amber-500/50" : "shadow-amber-500/30"}`}>
-                <CreditCard className="w-6 h-6 text-white" />
+              <div className={`w-6 sm:w-8 h-6 sm:h-8 rounded-2xl bg-gradient-to-br from-amber-600 to-orange-500 flex items-center justify-center shadow-2xl ${darkMode ? "shadow-amber-500/50" : "shadow-amber-500/30"}`}>
+                <CreditCard className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
               </div>
               <div>
-                <h1 className={`text-xl md:text-2xl font-black ${darkMode ? "text-white" : "text-gray-900"}`}>
+                <h1 className={`text-md md:text-lg font-black ${darkMode ? "text-white" : "text-gray-900"}`}>
                   Buy{" "}
                   <span className="bg-gradient-to-r from-amber-400 via-yellow-400 to-orange-400 bg-clip-text text-transparent">
                     Credits
                   </span>
                 </h1>
-                <p className={`text-xs md:text-sm ${darkMode ? "text-gray-400" : "text-gray-600"} font-medium flex items-center gap-2 justify-center`}>
+                <p className={`text-xs  ${darkMode ? "text-gray-400" : "text-gray-600"} font-medium flex items-center gap-2 justify-center`}>
                   <Zap className="w-3 h-3 md:w-4 md:h-4 text-amber-400" />
                   Power up your startup journey
                 </p>
@@ -265,7 +265,7 @@ useEffect(() => {
 
         {/* Current Balance Card */}
         <motion.div 
-          className={`relative overflow-hidden rounded-3xl p-6 mb-8 ${darkMode ? 'bg-gradient-to-r from-amber-600/10 via-yellow-600/10 to-orange-600/10 border border-amber-500/20' : 'bg-gradient-to-r from-amber-100 via-yellow-100 to-orange-100 border border-amber-200'}`}
+          className={`relative overflow-hidden rounded-3xl p-2 mb-8 ${darkMode ? 'bg-gradient-to-r from-amber-600/10 via-yellow-600/10 to-orange-600/10 border border-amber-500/20' : 'bg-gradient-to-r from-amber-100 via-yellow-100 to-orange-100 border border-amber-200'}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
@@ -273,16 +273,16 @@ useEffect(() => {
           <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-r from-amber-600/5 via-yellow-600/5 to-orange-600/5' : 'bg-gradient-to-r from-amber-50 via-yellow-50 to-orange-50'} backdrop-blur-3xl`} />
           <div className="relative flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-600 to-orange-500 flex items-center justify-center shadow-xl">
-                <Wallet className="w-8 h-8 text-white" />
+              <div className="w-6 sm:w-8 h-6 sm:h-8 rounded-2xl bg-gradient-to-br from-amber-600 to-orange-500 flex items-center justify-center shadow-xl">
+                <Wallet className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
               </div>
               <div className="text-center md:text-left">
                 <h2 className={`text-sm font-semibold mb-1 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                   Current Balance
                 </h2>
-                <div className={`text-4xl font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <div className={`text-xl font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   {userCredits}
-                  <span className={`text-lg ml-2 font-bold ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                  <span className={`text-xs ml-2 font-bold ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                     Credits
                   </span>
                 </div>
@@ -298,7 +298,7 @@ useEffect(() => {
         </motion.div>
 
         {/* Credit Plans */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
           {planArray.map((plan, index) => {
             const isPopular = plan.id === 'pro';
             const gradientColors = {
@@ -312,7 +312,7 @@ useEffect(() => {
             return (
               <motion.div
                 key={plan.id}
-                className={`group relative overflow-hidden rounded-3xl p-6 ${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl hover:scale-105 transition-all duration-500 ${isPopular ? 'ring-2 ring-purple-500/50' : ''}`}
+                className={`group relative overflow-hidden rounded-3xl p-3 ${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl hover:scale-105 transition-all duration-500 ${isPopular ? 'ring-2 ring-purple-500/50' : ''}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 + index * 0.1 }}
@@ -330,27 +330,27 @@ useEffect(() => {
 
                 <div className="relative">
                   {/* Plan Icon */}
-                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${colors.from} ${colors.to} flex items-center justify-center mb-4 shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
-                    {plan.id === 'starter' ? <Zap className="w-7 h-7 text-white" /> :
-                     plan.id === 'pro' ? <Star className="w-7 h-7 text-white" /> :
-                     <Sparkles className="w-7 h-7 text-white" />}
+                  <div className={`w-6 sm:w-8 h-6 sm:h-8 rounded-2xl bg-gradient-to-br ${colors.from} ${colors.to} flex items-center justify-center mb-4 shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
+                    {plan.id === 'starter' ? <Zap className="w-4 h-4 text-white" /> :
+                     plan.id === 'pro' ? <Star className="w-4 h-4 text-white" /> :
+                     <Sparkles className="w-4 h-4 text-white" />}
                   </div>
 
                   {/* Plan Name */}
-                  <h3 className={`text-xl font-black mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <h3 className={`text-md font-black mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                     {plan.name}
                   </h3>
-                  <p className={`text-sm mb-6 ${darkMode ? 'text-gray-400' : 'text-gray-600'} leading-relaxed`}>
+                  <p className={`text-xs mb-4 ${darkMode ? 'text-gray-400' : 'text-gray-600'} leading-relaxed`}>
                     {plan.description}
                   </p>
 
                   {/* Credits Display */}
-                  <div className={`p-4 rounded-2xl mb-6 ${darkMode ? `bg-gradient-to-br ${colors.bg} border ${colors.border}` : 'bg-gray-50 border border-gray-200'}`}>
+                  <div className={`p-2 rounded-2xl mb-6 ${darkMode ? `bg-gradient-to-br ${colors.bg} border ${colors.border}` : 'bg-gray-50 border border-gray-200'}`}>
                     <div className="text-center">
-                      <div className={`text-4xl font-black mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                      <div className={`text-xl font-black mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                         {plan.credits}
                       </div>
-                      <div className={`text-sm font-semibold ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                      <div className={`text-xs font-semibold ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                         Credits
                       </div>
                     </div>
@@ -359,27 +359,27 @@ useEffect(() => {
                   {/* Price */}
                   <div className="text-center mb-6">
                     <div className="flex items-baseline justify-center gap-2">
-                      <span className={`text-3xl font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                      <span className={`text-xl font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                         ₹{(plan.price / 100).toFixed(0)}
                       </span>
-                      <span className={`text-sm font-semibold ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                      <span className={`text-xs font-semibold ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                         one-time
                       </span>
                     </div>
                   </div>
 
                   {/* Features */}
-                  <div className="mb-6 space-y-3">
+                  <div className="mb-6 space-y-2">
                     {[
                       { icon: Zap, text: 'Instant credit delivery' },
                       { icon: Clock, text: 'No expiration' },
                       { icon: Shield, text: 'All premium features' }
                     ].map((feature, idx) => (
                       <div key={idx} className="flex items-center">
-                        <div className={`w-5 h-5 rounded-lg bg-gradient-to-br ${colors.from} ${colors.to} flex items-center justify-center mr-3`}>
+                        <div className={`w-4 h-4 rounded-lg bg-gradient-to-br ${colors.from} ${colors.to} flex items-center justify-center mr-3`}>
                           <Check className="w-3 h-3 text-white" />
                         </div>
-                        <span className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                        <span className={`text-xs ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                           {feature.text}
                         </span>
                       </div>
@@ -390,7 +390,7 @@ useEffect(() => {
                   <motion.button
                     onClick={() => handlePurchase(plan.id)}
                     disabled={loading || purchasingPlan === plan.id}
-                    className={`w-full py-3 px-6 rounded-xl text-sm font-bold text-white transition-all duration-300 ${
+                    className={`w-full py-1 sm:py-2 px-6 rounded-xl text-xs font-bold text-white transition-all duration-300 ${
                       loading || purchasingPlan === plan.id
                         ? 'bg-gray-400 cursor-not-allowed'
                         : `bg-gradient-to-r ${colors.from} ${colors.to} hover:shadow-xl`
@@ -413,7 +413,7 @@ useEffect(() => {
                     <motion.button
                       onClick={() => handleDemoPurchase(plan.id)}
                       disabled={loading || purchasingPlan === plan.id}
-                      className={`w-full mt-2 py-2 px-4 rounded-lg text-xs font-semibold transition-all duration-300 ${
+                      className={`w-full mt-2 py-1 sm:py-2 px-4 rounded-lg text-xs font-semibold transition-all duration-300 ${
                         darkMode ? 'bg-gray-700 hover:bg-gray-600 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-900'
                       } ${(loading || purchasingPlan === plan.id) ? 'opacity-50 cursor-not-allowed' : ''}`}
                       whileHover={!(loading || purchasingPlan === plan.id) ? { scale: 1.02 } : {}}
@@ -429,16 +429,16 @@ useEffect(() => {
 
         {/* FAQ Section */}
         <motion.div 
-          className={`${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl rounded-3xl shadow-2xl p-8`}
+          className={`${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl rounded-3xl shadow-2xl p-3`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.0 }}
         >
-          <div className="flex items-center justify-center gap-3 mb-8">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center shadow-xl">
-              <Gift className="w-5 h-5 text-white" />
+          <div className="flex items-center justify-center gap-3 mb-5">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center shadow-xl">
+              <Gift className="w-4 h-4 text-white" />
             </div>
-            <h2 className={`text-xl font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h2 className={`text-sm sm:text-md font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Frequently Asked Questions
             </h2>
           </div>
@@ -462,11 +462,11 @@ useEffect(() => {
                 answer: 'Yes! All payments are processed securely through Razorpay with industry-standard encryption.'
               }
             ].map((faq, idx) => (
-              <div key={idx} className={`p-5 rounded-2xl ${darkMode ? 'bg-gray-800/50 border border-gray-700' : 'bg-gray-50 border border-gray-200'}`}>
-                <h3 className={`text-sm font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              <div key={idx} className={`p-3 rounded-2xl ${darkMode ? 'bg-gray-800/50 border border-gray-700' : 'bg-gray-50 border border-gray-200'}`}>
+                <h3 className={`text-xs sm:text-sm font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   {faq.question}
                 </h3>
-                <p className={`text-sm leading-relaxed ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                <p className={`text-xs leading-relaxed ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                   {faq.answer}
                 </p>
               </div>

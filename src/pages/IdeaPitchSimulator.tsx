@@ -277,14 +277,14 @@ const IdeaPitchSimulator = () => {
         >
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
             <div className="flex items-center gap-4">
-              <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-600 to-red-500 flex items-center justify-center shadow-2xl ${darkMode ? "shadow-orange-500/50" : "shadow-orange-500/30"}`}>
-                <MessageSquare className="w-6 h-6 text-white" />
+              <div className={`w-6 sm:w-8 h-6 sm:h-8 rounded-2xl bg-gradient-to-br from-orange-600 to-red-500 flex items-center justify-center shadow-2xl ${darkMode ? "shadow-orange-500/50" : "shadow-orange-500/30"}`}>
+                <MessageSquare className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
               </div>
               <div>
-                <h1 className={`text-xl md:text-2xl font-black ${darkMode ? "text-white" : "text-gray-900"}`}>
+                <h1 className={`text-md md:text-lg font-black ${darkMode ? "text-white" : "text-gray-900"}`}>
                   Pitch Simulator
                 </h1>
-                <p className={`text-xs md:text-sm ${darkMode ? "text-gray-400" : "text-gray-600"} font-medium flex items-center gap-2`}>
+                <p className={`text-xs ${darkMode ? "text-gray-400" : "text-gray-600"} font-medium flex items-center gap-2`}>
                   <Zap className="w-3 h-3 md:w-4 md:h-4 text-orange-400" />
                   Practice with AI-powered investor Q&A
                 </p>
@@ -294,7 +294,7 @@ const IdeaPitchSimulator = () => {
             <motion.button
               onClick={() => simulatePitch()}
               disabled={loading}
-              className="px-6 py-3 bg-gradient-to-r from-orange-600 to-red-600 text-white text-sm font-bold rounded-xl shadow-lg hover:shadow-xl hover:shadow-orange-500/50 transition-all duration-300 hover:scale-105 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-1 sm:py-2 bg-gradient-to-r from-orange-600 to-red-600 text-white text-xs font-bold rounded-xl shadow-lg hover:shadow-xl hover:shadow-orange-500/50 transition-all duration-300 hover:scale-105 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               whileHover={{ scale: loading ? 1 : 1.05 }}
               whileTap={{ scale: loading ? 1 : 0.95 }}
             >
@@ -305,22 +305,22 @@ const IdeaPitchSimulator = () => {
 
           {/* Pitch Banner */}
           <motion.div 
-            className={`relative overflow-hidden rounded-3xl p-6 ${darkMode ? 'bg-gradient-to-r from-orange-600/10 via-red-600/10 to-pink-600/10 border border-orange-500/20' : 'bg-gradient-to-r from-orange-100 via-red-100 to-pink-100 border border-orange-200'}`}
+            className={`relative overflow-hidden rounded-3xl p-3 ${darkMode ? 'bg-gradient-to-r from-orange-600/10 via-red-600/10 to-pink-600/10 border border-orange-500/20' : 'bg-gradient-to-r from-orange-100 via-red-100 to-pink-100 border border-orange-200'}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-r from-orange-600/5 via-red-600/5 to-pink-600/5' : 'bg-gradient-to-r from-orange-50 via-red-50 to-pink-50'} backdrop-blur-3xl`} />
             <div className="relative">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-600 to-red-500 flex items-center justify-center shadow-xl">
-                  <Target className="w-5 h-5 text-white" />
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-6 sm:w-8 h-6 sm:h-8 rounded-xl bg-gradient-to-br from-orange-600 to-red-500 flex items-center justify-center shadow-xl">
+                  <Target className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
                 </div>
-                <h2 className={`text-md font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h2 className={`text-sm font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   Your Pitch
                 </h2>
               </div>
-              <p className={`text-sm leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              <p className={`text-xs leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                 {idea?.ideaText}
               </p>
             </div>
@@ -330,7 +330,7 @@ const IdeaPitchSimulator = () => {
         {/* Questions and Answers Section */}
         {questions.length > 0 ? (
           <motion.div 
-            className={`${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl rounded-3xl shadow-2xl p-6`}
+            className={`${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl rounded-3xl shadow-2xl p-3`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
@@ -338,7 +338,7 @@ const IdeaPitchSimulator = () => {
             {currentQuestion ? (
               <div>
                 {/* Progress Indicator */}
-                <div className="mb-6">
+                <div className="mb-4">
                   <div className="flex items-center justify-between mb-2">
                     <span className={`text-xs font-semibold ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                       Question {currentQuestionIndex + 1} of {questions.length}
@@ -347,7 +347,7 @@ const IdeaPitchSimulator = () => {
                       {Math.round(((currentQuestionIndex + 1) / questions.length) * 100)}% Complete
                     </span>
                   </div>
-                  <div className={`h-2 rounded-full overflow-hidden ${darkMode ? 'bg-gray-800' : 'bg-gray-200'}`}>
+                  <div className={`h-1 rounded-full overflow-hidden ${darkMode ? 'bg-gray-800' : 'bg-gray-200'}`}>
                     <motion.div 
                       className="h-full bg-gradient-to-r from-orange-600 to-red-600 shadow-lg"
                       initial={{ width: 0 }}
@@ -358,13 +358,13 @@ const IdeaPitchSimulator = () => {
                 </div>
 
                 {/* Question Display */}
-                <div className={`relative overflow-hidden p-6 rounded-2xl mb-6 ${darkMode ? 'bg-gradient-to-br from-orange-900/30 to-red-900/30 border border-orange-500/20' : 'bg-gradient-to-br from-orange-50 to-red-50 border border-orange-200'}`}>
+                <div className={`relative overflow-hidden p-3 rounded-2xl mb-4 ${darkMode ? 'bg-gradient-to-br from-orange-900/30 to-red-900/30 border border-orange-500/20' : 'bg-gradient-to-br from-orange-50 to-red-50 border border-orange-200'}`}>
                   <div className={`absolute -top-10 -right-10 w-40 h-40 rounded-full ${darkMode ? 'bg-orange-600/10' : 'bg-orange-200/30'} blur-3xl`} />
                   <div className="relative">
-                    <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-600 to-red-600 flex items-center justify-center shadow-xl">
-                          <MessageSquare className="w-5 h-5 text-white" />
+                        <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-orange-600 to-red-600 flex items-center justify-center shadow-xl">
+                          <MessageSquare className="w-4 h-4 text-white" />
                         </div>
                         <div>
                           <h3 className={`font-bold text-sm ${darkMode ? 'text-white' : 'text-gray-900'}`}>
@@ -376,7 +376,7 @@ const IdeaPitchSimulator = () => {
                         </div>
                       </div>
                     </div>
-                    <p className={`text-sm leading-relaxed ${darkMode ? 'text-white' : 'text-gray-900'} font-medium`}>
+                    <p className={`text-xs leading-relaxed ${darkMode ? 'text-white' : 'text-gray-900'} font-medium`}>
                       {currentQuestion.question}
                     </p>
                   </div>
@@ -397,11 +397,11 @@ const IdeaPitchSimulator = () => {
                       onChange={(e) => setAnswer(e.target.value)}
                       rows={6}
                       disabled={isEvaluating}
-                      className={`w-full px-5 py-4 text-sm rounded-2xl border-2 transition-all duration-300 ${
+                      className={`w-full px-3 py-2 text-xs rounded-2xl border-2 transition-all duration-300 ${
                         darkMode
                           ? 'bg-gray-800/50 text-white border-gray-700 placeholder-gray-500 focus:border-orange-500 focus:bg-gray-800'
                           : 'bg-white text-gray-900 border-gray-300 placeholder-gray-400 focus:border-orange-500 focus:bg-gray-50'
-                      } focus:ring-4 focus:ring-orange-500/20 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed`}
+                      } focus:ring-1 focus:ring-orange-500/20 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed`}
                       placeholder="Type your pitch answer here... Be confident and concise!"
                     />
                   </div>
@@ -412,7 +412,7 @@ const IdeaPitchSimulator = () => {
                       type="button"
                       onClick={(e) => handleAnswer(e)}
                       disabled={isEvaluating || !answer.trim()}
-                      className={`w-full flex justify-center items-center py-4 px-8 rounded-2xl text-sm font-bold text-white transition-all duration-300 ${
+                      className={`w-full flex justify-center items-center py-2 px-5 rounded-2xl text-xs font-bold text-white transition-all duration-300 ${
                         isEvaluating || !answer.trim()
                           ? 'bg-gray-400 cursor-not-allowed'
                           : 'bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 hover:scale-105 shadow-xl hover:shadow-2xl hover:shadow-orange-500/50'
@@ -422,12 +422,12 @@ const IdeaPitchSimulator = () => {
                     >
                       {isEvaluating ? (
                         <>
-                          <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-3" />
+                          <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-3" />
                           Evaluating Answer...
                         </>
                       ) : (
                         <>
-                          <Send className="w-5 h-5 mr-2" />
+                          <Send className="w-4 h-4 mr-2" />
                           Submit Answer for Evaluation
                         </>
                       )}
@@ -438,23 +438,23 @@ const IdeaPitchSimulator = () => {
                 {/* Feedback Section */}
                 {feedback && (
                   <motion.div 
-                    className="mt-6 space-y-6"
+                    className="mt-6 space-y-4"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
                   >
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center shadow-xl">
-                        <Sparkles className="w-5 h-5 text-white" />
+                      <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center shadow-xl">
+                        <Sparkles className="w-4 h-4 text-white" />
                       </div>
-                      <h3 className={`text-lg font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                      <h3 className={`text-sm font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                         AI Feedback
                       </h3>
                     </div>
                     
-                    <div className={`p-6 rounded-2xl ${darkMode ? 'bg-gray-800/50 border border-gray-700' : 'bg-gray-50 border border-gray-200'}`}>
+                    <div className={`p-2 rounded-2xl ${darkMode ? 'bg-gray-800/50 border border-gray-700' : 'bg-gray-50 border border-gray-200'}`}>
                       {/* Rating */}
-                      <div className={`p-5 rounded-xl mb-6 ${darkMode ? 'bg-gradient-to-br from-yellow-900/30 to-amber-900/30 border border-yellow-500/20' : 'bg-gradient-to-br from-yellow-50 to-amber-50 border border-yellow-200'}`}>
+                      <div className={`p-3 rounded-xl mb-4 ${darkMode ? 'bg-gradient-to-br from-yellow-900/30 to-amber-900/30 border border-yellow-500/20' : 'bg-gradient-to-br from-yellow-50 to-amber-50 border border-yellow-200'}`}>
                         <div className="flex items-center justify-between">
                           <div>
                             <span className={`text-sm font-semibold ${darkMode ? 'text-gray-300' : 'text-gray-700'} mb-2 block`}>
@@ -464,7 +464,7 @@ const IdeaPitchSimulator = () => {
                               {[...Array(5)].map((_, i) => (
                                 <Star
                                   key={i}
-                                  className={`h-6 w-6 ${
+                                  className={`h-3 w-3 ${
                                     i < feedback.rating
                                       ? 'text-yellow-500 fill-yellow-500'
                                       : darkMode
@@ -475,23 +475,23 @@ const IdeaPitchSimulator = () => {
                               ))}
                             </div>
                           </div>
-                          <div className={`text-5xl font-black ${darkMode ? 'text-yellow-400' : 'text-yellow-600'}`}>
+                          <div className={`text-xl font-black ${darkMode ? 'text-yellow-400' : 'text-yellow-600'}`}>
                             {feedback.rating}/5
                           </div>
                         </div>
                       </div>
 
                       {/* Strengths */}
-                      <div className={`p-5 rounded-xl mb-6 ${darkMode ? 'bg-gradient-to-br from-green-900/30 to-emerald-900/30 border border-green-500/20' : 'bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200'}`}>
+                      <div className={`p-3 rounded-xl mb-6 ${darkMode ? 'bg-gradient-to-br from-green-900/30 to-emerald-900/30 border border-green-500/20' : 'bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200'}`}>
                         <h4 className={`text-sm font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'} flex items-center`}>
                           <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
                           Strengths
                         </h4>
-                        <ul className="space-y-3">
+                        <ul className="space-y-2">
                           {feedback.strengths.map((strength, index) => (
                             <li key={index} className="flex items-start">
                               <div className="w-2 h-2 rounded-full bg-green-500 mt-2 mr-3 flex-shrink-0" />
-                              <span className={`text-sm leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                              <span className={`text-xs leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                                 {strength}
                               </span>
                             </li>
@@ -500,16 +500,16 @@ const IdeaPitchSimulator = () => {
                       </div>
 
                       {/* Improvements */}
-                      <div className={`p-5 rounded-xl mb-6 ${darkMode ? 'bg-gradient-to-br from-amber-900/30 to-orange-900/30 border border-amber-500/20' : 'bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200'}`}>
+                      <div className={`p-3 rounded-xl mb-6 ${darkMode ? 'bg-gradient-to-br from-amber-900/30 to-orange-900/30 border border-amber-500/20' : 'bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200'}`}>
                         <h4 className={`text-sm font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'} flex items-center`}>
                           <AlertCircle className="w-5 h-5 text-amber-500 mr-2" />
                           Areas for Improvement
                         </h4>
-                        <ul className="space-y-3">
+                        <ul className="space-y-2">
                           {feedback.improvements.map((improvement, index) => (
                             <li key={index} className="flex items-start">
                               <div className="w-2 h-2 rounded-full bg-amber-500 mt-2 mr-3 flex-shrink-0" />
-                              <span className={`text-sm leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                              <span className={`text-xs leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                                 {improvement}
                               </span>
                             </li>
@@ -518,12 +518,12 @@ const IdeaPitchSimulator = () => {
                       </div>
 
                       {/* Additional Advice */}
-                      <div className={`p-5 rounded-xl ${darkMode ? 'bg-gradient-to-br from-blue-900/30 to-indigo-900/30 border border-blue-500/20' : 'bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200'}`}>
-                        <h4 className={`text-sm font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'} flex items-center`}>
+                      <div className={`p-3 rounded-xl ${darkMode ? 'bg-gradient-to-br from-blue-900/30 to-indigo-900/30 border border-blue-500/20' : 'bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200'}`}>
+                        <h4 className={`text-sm font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'} flex items-center`}>
                           <Sparkles className="w-5 h-5 text-blue-500 mr-2" />
                           Additional Advice
                         </h4>
-                        <p className={`text-sm leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                        <p className={`text-xs leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                           {feedback.additionalAdvice}
                         </p>
                       </div>
@@ -532,11 +532,11 @@ const IdeaPitchSimulator = () => {
                 )}
 
                 {/* Navigation Buttons */}
-                <div className="flex gap-4 mt-8">
+                <div className="flex gap-4 mt-5">
                   <motion.button
                     onClick={handlePrevQuestion}
                     disabled={currentQuestionIndex === 0}
-                    className={`flex-1 py-3 px-6 rounded-xl text-sm font-bold transition-all duration-300 flex items-center justify-center ${
+                    className={`flex-1 py-2 px-6 rounded-xl text-xs font-bold transition-all duration-300 flex items-center justify-center ${
                       currentQuestionIndex === 0
                         ? 'bg-gray-400 cursor-not-allowed text-white'
                         : darkMode
@@ -546,14 +546,14 @@ const IdeaPitchSimulator = () => {
                     whileHover={currentQuestionIndex !== 0 ? { scale: 1.02 } : {}}
                     whileTap={currentQuestionIndex !== 0 ? { scale: 0.98 } : {}}
                   >
-                    <ChevronLeft className="w-5 h-5 mr-2" />
+                    <ChevronLeft className="w-4 h-4 mr-2" />
                     Previous Question
                   </motion.button>
 
                   <motion.button
                     onClick={handleNextQuestion}
                     disabled={currentQuestionIndex === questions.length - 1}
-                    className={`flex-1 py-3 px-6 rounded-xl text-sm font-bold text-white transition-all duration-300 flex items-center justify-center ${
+                    className={`flex-1 py-2 px-6 rounded-xl text-xs font-bold text-white transition-all duration-300 flex items-center justify-center ${
                       currentQuestionIndex === questions.length - 1
                         ? 'bg-gray-400 cursor-not-allowed'
                         : 'bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 shadow-lg hover:shadow-xl hover:shadow-green-500/25'
@@ -562,7 +562,7 @@ const IdeaPitchSimulator = () => {
                     whileTap={currentQuestionIndex !== questions.length - 1 ? { scale: 0.98 } : {}}
                   >
                     Next Question
-                    <ChevronRight className="w-5 h-5 ml-2" />
+                    <ChevronRight className="w-4 h-4 ml-2" />
                   </motion.button>
                 </div>
               </div>
