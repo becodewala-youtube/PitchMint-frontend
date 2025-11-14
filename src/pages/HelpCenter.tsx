@@ -85,32 +85,7 @@ const HelpCenter = () => {
     <div className={`min-h-screen relative overflow-hidden ${darkMode ? 'bg-[#0a0118]' : 'bg-gray-50'}`}>
       {/* Enhanced Animated Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        {/* Primary Gradient Orbs */}
-        <div
-          className={`absolute top-0 right-1/4 w-[600px] h-[600px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-blue-600/30 via-indigo-600/20 to-purple-600/30"
-              : "bg-gradient-to-br from-blue-300/40 via-indigo-300/30 to-purple-300/40"
-          }`}
-          style={{ animationDuration: '8s' }}
-        ></div>
-        <div
-          className={`absolute bottom-0 left-1/4 w-[500px] h-[500px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-cyan-600/30 via-teal-600/20 to-emerald-600/30"
-              : "bg-gradient-to-br from-cyan-300/40 via-teal-300/30 to-emerald-300/40"
-          }`}
-          style={{ animationDuration: '10s', animationDelay: '2s' }}
-        ></div>
-        <div
-          className={`absolute top-1/2 right-1/3 transform -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-fuchsia-600/20 via-pink-600/10 to-rose-600/20"
-              : "bg-gradient-to-br from-fuchsia-300/30 via-pink-300/20 to-rose-300/30"
-          }`}
-          style={{ animationDuration: '12s', animationDelay: '4s' }}
-        ></div>
-
+        
         {/* Mesh Gradient Overlay */}
         <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-b from-transparent via-indigo-500/5 to-transparent' : 'bg-gradient-to-b from-transparent via-indigo-200/10 to-transparent'}`} />
         
@@ -132,12 +107,12 @@ const HelpCenter = () => {
           transition={{ duration: 0.8 }}
         >
           <div className="text-center">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-600 to-purple-500 flex items-center justify-center shadow-2xl ${darkMode ? 'shadow-indigo-500/50' : 'shadow-indigo-500/30'}`}>
-                <HelpCircle className="w-6 h-6 text-white" />
+            <div className="flex items-center justify-center gap-3 mb-2">
+              <div className={`w-6 sm:w-8 h-6 sm:h-8 rounded-2xl bg-gradient-to-br from-indigo-600 to-purple-500 flex items-center justify-center shadow-2xl ${darkMode ? 'shadow-indigo-500/50' : 'shadow-indigo-500/30'}`}>
+                <HelpCircle className="w-4 h-4 text-white" />
               </div>
               <div>
-                <h1 className={`text-2xl md:text-3xl font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h1 className={`text-lg md:text-xl font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   Help{" "}
                   <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent">
                     Center
@@ -145,7 +120,7 @@ const HelpCenter = () => {
                 </h1>
               </div>
             </div>
-            <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'} font-medium flex items-center justify-center gap-2`}>
+            <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'} font-medium flex items-center justify-center gap-2`}>
               <Sparkles className="w-4 h-4 text-indigo-400" />
               Find answers and get support for your startup journey
             </p>
@@ -162,13 +137,13 @@ const HelpCenter = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <div className="relative">
-            <Search className={`absolute left-5 top-1/2 transform -translate-y-1/2 h-5 w-5 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`} />
+            <Search className={`absolute left-5 top-1/2 transform -translate-y-1/2 h-4 w-4 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`} />
             <input
               type="text"
               placeholder="Search for help articles..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className={`w-full pl-14 pr-6 py-4 text-sm rounded-xl border-2 transition-all duration-300 ${
+              className={`w-full pl-14 pr-6 py-1 sm:py-2 text-sm rounded-xl border-2 transition-all duration-300 ${
                 darkMode
                   ? 'bg-gray-800/50 text-white border-gray-700/50 placeholder-gray-500 focus:border-indigo-500 focus:bg-gray-800'
                   : 'bg-gray-50 text-gray-900 border-gray-200 placeholder-gray-400 focus:border-indigo-500 focus:bg-white'
@@ -184,16 +159,16 @@ const HelpCenter = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <div className="flex items-center gap-3 mb-6">
-            <div className={`w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-500 flex items-center justify-center shadow-lg`}>
-              <MessageSquare className="w-5 h-5 text-white" />
+          <div className="flex items-center gap-3 mb-4">
+            <div className={`w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-500 flex items-center justify-center shadow-lg`}>
+              <MessageSquare className="w-4 h-4 text-white" />
             </div>
-            <h2 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h2 className={`text-sm sm:text-md font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Frequently Asked Questions
             </h2>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             {filteredFaqs.map((faq, index) => (
               <motion.div
                 key={index}
@@ -206,7 +181,7 @@ const HelpCenter = () => {
               >
                 <button
                   onClick={() => toggleFaq(index)}
-                  className={`w-full text-left p-6 flex items-start justify-between transition-all duration-300 ${
+                  className={`w-full text-left p-3 flex items-start justify-between transition-all duration-300 ${
                     openFaq === index ? 'pb-4' : ''
                   }`}
                 >
@@ -217,7 +192,7 @@ const HelpCenter = () => {
                       {faq.category === "AI Features" && <Brain className="w-3 h-3 mr-1" />}
                       {faq.category}
                     </span>
-                    <h3 className={`text-base font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <h3 className={`text-sm font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       {faq.question}
                     </h3>
                   </div>
@@ -237,8 +212,8 @@ const HelpCenter = () => {
                     transition={{ duration: 0.3 }}
                     className="px-6 pb-6"
                   >
-                    <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-800/50' : 'bg-gray-50'}`}>
-                      <p className={`text-sm leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                    <div className={`p-2 rounded-xl ${darkMode ? 'bg-gray-800/50' : 'bg-gray-50'}`}>
+                      <p className={`text-xs leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                         {faq.answer}
                       </p>
                     </div>
@@ -255,8 +230,8 @@ const HelpCenter = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
             >
-              <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br from-gray-600 to-gray-700 flex items-center justify-center mx-auto mb-4 shadow-2xl`}>
-                <Search className="w-8 h-8 text-white" />
+              <div className={`w-8 h-8 rounded-2xl bg-gradient-to-br from-gray-600 to-gray-700 flex items-center justify-center mx-auto mb-4 shadow-2xl`}>
+                <Search className="w-4 h-4 text-white" />
               </div>
               <h3 className={`text-lg font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 No results found
@@ -270,7 +245,7 @@ const HelpCenter = () => {
 
         {/* Contact Support */}
         <motion.div 
-          className={`relative overflow-hidden rounded-3xl p-8 ${
+          className={`relative overflow-hidden rounded-3xl p-3 ${
             darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'
           } backdrop-blur-xl`}
           initial={{ opacity: 0, y: 30 }}
@@ -280,33 +255,33 @@ const HelpCenter = () => {
           <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-fuchsia-500/10 opacity-50"></div>
           
           <div className="relative text-center">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <div className={`w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-500 flex items-center justify-center shadow-lg`}>
-                <Mail className="w-5 h-5 text-white" />
+            <div className="flex items-center justify-center gap-3 mb-1">
+              <div className={`w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-500 flex items-center justify-center shadow-lg`}>
+                <Mail className="w-4 h-4 text-white" />
               </div>
-              <h2 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h2 className={`text-ms sm:text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Still Need Help?
               </h2>
             </div>
-            <p className={`text-sm mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            <p className={`text-xs sm:text-sm mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               Our support team is here to help you succeed with your startup journey.
             </p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Email Support */}
-              <div className={`p-6 rounded-2xl ${darkMode ? 'bg-gray-800/50 border border-gray-700/50' : 'bg-gray-100 border border-gray-200'}`}>
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center mx-auto mb-4 shadow-lg`}>
-                  <Mail className="w-6 h-6 text-white" />
+              <div className={`p-2 sm:p-6 rounded-2xl ${darkMode ? 'bg-gray-800/50 border border-gray-700/50' : 'bg-gray-100 border border-gray-200'}`}>
+                <div className={`w-8 h-8 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center mx-auto mb-4 shadow-lg`}>
+                  <Mail className="w-4 h-4 text-white" />
                 </div>
-                <h3 className={`text-base font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h3 className={`text-sm font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   Email Support
                 </h3>
                 <p className={`text-xs mb-4 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                   Get detailed help via email
                 </p>
                 <a
-                  href="mailto:support@pitchmint.com"
-                  className="inline-flex items-center px-6 py-3 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-blue-600 to-cyan-600 hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105 shadow-lg"
+                  href="mailto:antik8795@gmail.com"
+                  className="inline-flex items-center px-6 py-1 sm:py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-blue-600 to-cyan-600 hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105 shadow-lg"
                 >
                   Send Email
                   <ArrowRight className="w-4 h-4 ml-2" />
@@ -314,17 +289,17 @@ const HelpCenter = () => {
               </div>
               
               {/* Response Time */}
-              <div className={`p-6 rounded-2xl ${darkMode ? 'bg-gray-800/50 border border-gray-700/50' : 'bg-gray-100 border border-gray-200'}`}>
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br from-amber-600 to-orange-500 flex items-center justify-center mx-auto mb-4 shadow-lg`}>
-                  <Clock className="w-6 h-6 text-white" />
+              <div className={`p-2 sm:p-6 rounded-2xl ${darkMode ? 'bg-gray-800/50 border border-gray-700/50' : 'bg-gray-100 border border-gray-200'}`}>
+                <div className={`w-8 h-8 rounded-xl bg-gradient-to-br from-amber-600 to-orange-500 flex items-center justify-center mx-auto mb-4 shadow-lg`}>
+                  <Clock className="w-4 h-4 text-white" />
                 </div>
-                <h3 className={`text-base font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h3 className={`text-sm font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   Response Time
                 </h3>
                 <p className={`text-xs mb-4 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                   We typically respond within
                 </p>
-                <div className="inline-flex items-center px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold shadow-lg">
+                <div className="inline-flex items-center px-4 py-1 sm:py-2 text-xs rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold shadow-lg">
                   <CheckCircle2 className="w-4 h-4 mr-2" />
                   24 hours
                 </div>

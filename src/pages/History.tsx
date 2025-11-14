@@ -264,9 +264,9 @@ useEffect(() => {
     switch (activity.serviceType) {
       case 'idea_validation':
         return (
-          <div className="sm:space-y-6 space-y-4">
+          <div className="sm:space-y-4 space-y-4">
             <div>
-              <h4 className={`font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h4 className={`font-bold text-sm mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Idea Overview
               </h4>
               <p className={`text-sm text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
@@ -293,55 +293,55 @@ useEffect(() => {
               </div>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-4">
               <div>
-                <h4 className={`font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h4 className={`font-bold text-sm mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   Market Demand
                 </h4>
-                <p className={`text-sm text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                <p className={`text-xs text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                   {activity.data.analysis?.marketDemand?.text}
                 </p>
               </div>
               <div>
-                <h4 className={`font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h4 className={`font-bold text-sm mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   Competition
                 </h4>
-                <p className={`text-sm text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                <p className={`text-xs text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                   {activity.data.analysis?.competition?.text}
                 </p>
               </div>
               <div>
-                <h4 className={`font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h4 className={`font-bold text-sm mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   Monetization
                 </h4>
-                <p className={`text-sm text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                <p className={`text-xs text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                   {activity.data.analysis?.monetization?.text}
                 </p>
               </div>
               <div>
-                <h4 className={`font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h4 className={`font-bold text-sm mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   Overall Assessment
                 </h4>
-                <p className={`text-sm text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                <p className={`text-xs text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                   {activity.data.analysis?.overall?.text}
                 </p>
               </div>
             </div>
 
-            <div className="space-y-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-              <div className="flex justify-between items-center text-sm">
+            <div className="space-y-4 pt-3 border-t border-gray-200 dark:border-gray-700">
+              <div className="flex justify-between items-center text-xs">
                 <span className={`${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
                   Credits Used:
                 </span>
-                <span className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <span className={`font-medium text-xs ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   {activity.creditsUsed}
                 </span>
               </div>
-              <div className="flex justify-between items-center text-sm">
+              <div className="flex justify-between items-center text-xs">
                 <span className={`${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
                   Created:
                 </span>
-                <span className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <span className={`font-medium text-xs ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   {new Date(activity.createdAt).toLocaleDateString()}
                 </span>
               </div>
@@ -351,13 +351,13 @@ useEffect(() => {
 
       case 'investor_matching':
         return (
-          <div className="sm:space-y-6 space-y-4">
+          <div className="sm:space-y-5 space-y-4">
             <div>
-              <h4 className={`font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h4 className={`font-bold text-sm mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Search Criteria
               </h4>
-              <div className={`p-3 sm:p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+              <div className={`p-2 sm:p-2 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
                   <div>
                     <span className="font-medium">Industry:</span> {activity.data.criteria?.industry || 'N/A'}
                   </div>
@@ -380,23 +380,23 @@ useEffect(() => {
             </div>
 
             <div>
-              <h4 className={`font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h4 className={`font-bold mb-3 text-sm ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Investor Matches ({activity.data.matches?.length || 0} found)
               </h4>
               <div className="space-y-4">
                 {activity.data.matches?.map((match, index) => (
-                  <div key={index} className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}>
-                    <div className="flex justify-between items-start mb-3">
+                  <div key={index} className={`p-3 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}>
+                    <div className="flex justify-between items-start mb-1">
                       <div>
-                        <h5 className={`font-bold text-md sm:text-lg ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                        <h5 className={`font-bold text-sm sm:text-md ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                           {match.name}
                         </h5>
-                        <p className={`text-xs sm:text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                        <p className={`text-xs  ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                           {match.type} • {match.location}
                         </p>
                       </div>
                       <div className="text-right">
-                        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs sm:text-sm font-bold bg-green-100 text-green-800">
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs  font-bold bg-green-100 text-green-800">
                           {match.matchScore}% Match
                         </span>
                         {match.portfolioSize && (
@@ -407,7 +407,7 @@ useEffect(() => {
                       </div>
                     </div>
 
-                    <p className={`text-sm mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                    <p className={`text-xs text-justify mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                       {match.description}
                     </p>
 
@@ -486,7 +486,7 @@ useEffect(() => {
                 Market Overview
               </h4>
               <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}>
-                <p className={`text-sm text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
+                <p className={`text-xs text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
                   {activity.data.summary}
                 </p>
               </div>
@@ -498,11 +498,11 @@ useEffect(() => {
               </h4>
               <div className="space-y-6">
                 {activity.data.competitors?.map((competitor, index) => (
-                  <div key={index} className={`p-4 sm:p-6 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}>
-                    <h5 className={`font-bold text-sm sm:text-md mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <div key={index} className={`p-4 sm:p-3 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}>
+                    <h5 className={`font-bold text-sm  mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       {competitor.name}
                     </h5>
-                    <p className={`text-sm mb-4 text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
+                    <p className={`text-xs mb-4 text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
                       {competitor.description}
                     </p>
 
@@ -578,9 +578,9 @@ useEffect(() => {
         return (
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className={`p-4 rounded-xl ${darkMode ? 'bg-blue-900/50' : 'bg-blue-50'}`}>
-                <h5 className="font-bold text-blue-500">TAM (Total)</h5>
-                <p className="text-lg font-bold">
+              <div className={`p-2 sm:p-4 rounded-xl ${darkMode ? 'bg-blue-900/50' : 'bg-blue-50'}`}>
+                <h5 className="font-bold text-sm text-blue-500">TAM (Total)</h5>
+                <p className="text-md font-bold">
                   ${activity.data.tam?.value ? (activity.data.tam.value / 1000000000).toFixed(1) : '0'}B
                 </p>
                 <p className={`text-xs mt-1 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
@@ -588,8 +588,8 @@ useEffect(() => {
                 </p>
               </div>
               <div className={`p-4 rounded-xl ${darkMode ? 'bg-green-900/50' : 'bg-green-50'}`}>
-                <h5 className="font-bold text-green-500">SAM (Serviceable)</h5>
-                <p className="text-lg font-bold">
+                <h5 className="font-bold text-sm text-green-500">SAM (Serviceable)</h5>
+                <p className="text-md font-bold">
                   ${activity.data.sam?.value ? (activity.data.sam.value / 1000000000).toFixed(1) : '0'}B
                 </p>
                 <p className={`text-xs mt-1 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
@@ -597,8 +597,8 @@ useEffect(() => {
                 </p>
               </div>
               <div className={`p-4 rounded-xl ${darkMode ? 'bg-purple-900/50' : 'bg-purple-50'}`}>
-                <h5 className="font-bold text-purple-500">SOM (Obtainable)</h5>
-                <p className="text-lg font-bold">
+                <h5 className="font-bold text-sm text-purple-500">SOM (Obtainable)</h5>
+                <p className="text-md font-bold">
                   ${activity.data.som?.value ? (activity.data.som.value / 1000000).toFixed(0) : '0'}M
                 </p>
                 <p className={`text-xs mt-1 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
@@ -609,9 +609,9 @@ useEffect(() => {
 
             <div className="space-y-4">
               {activity.data.tam?.description && (
-                <div className={`p-4 rounded-xl ${darkMode ? 'bg-blue-900/20' : 'bg-blue-50'}`}>
-                  <h6 className="font-bold text-blue-600 mb-2">TAM Analysis</h6>
-                  <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
+                <div className={`p-3 rounded-xl ${darkMode ? 'bg-blue-900/20' : 'bg-blue-50'}`}>
+                  <h6 className="font-bold text-sm text-blue-600 mb-1">TAM Analysis</h6>
+                  <p className={`text-xs text-justify ${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
                     {activity.data.tam.description}
                   </p>
                   {activity.data.tam.sources && (
@@ -627,8 +627,8 @@ useEffect(() => {
               
               {activity.data.sam?.description && (
                 <div className={`p-4 rounded-xl ${darkMode ? 'bg-green-900/20' : 'bg-green-50'}`}>
-                  <h6 className="font-bold text-green-600 mb-2">SAM Analysis</h6>
-                  <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
+                  <h6 className="font-bold text-sm text-green-600 mb-1">SAM Analysis</h6>
+                  <p className={`text-xs text-justify ${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
                     {activity.data.sam.description}
                   </p>
                   {activity.data.sam.methodology && (
@@ -644,8 +644,8 @@ useEffect(() => {
               
               {activity.data.som?.description && (
                 <div className={`p-4 rounded-xl ${darkMode ? 'bg-purple-900/20' : 'bg-purple-50'}`}>
-                  <h6 className="font-bold text-purple-600 mb-2">SOM Analysis</h6>
-                  <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
+                  <h6 className="font-bold text-sm text-purple-600 mb-1">SOM Analysis</h6>
+                  <p className={`text-xs text-justify ${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
                     {activity.data.som.description}
                   </p>
                   {activity.data.som.timeline && (
@@ -793,17 +793,17 @@ useEffect(() => {
       case 'pitch_simulator':
         return (
           <div className="space-y-4 sm:space-y-6">
-            <h4 className={`font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h4 className={`font-bold text-sm mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Q&A Session
             </h4>
 
             {activity.data.questions?.map((qa: any, index: number) => (
               <div
                 key={index}
-                className={`p-3 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}
+                className={`p-2 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}
               >
-                <div className={`p-2 rounded-xl mb-3`}>
-                  <h5 className="font-bold text-sm text-blue-500">Q: {qa.question}</h5>
+                <div className={`p-1 rounded-xl mb-3`}>
+                  <h5 className="font-bold text-xs text-blue-500">Q: {qa.question}</h5>
                 </div>
 
                 {qa.answer && (
@@ -857,13 +857,13 @@ useEffect(() => {
             {activity.data.question && (
               <div className={`p-3 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}>
                 <div className={`p-2 rounded-xl mb-3`}>
-                  <h5 className="font-bold text-xs sm:text-sm text-indigo-500">Q: {activity.data.question}</h5>
+                  <h5 className="font-bold text-xs text-justify text-indigo-500">Q: {activity.data.question}</h5>
                 </div>
 
                 {activity.data.answer && (
                   <div className={`p-3 rounded-xl mb-3 text-xs sm:text-sm ${darkMode ? 'bg-green-900/50' : 'bg-green-50'}`}>
                     <h5 className="font-bold text-green-500 mb-2">Your Answer</h5>
-                    <p className={darkMode ? 'text-gray-200' : 'text-gray-800'}>
+                    <p className={darkMode ? 'text-gray-200 text-justify text-xs' : 'text-gray-800 text-justify text-xs'}>
                       {activity.data.answer}
                     </p>
                   </div>
@@ -874,13 +874,13 @@ useEffect(() => {
                     <h5 className="font-bold mb-2 text-yellow-500 text-xs sm:text-sm">Investor Feedback</h5>
 
                     <p className="mb-2">
-                      <span className="font-semibold text-xs sm:text-sm">Rating:</span> ⭐ {activity.data.feedback.rating}/5
+                      <span className="font-semibold text-xs sm:text-sm">Rating:</span> ⭐ <span className='text-sm'>{activity.data.feedback.rating}/5</span>
                     </p>
 
                     {activity.data.feedback.strengths?.length > 0 && (
                       <div className="mb-3 text-xs sm:text-sm">
                         <h6 className="font-semibold text-green-500">Strengths</h6>
-                        <ul className="list-disc list-inside space-y-1">
+                        <ul className="list-disc text-xs list-inside space-y-1">
                           {activity.data.feedback.strengths.map((point: string, idx: number) => (
                             <li key={idx} className={darkMode ? 'text-gray-300' : 'text-gray-700'}>
                               {point}
@@ -893,7 +893,7 @@ useEffect(() => {
                     {activity.data.feedback.improvements?.length > 0 && (
                       <div className="mb-3 text-xs sm:text-sm text-justify">
                         <h6 className="font-semibold text-red-500">Improvements</h6>
-                        <ul className="list-disc list-inside space-y-1">
+                        <ul className="list-disc text-xs list-inside space-y-1">
                           {activity.data.feedback.improvements.map((point: string, idx: number) => (
                             <li key={idx} className={darkMode ? 'text-gray-300' : 'text-gray-700'}>
                               {point}
@@ -906,7 +906,7 @@ useEffect(() => {
                     {activity.data.feedback.additionalAdvice && (
                       <div className='text-xs sm:text-sm text-justify'>
                         <h6 className="font-semibold text-blue-500">Additional Advice</h6>
-                        <p className={darkMode ? 'text-gray-300' : 'text-gray-700'}>
+                        <p className={darkMode ? 'text-gray-300 text-xs' : 'text-xs text-gray-700'}>
                           {activity.data.feedback.additionalAdvice}
                         </p>
                       </div>
@@ -939,31 +939,7 @@ useEffect(() => {
     <div className={`min-h-screen relative overflow-hidden ${darkMode ? 'bg-[#0a0118]' : 'bg-gray-50'}`}>
       {/* Enhanced Animated Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div
-          className={`absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-purple-600/30 via-pink-600/20 to-fuchsia-600/30"
-              : "bg-gradient-to-br from-purple-300/40 via-pink-300/30 to-fuchsia-300/40"
-          }`}
-          style={{ animationDuration: '8s' }}
-        ></div>
-        <div
-          className={`absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-indigo-600/30 via-blue-600/20 to-cyan-600/30"
-              : "bg-gradient-to-br from-indigo-300/40 via-blue-300/30 to-cyan-300/40"
-          }`}
-          style={{ animationDuration: '10s', animationDelay: '2s' }}
-        ></div>
-        <div
-          className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-violet-600/20 via-purple-600/10 to-pink-600/20"
-              : "bg-gradient-to-br from-violet-300/30 via-purple-300/20 to-pink-300/30"
-          }`}
-          style={{ animationDuration: '12s', animationDelay: '4s' }}
-        ></div>
-
+        
         <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-b from-transparent via-purple-500/5 to-transparent' : 'bg-gradient-to-b from-transparent via-purple-200/10 to-transparent'}`} />
         <div className={`absolute inset-0 ${darkMode ? 'bg-[linear-gradient(rgba(168,85,247,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(168,85,247,0.03)_1px,transparent_1px)]' : 'bg-[linear-gradient(rgba(168,85,247,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(168,85,247,0.05)_1px,transparent_1px)]'} bg-[size:64px_64px]`} />
 
@@ -982,17 +958,17 @@ useEffect(() => {
         >
           <div className="flex justify-center mb-4">
             <div className="flex items-center gap-4 text-center">
-              <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center shadow-2xl ${darkMode ? "shadow-purple-500/50" : "shadow-purple-500/30"}`}>
-                <HistoryIcon className="w-6 h-6 text-white" />
+              <div className={`w-6 sm:w-8 h-6 sm:h-8 rounded-2xl bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center shadow-2xl ${darkMode ? "shadow-purple-500/50" : "shadow-purple-500/30"}`}>
+                <HistoryIcon className="w-4 h-4 text-white" />
               </div>
               <div>
-                <h1 className={`text-xl md:text-2xl font-black ${darkMode ? "text-white" : "text-gray-900"}`}>
+                <h1 className={`text-md md:text-xl font-black ${darkMode ? "text-white" : "text-gray-900"}`}>
                   Activity{" "}
                   <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-fuchsia-400 bg-clip-text text-transparent">
                     History
                   </span>
                 </h1>
-                <p className={`text-xs md:text-sm ${darkMode ? "text-gray-400" : "text-gray-600"} font-medium flex items-center gap-2 justify-center`}>
+                <p className={`text-xs  ${darkMode ? "text-gray-400" : "text-gray-600"} font-medium flex items-center gap-2 justify-center`}>
                   <Sparkles className="w-3 h-3 md:w-4 md:h-4 text-purple-400" />
                   Track your startup validation journey
                 </p>
@@ -1003,16 +979,16 @@ useEffect(() => {
 
         {/* Filters */}
         <motion.div 
-          className={`${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl rounded-3xl shadow-2xl p-6 mb-8`}
+          className={`${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl rounded-3xl shadow-2xl p-3 mb-5`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center shadow-xl">
-              <Filter className="w-5 h-5 text-white" />
+            <div className="w-6 h-6 rounded-xl bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center shadow-xl">
+              <Filter className="w-3 h-3 text-white" />
             </div>
-            <h2 className={`text-lg font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h2 className={`text-xs sm:text-sm font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Filter Activities
             </h2>
           </div>
@@ -1023,7 +999,7 @@ useEffect(() => {
                 <motion.button
                   key={service.value}
                   onClick={() => setSelectedFilter(service.value)}
-                  className={`flex items-center px-4 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 ${
+                  className={`flex items-center px-4 py-1  rounded-xl text-xs  sm:font-bold transition-all duration-300 ${
                     selectedFilter === service.value
                       ? `bg-gradient-to-r ${service.gradient} text-white shadow-xl`
                       : darkMode
@@ -1033,7 +1009,7 @@ useEffect(() => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <Icon className="w-4 h-4 mr-2" />
+                  <Icon className="hidden sm:flex w-3 h-3 mr-2" />
                   {service.label}
                 </motion.button>
               );
@@ -1050,7 +1026,7 @@ useEffect(() => {
               return (
                 <motion.div
                   key={activity._id}
-                  className={`group relative overflow-hidden ${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl rounded-3xl shadow-2xl p-6 hover:scale-[1.01] transition-all duration-500`}
+                  className={`group relative overflow-hidden ${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl rounded-3xl shadow-2xl p-3 hover:scale-[1.01] transition-all duration-500`}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8, delay: 0.4 + index * 0.05 }}
@@ -1059,19 +1035,19 @@ useEffect(() => {
 
                   <div className="relative flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                     <div className="flex items-start gap-4 flex-1">
-                      <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center shadow-xl flex-shrink-0 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
-                        <Icon className="w-6 h-6 text-white" />
+                      <div className={`w-6 h-6 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center shadow-xl flex-shrink-0 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
+                        <Icon className="w-3 h-3 text-white" />
                       </div>
                       <div className="flex-1">
-                        <h3 className={`text-md md:text-lg font-black mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                        <h3 className={`text-xs md:text-md font-black mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                           {activity.title}
                         </h3>
-                        <p className={`text-sm mb-3 ${darkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
+                        <p className={`text-xs mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
                           {activity.description}
                         </p>
                         <div className="flex flex-wrap items-center gap-3">
                           <div className="flex items-center">
-                            <Calendar className="w-4 h-4 mr-2 text-blue-500" />
+                            <Calendar className="w-3 h-3 mr-2 text-blue-500" />
                             <span className={`text-xs font-semibold ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                               {new Date(activity.createdAt).toLocaleDateString('en-US', { 
                                 year: 'numeric', 
@@ -1082,7 +1058,7 @@ useEffect(() => {
                           </div>
                           <div className={`flex items-center px-3 py-1 rounded-lg ${darkMode ? 'bg-red-900/30 border border-red-500/30' : 'bg-red-50 border border-red-200'}`}>
                             <Zap className="w-3 h-3 mr-1 text-red-500" />
-                            <span className={`text-xs font-bold ${darkMode ? 'text-red-300' : 'text-red-700'}`}>
+                            <span className={`text-xs font-semibold sm:font-bold ${darkMode ? 'text-red-300' : 'text-red-700'}`}>
                               {activity.creditsUsed} {activity.creditsUsed === 1 ? 'Credit' : 'Credits'}
                             </span>
                           </div>
@@ -1091,11 +1067,11 @@ useEffect(() => {
                     </div>
                     <motion.button
                       onClick={() => handleViewDetails(activity)}
-                      className={`px-6 py-3 rounded-xl text-sm font-bold text-white bg-gradient-to-r ${gradient} hover:shadow-xl transition-all duration-300 flex items-center gap-2`}
+                      className={`px-6 py-1 rounded-xl text-xs font-bold text-white bg-gradient-to-r ${gradient} hover:shadow-xl transition-all duration-300 flex items-center gap-2`}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
-                      <Eye className="w-4 h-4" />
+                      <Eye className="w-3 h-3" />
                       View Details
                     </motion.button>
                   </div>
@@ -1151,20 +1127,20 @@ useEffect(() => {
                 exit={{ scale: 0.9, y: 20 }}
                 transition={{ type: "spring", duration: 0.5 }}
               >
-                <div className={`sticky top-0 z-10 ${darkMode ? 'bg-gray-900/95 border-b border-gray-800' : 'bg-white/95 border-b border-gray-200'} backdrop-blur-xl p-6`}>
+                <div className={`sticky top-0 z-10 ${darkMode ? 'bg-gray-900/95 border-b border-gray-800' : 'bg-white/95 border-b border-gray-200'} backdrop-blur-xl p-3`}>
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-center gap-4">
-                      <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${getServiceGradient(selectedActivity.serviceType)} flex items-center justify-center shadow-xl`}>
+                      <div className={`w-8 h-8 rounded-xl bg-gradient-to-br ${getServiceGradient(selectedActivity.serviceType)} flex items-center justify-center shadow-xl`}>
                         {(() => {
                           const Icon = getServiceIcon(selectedActivity.serviceType);
-                          return <Icon className="w-6 h-6 text-white" />;
+                          return <Icon className="w-4 h-4 text-white" />;
                         })()}
                       </div>
                       <div>
-                        <h2 className={`text-xl font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                        <h2 className={`text-xs sm:text-sm font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                           {selectedActivity.title}
                         </h2>
-                        <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                        <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                           {new Date(selectedActivity.createdAt).toLocaleDateString('en-US', { 
                             year: 'numeric', 
                             month: 'long', 
@@ -1184,7 +1160,7 @@ useEffect(() => {
                   </div>
                 </div>
 
-                <div className="p-6 overflow-y-auto max-h-[calc(85vh-140px)]">
+                <div className="p-3 overflow-y-auto max-h-[calc(85vh-140px)]">
                   {renderActivityDetails(selectedActivity)}
                 </div>
               </motion.div>

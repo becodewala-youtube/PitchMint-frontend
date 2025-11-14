@@ -58,30 +58,7 @@ const About = () => {
     <div className={`min-h-screen relative overflow-hidden ${darkMode ? "bg-[#0a0118]" : "bg-gray-50"}`}>
       {/* Enhanced Animated Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div
-          className={`absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-violet-600/30 via-purple-600/20 to-fuchsia-600/30"
-              : "bg-gradient-to-br from-violet-300/40 via-purple-300/30 to-fuchsia-300/40"
-          }`}
-          style={{ animationDuration: '8s' }}
-        ></div>
-        <div
-          className={`absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-pink-600/30 via-rose-600/20 to-red-600/30"
-              : "bg-gradient-to-br from-pink-300/40 via-rose-300/30 to-red-300/40"
-          }`}
-          style={{ animationDuration: '10s', animationDelay: '2s' }}
-        ></div>
-        <div
-          className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-cyan-600/20 via-blue-600/10 to-indigo-600/20"
-              : "bg-gradient-to-br from-cyan-300/30 via-blue-300/20 to-indigo-300/30"
-          }`}
-          style={{ animationDuration: '12s', animationDelay: '4s' }}
-        ></div>
+       
 
         <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-b from-transparent via-purple-500/5 to-transparent' : 'bg-gradient-to-b from-transparent via-purple-200/10 to-transparent'}`} />
         <div className={`absolute inset-0 ${darkMode ? 'bg-[linear-gradient(rgba(139,92,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.03)_1px,transparent_1px)]' : 'bg-[linear-gradient(rgba(139,92,246,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.05)_1px,transparent_1px)]'} bg-[size:64px_64px]`} />
@@ -102,21 +79,21 @@ const About = () => {
           <div className="flex justify-center mb-4">
             <div className="flex items-center gap-4 text-center">
               <div
-                className={`hidden md:flex md:w-12 md:h-12 w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-600 via-rose-600 to-red-600 items-center justify-center shadow-2xl ${
+                className={`hidden md:flex md:w-8 md:h-8 w-6 h-6 rounded-2xl bg-gradient-to-br from-pink-600 via-rose-600 to-red-600 items-center justify-center shadow-2xl ${
                   darkMode ? "shadow-pink-500/50" : "shadow-pink-500/30"
                 }`}
               >
-                <Heart className="md:w-8 md:h-8 w-5 h-5 text-white" />
+                <Heart className="md:w-4 md:h-4 w-3 h-3 text-white" />
               </div>
 
               <div>
-                <h1 className={`text-xl md:text-2xl font-black ${darkMode ? "text-white" : "text-gray-900"}`}>
+                <h1 className={`text-lg md:text-xl font-black ${darkMode ? "text-white" : "text-gray-900"}`}>
                   About{" "}
                   <span className="bg-gradient-to-r from-pink-400 via-rose-400 to-red-400 bg-clip-text text-transparent">
                     PitchMint
                   </span>
                 </h1>
-                <p className={`text-xs md:text-sm ${darkMode ? "text-gray-400" : "text-gray-600"} font-medium flex items-center gap-2 justify-center`}>
+                <p className={`text-xs  ${darkMode ? "text-gray-400" : "text-gray-600"} font-medium flex items-center gap-2 justify-center`}>
                   <Sparkles className="w-3 h-3 md:w-4 md:h-4 text-pink-400" />
                   Empowering entrepreneurs to turn ideas into reality with AI-powered validation
                 </p>
@@ -127,7 +104,7 @@ const About = () => {
 
         {/* Our Story Card */}
         <motion.div
-          className={`relative overflow-hidden rounded-2xl md:rounded-3xl p-6 md:p-8 mb-8 ${
+          className={`relative overflow-hidden rounded-2xl md:rounded-3xl p-2 md:p-3 mb-5 ${
             darkMode ? "bg-gray-900/50 border border-gray-800/50" : "bg-white border border-gray-200"
           } backdrop-blur-xl shadow-2xl`}
           initial={{ opacity: 0, y: 30 }}
@@ -137,27 +114,27 @@ const About = () => {
           <div className={`absolute -inset-1 bg-gradient-to-br from-pink-600/20 via-rose-600/10 to-red-600/20 opacity-50 blur-xl`} />
           
           <div className="relative max-w-4xl mx-auto text-center">
-            <h2 className={`text-lg md:text-xl font-black mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h2 className={`text-md md:text-lg font-black mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Our Story
             </h2>
-            <p className={`text-sm md:text-base leading-relaxed mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            <p className={`text-xs md:text-sm leading-relaxed mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               PitchMint was born from a simple observation: countless brilliant startup ideas fail not because they lack potential, but because founders lack access to professional validation and investor-ready materials.
             </p>
-            <p className={`text-sm md:text-base leading-relaxed mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            <p className={`text-xs md:text-sm leading-relaxed mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               As entrepreneurs ourselves, we experienced the frustration of spending weeks creating pitch decks, conducting market research, and preparing for investor meetings. We knew there had to be a better way.
             </p>
-            <p className={`text-sm md:text-base leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            <p className={`text-xs md:text-sm leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               Today, PitchMint combines advanced AI technology with deep business expertise to give every entrepreneur access to the tools and insights that were once available only to well-funded startups with advisory teams.
             </p>
           </div>
         </motion.div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-5">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
-              className={`group relative overflow-hidden rounded-2xl md:rounded-3xl p-4 md:p-6 text-center ${
+              className={`group relative overflow-hidden rounded-2xl md:rounded-3xl p-1 md:p-2 text-center ${
                 darkMode
                   ? "bg-gray-900/50 border border-gray-800/50"
                   : "bg-white border border-gray-200"
@@ -171,7 +148,7 @@ const About = () => {
               <div className={`absolute -inset-1 bg-gradient-to-br from-pink-500 to-rose-500 opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500`} />
 
               <div className="relative">
-                <div className={`text-2xl md:text-3xl font-black mb-2 bg-gradient-to-r from-pink-500 via-rose-500 to-red-500 bg-clip-text text-transparent`}>
+                <div className={`text-lg md:text-xl font-black mb-1 bg-gradient-to-r from-pink-500 via-rose-500 to-red-500 bg-clip-text text-transparent`}>
                   {stat.value}
                 </div>
                 <div className={`text-xs md:text-sm font-semibold ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
@@ -184,16 +161,16 @@ const About = () => {
 
         {/* Our Values */}
         <motion.div
-          className="mb-8"
+          className="mb-5"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
         >
-          <div className="mb-6">
-            <h2 className={`text-lg md:text-xl font-black text-center mb-2 ${darkMode ? "text-white" : "text-gray-900"}`}>
+          <div className="mb-4">
+            <h2 className={`text-lg md:text-lg font-black text-center mb-1 ${darkMode ? "text-white" : "text-gray-900"}`}>
               Our Values
             </h2>
-            <p className={`text-xs md:text-sm text-center ${darkMode ? "text-gray-400" : "text-gray-600"} font-medium`}>
+            <p className={`text-xs  text-center ${darkMode ? "text-gray-400" : "text-gray-600"} font-medium`}>
               What drives us every day
             </p>
           </div>
@@ -202,7 +179,7 @@ const About = () => {
             {values.map((value, index) => (
               <motion.div
                 key={value.title}
-                className={`group relative overflow-hidden rounded-2xl md:rounded-3xl p-6 ${
+                className={`group relative overflow-hidden rounded-2xl md:rounded-3xl p-3 ${
                   darkMode ? "bg-gray-900/50 border border-gray-800/50" : "bg-white border border-gray-200"
                 } backdrop-blur-xl hover:scale-105 transition-all duration-500 cursor-pointer`}
                 initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
@@ -214,14 +191,14 @@ const About = () => {
                 <div className={`absolute -inset-1 bg-gradient-to-br ${value.color} opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500`} />
 
                 <div className="relative flex items-start gap-4">
-                  <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${value.color} flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 flex-shrink-0`}>
-                    <value.icon className="w-6 h-6 text-white" />
+                  <div className={`w-6 sm:w-8 h-6 sm:h-8 rounded-2xl bg-gradient-to-br ${value.color} flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 flex-shrink-0`}>
+                    <value.icon className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
                   </div>
                   <div className="flex-1">
-                    <h3 className={`text-base md:text-lg font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <h3 className={`text-sm md:text-md font-bold mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       {value.title}
                     </h3>
-                    <p className={`text-xs md:text-sm leading-relaxed ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    <p className={`text-xs  leading-relaxed ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                       {value.description}
                     </p>
                   </div>
@@ -233,7 +210,7 @@ const About = () => {
 
         {/* Join Our Mission CTA */}
         <motion.div
-          className={`relative overflow-hidden rounded-2xl md:rounded-3xl p-6 md:p-8 text-center ${
+          className={`relative overflow-hidden rounded-2xl md:rounded-3xl p-2 md:p-3 text-center ${
             darkMode ? "bg-gray-900/50 border border-gray-800/50" : "bg-white border border-gray-200"
           } backdrop-blur-xl shadow-2xl`}
           initial={{ opacity: 0, y: 30 }}
@@ -243,23 +220,23 @@ const About = () => {
           <div className={`absolute -inset-1 bg-gradient-to-br from-cyan-600/20 via-blue-600/10 to-indigo-600/20 opacity-50 blur-xl`} />
           
           <div className="relative">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <div className={`w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-600 to-blue-600 flex items-center justify-center shadow-xl ${darkMode ? 'shadow-cyan-500/50' : 'shadow-cyan-500/30'}`}>
-                <Rocket className="w-5 h-5 text-white" />
+            <div className="flex items-center justify-center gap-3 mb-2">
+              <div className={`w-8 h-8 rounded-xl bg-gradient-to-br from-cyan-600 to-blue-600 flex items-center justify-center shadow-xl ${darkMode ? 'shadow-cyan-500/50' : 'shadow-cyan-500/30'}`}>
+                <Rocket className="w-4 h-4 text-white" />
               </div>
-              <h2 className={`text-lg md:text-xl font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h2 className={`text-sm md:text-lg font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Join Our Mission
               </h2>
             </div>
 
-            <p className={`text-sm md:text-base mb-6 max-w-2xl mx-auto ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            <p className={`text-xs md:text-sm mb-4 max-w-2xl mx-auto ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               Whether you're a first-time founder or a serial entrepreneur, we're here to support your journey from idea to launch.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <motion.button
                 onClick={() => window.location.href = '/signup'}
-                className="px-6 md:px-8 py-3 bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 text-white text-sm md:text-base font-bold rounded-xl shadow-lg hover:shadow-xl hover:shadow-cyan-500/50 transition-all duration-300 flex items-center justify-center gap-2"
+                className="px-6 md:px-8 py-1 sm:py-2 bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 text-white text-xs  font-bold rounded-xl shadow-lg hover:shadow-xl hover:shadow-cyan-500/50 transition-all duration-300 flex items-center justify-center gap-2"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -268,7 +245,7 @@ const About = () => {
               </motion.button>
               <motion.button
                 onClick={() => window.location.href = '/contact'}
-                className={`px-6 md:px-8 py-3 text-sm md:text-base font-bold rounded-xl border-2 transition-all duration-300 ${
+                className={`px-6 md:px-8 py-1 sm:py-2 text-xs  font-bold rounded-xl border-2 transition-all duration-300 ${
                   darkMode
                     ? 'border-gray-700 text-gray-300 hover:border-cyan-500 hover:text-cyan-400 hover:bg-cyan-500/10'
                     : 'border-gray-300 text-gray-700 hover:border-cyan-500 hover:text-cyan-600 hover:bg-cyan-50'

@@ -84,30 +84,7 @@ const Contact = () => {
     <div className={`min-h-screen relative overflow-hidden ${darkMode ? "bg-[#0a0118]" : "bg-gray-50"}`}>
       {/* Enhanced Animated Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div
-          className={`absolute top-0 right-1/4 w-[600px] h-[600px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-cyan-600/30 via-blue-600/20 to-indigo-600/30"
-              : "bg-gradient-to-br from-cyan-300/40 via-blue-300/30 to-indigo-300/40"
-          }`}
-          style={{ animationDuration: '8s' }}
-        ></div>
-        <div
-          className={`absolute bottom-0 left-1/4 w-[500px] h-[500px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-violet-600/30 via-purple-600/20 to-fuchsia-600/30"
-              : "bg-gradient-to-br from-violet-300/40 via-purple-300/30 to-fuchsia-300/40"
-          }`}
-          style={{ animationDuration: '10s', animationDelay: '2s' }}
-        ></div>
-        <div
-          className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-emerald-600/20 via-teal-600/10 to-cyan-600/20"
-              : "bg-gradient-to-br from-emerald-300/30 via-teal-300/20 to-cyan-300/30"
-          }`}
-          style={{ animationDuration: '12s', animationDelay: '4s' }}
-        ></div>
+        
 
         <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent' : 'bg-gradient-to-b from-transparent via-cyan-200/10 to-transparent'}`} />
         <div className={`absolute inset-0 ${darkMode ? 'bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)]' : 'bg-[linear-gradient(rgba(6,182,212,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.05)_1px,transparent_1px)]'} bg-[size:64px_64px]`} />
@@ -128,21 +105,21 @@ const Contact = () => {
           <div className="flex justify-center mb-4">
             <div className="flex items-center gap-4 text-center">
               <div
-                className={`hidden md:flex md:w-12 md:h-12 w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-600 via-blue-600 to-indigo-600 items-center justify-center shadow-2xl ${
+                className={`hidden md:flex md:w-8 md:h-8 w-6 h-6 rounded-2xl bg-gradient-to-br from-cyan-600 via-blue-600 to-indigo-600 items-center justify-center shadow-2xl ${
                   darkMode ? "shadow-cyan-500/50" : "shadow-cyan-500/30"
                 }`}
               >
-                <Mail className="md:w-8 md:h-8 w-5 h-5 text-white" />
+                <Mail className="md:w-4 md:h-4 w-4 h-4 text-white" />
               </div>
 
               <div>
-                <h1 className={`text-xl md:text-2xl font-black ${darkMode ? "text-white" : "text-gray-900"}`}>
+                <h1 className={`text-lg md:text-xl font-black ${darkMode ? "text-white" : "text-gray-900"}`}>
                   Contact{" "}
                   <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400 bg-clip-text text-transparent">
                     Us
                   </span>
                 </h1>
-                <p className={`text-xs md:text-sm ${darkMode ? "text-gray-400" : "text-gray-600"} font-medium flex items-center gap-2 justify-center`}>
+                <p className={`text-xs ${darkMode ? "text-gray-400" : "text-gray-600"} font-medium flex items-center gap-2 justify-center`}>
                   <Sparkles className="w-3 h-3 md:w-4 md:h-4 text-cyan-400" />
                   We're here to help you succeed with your startup
                 </p>
@@ -153,7 +130,7 @@ const Contact = () => {
 
         {/* Contact Form */}
         <motion.div
-          className={`relative overflow-hidden rounded-2xl md:rounded-3xl p-6 md:p-8 ${
+          className={`relative overflow-hidden rounded-2xl md:rounded-3xl p-4 md:p-5 ${
             darkMode ? "bg-gray-900/50 border border-gray-800/50" : "bg-white border border-gray-200"
           } backdrop-blur-xl shadow-2xl`}
           initial={{ opacity: 0, y: 30 }}
@@ -164,17 +141,17 @@ const Contact = () => {
           
           <div className="relative">
             <div className="flex items-center gap-3 mb-6">
-              <div className={`w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-600 to-blue-600 flex items-center justify-center shadow-xl ${darkMode ? 'shadow-cyan-500/50' : 'shadow-cyan-500/30'}`}>
-                <MessageSquare className="w-5 h-5 text-white" />
+              <div className={`w-8 h-8 rounded-xl bg-gradient-to-br from-cyan-600 to-blue-600 flex items-center justify-center shadow-xl ${darkMode ? 'shadow-cyan-500/50' : 'shadow-cyan-500/30'}`}>
+                <MessageSquare className="w-4 h-4 text-white" />
               </div>
-              <h2 className={`text-lg md:text-xl font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h2 className={`text-sm md:text-md font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Send us a Message
               </h2>
             </div>
             
             {success && (
               <motion.div 
-                className={`mb-6 p-4 rounded-xl border ${
+                className={`mb-4 p-4 rounded-xl border ${
                   darkMode 
                     ? 'bg-emerald-900/20 border-emerald-500/50 text-emerald-300' 
                     : 'bg-emerald-50 border-emerald-200 text-emerald-700'
@@ -189,10 +166,10 @@ const Contact = () => {
               </motion.div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className={`block text-sm font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <label className={`block text-xs font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                     Name
                   </label>
                   <input
@@ -201,7 +178,7 @@ const Contact = () => {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className={`w-full px-4 py-3 rounded-xl text-sm transition-all duration-300 ${
+                    className={`w-full px-4 py-2 rounded-xl text-xs outline-none transition-all duration-300 ${
                       darkMode
                         ? "bg-gray-800/50 border border-gray-700 text-white placeholder-gray-500 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
                         : "bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-400 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
@@ -210,7 +187,7 @@ const Contact = () => {
                   />
                 </div>
                 <div>
-                  <label className={`block text-sm font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <label className={`block text-xs font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                     Email
                   </label>
                   <input
@@ -219,7 +196,7 @@ const Contact = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className={`w-full px-4 py-3 rounded-xl text-sm transition-all duration-300 ${
+                    className={`w-full px-4 py-2 rounded-xl text-xs outline-none transition-all duration-300 ${
                       darkMode
                         ? "bg-gray-800/50 border border-gray-700 text-white placeholder-gray-500 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
                         : "bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-400 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
@@ -230,14 +207,14 @@ const Contact = () => {
               </div>
 
               <div>
-                <label className={`block text-sm font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <label className={`block text-xs font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   Category
                 </label>
                 <select
                   name="category"
                   value={formData.category}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 rounded-xl text-sm transition-all duration-300 ${
+                  className={`w-full px-4 py-2 rounded-xl text-xs outline-none transition-all duration-300 ${
                     darkMode
                       ? "bg-gray-800/50 border border-gray-700 text-white focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
                       : "bg-gray-50 border border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
@@ -252,7 +229,7 @@ const Contact = () => {
               </div>
 
               <div>
-                <label className={`block text-sm font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <label className={`block text-xs font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   Subject
                 </label>
                 <input
@@ -261,7 +238,7 @@ const Contact = () => {
                   value={formData.subject}
                   onChange={handleChange}
                   required
-                  className={`w-full px-4 py-3 rounded-xl text-sm transition-all duration-300 ${
+                  className={`w-full px-4 py-2 rounded-xl text-xs outline-none transition-all duration-300 ${
                     darkMode
                       ? "bg-gray-800/50 border border-gray-700 text-white placeholder-gray-500 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
                       : "bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-400 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
@@ -271,7 +248,7 @@ const Contact = () => {
               </div>
 
               <div>
-                <label className={`block text-sm font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <label className={`block text-xs font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   Message
                 </label>
                 <textarea
@@ -280,7 +257,7 @@ const Contact = () => {
                   onChange={handleChange}
                   required
                   rows={6}
-                  className={`w-full px-4 py-3 rounded-xl text-sm transition-all duration-300 ${
+                  className={`w-full px-4 py-2 rounded-xl text-xs outline-none transition-all duration-300 ${
                     darkMode
                       ? "bg-gray-800/50 border border-gray-700 text-white placeholder-gray-500 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
                       : "bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-400 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
@@ -292,7 +269,7 @@ const Contact = () => {
               <motion.button
                 type="submit"
                 disabled={loading}
-                className={`w-full px-6 py-4 bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 text-white text-sm font-bold rounded-xl shadow-lg hover:shadow-xl hover:shadow-cyan-500/50 transition-all duration-300 flex items-center justify-center gap-3 ${
+                className={`w-full px-6 py-1 sm:py-2 bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 text-white text-xs font-bold rounded-xl shadow-lg hover:shadow-xl hover:shadow-cyan-500/50 transition-all duration-300 flex items-center justify-center gap-3 ${
                   loading ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105'
                 }`}
                 whileHover={!loading ? { scale: 1.02 } : {}}
@@ -305,9 +282,9 @@ const Contact = () => {
                   </>
                 ) : (
                   <>
-                    <Send className="w-5 h-5" />
+                    <Send className="w-4 h-4" />
                     Send Message
-                    <ArrowRight className="w-5 h-5" />
+                    <ArrowRight className="w-4 h-4" />
                   </>
                 )}
               </motion.button>
@@ -322,7 +299,7 @@ const Contact = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <p className={`text-xs md:text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+          <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
             We typically respond within 24-48 hours. For urgent matters, please email us directly at{' '}
             <a href="mailto:antik8795@gmail.com" className="text-cyan-400 hover:text-cyan-300 font-semibold transition-colors">
               antik8795@gmail.com

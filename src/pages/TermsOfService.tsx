@@ -94,30 +94,7 @@ const TermsOfService = () => {
       {/* Enhanced Animated Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         {/* Primary Gradient Orbs */}
-        <div
-          className={`absolute top-0 right-1/4 w-[600px] h-[600px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-violet-600/30 via-purple-600/20 to-fuchsia-600/30"
-              : "bg-gradient-to-br from-violet-300/40 via-purple-300/30 to-fuchsia-300/40"
-          }`}
-          style={{ animationDuration: '8s' }}
-        ></div>
-        <div
-          className={`absolute bottom-0 left-1/4 w-[500px] h-[500px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-indigo-600/30 via-blue-600/20 to-cyan-600/30"
-              : "bg-gradient-to-br from-indigo-300/40 via-blue-300/30 to-cyan-300/40"
-          }`}
-          style={{ animationDuration: '10s', animationDelay: '2s' }}
-        ></div>
-        <div
-          className={`absolute top-1/2 right-1/3 transform -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-pink-600/20 via-rose-600/10 to-red-600/20"
-              : "bg-gradient-to-br from-pink-300/30 via-rose-300/20 to-red-300/30"
-          }`}
-          style={{ animationDuration: '12s', animationDelay: '4s' }}
-        ></div>
+        
 
         {/* Mesh Gradient Overlay */}
         <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-b from-transparent via-violet-500/5 to-transparent' : 'bg-gradient-to-b from-transparent via-violet-200/10 to-transparent'}`} />
@@ -140,12 +117,12 @@ const TermsOfService = () => {
           transition={{ duration: 0.8 }}
         >
           <div className="text-center">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br from-violet-600 to-purple-500 flex items-center justify-center shadow-2xl ${darkMode ? 'shadow-violet-500/50' : 'shadow-violet-500/30'}`}>
-                <FileText className="w-6 h-6 text-white" />
+            <div className="flex items-center justify-center gap-3 mb-2">
+              <div className={`w-8 h-8 rounded-2xl bg-gradient-to-br from-violet-600 to-purple-500 flex items-center justify-center shadow-2xl ${darkMode ? 'shadow-violet-500/50' : 'shadow-violet-500/30'}`}>
+                <FileText className="w-4 h-4 text-white" />
               </div>
               <div>
-                <h1 className={`text-2xl md:text-3xl font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h1 className={`text-lg md:text-xl font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   Terms of{" "}
                   <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent">
                     Service
@@ -153,7 +130,7 @@ const TermsOfService = () => {
                 </h1>
               </div>
             </div>
-            <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'} font-medium flex items-center justify-center gap-2`}>
+            <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'} font-medium flex items-center justify-center gap-2`}>
               <Sparkles className="w-4 h-4 text-violet-400" />
               Legal terms and conditions for using PitchMint
             </p>
@@ -165,7 +142,7 @@ const TermsOfService = () => {
 
         {/* Introduction */}
         <motion.div 
-          className={`relative overflow-hidden rounded-3xl p-6 mb-8 ${
+          className={`relative overflow-hidden rounded-3xl p-3 mb-8 ${
             darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'
           } backdrop-blur-xl`}
           initial={{ opacity: 0, y: 30 }}
@@ -175,8 +152,8 @@ const TermsOfService = () => {
           <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 via-purple-500/10 to-fuchsia-500/10 opacity-50"></div>
           <div className="relative">
             <div className="flex items-start gap-3 mb-4">
-              <div className={`w-10 h-10 rounded-xl bg-gradient-to-br from-violet-600 to-purple-500 flex items-center justify-center flex-shrink-0 shadow-lg`}>
-                <FileText className="w-5 h-5 text-white" />
+              <div className={`w-8 h-8 rounded-xl bg-gradient-to-br from-violet-600 to-purple-500 flex items-center justify-center flex-shrink-0 shadow-lg`}>
+                <FileText className="w-4 h-4 text-white" />
               </div>
               <div>
                 <h2 className={`text-sm font-bold mb-2 ${darkMode ? 'text-violet-400' : 'text-violet-600'}`}>
@@ -184,7 +161,7 @@ const TermsOfService = () => {
                 </h2>
               </div>
             </div>
-            <p className={`text-sm leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            <p className={`text-xs text-justify leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               Welcome to PitchMint! These Terms of Service ("Terms") govern your use of our AI-powered startup 
               validation platform. Please read these terms carefully before using our services. By creating an 
               account or using PitchMint, you agree to be bound by these terms.
@@ -214,28 +191,28 @@ const TermsOfService = () => {
               <div className="relative">
                 {/* Section Header */}
                 <div className="flex items-center gap-3 mb-6">
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${section.gradient} flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
-                    <section.icon className="w-6 h-6 text-white" />
+                  <div className={`w-8 h-8 rounded-xl bg-gradient-to-br ${section.gradient} flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
+                    <section.icon className="w-4 h-4 text-white" />
                   </div>
-                  <h2 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <h2 className={`text-sm font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                     {section.title}
                   </h2>
                 </div>
 
                 {/* Content List */}
-                <ul className="space-y-4">
+                <ul className="space-y-2">
                   {section.content.map((item, i) => (
                     <motion.li 
                       key={i} 
-                      className="flex items-start gap-3"
+                      className="flex items-start gap-2"
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.5, delay: 0.4 + index * 0.1 + i * 0.05 }}
                     >
                       <div className={`w-6 h-6 rounded-lg bg-gradient-to-br ${section.gradient} flex items-center justify-center flex-shrink-0 mt-0.5 shadow-lg`}>
-                        <CheckCircle2 className="w-3.5 h-3.5 text-white" />
+                        <CheckCircle2 className="w-3 h-3 text-white" />
                       </div>
-                      <span className={`text-sm leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                      <span className={`text-xs leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                         {item}
                       </span>
                     </motion.li>
@@ -248,7 +225,7 @@ const TermsOfService = () => {
 
         {/* Contact Footer */}
         <motion.div 
-          className={`relative overflow-hidden rounded-3xl p-6 mt-8 ${
+          className={`relative overflow-hidden rounded-3xl p-3 mt-5 ${
             darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'
           } backdrop-blur-xl text-center`}
           initial={{ opacity: 0, y: 30 }}
@@ -257,15 +234,15 @@ const TermsOfService = () => {
         >
           <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 via-purple-500/10 to-fuchsia-500/10 opacity-50"></div>
           <div className="relative">
-            <h3 className={`text-lg font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h3 className={`text-md font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Questions About Terms?
             </h3>
-            <p className={`text-sm mb-4 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+            <p className={`text-xs mb-3 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
               If you have any questions about these Terms of Service, please contact us.
             </p>
             <a
               href="mailto:legal@pitchmint.com"
-              className="inline-flex items-center px-6 py-3 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 hover:shadow-xl hover:shadow-violet-500/50 transition-all duration-300 hover:scale-105 shadow-lg"
+              className="inline-flex items-center px-6 py-1 sm:py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 hover:shadow-xl hover:shadow-violet-500/50 transition-all duration-300 hover:scale-105 shadow-lg"
             >
               <Mail className="w-4 h-4 mr-2" />
               Contact Legal Team

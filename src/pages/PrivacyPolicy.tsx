@@ -81,31 +81,7 @@ const PrivacyPolicy = () => {
     <div className={`min-h-screen relative overflow-hidden ${darkMode ? 'bg-[#0a0118]' : 'bg-gray-50'}`}>
       {/* Enhanced Animated Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        {/* Primary Gradient Orbs */}
-        <div
-          className={`absolute top-0 right-1/4 w-[600px] h-[600px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-blue-600/30 via-cyan-600/20 to-teal-600/30"
-              : "bg-gradient-to-br from-blue-300/40 via-cyan-300/30 to-teal-300/40"
-          }`}
-          style={{ animationDuration: '8s' }}
-        ></div>
-        <div
-          className={`absolute bottom-0 left-1/4 w-[500px] h-[500px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-purple-600/30 via-fuchsia-600/20 to-pink-600/30"
-              : "bg-gradient-to-br from-purple-300/40 via-fuchsia-300/30 to-pink-300/40"
-          }`}
-          style={{ animationDuration: '10s', animationDelay: '2s' }}
-        ></div>
-        <div
-          className={`absolute top-1/2 right-1/3 transform -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-emerald-600/20 via-teal-600/10 to-cyan-600/20"
-              : "bg-gradient-to-br from-emerald-300/30 via-teal-300/20 to-cyan-300/30"
-          }`}
-          style={{ animationDuration: '12s', animationDelay: '4s' }}
-        ></div>
+       
 
         {/* Mesh Gradient Overlay */}
         <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-b from-transparent via-blue-500/5 to-transparent' : 'bg-gradient-to-b from-transparent via-blue-200/10 to-transparent'}`} />
@@ -119,7 +95,7 @@ const PrivacyPolicy = () => {
         <div className="absolute bottom-32 left-[20%] w-2.5 h-2.5 bg-purple-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3.5s', animationDelay: '2s' }}></div>
       </div>
 
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         {/* Enhanced Header */}
         <motion.div 
           className="mb-6"
@@ -128,12 +104,12 @@ const PrivacyPolicy = () => {
           transition={{ duration: 0.8 }}
         >
           <div className="text-center">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center shadow-2xl ${darkMode ? 'shadow-blue-500/50' : 'shadow-blue-500/30'}`}>
-                <Shield className="w-6 h-6 text-white" />
+            <div className="flex items-center justify-center gap-3 mb-2">
+              <div className={`w-8 h-8 rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center shadow-2xl ${darkMode ? 'shadow-blue-500/50' : 'shadow-blue-500/30'}`}>
+                <Shield className="w-4 h-4 text-white" />
               </div>
               <div>
-                <h1 className={`text-2xl md:text-3xl font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h1 className={`text-lg md:text-xl font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   Privacy{" "}
                   <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
                     Policy
@@ -141,7 +117,7 @@ const PrivacyPolicy = () => {
                 </h1>
               </div>
             </div>
-            <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'} font-medium flex items-center justify-center gap-2`}>
+            <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'} font-medium flex items-center justify-center gap-2`}>
               <Sparkles className="w-4 h-4 text-blue-400" />
               How we protect and handle your data
             </p>
@@ -153,7 +129,7 @@ const PrivacyPolicy = () => {
 
         {/* Introduction */}
         <motion.div 
-          className={`relative overflow-hidden rounded-3xl p-6 mb-8 ${
+          className={`relative overflow-hidden rounded-3xl p-3 mb-5 ${
             darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'
           } backdrop-blur-xl`}
           initial={{ opacity: 0, y: 30 }}
@@ -162,17 +138,17 @@ const PrivacyPolicy = () => {
         >
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-cyan-500/10 to-teal-500/10 opacity-50"></div>
           <div className="relative">
-            <div className="flex items-start gap-3 mb-4">
-              <div className={`w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center flex-shrink-0 shadow-lg`}>
-                <Shield className="w-5 h-5 text-white" />
+            <div className="flex items-start gap-3 mb-1">
+              <div className={`w-6 h-6 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center flex-shrink-0 shadow-lg`}>
+                <Shield className="w-3 h-3 text-white" />
               </div>
-              <div>
-                <h2 className={`text-sm font-bold mb-2 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
+              <div className='mt-1'>
+                <h2 className={`text-xs sm:text-sm font-bold mb-2 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
                   Our Commitment to Your Privacy
                 </h2>
               </div>
             </div>
-            <p className={`text-sm leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            <p className={`text-xs leading-relaxed text-justify ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               At PitchMint, we are committed to protecting your privacy and ensuring the security of your personal information. 
               This Privacy Policy explains how we collect, use, and safeguard your data when you use our AI-powered startup 
               validation platform. By using PitchMint, you agree to the practices described in this policy.
@@ -181,11 +157,11 @@ const PrivacyPolicy = () => {
         </motion.div>
 
         {/* Sections */}
-        <div className="space-y-6">
+        <div className="space-y-4">
           {sections.map((section, index) => (
             <motion.div
               key={section.title}
-              className={`group relative overflow-hidden rounded-3xl p-6 ${
+              className={`group relative overflow-hidden rounded-3xl p-3 ${
                 darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'
               } backdrop-blur-xl hover:scale-[1.01] transition-all duration-500`}
               initial={{ opacity: 0, y: 30 }}
@@ -201,17 +177,17 @@ const PrivacyPolicy = () => {
 
               <div className="relative">
                 {/* Section Header */}
-                <div className="flex items-center gap-3 mb-6">
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${section.gradient} flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
-                    <section.icon className="w-6 h-6 text-white" />
+                <div className="flex items-center gap-3 mb-3">
+                  <div className={`w-6 h-6 rounded-xl bg-gradient-to-br ${section.gradient} flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
+                    <section.icon className="w-3 h-3 text-white" />
                   </div>
-                  <h2 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <h2 className={`text-sm font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                     {section.title}
                   </h2>
                 </div>
 
                 {/* Content List */}
-                <ul className="space-y-4">
+                <ul className="space-y-3">
                   {section.content.map((item, i) => (
                     <motion.li 
                       key={i} 
@@ -220,10 +196,10 @@ const PrivacyPolicy = () => {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.5, delay: 0.4 + index * 0.1 + i * 0.05 }}
                     >
-                      <div className={`w-6 h-6 rounded-lg bg-gradient-to-br ${section.gradient} flex items-center justify-center flex-shrink-0 mt-0.5 shadow-lg`}>
-                        <CheckCircle2 className="w-3.5 h-3.5 text-white" />
+                      <div className={`w-5 h-5 rounded-lg bg-gradient-to-br ${section.gradient} flex items-center justify-center flex-shrink-0 mt-0.5 shadow-lg`}>
+                        <CheckCircle2 className="w-3 h-3 text-white" />
                       </div>
-                      <span className={`text-sm leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                      <span className={`text-xs leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                         {item}
                       </span>
                     </motion.li>
@@ -236,7 +212,7 @@ const PrivacyPolicy = () => {
 
         {/* Contact Footer */}
         <motion.div 
-          className={`relative overflow-hidden rounded-3xl p-6 mt-8 ${
+          className={`relative overflow-hidden rounded-3xl p-3 mt-8 ${
             darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'
           } backdrop-blur-xl text-center`}
           initial={{ opacity: 0, y: 30 }}
@@ -245,15 +221,15 @@ const PrivacyPolicy = () => {
         >
           <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 via-purple-500/10 to-fuchsia-500/10 opacity-50"></div>
           <div className="relative">
-            <h3 className={`text-lg font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h3 className={`text-sm sm:text-md font-bold mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Questions About Privacy?
             </h3>
-            <p className={`text-sm mb-4 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+            <p className={`text-xs mb-4 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
               If you have any questions or concerns about our privacy practices, please contact us.
             </p>
             <a
               href="mailto:privacy@pitchmint.com"
-              className="inline-flex items-center px-6 py-3 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-blue-600 via-cyan-600 to-teal-600 hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105 shadow-lg"
+              className="inline-flex items-center px-6 py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-blue-600 via-cyan-600 to-teal-600 hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105 shadow-lg"
             >
               <Shield className="w-4 h-4 mr-2" />
               Contact Privacy Team
