@@ -186,31 +186,7 @@ const Profile = () => {
     <div className={`min-h-screen relative overflow-hidden ${darkMode ? 'bg-[#0a0118]' : 'bg-gray-50'}`}>
       {/* Enhanced Animated Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div
-          className={`absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-blue-600/30 via-cyan-600/20 to-teal-600/30"
-              : "bg-gradient-to-br from-blue-300/40 via-cyan-300/30 to-teal-300/40"
-          }`}
-          style={{ animationDuration: '8s' }}
-        ></div>
-        <div
-          className={`absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-purple-600/30 via-pink-600/20 to-fuchsia-600/30"
-              : "bg-gradient-to-br from-purple-300/40 via-pink-300/30 to-fuchsia-300/40"
-          }`}
-          style={{ animationDuration: '10s', animationDelay: '2s' }}
-        ></div>
-        <div
-          className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-indigo-600/20 via-purple-600/10 to-pink-600/20"
-              : "bg-gradient-to-br from-indigo-300/30 via-purple-300/20 to-pink-300/30"
-          }`}
-          style={{ animationDuration: '12s', animationDelay: '4s' }}
-        ></div>
-
+       
         <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-b from-transparent via-blue-500/5 to-transparent' : 'bg-gradient-to-b from-transparent via-blue-200/10 to-transparent'}`} />
         <div className={`absolute inset-0 ${darkMode ? 'bg-[linear-gradient(rgba(59,130,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.03)_1px,transparent_1px)]' : 'bg-[linear-gradient(rgba(59,130,246,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.05)_1px,transparent_1px)]'} bg-[size:64px_64px]`} />
 
