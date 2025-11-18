@@ -520,6 +520,18 @@ const Navbar = () => {
                     <HistoryIcon className="w-4 h-4 mr-3" />
                     History
                   </Link>
+                  <Link
+                    to="/credits"
+                    className={`flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
+                      darkMode
+                        ? "text-white hover:bg-violet-600/10"
+                        : "text-gray-700 hover:bg-violet-50"
+                    }`}
+                    onClick={toggleMenu}
+                  >
+                    <CreditCard className="w-4 h-4 mr-3" />
+                    Credits
+                  </Link>
                   <button
                     onClick={() => {
                       toggleMenu();

@@ -229,17 +229,17 @@ const Profile = () => {
         >
           <div className="flex justify-center mb-4">
             <div className="flex items-center gap-4 text-center">
-              <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center shadow-2xl ${darkMode ? "shadow-blue-500/50" : "shadow-blue-500/30"}`}>
-                <User className="w-6 h-6 text-white" />
+              <div className={`w-6 sm:w-8 h-6 sm:h-8 rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center shadow-2xl ${darkMode ? "shadow-blue-500/50" : "shadow-blue-500/30"}`}>
+                <User className="w-4 h-4 text-white" />
               </div>
               <div>
-                <h1 className={`text-xl md:text-2xl font-black ${darkMode ? "text-white" : "text-gray-900"}`}>
+                <h1 className={`text-lg md:text-xl font-black ${darkMode ? "text-white" : "text-gray-900"}`}>
                   Profile{" "}
                   <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
                     Settings
                   </span>
                 </h1>
-                <p className={`text-xs md:text-sm ${darkMode ? "text-gray-400" : "text-gray-600"} font-medium flex items-center gap-2 justify-center`}>
+                <p className={`text-xs ${darkMode ? "text-gray-400" : "text-gray-600"} font-medium flex items-center gap-2 justify-center`}>
                   <Sparkles className="w-3 h-3 md:w-4 md:h-4 text-blue-400" />
                   Manage your account and preferences
                 </p>
@@ -281,7 +281,7 @@ const Profile = () => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Sidebar */}
           <motion.div 
-            className={`${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl rounded-3xl shadow-2xl p-6`}
+            className={`${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl rounded-3xl shadow-2xl p-3`}
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -289,19 +289,19 @@ const Profile = () => {
             {/* Profile Picture */}
             <div className="text-center mb-6">
               <div className="relative inline-block">
-                <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-blue-500 via-cyan-500 to-teal-500 flex items-center justify-center text-white text-3xl font-black shadow-2xl">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 via-cyan-500 to-teal-500 flex items-center justify-center text-white text-3xl font-black shadow-2xl">
                   {user?.profilePicture ? (
                     <img 
                       src={user.profilePicture} 
                       alt="Profile" 
-                      className="w-24 h-24 rounded-2xl object-cover"
+                      className="w-12 h-12 rounded-2xl object-cover"
                     />
                   ) : (
                     user?.name?.charAt(0).toUpperCase()
                   )}
                 </div>
-                <label className={`absolute -bottom-2 -right-2 w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-xl flex items-center justify-center cursor-pointer hover:scale-110 transition-all duration-300 shadow-xl ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}>
-                  <Camera className="w-5 h-5 text-white" />
+                <label className={`absolute -bottom-2 -right-2 w-6 h-6 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-xl flex items-center justify-center cursor-pointer hover:scale-110 transition-all duration-300 shadow-xl ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                  <Camera className="w-3 h-3 text-white" />
                   <input
                     type="file"
                     accept="image/*"
@@ -311,15 +311,15 @@ const Profile = () => {
                   />
                 </label>
               </div>
-              <h3 className={`text-lg font-black mt-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h3 className={`text-sm font-black mt-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 {user?.name}
               </h3>
-              <p className={`text-sm mb-3 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              <p className={`text-xs mb-3 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 {user?.email}
               </p>
               {user?.isPremium && (
-                <div className="inline-flex items-center px-4 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg">
-                  <Crown className="w-4 h-4 mr-2" />
+                <div className="inline-flex items-center px-4 py-1 rounded-xl text-xs font-bold bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg">
+                  <Crown className="w-3 h-3 mr-2" />
                   Premium Member
                 </div>
               )}
@@ -331,7 +331,7 @@ const Profile = () => {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`w-full flex items-center px-4 py-3 rounded-xl text-sm font-bold transition-all duration-300 ${
+                  className={`w-full flex items-center px-4 py-3 rounded-xl text-xs font-bold transition-all duration-300 ${
                     activeTab === tab.id
                       ? `bg-gradient-to-r ${tab.gradient} text-white shadow-xl`
                       : darkMode
@@ -339,7 +339,7 @@ const Profile = () => {
                         : 'text-gray-700 hover:bg-gray-100'
                   }`}
                 >
-                  <tab.icon className="w-5 h-5 mr-3" />
+                  <tab.icon className="w-4 h-4 mr-3" />
                   {tab.label}
                 </button>
               ))}
@@ -355,12 +355,12 @@ const Profile = () => {
           >
             {/* Profile Tab */}
             {activeTab === 'profile' && (
-              <div className={`${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl rounded-3xl shadow-2xl p-6 md:p-8`}>
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center shadow-xl">
-                    <User className="w-5 h-5 text-white" />
+              <div className={`${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl rounded-3xl shadow-2xl p-2 md:p-3`}>
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center shadow-xl">
+                    <User className="w-4 h-4 text-white" />
                   </div>
-                  <h2 className={`text-lg font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <h2 className={`text-md font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                     Profile Information
                   </h2>
                 </div>
@@ -368,14 +368,14 @@ const Profile = () => {
                 <form onSubmit={handleProfileUpdate} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className={`block text-sm font-bold mb-3 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                      <label className={`block text-xs font-bold mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                         Full Name
                       </label>
                       <input
                         type="text"
                         value={profileData.name}
                         onChange={(e) => setProfileData(prev => ({ ...prev, name: e.target.value }))}
-                        className={`w-full px-4 py-3 text-sm rounded-xl border-2 transition-all duration-300 ${
+                        className={`w-full px-3 py-1 sm:py-2 text-xs rounded-xl border-2 transition-all duration-300 ${
                           darkMode
                             ? 'bg-gray-800/50 text-white border-gray-700 focus:border-blue-500 focus:bg-gray-800'
                             : 'bg-white text-gray-900 border-gray-300 focus:border-blue-500 focus:bg-gray-50'
@@ -384,14 +384,14 @@ const Profile = () => {
                     </div>
                     
                     <div>
-                      <label className={`block text-sm font-bold mb-3 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                      <label className={`block text-xs font-bold mb-3 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                         Email Address
                       </label>
                       <input
                         type="email"
                         value={profileData.email}
                         readOnly
-                        className={`w-full px-4 py-3 text-sm rounded-xl border-2 transition-all duration-300 cursor-not-allowed opacity-70 ${
+                        className={`w-full px-4 py-1 sm:py-2 text-xs rounded-xl border-2 transition-all duration-300 cursor-not-allowed opacity-70 ${
                           darkMode
                             ? 'bg-gray-800/30 text-gray-500 border-gray-700'
                             : 'bg-gray-100 text-gray-600 border-gray-300'
@@ -406,7 +406,7 @@ const Profile = () => {
                   <motion.button
                     type="submit"
                     disabled={loading}
-                    className={`w-full py-4 px-8 rounded-2xl text-sm font-bold text-white transition-all duration-300 ${
+                    className={`w-full py-2 px-8 rounded-2xl text-xs  font-bold text-white transition-all duration-300 ${
                       loading
                         ? 'bg-gray-400 cursor-not-allowed'
                         : 'bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 hover:shadow-xl hover:shadow-blue-500/50'
@@ -421,7 +421,7 @@ const Profile = () => {
                       </div>
                     ) : (
                       <div className="flex items-center justify-center">
-                        <Save className="w-5 h-5 mr-2" />
+                        <Save className="w-4 h-4 mr-2" />
                         Update Profile
                       </div>
                     )}
@@ -432,27 +432,27 @@ const Profile = () => {
 
             {/* Security Tab */}
             {activeTab === 'security' && (
-              <div className={`${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl rounded-3xl shadow-2xl p-6 md:p-8`}>
+              <div className={`${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl rounded-3xl shadow-2xl p-2 md:p-3`}>
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-600 to-emerald-600 flex items-center justify-center shadow-xl">
-                    <Shield className="w-5 h-5 text-white" />
+                  <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-green-600 to-emerald-600 flex items-center justify-center shadow-xl">
+                    <Shield className="w-4 h-4 text-white" />
                   </div>
-                  <h2 className={`text-lg font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <h2 className={`text-md font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                     Security Settings
                   </h2>
                 </div>
                 
                 {user?.authProvider === 'google' ? (
-                  <div className={`p-6 rounded-2xl ${darkMode ? 'bg-blue-900/20 border border-blue-500/30' : 'bg-blue-50 border border-blue-200'}`}>
+                  <div className={`p-3 rounded-2xl ${darkMode ? 'bg-blue-900/20 border border-blue-500/30' : 'bg-blue-50 border border-blue-200'}`}>
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center flex-shrink-0">
-                        <Shield className="w-6 h-6 text-white" />
+                      <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center flex-shrink-0">
+                        <Shield className="w-4 h-4 text-white" />
                       </div>
                       <div>
-                        <h3 className={`font-bold mb-1 ${darkMode ? 'text-blue-200' : 'text-blue-900'}`}>
+                        <h3 className={`font-bold text-xs sm:text-sm mb-1 ${darkMode ? 'text-blue-200' : 'text-blue-900'}`}>
                           Google Account Security
                         </h3>
-                        <p className={`text-sm ${darkMode ? 'text-blue-300' : 'text-blue-700'}`}>
+                        <p className={`text-xs ${darkMode ? 'text-blue-300' : 'text-blue-700'}`}>
                           Your account is secured by Google. Password changes should be made through your Google account settings.
                         </p>
                       </div>
@@ -461,14 +461,14 @@ const Profile = () => {
                 ) : (
                   <form onSubmit={handleProfileUpdate} className="space-y-6">
                     <div className="relative">
-                      <label className={`block text-sm font-bold mb-3 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                      <label className={`block text-xs font-bold mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                         New Password
                       </label>
                       <input
                         type={showNewPassword ? 'text' : 'password'}
                         value={profileData.newPassword}
                         onChange={(e) => setProfileData(prev => ({ ...prev, newPassword: e.target.value }))}
-                        className={`w-full px-4 py-3 text-sm rounded-xl border-2 transition-all duration-300 pr-12 ${
+                        className={`w-full px-4 py-1 sm:py-2 text-xs rounded-xl border-2 transition-all duration-300 pr-12 ${
                           darkMode
                             ? 'bg-gray-800/50 text-white border-gray-700 focus:border-green-500 focus:bg-gray-800'
                             : 'bg-white text-gray-900 border-gray-300 focus:border-green-500 focus:bg-gray-50'
@@ -490,14 +490,14 @@ const Profile = () => {
                     </div>
 
                     <div className="relative">
-                      <label className={`block text-sm font-bold mb-3 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                      <label className={`block text-xs font-bold mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                         Confirm New Password
                       </label>
                       <input
                         type={showConfirmPassword ? 'text' : 'password'}
                         value={profileData.confirmPassword}
                         onChange={(e) => setProfileData(prev => ({ ...prev, confirmPassword: e.target.value }))}
-                        className={`w-full px-4 py-3 text-sm rounded-xl border-2 transition-all duration-300 pr-12 ${
+                        className={`w-full px-4 py-1 sm:py-2 text-xs rounded-xl border-2 transition-all duration-300 pr-12 ${
                           darkMode
                             ? 'bg-gray-800/50 text-white border-gray-700 focus:border-green-500 focus:bg-gray-800'
                             : 'bg-white text-gray-900 border-gray-300 focus:border-green-500 focus:bg-gray-50'
@@ -521,7 +521,7 @@ const Profile = () => {
                     <motion.button
                       type="submit"
                       disabled={loading || !profileData.newPassword}
-                      className={`w-full py-4 px-8 rounded-2xl text-sm font-bold text-white transition-all duration-300 ${
+                      className={`w-full py-2 px-8 rounded-2xl text-xs font-bold text-white transition-all duration-300 ${
                         loading || !profileData.newPassword
                           ? 'bg-gray-400 cursor-not-allowed'
                           : 'bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 hover:shadow-xl hover:shadow-green-500/50'
@@ -548,21 +548,21 @@ const Profile = () => {
 
             {/* Credits Tab */}
             {activeTab === 'credits' && (
-              <div className="space-y-6">
+              <div className="space-y-5">
                 {/* Credit Balance */}
-                <div className={`${darkMode ? 'bg-gradient-to-r from-amber-600/10 via-orange-600/10 to-yellow-600/10 border border-amber-500/20' : 'bg-gradient-to-r from-amber-100 via-orange-100 to-yellow-100 border border-amber-200'} rounded-3xl p-6 md:p-8`}>
+                <div className={`${darkMode ? 'bg-gradient-to-r from-amber-600/10 via-orange-600/10 to-yellow-600/10 border border-amber-500/20' : 'bg-gradient-to-r from-amber-100 via-orange-100 to-yellow-100 border border-amber-200'} rounded-3xl p-2 md:p-3`}>
                   <div className="flex flex-col md:flex-row items-center justify-between gap-6">
                     <div className="flex items-center gap-4">
-                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-600 to-orange-500 flex items-center justify-center shadow-xl">
-                        <CreditCard className="w-8 h-8 text-white" />
+                      <div className="w-6 sm:w-8 h-6 sm:h-8 rounded-2xl bg-gradient-to-br from-amber-600 to-orange-500 flex items-center justify-center shadow-xl">
+                        <CreditCard className="w-4 h-4 text-white" />
                       </div>
                       <div className="text-center md:text-left">
                         <h2 className={`text-sm font-semibold mb-1 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                           Credit Balance
                         </h2>
-                        <div className={`text-4xl font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                        <div className={`text-xl font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                           {creditBalance}
-                          <span className={`text-lg ml-2 font-bold ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                          <span className={`text-xs ml-2 font-bold ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                             Credits
                           </span>
                         </div>
@@ -576,10 +576,10 @@ const Profile = () => {
                     </div>
                   </div>
                   
-                  <div className={`mt-6 p-4 rounded-2xl ${darkMode ? 'bg-blue-900/20 border border-blue-500/20' : 'bg-blue-50 border border-blue-200'}`}>
+                  <div className={`mt-6 p-2 rounded-2xl ${darkMode ? 'bg-blue-900/20 border border-blue-500/20' : 'bg-blue-50 border border-blue-200'}`}>
                     <div className="flex items-start gap-3">
-                      <Sparkles className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
-                      <p className={`text-sm ${darkMode ? 'text-blue-300' : 'text-blue-700'}`}>
+                      <Sparkles className="w-4 h-4 text-blue-500 flex-shrink-0 mt-0.5" />
+                      <p className={`text-xs ${darkMode ? 'text-blue-300' : 'text-blue-700'}`}>
                         Credits reset monthly. Free users get 3 credits per month. Upgrade to premium for unlimited access!
                       </p>
                     </div>
@@ -587,24 +587,24 @@ const Profile = () => {
                 </div>
 
                 {/* Credit History */}
-                <div className={`${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl rounded-3xl shadow-2xl p-6 md:p-8`}>
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center shadow-xl">
-                      <History className="w-5 h-5 text-white" />
+                <div className={`${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl rounded-3xl shadow-2xl p-2 md:p-3`}>
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center shadow-xl">
+                      <History className="w-4 h-4 text-white" />
                     </div>
-                    <h3 className={`text-lg font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <h3 className={`text-md font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       Transaction History
                     </h3>
                   </div>
                   
                   {creditHistory.length > 0 ? (
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                       {creditHistory.map((transaction) => {
                         const TransactionIcon = getTransactionIcon(transaction.type);
                         return (
                           <motion.div
                             key={transaction._id}
-                            className={`flex items-center justify-between p-5 rounded-2xl ${
+                            className={`flex items-center justify-between p-2 rounded-2xl ${
                               darkMode ? 'bg-gray-800/50 border border-gray-700' : 'bg-gray-50 border border-gray-200'
                             } hover:scale-[1.02] transition-all duration-300`}
                             initial={{ opacity: 0, x: -20 }}
@@ -612,11 +612,11 @@ const Profile = () => {
                             whileHover={{ x: 5 }}
                           >
                             <div className="flex items-center gap-4">
-                              <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${getTransactionColor(transaction.type, transaction.amount)} flex items-center justify-center shadow-lg`}>
-                                <TransactionIcon className="w-5 h-5 text-white" />
+                              <div className={`w-8 h-8 rounded-xl bg-gradient-to-br ${getTransactionColor(transaction.type, transaction.amount)} flex items-center justify-center shadow-lg`}>
+                                <TransactionIcon className="w-4 h-4 text-white" />
                               </div>
                               <div>
-                                <p className={`font-bold text-sm ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                                <p className={`font-bold text-xs ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                                   {transaction.description}
                                 </p>
                                 <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>

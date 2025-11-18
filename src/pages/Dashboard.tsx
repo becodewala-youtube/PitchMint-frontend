@@ -181,7 +181,7 @@ const Dashboard = () => {
                   </span>
                   {user?.isPremium && (
                     <motion.span
-                      className="inline-flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-xl shadow-amber-500/50 ml-2 md:ml-3 align-middle"
+                      className="sm:inline-flex hidden items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-xl shadow-amber-500/50 ml-2 md:ml-3 align-middle"
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
                       transition={{ duration: 0.5, delay: 0.3 }}
