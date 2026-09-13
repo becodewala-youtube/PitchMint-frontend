@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PageBackground from '../components/ui/PageBackground';
 
 import { motion } from 'framer-motion';
 import { Mail, Send, MessageSquare, Sparkles, CheckCircle2, ArrowRight } from 'lucide-react';

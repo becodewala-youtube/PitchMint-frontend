@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import PageBackground from '../components/ui/PageBackground';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store';
 import { fetchUserHistory } from '../store/slices/historySlice';

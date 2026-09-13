@@ -1,5 +1,6 @@
 
 import { motion } from 'framer-motion';
+import PageBackground from '../components/ui/PageBackground';
 import { Shield, Eye, Lock, Database, UserCheck, Globe, Sparkles, CheckCircle2 } from 'lucide-react';
 
 const PrivacyPolicy = () => {

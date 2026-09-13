@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import PageBackground from '../components/ui/PageBackground';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../store/hooks';

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import PageBackground from '../components/ui/PageBackground';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAppDispatch } from '../store/hooks';
 import api from '../utils/api';

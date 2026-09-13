@@ -1,5 +1,6 @@
 
 import { motion } from 'framer-motion';
+import PageBackground from '../components/ui/PageBackground';
 import { FileText, Users, CreditCard, Shield, AlertTriangle, Scale, Sparkles, CheckCircle2, Mail } from 'lucide-react';
 
 const TermsOfService = () => {

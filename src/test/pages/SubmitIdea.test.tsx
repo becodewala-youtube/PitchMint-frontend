@@ -45,13 +45,13 @@ describe('SubmitIdea', () => {
   test('renders submit idea form', () => {
     renderSubmitIdea();
     expect(screen.getByText('Submit Your')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/describe your startup idea/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/describe your startup idea/i)).toBeInTheDocument();
   });
 
   test('enables submit button when idea text is entered', () => {
     renderSubmitIdea();
-    const textarea = screen.getByPlaceholderText(/describe your startup idea/i);
-    const submitButton = screen.getByText('Analyze Idea (1 Credit)');
+    const textarea = screen.getByLabelText(/describe your startup idea/i);
+    const submitButton = screen.getByRole('button', { name: /analyze idea/i });
     
     expect(submitButton).toBeDisabled();
     

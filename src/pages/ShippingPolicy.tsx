@@ -1,5 +1,6 @@
 
 import { motion } from 'framer-motion';
+import PageBackground from '../components/ui/PageBackground';
 import { Zap, Cloud, Globe, Wifi, Server, Shield, Sparkles, CheckCircle2, ArrowRight, Mail, HelpCircle, Clock } from 'lucide-react';
 
 const ShippingPolicy = () => {

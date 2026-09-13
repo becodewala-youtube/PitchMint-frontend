@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PageBackground from '../components/ui/PageBackground';
 import { useSelector } from 'react-redux';
 import api from '../utils/api';
 

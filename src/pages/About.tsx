@@ -1,5 +1,6 @@
 
 import { motion } from 'framer-motion';
+import PageBackground from '../components/ui/PageBackground';
 import {
   Target,
   Heart,

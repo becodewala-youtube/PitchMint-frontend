@@ -1,4 +1,5 @@
-import { useEffect } from "react"
+
+import PageBackground from '../components/ui/PageBackground';import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { useAppDispatch } from "../store/hooks"

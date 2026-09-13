@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import PageBackground from '../components/ui/PageBackground';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../store/hooks';
 import { useRazorpay } from '../hooks/useRazorpay';

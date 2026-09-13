@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PageBackground from '../components/ui/PageBackground';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../utils/api';
 

@@ -8,6 +8,7 @@ import { RootState } from '../store';
 import { Brain, AlertCircle, Sparkles, CheckCircle, Target, Users, TrendingUp, DollarSign, ArrowRight, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 import InsufficientCreditsModal from '../components/modals/InsufficientCreditsModal';
+import PageBackground from '../components/ui/PageBackground';
 
 const SubmitIdea = () => {
   const [ideaText, setIdeaText] = useState('');
