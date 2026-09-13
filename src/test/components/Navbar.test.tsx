@@ -5,7 +5,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import Navbar from '../../components/layout/Navbar';
 import authReducer from '../../store/slices/authSlice';
 import ideaReducer from '../../store/slices/ideaSlice';
-import { ThemeProvider } from '../../contexts/ThemeContext';
+
 
 const mockStore = configureStore({
   reducer: {
@@ -41,9 +41,7 @@ const renderNavbar = () => {
   return render(
     <Provider store={mockStore}>
       <BrowserRouter>
-        <ThemeProvider>
-          <Navbar />
-        </ThemeProvider>
+        <Navbar />
       </BrowserRouter>
     </Provider>
   );
@@ -64,10 +62,5 @@ describe('Navbar', () => {
     expect(screen.getByText('History')).toBeInTheDocument();
   });
 
-  test('toggles dark mode', () => {
-    renderNavbar();
-    const darkModeButton = screen.getByRole('button', { name: /toggle dark mode/i });
-    fireEvent.click(darkModeButton);
-    // Test would check if dark mode class is applied
-  });
+
 });

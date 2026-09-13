@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../store/hooks';
 import { submitIdea, clearError } from '../store/slices/ideaSlice';
 import { RootState } from '../store';
 

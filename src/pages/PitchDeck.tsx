@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "../store/hooks";
 import {
   getIdea,
   generatePitchDeck,
@@ -70,7 +71,7 @@ const PitchDeck = () => {
     try {
       setExportLoading(true);
       await exportAllSlidesToPDF(slides, `pitch-deck-${id}`, darkMode);
-    } catch (error) { (import.meta.env.DEV) console.error("Failed to export PDF:", error);
+    } catch (error) { if (import.meta.env.DEV) console.error("Failed to export PDF:", error);
     } finally {
       setExportLoading(false);
     }
@@ -193,15 +194,6 @@ const PitchDeck = () => {
       className={`min-h-screen relative overflow-hidden bg-[#0a0118]`}
     >
       <PageBackground theme="violet" />
-        <div
-          className="absolute top-40 right-[15%] w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce opacity-60"
-          style={{ animationDuration: "4s", animationDelay: "1s" }}
-        ></div>
-        <div
-          className="absolute bottom-32 left-[20%] w-2.5 h-2.5 bg-fuchsia-400 rounded-full animate-bounce opacity-60"
-          style={{ animationDuration: "3.5s", animationDelay: "2s" }}
-        ></div>
-      </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Enhanced Header */}

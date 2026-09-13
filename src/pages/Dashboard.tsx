@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector } from "react-redux"
+import { useAppDispatch } from "../store/hooks"
 import { getSavedIdeas } from "../store/slices/ideaSlice"
 import type { RootState } from "../store"
 
@@ -133,10 +134,7 @@ const Dashboard = () => {
       }`}
     >
       <PageBackground theme="violet" />
-        <div className="absolute top-40 right-[15%] w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '4s', animationDelay: '1s' }}></div>
-        <div className="absolute bottom-32 left-[20%] w-2.5 h-2.5 bg-fuchsia-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3.5s', animationDelay: '2s' }}></div>
-        <div className="absolute top-[30%] right-[25%] w-1 h-1 bg-amber-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '4.5s', animationDelay: '1.5s' }}></div>
-      </div>
+
 
       <div className="relative  z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Enhanced Welcome Header */}

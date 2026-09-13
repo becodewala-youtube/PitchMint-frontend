@@ -59,25 +59,7 @@ const ResetPassword = () => {
         } py-12 px-4 sm:px-6 lg:px-8`}
       >
         <PageBackground theme="violet" />
-          <div
-            className={`absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full blur-3xl animate-pulse ${
-              'bg-gradient-to-br from-cyan-600/30 via-blue-600/20 to-indigo-600/30'
-            }`}
-            style={{ animationDuration: '10s', animationDelay: '2s' }}
-          ></div>
-          <div
-            className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full blur-3xl animate-pulse ${
-              'bg-gradient-to-br from-emerald-600/20 via-teal-600/10 to-cyan-600/20'
-            }`}
-            style={{ animationDuration: '12s', animationDelay: '4s' }}
-          ></div>
 
-          {/* Mesh Gradient Overlay */}
-          <div className={`absolute inset-0 bg-gradient-to-b from-transparent via-purple-500/5 to-transparent`} />
-          
-          {/* Animated Grid */}
-          <div className={`absolute inset-0 bg-[linear-gradient(rgba(139,92,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.03)_1px,transparent_1px)] bg-[size:64px_64px]`} />
-        </div>
 
         {/* Success Card */}
         <div className="relative z-10 max-w-md w-full">

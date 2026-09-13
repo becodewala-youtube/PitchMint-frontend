@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../store/hooks';
 import { useNavigate } from 'react-router-dom';
 import api from '../utils/api';
 
@@ -13,7 +13,7 @@ interface GoogleSignInProps {
 }
 
 const GoogleSignIn = ({ onSuccess, onError }: GoogleSignInProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const GoogleSignIn = ({ onSuccess, onError }: GoogleSignInProps) => {
         document.body.removeChild(script);
       }
     };
-  }, [darkMode]);
+  }, []);
 
  const handleCredentialResponse = async (response: any) => {
   try {

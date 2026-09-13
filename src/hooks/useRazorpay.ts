@@ -93,7 +93,7 @@ export const useRazorpay = ({
             );
             
             onSuccess(verifyResponse.data);
-          } catch (verifyError: any) { (import.meta.env.DEV) console.error('Payment verification failed:', verifyError);
+          } catch (verifyError: any) { if (import.meta.env.DEV) console.error('Payment verification failed:', verifyError);
             const errMsg = verifyError.response?.data?.message || 'Payment verification failed. Please contact support if amount was debited.';
             setError(errMsg);
             onError(verifyError);
@@ -111,7 +111,7 @@ export const useRazorpay = ({
 
       const rzp = new window.Razorpay(options);
       
-      rzp.on('payment.failed', function (paymentResponse: any) { (import.meta.env.DEV) console.error('Premium payment failed:', paymentResponse.error);
+      rzp.on('payment.failed', function (paymentResponse: any) { if (import.meta.env.DEV) console.error('Premium payment failed:', paymentResponse.error);
         const errMsg = `Payment failed: ${paymentResponse.error.description}`;
         setError(errMsg);
         onError(new Error(errMsg));
@@ -119,7 +119,7 @@ export const useRazorpay = ({
       });
 
       rzp.open();
-    } catch (err: any) { (import.meta.env.DEV) console.error('Payment initialization failed:', err);
+    } catch (err: any) { if (import.meta.env.DEV) console.error('Payment initialization failed:', err);
       let errorMessage = 'Failed to create payment order';
       if (err.response) {
         errorMessage = err.response.data?.message || `Server error: ${err.response.status}`;

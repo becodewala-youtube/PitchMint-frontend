@@ -83,7 +83,7 @@ const CollaborativePitchDeck = () => {
             }
           }
         }
-      } catch (error) { (import.meta.env.DEV) console.error('Failed to load pitch deck:', error);
+      } catch (error) { if (import.meta.env.DEV) console.error('Failed to load pitch deck:', error);
       }
     };
 
@@ -149,7 +149,7 @@ const CollaborativePitchDeck = () => {
           userId: user?._id
         }));
       }
-    } catch (error) { (import.meta.env.DEV) console.error('Failed to save slide:', error);
+    } catch (error) { if (import.meta.env.DEV) console.error('Failed to save slide:', error);
     } finally {
       setSaveLoading(false);
     }
@@ -178,7 +178,7 @@ const CollaborativePitchDeck = () => {
           comment
         }));
       }
-    } catch (error) { (import.meta.env.DEV) console.error('Failed to add comment:', error);
+    } catch (error) { if (import.meta.env.DEV) console.error('Failed to add comment:', error);
     }
   };
 
@@ -195,7 +195,7 @@ const CollaborativePitchDeck = () => {
         }
       );
       setTalkingPoints(response.data.talkingPoints);
-    } catch (error) { (import.meta.env.DEV) console.error('Failed to generate talking points');
+    } catch (error) { if (import.meta.env.DEV) console.error('Failed to generate talking points');
     } finally {
       setScriptLoading(false);
     }
@@ -232,13 +232,13 @@ const CollaborativePitchDeck = () => {
           );
           
           
-        } catch (error) { (import.meta.env.DEV) console.error('Failed to process voice feedback');
+        } catch (error) { if (import.meta.env.DEV) console.error('Failed to process voice feedback');
         }
       };
       
       mediaRecorder.start();
       setIsRecording(true);
-    } catch (error) { (import.meta.env.DEV) console.error('Failed to start recording');
+    } catch (error) { if (import.meta.env.DEV) console.error('Failed to start recording');
     }
   };
 
@@ -257,7 +257,7 @@ const CollaborativePitchDeck = () => {
       });
       
       setComments(prev => prev.filter(comment => comment.id !== commentId));
-    } catch (error) { (import.meta.env.DEV) console.error('Failed to delete comment:', error);
+    } catch (error) { if (import.meta.env.DEV) console.error('Failed to delete comment:', error);
     }
   };
   
@@ -269,7 +269,7 @@ const CollaborativePitchDeck = () => {
       alert('Collaboration link copied to clipboard! Share it with your team members.');
       setShowInviteModal(false);
       setInviteEmail('');
-    } catch (error) { (import.meta.env.DEV) console.error('Failed to copy link:', error);
+    } catch (error) { if (import.meta.env.DEV) console.error('Failed to copy link:', error);
       alert('Failed to copy link. Please try again.');
     }
   };

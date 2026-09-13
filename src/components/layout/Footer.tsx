@@ -22,23 +22,23 @@ const Footer = () => {
     { name: 'Privacy Policy', path: '/privacy' },
     { name: 'Terms of Service', path: '/terms' }
   ];
-  
+
   return (
     <footer className="w-full border-t border-white/5 bg-[#000000] py-16 pb-24">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-12">
-        
+
         {/* Logo and branding column */}
         <div className="col-span-1">
           <Link to="/" className="flex items-center mb-2">
             <img src={icon} alt="logo" className="w-6 h-6 mr-2 opacity-90" />
-            <h3 className="text-2xl font-semibold tracking-tight text-white">PitchMint <span className="text-purple-400">AI</span></h3>
+            <h3 className="text-2xl font-semibold tracking-tight text-white">PitchMint</h3>
           </Link>
           <p className="text-[11px] text-gray-500 font-medium tracking-widest uppercase mt-4">
             Designed, Built and Backed by <br />
             <span className="text-gray-300 mt-1 inline-block">PitchMint</span>
           </p>
         </div>
-        
+
         {/* Platform Links */}
         <div>
           <h4 className="text-white font-semibold mb-6 text-[15px]">Platform</h4>
@@ -52,7 +52,7 @@ const Footer = () => {
             ))}
           </ul>
         </div>
-        
+
         {/* Legal / Support Links */}
         <div>
           <h4 className="text-white font-semibold mb-6 text-[15px]">Legal</h4>
@@ -66,7 +66,7 @@ const Footer = () => {
             ))}
           </ul>
         </div>
-        
+
         {/* Social Links */}
         <div>
           <h4 className="text-white font-semibold mb-6 text-[15px]">Socials</h4>
@@ -82,7 +82,7 @@ const Footer = () => {
         </div>
 
       </div>
-      
+
       {/* Bottom Copyright */}
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
         <p className="text-[13px] text-gray-500 font-medium">

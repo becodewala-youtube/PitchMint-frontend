@@ -65,7 +65,7 @@ const Contact = () => {
       setTimeout(() => {
         setSuccess(false);
       }, 5000);
-    } catch (error) { (import.meta.env.DEV) console.error('Failed to send email:', error);
+    } catch (error) { if (import.meta.env.DEV) console.error('Failed to send email:', error);
       setLoading(false);
       alert('Failed to send message. Please try again or contact us directly at antik8795@gmail.com');
     }
@@ -81,9 +81,6 @@ const Contact = () => {
   return (
     <div className={`min-h-screen relative overflow-hidden bg-[#0a0118]`}>
       <PageBackground theme="violet" />
-        <div className="absolute top-40 right-[15%] w-1.5 h-1.5 bg-violet-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '4s', animationDelay: '1s' }}></div>
-        <div className="absolute bottom-32 left-[20%] w-2.5 h-2.5 bg-blue-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3.5s', animationDelay: '2s' }}></div>
-      </div>
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Enhanced Header */}

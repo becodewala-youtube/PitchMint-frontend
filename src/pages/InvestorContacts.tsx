@@ -101,26 +101,6 @@ const InvestorContacts = () => {
   return (
     <div className={`min-h-screen relative overflow-hidden bg-[#0a0118]`}>
       <PageBackground theme="amber" />
-        <div
-          className={`absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full blur-3xl animate-pulse ${
-            'bg-gradient-to-br from-orange-600/30 via-red-600/20 to-pink-600/30'
-          }`}
-          style={{ animationDuration: '10s', animationDelay: '2s' }}
-        ></div>
-        <div
-          className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full blur-3xl animate-pulse ${
-            'bg-gradient-to-br from-yellow-600/20 via-amber-600/10 to-orange-600/20'
-          }`}
-          style={{ animationDuration: '12s', animationDelay: '4s' }}
-        ></div>
-
-        <div className={`absolute inset-0 bg-gradient-to-b from-transparent via-amber-500/5 to-transparent`} />
-        <div className={`absolute inset-0 bg-[linear-gradient(rgba(245,158,11,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(245,158,11,0.03)_1px,transparent_1px)] bg-[size:64px_64px]`} />
-
-        <div className="absolute top-20 left-[10%] w-2 h-2 bg-amber-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3s', animationDelay: '0s' }}></div>
-        <div className="absolute top-40 right-[15%] w-1.5 h-1.5 bg-yellow-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '4s', animationDelay: '1s' }}></div>
-        <div className="absolute bottom-32 left-[20%] w-2.5 h-2.5 bg-orange-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3.5s', animationDelay: '2s' }}></div>
-      </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Enhanced Header */}

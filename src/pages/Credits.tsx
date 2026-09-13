@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../store/hooks';
 import { useRazorpay } from '../hooks/useRazorpay';
-import { AppDispatch, RootState } from '../store';
+import { RootState } from '../store';
 
 import { motion } from 'framer-motion';
 import { CreditCard, Check, Zap, Star, Sparkles, Shield, Clock, Gift, TrendingUp, Wallet, X } from 'lucide-react';
@@ -17,7 +18,7 @@ import { updateUserCredits } from '../store/slices/authSlice';
 
 const Credits = () => {
   const { user } = useSelector((state: RootState) => state.auth);
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const { plans, error, purchasingPlan, fetchedOnce } = useSelector(
     (state: RootState) => state.credits
   );
@@ -71,31 +72,6 @@ const Credits = () => {
   return (
     <div className={`min-h-screen relative overflow-hidden bg-[#0a0118]`}>
       <PageBackground theme="amber" />
-        <div
-          className={`absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full blur-3xl animate-pulse ${
-            'bg-gradient-to-br from-blue-600/30 via-cyan-600/20 to-teal-600/30'
-          }`}
-          style={{ animationDuration: '10s', animationDelay: '2s' }}
-        ></div>
-        <div
-          className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full blur-3xl animate-pulse ${
-            'bg-gradient-to-br from-purple-600/20 via-pink-600/10 to-fuchsia-600/20'
-          }`}
-          style={{ animationDuration: '12s', animationDelay: '4s' }}
-        ></div>
-
-        {/* Mesh Gradient Overlay */}
-        <div className={`absolute inset-0 bg-gradient-to-b from-transparent via-amber-500/5 to-transparent`} />
-        
-        {/* Animated Grid */}
-        <div className={`absolute inset-0 bg-[linear-gradient(rgba(245,158,11,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(245,158,11,0.03)_1px,transparent_1px)] bg-[size:64px_64px]`} />
-
-        {/* Floating Elements */}
-        <div className="absolute top-20 left-[10%] w-2 h-2 bg-amber-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3s', animationDelay: '0s' }}></div>
-        <div className="absolute top-40 right-[15%] w-1.5 h-1.5 bg-yellow-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '4s', animationDelay: '1s' }}></div>
-        <div className="absolute bottom-32 left-[20%] w-2.5 h-2.5 bg-orange-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3.5s', animationDelay: '2s' }}></div>
-        <div className="absolute top-[30%] right-[25%] w-1 h-1 bg-blue-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '4.5s', animationDelay: '1.5s' }}></div>
-      </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Enhanced Header */}

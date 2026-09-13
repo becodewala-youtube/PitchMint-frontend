@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../store/hooks';
 import api from '../utils/api';
 
 import { loadUser } from '../store/slices/authSlice';
@@ -53,13 +53,6 @@ const PaymentSuccess = () => {
     return (
       <div className={`min-h-screen relative overflow-hidden bg-[#0a0118] flex items-center justify-center`}>
         <PageBackground theme="red" />
-          <div
-            className={`absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full blur-3xl animate-pulse ${
-              'bg-gradient-to-br from-orange-600/30 via-red-600/20 to-pink-600/30'
-            }`}
-            style={{ animationDuration: '10s', animationDelay: '2s' }}
-          ></div>
-        </div>
 
         <motion.div 
           className={`relative z-10 text-center p-12 rounded-3xl bg-gray-900/50 border border-gray-800/50 backdrop-blur-xl shadow-2xl max-w-md mx-4`}

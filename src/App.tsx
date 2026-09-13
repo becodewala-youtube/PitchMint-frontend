@@ -1,7 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
 import { useEffect, lazy, Suspense } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from './store/hooks';
 import { loadUser } from './store/slices/authSlice';
 import { RootState } from './store';
 

@@ -5,7 +5,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import SubmitIdea from '../../pages/SubmitIdea';
 import authReducer from '../../store/slices/authSlice';
 import ideaReducer from '../../store/slices/ideaSlice';
-import { ThemeProvider } from '../../contexts/ThemeContext';
+
 
 const mockStore = configureStore({
   reducer: {
@@ -35,9 +35,7 @@ const renderSubmitIdea = () => {
   return render(
     <Provider store={mockStore}>
       <BrowserRouter>
-        <ThemeProvider>
-          <SubmitIdea />
-        </ThemeProvider>
+        <SubmitIdea />
       </BrowserRouter>
     </Provider>
   );

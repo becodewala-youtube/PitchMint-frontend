@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../store/hooks';
 import api from '../utils/api';
 
 import { RootState } from '../store';
@@ -37,7 +38,7 @@ const CompetitorAnalysis = () => {
   } | null>(null);
   
   const { token, user } = useSelector((state: RootState) => state.auth);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleAnalyze = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -80,9 +81,6 @@ const CompetitorAnalysis = () => {
   return (
     <div className={`min-h-screen relative overflow-hidden bg-[#0a0118]`}>
       <PageBackground theme="violet" />
-        <div className="absolute top-40 right-[15%] w-1.5 h-1.5 bg-teal-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '4s', animationDelay: '1s' }}></div>
-        <div className="absolute bottom-32 left-[20%] w-2.5 h-2.5 bg-emerald-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3.5s', animationDelay: '2s' }}></div>
-      </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Enhanced Header */}

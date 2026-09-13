@@ -20,7 +20,7 @@ const UpgradeModal = ({ isOpen, onClose }: UpgradeModalProps) => {
       onClose();
       window.location.reload();
     },
-    onError: (err) => { (import.meta.env.DEV) console.error('Premium upgrade failed:', err);
+    onError: (err) => { if (import.meta.env.DEV) console.error('Premium upgrade failed:', err);
     }
   });
 
