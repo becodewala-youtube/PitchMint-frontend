@@ -142,16 +142,16 @@ const Landing = () => {
 
   const faqs = [
     {
-      question: "What is PitchMint AI?",
-      answer: "PitchMint is an AI-powered platform designed to help founders validate their startup ideas, generate professional pitch decks, and practice pitches with simulated investors."
+      question: "What is PitchMint?",
+      answer: "PitchMint is an AI-powered platform designed to help founders validate their startup ideas instantly. It cross-references your idea against thousands of data points including market size, competition, and trends to give you actionable insights."
     },
     {
       question: "How can I validate my idea?",
       answer: "Simply enter your idea into our AI engine, and we'll analyze market demand, competition, and monetization potential to give you a comprehensive validation score."
     },
     {
-      question: "Is PitchMint AI free to use?",
-      answer: "We offer 3 free credits per month. For unlimited access to advanced features like competitor analysis and the pitch simulator, check out our Pro plans."
+      question: "Is PitchMint free to use?",
+      answer: "We offer a generous free tier that allows you to run basic validations and access core features. For deeper insights, competitor analysis, and unlimited validations, we offer premium plans."
     },
     {
       question: "How are ideas scored?",
@@ -360,7 +360,7 @@ const Landing = () => {
                 </div>
 
                 {/* Center text */}
-                <div className="absolute z-20 font-bold text-2xl tracking-tighter text-white bg-black/80 backdrop-blur-sm px-5 py-2 rounded-full border border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.8)]">PitchMint AI</div>
+                <div className="absolute z-20 font-bold text-2xl tracking-tighter text-white bg-black/80 backdrop-blur-sm px-5 py-2 rounded-full border border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.8)]">PitchMint</div>
               </div>
             </motion.div>
 
@@ -673,7 +673,7 @@ const Landing = () => {
           {/* Opensox-style Refined Smooth Background */}
           <div className="absolute inset-0 z-0 bg-[#000000] overflow-hidden">
             {/* Massive smooth radial gradient from center */}
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(90,35,220,0.85)_0%,_rgba(60,15,150,0.7)_40%,_rgba(20,5,60,0.5)_70%,_rgba(0,0,0,1)_100%)]"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(90,35,220,0.85)_0%,_rgba(60,15,150,0.7)_40%,_rgba(20,5,60,0.5)_70%,_rgba(0,0,0,1)_100%)]"></div>
             
             {/* Finer static-like noise texture with mix-blend-overlay for seamless integration */}
             <div className="absolute inset-0 opacity-[0.35] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 400 400%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>

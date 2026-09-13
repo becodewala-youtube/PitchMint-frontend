@@ -35,7 +35,7 @@ const Footer = () => {
           </Link>
           <p className="text-[11px] text-gray-500 font-medium tracking-widest uppercase mt-4">
             Designed, Built and Backed by <br />
-            <span className="text-gray-300 mt-1 inline-block">PitchMint Labs</span>
+            <span className="text-gray-300 mt-1 inline-block">PitchMint</span>
           </p>
         </div>
         
@@ -86,7 +86,7 @@ const Footer = () => {
       {/* Bottom Copyright */}
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
         <p className="text-[13px] text-gray-500 font-medium">
-          © {new Date().getFullYear()} PitchMint Labs. All rights reserved.
+          © {new Date().getFullYear()} PitchMint. All rights reserved.
         </p>
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-2">

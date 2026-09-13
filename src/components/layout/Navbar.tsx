@@ -88,7 +88,7 @@ const Navbar = () => {
                   <img src={icon} alt="logo" className="w-5 h-5" />
                 </div>
                 <span className="font-semibold text-[17px] tracking-tight text-white">
-                  PitchMint<span className="text-purple-400"> AI</span>
+                  PitchMint
                 </span>
               </Link>
             </div>
