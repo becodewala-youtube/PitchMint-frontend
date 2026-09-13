@@ -1,16 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import axios from 'axios';
-import { API_URL } from '../../utils/constants';
+import api from '../../utils/api';
 import { RootState } from '../../store';
-import { useTheme } from '../../contexts/ThemeContext';
 import { Star, X } from 'lucide-react';
+import { useRazorpay } from '../../hooks/useRazorpay';
 
-declare global {
-  interface Window {
-    Razorpay: any;
-  }
-}
 
 interface UpgradeModalProps {
   isOpen: boolean;
@@ -18,132 +12,21 @@ interface UpgradeModalProps {
 }
 
 const UpgradeModal = ({ isOpen, onClose }: UpgradeModalProps) => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const { token, user } = useSelector((state: RootState) => state.auth);
-  const { darkMode } = useTheme();
+  const { initiatePayment, loading, error, setError } = useRazorpay({
+    createSessionEndpoint: '/api/payment/create-checkout-session',
+    verifyPaymentEndpoint: '/api/payment/verify-premium',
+    onSuccess: () => {
+      alert('Premium upgrade successful! Page will reload to reflect changes.');
+      onClose();
+      window.location.reload();
+    },
+    onError: (err) => { (import.meta.env.DEV) console.error('Premium upgrade failed:', err);
+    }
+  });
 
   const handleUpgrade = async () => {
-    if (!window.Razorpay) {
-      setError('Payment gateway not loaded. Please refresh the page.');
-      return;
-    }
-
-    try {
-      setLoading(true);
-      setError(null);
-
-      
-      const response = await axios.post(
-        `${API_URL}/api/payment/create-checkout-session`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-     
-      const { orderId, amount, currency, keyId, userEmail, userName } = response.data;
-
-      const options = {
-        key: keyId,
-        amount: amount,
-        currency: currency,
-        name: 'PitchMint',
-        description: 'Premium Upgrade',
-        order_id: orderId,
-        prefill: {
-          name: userName || user?.name || '',
-          email: userEmail || user?.email || '',
-        },
-        theme: {
-          color: '#8B5CF6'
-        },
-        handler: async function (response: any) {
-          
-          try {
-            setLoading(true);
-            // Verify payment on backend
-            const verifyResponse = await axios.post(
-              `${API_URL}/api/payment/verify-premium`,
-              {
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-              },
-              { 
-                headers: { Authorization: `Bearer ${token}` },
-                timeout: 15000
-              }
-            );
-            
-            
-            // Show success message
-            alert('Premium upgrade successful! Page will reload to reflect changes.');
-            
-            // Close modal and refresh page
-            onClose();
-            window.location.reload();
-            
-          } catch (verifyError: any) {
-            console.error('Premium payment verification failed:', verifyError);
-            setError(
-              verifyError.response?.data?.message || 
-              'Payment verification failed. Please contact support if amount was debited.'
-            );
-          } finally {
-            setLoading(false);
-          }
-        },
-        modal: {
-          ondismiss: function() {
-          
-            setLoading(false);
-          }
-        }
-      };
-
-      
-      const rzp = new window.Razorpay(options);
-      
-      rzp.on('payment.failed', function (response: any) {
-        console.error('Premium payment failed:', response.error);
-        setError(`Payment failed: ${response.error.description}`);
-        setLoading(false);
-      });
-
-      rzp.open();
-
-    } catch (err: any) {
-      console.error('Premium upgrade failed:', err);
-      
-      let errorMessage = 'Failed to create payment order';
-      if (err.response) {
-        errorMessage = err.response.data?.message || `Server error: ${err.response.status}`;
-      } else if (err.request) {
-        errorMessage = 'Network error. Please check your connection.';
-      }
-      
-      setError(errorMessage);
-      setLoading(false);
-    }
+    await initiatePayment();
   };
-
-  // Load Razorpay script on component mount
-  useState(() => {
-    const script = document.createElement('script');
-    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-    script.async = true;
-    document.body.appendChild(script);
-    
-    return () => {
-      if (document.body.contains(script)) {
-        document.body.removeChild(script);
-      }
-    };
-  });
 
   if (!isOpen) return null;
 
@@ -152,31 +35,31 @@ const UpgradeModal = ({ isOpen, onClose }: UpgradeModalProps) => {
       <div className="flex items-center justify-center min-h-screen px-4">
         <div className="fixed inset-0 bg-black opacity-50"></div>
         
-        <div className={`relative ${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg max-w-lg w-full p-6`}>
+        <div className={`relative bg-gray-800 rounded-lg max-w-lg w-full p-6`}>
           <button
             onClick={onClose}
             className={`absolute top-4 right-4 ${
-              darkMode ? 'text-gray-400 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'
+              'text-gray-400 hover:text-gray-300'
             }`}
           >
             <X className="h-6 w-6" />
           </button>
 
           <div className="text-center">
-            <Star className={`mx-auto h-12 w-12 ${darkMode ? 'text-yellow-400' : 'text-yellow-500'}`} />
-            <h3 className={`mt-4 text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <Star className={`mx-auto h-12 w-12 text-yellow-400`} />
+            <h3 className={`mt-4 text-2xl font-bold text-white`}>
               Upgrade to Premium
             </h3>
-            <p className={`mt-2 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+            <p className={`mt-2 text-gray-300`}>
               Get access to exclusive features and investor contacts
             </p>
           </div>
 
           <div className="mt-6">
-            <h4 className={`text-lg font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h4 className={`text-lg font-medium text-white`}>
               Premium Features Include:
             </h4>
-            <ul className={`mt-4 space-y-3 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+            <ul className={`mt-4 space-y-3 text-gray-300`}>
               <li className="flex items-center">
                 <Star className="h-5 w-5 text-yellow-500 mr-2" />
                 Access to investor directory
@@ -222,7 +105,7 @@ const UpgradeModal = ({ isOpen, onClose }: UpgradeModalProps) => {
             </button>
           </div>
 
-          <p className={`mt-4 text-sm text-center ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+          <p className={`mt-4 text-sm text-center text-gray-400`}>
             Secure payment powered by Razorpay
           </p>
         </div>

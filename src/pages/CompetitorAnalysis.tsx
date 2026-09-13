@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
-import { API_URL } from '../utils/constants';
+import api from '../utils/api';
+
 import { RootState } from '../store';
-import { useTheme } from '../contexts/ThemeContext';
+
 import { AlertCircle, Search, TrendingUp, Target, Shield, Zap, X, CheckCircle2, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import InsufficientCreditsModal from '../components/modals/InsufficientCreditsModal';
@@ -37,7 +37,6 @@ const CompetitorAnalysis = () => {
   } | null>(null);
   
   const { token, user } = useSelector((state: RootState) => state.auth);
-  const { darkMode } = useTheme();
   const dispatch = useDispatch();
 
   const handleAnalyze = async (e: React.FormEvent) => {
@@ -48,8 +47,8 @@ const CompetitorAnalysis = () => {
       setError(null);
       setCreditError(null);
 
-      const response = await axios.post(
-        `${API_URL}/api/competitors/analyze`,
+      const response = await api.post(
+        `/api/competitors/analyze`,
         { ideaText },
         {
           headers: {
@@ -79,16 +78,8 @@ const CompetitorAnalysis = () => {
   };
 
   return (
-    <div className={`min-h-screen relative overflow-hidden ${darkMode ? 'bg-[#0a0118]' : 'bg-gray-50'}`}>
-      {/* Enhanced Animated Background */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        
-       
-
-        <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent' : 'bg-gradient-to-b from-transparent via-cyan-200/10 to-transparent'}`} />
-        <div className={`absolute inset-0 ${darkMode ? 'bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)]' : 'bg-[linear-gradient(rgba(6,182,212,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.05)_1px,transparent_1px)]'} bg-[size:64px_64px]`} />
-
-        <div className="absolute top-20 left-[10%] w-2 h-2 bg-cyan-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3s', animationDelay: '0s' }}></div>
+    <div className={`min-h-screen relative overflow-hidden bg-[#0a0118]`}>
+      <PageBackground theme="violet" />
         <div className="absolute top-40 right-[15%] w-1.5 h-1.5 bg-teal-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '4s', animationDelay: '1s' }}></div>
         <div className="absolute bottom-32 left-[20%] w-2.5 h-2.5 bg-emerald-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3.5s', animationDelay: '2s' }}></div>
       </div>
@@ -105,13 +96,13 @@ const CompetitorAnalysis = () => {
             <div className="flex items-center gap-4 text-center">
               
               <div>
-                <h1 className={`text-xl md:text-2xl font-black ${darkMode ? "text-white" : "text-gray-900"}`}>
+                <h1 className={`text-xl md:text-2xl font-black text-white`}>
                   Competitor{" "}
                   <span className="bg-gradient-to-r from-cyan-400 via-teal-400 to-emerald-400 bg-clip-text text-transparent">
                     Analysis
                   </span>
                 </h1>
-                <p className={`text-xs md:text-sm ${darkMode ? "text-gray-400" : "text-gray-600"} font-medium flex items-center gap-2 justify-center`}>
+                <p className={`text-xs md:text-sm text-gray-400 font-medium flex items-center gap-2 justify-center`}>
                   <Zap className="w-3 h-3 md:w-4 md:h-4 text-cyan-400" />
                   Analyze competition and understand market landscape
                 </p>
@@ -123,7 +114,7 @@ const CompetitorAnalysis = () => {
         {/* Error Message */}
         {error && (
           <motion.div 
-            className={`mb-6 p-4 rounded-2xl ${darkMode ? 'bg-red-900/30 border border-red-500/30' : 'bg-red-50 border border-red-200'}`}
+            className={`mb-6 p-4 rounded-2xl bg-red-900/30 border border-red-500/30`}
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
           >
@@ -132,11 +123,11 @@ const CompetitorAnalysis = () => {
                 <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-red-600 to-pink-600 flex items-center justify-center flex-shrink-0">
                   <X className="w-4 h-4 text-white" />
                 </div>
-                <span className={`text-sm ${darkMode ? 'text-red-200' : 'text-red-700'}`}>{error}</span>
+                <span className={`text-sm text-red-200`}>{error}</span>
               </div>
               <button 
                 onClick={() => setError(null)}
-                className={`text-sm font-bold ${darkMode ? 'text-red-400 hover:text-red-300' : 'text-red-600 hover:text-red-700'} transition-colors`}
+                className={`text-sm font-bold text-red-400 hover:text-red-300 transition-colors`}
               >
                 Dismiss
               </button>
@@ -146,7 +137,7 @@ const CompetitorAnalysis = () => {
 
         {/* Main Form */}
         <motion.div 
-          className={`${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl rounded-3xl shadow-2xl p-3 md:px-4 md:py-4 mb-8`}
+          className={`bg-gray-900/50 border border-gray-800/50 backdrop-blur-xl rounded-3xl shadow-2xl p-3 md:px-4 md:py-4 mb-8`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
@@ -155,7 +146,7 @@ const CompetitorAnalysis = () => {
             <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-cyan-600 to-teal-600 flex items-center justify-center shadow-xl">
               <Target className="w-4 h-4 text-white" />
             </div>
-            <h2 className={`text-sm sm:text-md font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h2 className={`text-sm sm:text-md font-black text-white`}>
               Enter Your Startup Idea
             </h2>
           </div>
@@ -169,9 +160,7 @@ const CompetitorAnalysis = () => {
                 onChange={(e) => setIdeaText(e.target.value)}
                 rows={5}
                 className={`w-full px-4 py-3 text-sm rounded-2xl border-2 transition-all duration-300 ${
-                  darkMode
-                    ? 'bg-gray-800/50 text-white border-gray-700 placeholder-gray-500 focus:border-cyan-500 focus:bg-gray-800'
-                    : 'bg-white text-gray-900 border-gray-300 placeholder-gray-400 focus:border-cyan-500 focus:bg-gray-50'
+                  'bg-gray-800/50 text-white border-gray-700 placeholder-gray-500 focus:border-cyan-500 focus:bg-gray-800'
                 } focus:ring-4 focus:ring-cyan-500/20 focus:outline-none`}
                 placeholder="Describe your startup idea in detail. Include your target market, unique value proposition, and key features..."
               />
@@ -212,25 +201,25 @@ const CompetitorAnalysis = () => {
           >
             {/* Results Header */}
             <motion.div 
-              className={`${darkMode ? 'bg-gradient-to-r from-cyan-600/10 via-teal-600/10 to-emerald-600/10 border border-cyan-500/20' : 'bg-gradient-to-r from-cyan-100 via-teal-100 to-emerald-100 border border-cyan-200'} rounded-3xl p-6 text-center mb-8`}
+              className={`bg-gradient-to-r from-cyan-600/10 via-teal-600/10 to-emerald-600/10 border border-cyan-500/20 rounded-3xl p-6 text-center mb-8`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
               <div className="flex items-center justify-center gap-3 mb-2">
                 <CheckCircle2 className="w-6 h-6 text-green-500" />
-                <h2 className={`text-xl font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h2 className={`text-xl font-black text-white`}>
                   Analysis Complete!
                 </h2>
               </div>
-              <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+              <p className={`text-sm text-gray-300`}>
                 Comprehensive competitive landscape and SWOT analysis
               </p>
             </motion.div>
             
             {/* Market Overview */}
             <motion.div 
-              className={`${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl rounded-3xl shadow-2xl p-6 md:p-8 mb-8`}
+              className={`bg-gray-900/50 border border-gray-800/50 backdrop-blur-xl rounded-3xl shadow-2xl p-6 md:p-8 mb-8`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}
@@ -239,11 +228,11 @@ const CompetitorAnalysis = () => {
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-xl">
                   <TrendingUp className="w-5 h-5 text-white" />
                 </div>
-                <h3 className={`text-lg font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h3 className={`text-lg font-black text-white`}>
                   Market Overview
                 </h3>
               </div>
-              <div className={`text-sm leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              <div className={`text-sm leading-relaxed text-gray-300`}>
                 <Markdown>{analysis.summary}</Markdown>
               </div>
             </motion.div>
@@ -253,7 +242,7 @@ const CompetitorAnalysis = () => {
               {analysis.competitors.map((competitor, index) => (
                 <motion.div
                   key={index}
-                  className={`group relative overflow-hidden ${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl rounded-3xl shadow-2xl p-6 hover:scale-[1.02] transition-all duration-500`}
+                  className={`group relative overflow-hidden bg-gray-900/50 border border-gray-800/50 backdrop-blur-xl rounded-3xl shadow-2xl p-6 hover:scale-[1.02] transition-all duration-500`}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.6 + index * 0.1 }}
@@ -267,10 +256,10 @@ const CompetitorAnalysis = () => {
                         <span className="text-xl font-black text-white">{index + 1}</span>
                       </div>
                       <div>
-                        <h3 className={`text-lg font-black mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                        <h3 className={`text-lg font-black mb-2 text-white`}>
                           {competitor.name}
                         </h3>
-                        <p className={`text-sm leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                        <p className={`text-sm leading-relaxed text-gray-300`}>
                           {competitor.description}
                         </p>
                       </div>
@@ -278,14 +267,14 @@ const CompetitorAnalysis = () => {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
                       {/* Strengths */}
-                      <div className={`p-4 rounded-2xl ${darkMode ? 'bg-green-900/20 border border-green-500/20' : 'bg-green-50 border border-green-200'}`}>
+                      <div className={`p-4 rounded-2xl bg-green-900/20 border border-green-500/20`}>
                         <h4 className="font-bold mb-3 text-green-500 flex items-center text-sm">
                           <CheckCircle2 className="w-4 h-4 mr-2" />
                           Strengths
                         </h4>
                         <ul className="space-y-2">
                           {competitor.swot.strengths.map((strength, i) => (
-                            <li key={i} className={`text-xs flex items-start ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                            <li key={i} className={`text-xs flex items-start text-gray-300`}>
                               <span className="text-green-500 mr-2 mt-1">•</span>
                               <span>{strength}</span>
                             </li>
@@ -294,14 +283,14 @@ const CompetitorAnalysis = () => {
                       </div>
 
                       {/* Weaknesses */}
-                      <div className={`p-4 rounded-2xl ${darkMode ? 'bg-red-900/20 border border-red-500/20' : 'bg-red-50 border border-red-200'}`}>
+                      <div className={`p-4 rounded-2xl bg-red-900/20 border border-red-500/20`}>
                         <h4 className="font-bold mb-3 text-red-500 flex items-center text-sm">
                           <AlertCircle className="w-4 h-4 mr-2" />
                           Weaknesses
                         </h4>
                         <ul className="space-y-2">
                           {competitor.swot.weaknesses.map((weakness, i) => (
-                            <li key={i} className={`text-xs flex items-start ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                            <li key={i} className={`text-xs flex items-start text-gray-300`}>
                               <span className="text-red-500 mr-2 mt-1">•</span>
                               <span>{weakness}</span>
                             </li>
@@ -310,14 +299,14 @@ const CompetitorAnalysis = () => {
                       </div>
 
                       {/* Opportunities */}
-                      <div className={`p-4 rounded-2xl ${darkMode ? 'bg-blue-900/20 border border-blue-500/20' : 'bg-blue-50 border border-blue-200'}`}>
+                      <div className={`p-4 rounded-2xl bg-blue-900/20 border border-blue-500/20`}>
                         <h4 className="font-bold mb-3 text-blue-500 flex items-center text-sm">
                           <Sparkles className="w-4 h-4 mr-2" />
                           Opportunities
                         </h4>
                         <ul className="space-y-2">
                           {competitor.swot.opportunities.map((opportunity, i) => (
-                            <li key={i} className={`text-xs flex items-start ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                            <li key={i} className={`text-xs flex items-start text-gray-300`}>
                               <span className="text-blue-500 mr-2 mt-1">•</span>
                               <span>{opportunity}</span>
                             </li>
@@ -326,14 +315,14 @@ const CompetitorAnalysis = () => {
                       </div>
 
                       {/* Threats */}
-                      <div className={`p-4 rounded-2xl ${darkMode ? 'bg-orange-900/20 border border-orange-500/20' : 'bg-orange-50 border border-orange-200'}`}>
+                      <div className={`p-4 rounded-2xl bg-orange-900/20 border border-orange-500/20`}>
                         <h4 className="font-bold mb-3 text-orange-500 flex items-center text-sm">
                           <Shield className="w-4 h-4 mr-2" />
                           Threats
                         </h4>
                         <ul className="space-y-2">
                           {competitor.swot.threats.map((threat, i) => (
-                            <li key={i} className={`text-xs flex items-start ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                            <li key={i} className={`text-xs flex items-start text-gray-300`}>
                               <span className="text-orange-500 mr-2 mt-1">•</span>
                               <span>{threat}</span>
                             </li>

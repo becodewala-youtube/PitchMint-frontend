@@ -23,21 +23,9 @@ interface AuthState {
 // Get token from localStorage
 const token = localStorage.getItem('token');
 
-// Get user from localStorage
-let user: User | null = null;
-
-try {
-  const savedUser = localStorage.getItem('user');
-  if (savedUser && savedUser !== 'undefined' && savedUser !== 'null') {
-    user = JSON.parse(savedUser);
-  }
-} catch (error) {
-  console.error('Error parsing user from localStorage:', error);
-  localStorage.removeItem('user');
-}
-
+// Don't get user from localStorage - let loadUser handle it to prevent PII leakage
 const initialState: AuthState = {
-  user,
+  user: null,
   token,
   isAuthenticated: !!token,
   loading: false,
@@ -68,7 +56,6 @@ export const login = createAsyncThunk(
       const response = await axios.post(`${API_URL}/api/auth/login`, userData);
       
       localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
       
       return response.data;
     } catch (error: any) {
@@ -85,9 +72,8 @@ export const verifyEmail = createAsyncThunk(
     try {
       const response = await axios.post(`${API_URL}/api/auth/verify-email`, verificationData);
       
-      // ✅ NOW store the token and user after successful verification
+      // ✅ NOW store the token after successful verification
       localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
       
       return response.data;
     } catch (error: any) {
@@ -116,12 +102,9 @@ export const loadUser = createAsyncThunk(
       
       const response = await axios.get(`${API_URL}/api/auth/user`, config);
       
-      localStorage.setItem('user', JSON.stringify(response.data));
-      
       return response.data;
     } catch (error: any) {
       localStorage.removeItem('token');
-      localStorage.removeItem('user');
       return rejectWithValue(error.response?.data.message || 'Failed to load user');
     }
   }
@@ -133,7 +116,6 @@ const authSlice = createSlice({
   reducers: {
     logout: (state) => {
       localStorage.removeItem('token');
-      localStorage.removeItem('user');
       state.token = null;
       state.user = null;
       state.isAuthenticated = false;
@@ -145,8 +127,14 @@ const authSlice = createSlice({
     updateUserCredits: (state, action: PayloadAction<number>) => {
       if (state.user) {
         state.user.credits = action.payload;
-        localStorage.setItem('user', JSON.stringify(state.user));
       }
+    },
+    setAuthenticated: (state, action: PayloadAction<{ token: string; user: User }>) => {
+      state.token = action.payload.token;
+      state.user = action.payload.user;
+      state.isAuthenticated = true;
+      state.loading = false;
+      state.error = null;
     }
   },
   extraReducers: (builder) => {
@@ -216,6 +204,6 @@ const authSlice = createSlice({
   }
 });
 
-export const { logout, clearError, updateUserCredits } = authSlice.actions;
+export const { logout, clearError, updateUserCredits, setAuthenticated } = authSlice.actions;
 
 export default authSlice.reducer;

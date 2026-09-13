@@ -1,19 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import axios from 'axios';
-import { API_URL } from '../utils/constants';
+import api from '../utils/api';
+
 import { loadUser } from '../store/slices/authSlice';
 import { AlertCircle, CheckCircle2, Sparkles, Loader2 } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext';
+
 import { motion } from 'framer-motion';
 
 const PaymentSuccess = () => {
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get('session_id');
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { darkMode } = useTheme();
+  const dispatch = useAppDispatch();
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -25,14 +24,14 @@ const PaymentSuccess = () => {
         const token = localStorage.getItem('token');
         
         // Check if this is a credit purchase or premium upgrade
-        const response = await axios.get(`${API_URL}/api/payment/verify/${sessionId}`, {
+        const response = await api.get(`/api/payment/verify/${sessionId}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
           
         // Reload user data to get updated premium status
-        await dispatch(loadUser() as any);
+        await dispatch(loadUser());
         
         // Redirect based on payment type
         const paymentType = response.data.type;
@@ -52,29 +51,18 @@ const PaymentSuccess = () => {
 
   if (error) {
     return (
-      <div className={`min-h-screen relative overflow-hidden ${darkMode ? 'bg-[#0a0118]' : 'bg-gray-50'} flex items-center justify-center`}>
-        {/* Animated Background */}
-        <div className="fixed inset-0 overflow-hidden pointer-events-none">
-          <div
-            className={`absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full blur-3xl animate-pulse ${
-              darkMode
-                ? "bg-gradient-to-br from-red-600/30 via-pink-600/20 to-rose-600/30"
-                : "bg-gradient-to-br from-red-300/40 via-pink-300/30 to-rose-300/40"
-            }`}
-            style={{ animationDuration: '8s' }}
-          ></div>
+      <div className={`min-h-screen relative overflow-hidden bg-[#0a0118] flex items-center justify-center`}>
+        <PageBackground theme="red" />
           <div
             className={`absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full blur-3xl animate-pulse ${
-              darkMode
-                ? "bg-gradient-to-br from-orange-600/30 via-red-600/20 to-pink-600/30"
-                : "bg-gradient-to-br from-orange-300/40 via-red-300/30 to-pink-300/40"
+              'bg-gradient-to-br from-orange-600/30 via-red-600/20 to-pink-600/30'
             }`}
             style={{ animationDuration: '10s', animationDelay: '2s' }}
           ></div>
         </div>
 
         <motion.div 
-          className={`relative z-10 text-center p-12 rounded-3xl ${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl shadow-2xl max-w-md mx-4`}
+          className={`relative z-10 text-center p-12 rounded-3xl bg-gray-900/50 border border-gray-800/50 backdrop-blur-xl shadow-2xl max-w-md mx-4`}
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
@@ -87,15 +75,15 @@ const PaymentSuccess = () => {
           >
             <AlertCircle className="h-10 w-10 text-white" />
           </motion.div>
-          <h3 className={`text-2xl font-black mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+          <h3 className={`text-2xl font-black mb-3 text-white`}>
             Payment Verification Failed
           </h3>
-          <p className={`text-sm mb-6 ${darkMode ? 'text-red-300' : 'text-red-600'} font-semibold`}>
+          <p className={`text-sm mb-6 text-red-300 font-semibold`}>
             {error}
           </p>
           <div className="flex items-center justify-center gap-2">
             <Loader2 className="w-4 h-4 animate-spin text-blue-500" />
-            <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+            <p className={`text-sm text-gray-400`}>
               Redirecting to dashboard...
             </p>
           </div>
@@ -105,36 +93,30 @@ const PaymentSuccess = () => {
   }
 
   return (
-    <div className={`min-h-screen relative overflow-hidden ${darkMode ? 'bg-[#0a0118]' : 'bg-gray-50'} flex items-center justify-center`}>
+    <div className={`min-h-screen relative overflow-hidden bg-[#0a0118] flex items-center justify-center`}>
       {/* Animated Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div
           className={`absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-green-600/30 via-emerald-600/20 to-teal-600/30"
-              : "bg-gradient-to-br from-green-300/40 via-emerald-300/30 to-teal-300/40"
+            'bg-gradient-to-br from-green-600/30 via-emerald-600/20 to-teal-600/30'
           }`}
           style={{ animationDuration: '8s' }}
         ></div>
         <div
           className={`absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-blue-600/30 via-cyan-600/20 to-teal-600/30"
-              : "bg-gradient-to-br from-blue-300/40 via-cyan-300/30 to-teal-300/40"
+            'bg-gradient-to-br from-blue-600/30 via-cyan-600/20 to-teal-600/30'
           }`}
           style={{ animationDuration: '10s', animationDelay: '2s' }}
         ></div>
         <div
           className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-indigo-600/20 via-purple-600/10 to-pink-600/20"
-              : "bg-gradient-to-br from-indigo-300/30 via-purple-300/20 to-pink-300/30"
+            'bg-gradient-to-br from-indigo-600/20 via-purple-600/10 to-pink-600/20'
           }`}
           style={{ animationDuration: '12s', animationDelay: '4s' }}
         ></div>
 
-        <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-b from-transparent via-green-500/5 to-transparent' : 'bg-gradient-to-b from-transparent via-green-200/10 to-transparent'}`} />
-        <div className={`absolute inset-0 ${darkMode ? 'bg-[linear-gradient(rgba(34,197,94,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(34,197,94,0.03)_1px,transparent_1px)]' : 'bg-[linear-gradient(rgba(34,197,94,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(34,197,94,0.05)_1px,transparent_1px)]'} bg-[size:64px_64px]`} />
+        <div className={`absolute inset-0 bg-gradient-to-b from-transparent via-green-500/5 to-transparent`} />
+        <div className={`absolute inset-0 bg-[linear-gradient(rgba(34,197,94,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(34,197,94,0.03)_1px,transparent_1px)] bg-[size:64px_64px]`} />
 
         {/* Floating Success Elements */}
         <div className="absolute top-20 left-[10%] w-2 h-2 bg-green-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3s', animationDelay: '0s' }}></div>
@@ -143,7 +125,7 @@ const PaymentSuccess = () => {
       </div>
 
       <motion.div 
-        className={`relative z-10 text-center p-12 rounded-3xl ${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl shadow-2xl max-w-md mx-4`}
+        className={`relative z-10 text-center p-12 rounded-3xl bg-gray-900/50 border border-gray-800/50 backdrop-blur-xl shadow-2xl max-w-md mx-4`}
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
@@ -219,7 +201,7 @@ const PaymentSuccess = () => {
         </motion.div>
 
         <motion.h3 
-          className={`text-3xl font-black mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}
+          className={`text-3xl font-black mb-3 text-white`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
@@ -228,7 +210,7 @@ const PaymentSuccess = () => {
         </motion.h3>
         
         <motion.p 
-          className={`text-sm mb-8 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}
+          className={`text-sm mb-8 text-gray-400`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
@@ -287,7 +269,7 @@ const PaymentSuccess = () => {
 
         {/* Progress Bar */}
         <motion.div 
-          className={`mt-8 h-2 rounded-full overflow-hidden ${darkMode ? 'bg-gray-800' : 'bg-gray-200'}`}
+          className={`mt-8 h-2 rounded-full overflow-hidden bg-gray-800`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7 }}

@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { API_URL } from '../../utils/constants';
+import api from '../../utils/api';
 import { updateUserCredits } from './authSlice';
 
 interface Idea {
@@ -29,7 +28,6 @@ interface IdeaState {
   currentIdea: Idea | null;
   loading: boolean;
   error: string | null;
-  success: boolean;
   creditError: {
     show: boolean;
     creditsRequired: number;
@@ -42,25 +40,15 @@ const initialState: IdeaState = {
   currentIdea: null,
   loading: false,
   error: null,
-  success: false,
   creditError: null,
 };
 
 // Submit Idea
 export const submitIdea = createAsyncThunk(
   'idea/submit',
-  async (ideaData: { ideaText: string }, { getState, rejectWithValue, dispatch }) => {
+  async (ideaData: { ideaText: string }, { rejectWithValue, dispatch }) => {
     try {
-      const state: any = getState();
-      
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${state.auth.token}`
-        }
-      };
-      
-      const response = await axios.post(`${API_URL}/api/idea/submit`, ideaData, config);
+      const response = await api.post('/api/idea/submit', ideaData);
       
       // Update user credits in auth state if returned
       if (response.data.userCredits !== undefined) {
@@ -86,17 +74,9 @@ export const submitIdea = createAsyncThunk(
 // Get Idea by ID
 export const getIdea = createAsyncThunk(
   'idea/getById',
-  async (id: string, { getState, rejectWithValue }) => {
+  async (id: string, { rejectWithValue }) => {
     try {
-      const state: any = getState();
-      
-      const config = {
-        headers: {
-          'Authorization': `Bearer ${state.auth.token}`
-        }
-      };
-      
-      const response = await axios.get(`${API_URL}/api/idea/${id}`, config);
+      const response = await api.get(`/api/idea/${id}`);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to get idea');
@@ -107,17 +87,9 @@ export const getIdea = createAsyncThunk(
 // Get Saved Ideas
 export const getSavedIdeas = createAsyncThunk(
   'idea/getSaved',
-  async (_, { getState, rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const state: any = getState();
-      
-      const config = {
-        headers: {
-          'Authorization': `Bearer ${state.auth.token}`
-        }
-      };
-      
-      const response = await axios.get(`${API_URL}/api/idea/saved`, config);
+      const response = await api.get('/api/idea/saved');
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to get saved ideas');
@@ -128,17 +100,9 @@ export const getSavedIdeas = createAsyncThunk(
 // Delete Idea
 export const deleteIdea = createAsyncThunk(
   'idea/delete',
-  async (id: string, { getState, rejectWithValue }) => {
+  async (id: string, { rejectWithValue }) => {
     try {
-      const state: any = getState();
-      
-      const config = {
-        headers: {
-          'Authorization': `Bearer ${state.auth.token}`
-        }
-      };
-      
-      await axios.delete(`${API_URL}/api/idea/${id}`, config);
+      await api.delete(`/api/idea/${id}`);
       return id;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to delete idea');
@@ -151,17 +115,9 @@ export const generatePitchDeck = createAsyncThunk(
   'idea/generatePitchDeck',
   async (id: string, { getState, rejectWithValue, dispatch }) => {
     try {
+      const response = await api.post(`/api/pitchdeck/${id}`, {});
+      
       const state: any = getState();
-      
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${state.auth.token}`
-        }
-      };
-      
-      const response = await axios.post(`${API_URL}/api/pitchdeck/${id}`, {}, config);
-      
       // Update user credits in auth state
       if (state.auth.user) {
         dispatch(updateUserCredits(Math.max(0, state.auth.user.credits - 1)));
@@ -188,17 +144,9 @@ export const generateCanvas = createAsyncThunk(
   'idea/generateCanvas',
   async (id: string, { getState, rejectWithValue, dispatch }) => {
     try {
+      const response = await api.post(`/api/canvas/${id}`, {});
+      
       const state: any = getState();
-      
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${state.auth.token}`
-        }
-      };
-      
-      const response = await axios.post(`${API_URL}/api/canvas/${id}`, {}, config);
-      
       // Update user credits in auth state
       if (state.auth.user) {
         dispatch(updateUserCredits(Math.max(0, state.auth.user.credits - 1)));
@@ -230,9 +178,6 @@ const ideaSlice = createSlice({
     clearError: (state) => {
       state.error = null;
       state.creditError = null;
-    },
-    resetSuccess: (state) => {
-      state.success = false;
     }
   },
   extraReducers: (builder) => {
@@ -245,7 +190,6 @@ const ideaSlice = createSlice({
       })
       .addCase(submitIdea.fulfilled, (state, action: PayloadAction<Idea>) => {
         state.loading = false;
-        state.success = true;
         state.currentIdea = action.payload;
       })
       .addCase(submitIdea.rejected, (state, action: any) => {
@@ -315,7 +259,6 @@ const ideaSlice = createSlice({
       .addCase(generatePitchDeck.fulfilled, (state, action: PayloadAction<Idea>) => {
         state.loading = false;
         state.currentIdea = action.payload;
-        state.success = true;
       })
       .addCase(generatePitchDeck.rejected, (state, action: any) => {
         state.loading = false;
@@ -339,7 +282,6 @@ const ideaSlice = createSlice({
       .addCase(generateCanvas.fulfilled, (state, action: PayloadAction<Idea>) => {
         state.loading = false;
         state.currentIdea = action.payload;
-        state.success = true;
       })
       .addCase(generateCanvas.rejected, (state, action: any) => {
         state.loading = false;
@@ -356,6 +298,6 @@ const ideaSlice = createSlice({
   }
 });
 
-export const { clearCurrentIdea, clearError, resetSuccess } = ideaSlice.actions;
+export const { clearCurrentIdea, clearError } = ideaSlice.actions;
 
 export default ideaSlice.reducer;

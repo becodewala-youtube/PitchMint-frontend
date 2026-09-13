@@ -1,23 +1,11 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { API_URL } from '../../utils/constants';
+import api from '../../utils/api';
 import { RootState } from '../index';
 
-// 🧩 Types
-export interface CreditPlan {
-  name: string;
-  credits: number;
-  price: number;
-  description: string;
-}
-
-export interface CreditPlans {
-  [key: string]: CreditPlan;
-}
+import { CreditPlan, CreditPlans } from '../../types';
 
 interface CreditsState {
   plans: CreditPlans;
-  userCredits: number;
   loading: boolean;
   error: string | null;
   fetchedOnce: boolean;
@@ -26,7 +14,6 @@ interface CreditsState {
 
 const initialState: CreditsState = {
   plans: {},
-  userCredits: 0,
   loading: false,
   error: null,
   fetchedOnce: false,
@@ -36,19 +23,9 @@ const initialState: CreditsState = {
 // 🧠 Fetch credit plans
 export const fetchCreditPlans = createAsyncThunk(
   'credits/fetchPlans',
-  async (_, { getState, rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const state = getState() as RootState;
-      const token = state.auth.token;
-
-      if (!token) {
-        return rejectWithValue('User not authenticated');
-      }
-
-      const response = await axios.get(`${API_URL}/api/credits/plans`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      
+      const response = await api.get('/api/credits/plans');
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch credit plans');
@@ -59,19 +36,9 @@ export const fetchCreditPlans = createAsyncThunk(
 // 🧠 Fetch user credits balance
 export const fetchUserCreditsBalance = createAsyncThunk(
   'credits/fetchBalance',
-  async (_, { getState, rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const state = getState() as RootState;
-      const token = state.auth.token;
-
-      if (!token) {
-        return rejectWithValue('User not authenticated');
-      }
-
-      const response = await axios.get(`${API_URL}/api/credits/balance`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      
+      const response = await api.get('/api/credits/balance');
       return response.data.credits;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch user credits');
@@ -82,20 +49,13 @@ export const fetchUserCreditsBalance = createAsyncThunk(
 // 🧠 Create checkout session
 export const createCheckoutSession = createAsyncThunk(
   'credits/createCheckout',
-  async (planId: string, { getState, rejectWithValue }) => {
+  async (planId: string, { rejectWithValue }) => {
     try {
-      const state = getState() as RootState;
-      const token = state.auth.token;
-
-      const response = await axios.post(
-        `${API_URL}/api/credits/create-checkout-session`,
+      const response = await api.post(
+        '/api/credits/create-checkout-session',
         { planId },
-        { 
-          headers: { Authorization: `Bearer ${token}` },
-          timeout: 10000
-        }
+        { timeout: 10000 }
       );
-
       return response.data;
     } catch (error: any) {
       let errorMessage = 'Purchase failed. Please try again.';
@@ -122,21 +82,14 @@ export const verifyPayment = createAsyncThunk(
       razorpay_payment_id: string;
       razorpay_signature: string;
     },
-    { getState, rejectWithValue }
+    { rejectWithValue }
   ) => {
     try {
-      const state = getState() as RootState;
-      const token = state.auth.token;
-
-      const response = await axios.post(
-        `${API_URL}/api/credits/verify-payment`,
+      const response = await api.post(
+        '/api/credits/verify-payment',
         paymentData,
-        { 
-          headers: { Authorization: `Bearer ${token}` },
-          timeout: 15000
-        }
+        { timeout: 15000 }
       );
-      
       return response.data;
     } catch (error: any) {
       return rejectWithValue(
@@ -150,17 +103,12 @@ export const verifyPayment = createAsyncThunk(
 // 🧠 Demo purchase (development only)
 export const demoPurchase = createAsyncThunk(
   'credits/demoPurchase',
-  async (planId: string, { getState, rejectWithValue }) => {
+  async (planId: string, { rejectWithValue }) => {
     try {
-      const state = getState() as RootState;
-      const token = state.auth.token;
-
-      const response = await axios.post(
-        `${API_URL}/api/credits/simulate-payment-success`,
-        { planId },
-        { headers: { Authorization: `Bearer ${token}` } }
+      const response = await api.post(
+        '/api/credits/simulate-payment-success',
+        { planId }
       );
-      
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Demo purchase failed');
@@ -177,17 +125,7 @@ const creditsSlice = createSlice({
     },
     setPurchasingPlan: (state, action: PayloadAction<string | null>) => {
       state.purchasingPlan = action.payload;
-    },
-    updateUserCredits: (state, action: PayloadAction<number>) => {
-      state.userCredits = action.payload;
-    },
-    clearCreditsData: (state) => {
-      state.plans = {};
-      state.userCredits = 0;
-      state.error = null;
-      state.fetchedOnce = false;
-      state.purchasingPlan = null;
-    },
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -201,24 +139,16 @@ const creditsSlice = createSlice({
         state.plans = action.payload;
         state.fetchedOnce = true;
       })
-      .addCase(fetchCreditPlans.rejected, (state, action) => {
+      .addCase(fetchCreditPlans.rejected, (state, action: any) => {
         state.loading = false;
-        state.error = action.payload as string;
+        state.error = action.payload;
       })
-
-      // Fetch Balance
-      .addCase(fetchUserCreditsBalance.pending, (state) => {
-        state.loading = true;
+      
+      // Fetch Balance (Deprecated local state, ignored but fulfilled)
+      .addCase(fetchUserCreditsBalance.fulfilled, (state) => {
+        // Handled by auth slice or components reading from auth state
       })
-      .addCase(fetchUserCreditsBalance.fulfilled, (state, action: PayloadAction<number>) => {
-        state.loading = false;
-        state.userCredits = action.payload;
-      })
-      .addCase(fetchUserCreditsBalance.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      })
-
+      
       // Create Checkout
       .addCase(createCheckoutSession.pending, (state) => {
         state.loading = true;
@@ -227,43 +157,44 @@ const creditsSlice = createSlice({
       .addCase(createCheckoutSession.fulfilled, (state) => {
         state.loading = false;
       })
-      .addCase(createCheckoutSession.rejected, (state, action) => {
+      .addCase(createCheckoutSession.rejected, (state, action: any) => {
         state.loading = false;
-        state.error = action.payload as string;
+        state.error = action.payload;
         state.purchasingPlan = null;
       })
-
+      
       // Verify Payment
       .addCase(verifyPayment.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
-      .addCase(verifyPayment.fulfilled, (state, action) => {
+      .addCase(verifyPayment.fulfilled, (state) => {
         state.loading = false;
-        state.userCredits = action.payload.credits;
         state.purchasingPlan = null;
       })
-      .addCase(verifyPayment.rejected, (state, action) => {
+      .addCase(verifyPayment.rejected, (state, action: any) => {
         state.loading = false;
-        state.error = action.payload as string;
+        state.error = action.payload;
         state.purchasingPlan = null;
       })
-
+      
       // Demo Purchase
       .addCase(demoPurchase.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
-      .addCase(demoPurchase.fulfilled, (state, action) => {
+      .addCase(demoPurchase.fulfilled, (state) => {
         state.loading = false;
-        state.userCredits = action.payload.credits;
         state.purchasingPlan = null;
       })
-      .addCase(demoPurchase.rejected, (state, action) => {
+      .addCase(demoPurchase.rejected, (state, action: any) => {
         state.loading = false;
-        state.error = action.payload as string;
+        state.error = action.payload;
         state.purchasingPlan = null;
       });
-  },
+  }
 });
 
-export const { setError, setPurchasingPlan, updateUserCredits, clearCreditsData } = creditsSlice.actions;
+export const { setError, setPurchasingPlan } = creditsSlice.actions;
+
 export default creditsSlice.reducer;

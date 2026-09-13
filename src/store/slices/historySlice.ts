@@ -1,23 +1,90 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { API_URL } from '../../utils/constants';
+import api from '../../utils/api';
 import { RootState } from '../index';
 import { updateUserCredits } from './authSlice';
 
+// 🧩 Data Types for Services
+export interface IdeaValidationData {
+  score: number;
+  strengths: string[];
+  weaknesses: string[];
+  feedback: string;
+  marketPotential: string;
+  technicalFeasibility: string;
+  monetizationStrategy: string;
+}
+
+export interface PitchSimulatorData {
+  score: number;
+  feedback: string;
+  keyStrengths: string[];
+  areasForImprovement: string[];
+  investorQuestions: string[];
+}
+
+export interface InvestorMatch {
+  name: string;
+  type: string;
+  location: string;
+  matchScore: number;
+  portfolioSize?: number;
+  description: string;
+  investmentRange?: { min: number; max: number };
+  industryFocus?: string[];
+  matchReasons?: string[];
+  recentInvestments?: string[];
+  contactLink?: string;
+}
+
+export interface InvestorMatchingData {
+  matches: InvestorMatch[];
+}
+
+export interface CompetitorSwot {
+  strengths: string[];
+  opportunities: string[];
+  weaknesses: string[];
+  threats: string[];
+}
+
+export interface Competitor {
+  name: string;
+  description: string;
+  swot: CompetitorSwot;
+}
+
+export interface CompetitorAnalysisData {
+  summary: string;
+  competitors: Competitor[];
+}
+
+export interface MarketResearchData {
+  tam: { value: number };
+  sam: { value: number };
+  som: { value: number };
+  trends: { name: string; impact: string; description: string }[];
+  demographics: { segment: string; size: string; characteristics: string[] }[];
+}
+
 // 🧩 Types
-export interface HistoryItem {
+export interface BaseHistoryItem {
   _id: string;
   userId: string;
-  serviceType: 'idea_validation' | 'investor_matching' | 'competitor_analysis' | 'market_research' | 'pitch_simulator';  // Add specific types
   title: string;
   description: string;
   creditsUsed: number;
   relatedIdeaId?: string | null;
-  data: any;
   createdAt: string;
-  __v: number;  // Add this field
+  __v: number;
 }
 
+export type HistoryItem = BaseHistoryItem & (
+  | { serviceType: 'idea_validation'; data: IdeaValidationData }
+  | { serviceType: 'investor_matching'; data: InvestorMatchingData }
+  | { serviceType: 'competitor_analysis'; data: CompetitorAnalysisData }
+  | { serviceType: 'market_research'; data: MarketResearchData }
+  | { serviceType: 'pitch_simulator'; data: PitchSimulatorData }
+);
 interface HistoryState {
   history: HistoryItem[];
   loading: boolean;
@@ -35,22 +102,9 @@ const initialState: HistoryState = {
 // 🧠 Fetch user history (with caching logic)
 export const fetchUserHistory = createAsyncThunk(
   'history/fetchUserHistory',
-  async (_, { getState, rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const state = getState() as RootState;
-      const token = state.auth.token;
-
-      if (!token) {
-        return rejectWithValue('User not authenticated');
-      }
-
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-
-      const response = await axios.get(`${API_URL}/api/history`, config);
+      const response = await api.get('/api/history');
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch history');
@@ -58,7 +112,7 @@ export const fetchUserHistory = createAsyncThunk(
   },
 );
 
-// 🧠 Example: Add history item manually (optional)
+// 🧠 Add history item manually
 export const addHistoryEntry = createAsyncThunk(
   'history/addHistoryEntry',
   async (
@@ -69,20 +123,10 @@ export const addHistoryEntry = createAsyncThunk(
       data: any;
       creditsUsed: number;
     },
-    { getState, rejectWithValue, dispatch },
+    { rejectWithValue, dispatch },
   ) => {
     try {
-      const state = getState() as RootState;
-      const token = state.auth.token;
-
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      };
-
-      const response = await axios.post(`${API_URL}/api/history`, historyData, config);
+      const response = await api.post('/api/history', historyData);
 
       // Update credits if returned
       if (response.data.userCredits !== undefined) {

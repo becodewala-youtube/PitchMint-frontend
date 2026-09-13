@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSavedIdeas, deleteIdea } from '../store/slices/ideaSlice';
 import { RootState } from '../store';
-import { useTheme } from '../contexts/ThemeContext';
+
 import { FileText, Layout, Trash2, AlertCircle, Users, MessageSquare, Brain, Star, Sparkles, TrendingUp, Calendar, ArrowRight, Plus } from 'lucide-react';
 import DeleteConfirmationModal from '../components/modals/DeleteConfirmationModal';
 import SavedIdeasSkeleton from '../components/skeleton/SavedIdeasSkeleton';
@@ -11,8 +11,7 @@ import { motion } from 'framer-motion';
 
 const SavedIdeas = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { darkMode } = useTheme();
+  const dispatch = useAppDispatch();
   
   const { ideas, loading, error } = useSelector((state: RootState) => state.idea);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -21,7 +20,7 @@ const SavedIdeas = () => {
 
 useEffect(() => {
   if (ideas.length === 0) {
-    dispatch(getSavedIdeas() as any)
+    dispatch(getSavedIdeas())
   }
 }, [dispatch, ideas.length])
 
@@ -33,7 +32,7 @@ useEffect(() => {
   const handleDeleteConfirm = async () => {
     if (selectedIdeaId) {
       setDeleteLoading(true);
-      await dispatch(deleteIdea(selectedIdeaId) as any);
+      await dispatch(deleteIdea(selectedIdeaId));
       setDeleteLoading(false);
       setDeleteModalOpen(false);
       setSelectedIdeaId(null);
@@ -50,7 +49,7 @@ useEffect(() => {
 
   if (error) {
     return (
-      <div className={`min-h-screen flex items-center justify-center ${darkMode ? 'bg-[#0a0118]' : 'bg-gray-50'}`}>
+      <div className={`min-h-screen flex items-center justify-center bg-[#0a0118]`}>
         <motion.div 
           className="text-center"
           initial={{ opacity: 0, scale: 0.9 }}
@@ -60,28 +59,16 @@ useEffect(() => {
           <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-red-500 to-pink-500 flex items-center justify-center mx-auto mb-6 shadow-2xl shadow-red-500/50">
             <AlertCircle className="h-10 w-10 text-white" />
           </div>
-          <h3 className={`text-2xl font-black mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Oops! Something went wrong</h3>
-          <p className={`text-lg ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{error}</p>
+          <h3 className={`text-2xl font-black mb-2 text-white`}>Oops! Something went wrong</h3>
+          <p className={`text-lg text-gray-400`}>{error}</p>
         </motion.div>
       </div>
     );
   }
 
   return (
-    <div className={`min-h-screen relative overflow-hidden ${darkMode ? 'bg-[#0a0118]' : 'bg-gray-50'}`}>
-      {/* Enhanced Animated Background */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        
-
-        {/* Mesh Gradient Overlay */}
-        <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-b from-transparent via-purple-500/5 to-transparent' : 'bg-gradient-to-b from-transparent via-purple-200/10 to-transparent'}`} />
-        
-       
-        {/* Animated Grid */}
-        <div className={`absolute inset-0 ${darkMode ? 'bg-[linear-gradient(rgba(139,92,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.03)_1px,transparent_1px)]' : 'bg-[linear-gradient(rgba(139,92,246,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.05)_1px,transparent_1px)]'} bg-[size:64px_64px]`} />
-
-        {/* Floating Elements */}
-        <div className="absolute top-20 left-[10%] w-2 h-2 bg-violet-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3s', animationDelay: '0s' }}></div>
+    <div className={`min-h-screen relative overflow-hidden bg-[#0a0118]`}>
+      <PageBackground theme="violet" />
         <div className="absolute top-40 right-[15%] w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '4s', animationDelay: '1s' }}></div>
         <div className="absolute bottom-32 left-[20%] w-2.5 h-2.5 bg-fuchsia-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3.5s', animationDelay: '2s' }}></div>
       </div>
@@ -97,11 +84,11 @@ useEffect(() => {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
             <div>
               <div className="flex items-center gap-3 mb-1">
-                <div className={`w-8 h-8 rounded-2xl bg-gradient-to-br from-violet-600 to-fuchsia-500 flex items-center justify-center shadow-2xl ${darkMode ? 'shadow-violet-500/50' : 'shadow-violet-500/30'}`}>
+                <div className={`w-8 h-8 rounded-2xl bg-gradient-to-br from-violet-600 to-fuchsia-500 flex items-center justify-center shadow-2xl shadow-violet-500/50`}>
                   <Brain className="w-4 h-4 text-white" />
                 </div>
                 <div>
-                  <h1 className={`text-md md:text-xl font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <h1 className={`text-md md:text-xl font-black text-white`}>
                     Your{" "}
                     <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent">
                       Startup Ideas
@@ -109,7 +96,7 @@ useEffect(() => {
                   </h1>
                 </div>
               </div>
-              <p className={`text-xs sm:text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'} font-medium flex items-center gap-2 ml-15`}>
+              <p className={`text-xs sm:text-sm text-gray-400 font-medium flex items-center gap-2 ml-15`}>
                 <TrendingUp className="w-4 h-4 text-violet-400" />
                 Manage and track your validated concepts
               </p>
@@ -128,18 +115,18 @@ useEffect(() => {
 
           {/* Stats Summary Bar */}
           {ideas.length > 0 && (
-            <div className={`relative overflow-hidden rounded-2xl p-2 sm:p-3 ${darkMode ? 'bg-gradient-to-r from-violet-600/10 via-purple-600/10 to-fuchsia-600/10 border border-violet-500/20' : 'bg-gradient-to-r from-violet-100 via-purple-100 to-fuchsia-100 border border-violet-200'}`}>
-              <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-r from-violet-600/5 via-purple-600/5 to-fuchsia-600/5' : 'bg-gradient-to-r from-violet-50 via-purple-50 to-fuchsia-50'} backdrop-blur-3xl`} />
+            <div className={`relative overflow-hidden rounded-2xl p-2 sm:p-3 bg-gradient-to-r from-violet-600/10 via-purple-600/10 to-fuchsia-600/10 border border-violet-500/20`}>
+              <div className={`absolute inset-0 bg-gradient-to-r from-violet-600/5 via-purple-600/5 to-fuchsia-600/5 backdrop-blur-3xl`} />
               <div className="relative flex flex-wrap items-center justify-between gap-4">
                 <div className="flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-violet-400" />
-                  <span className={`text-xs font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <span className={`text-xs font-bold text-white`}>
                     {ideas.length} {ideas.length === 1 ? 'Idea' : 'Ideas'} Validated
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Star className="w-4 h-4 text-amber-400" />
-                  <span className={`text-xs font-semibold ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <span className={`text-xs font-semibold text-gray-300`}>
                     Avg Score: {ideas.length ? Math.round(ideas.reduce((acc, idea) => acc + idea.overallScore, 0) / ideas.length) : 0}%
                   </span>
                 </div>
@@ -154,7 +141,7 @@ useEffect(() => {
               <motion.div
                 key={idea._id}
                 className={`group relative overflow-hidden rounded-3xl px-4 py-3 ${
-                  darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'
+                  'bg-gray-900/50 border border-gray-800/50'
                 } backdrop-blur-xl hover:scale-[1.01] transition-all duration-500 cursor-pointer`}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -174,7 +161,7 @@ useEffect(() => {
                       className="flex-1 cursor-pointer"
                       onClick={() => navigate(`/idea/${idea._id}`)}
                     >
-                      <h2 className={`text-xs sm:text-sm font-semibold sm:font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'} group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-violet-400 group-hover:to-fuchsia-400 group-hover:bg-clip-text transition-all duration-300`}>
+                      <h2 className={`text-xs sm:text-sm font-semibold sm:font-bold mb-3 text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-violet-400 group-hover:to-fuchsia-400 group-hover:bg-clip-text transition-all duration-300`}>
                         {idea.ideaText.length > 150
                           ? `${idea.ideaText.substring(0, 150)}...`
                           : idea.ideaText}
@@ -194,8 +181,8 @@ useEffect(() => {
 
                         {/* Date */}
                         <div className="flex items-center gap-2">
-                          <Calendar className={`w-4 h-4 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`} />
-                          <span className={`text-xs font-medium ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                          <Calendar className={`w-4 h-4 text-gray-400`} />
+                          <span className={`text-xs font-medium text-gray-400`}>
                             {new Date(idea.createdAt).toLocaleDateString('en-US', { 
                               month: 'short', 
                               day: 'numeric', 
@@ -212,9 +199,7 @@ useEffect(() => {
                     <motion.button
                       onClick={() => navigate(`/pitch-deck/${idea._id}`)}
                       className={`group/btn inline-flex items-center justify-center px-2 sm:px-4 py-1 sm:py-2 rounded-xl text-xs font-bold transition-all duration-300 ${
-                        darkMode
-                          ? 'bg-gray-800/50 text-gray-300 hover:bg-gradient-to-r hover:from-violet-600 hover:to-purple-600 hover:text-white border border-gray-700/50 hover:border-violet-500/50'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gradient-to-r hover:from-violet-600 hover:to-purple-600 hover:text-white border border-gray-200 hover:border-violet-300'
+                        'bg-gray-800/50 text-gray-300 hover:bg-gradient-to-r hover:from-violet-600 hover:to-purple-600 hover:text-white border border-gray-700/50 hover:border-violet-500/50'
                       } hover:scale-105 hover:shadow-lg`}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
@@ -226,9 +211,7 @@ useEffect(() => {
                     <motion.button
                       onClick={() => navigate(`/canvas/${idea._id}`)}
                       className={`group/btn inline-flex items-center justify-center px-2 sm:px-4 py-1 sm:py-2 rounded-xl text-xs font-bold transition-all duration-300 ${
-                        darkMode
-                          ? 'bg-gray-800/50 text-gray-300 hover:bg-gradient-to-r hover:from-cyan-600 hover:to-blue-600 hover:text-white border border-gray-700/50 hover:border-cyan-500/50'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gradient-to-r hover:from-cyan-600 hover:to-blue-600 hover:text-white border border-gray-200 hover:border-cyan-300'
+                        'bg-gray-800/50 text-gray-300 hover:bg-gradient-to-r hover:from-cyan-600 hover:to-blue-600 hover:text-white border border-gray-700/50 hover:border-cyan-500/50'
                       } hover:scale-105 hover:shadow-lg`}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
@@ -240,9 +223,7 @@ useEffect(() => {
                     <motion.button
                       onClick={() => navigate(`/competitors/${idea._id}`)}
                       className={`group/btn inline-flex items-center justify-center px-2 sm:px-4 py-1 sm:py-2 rounded-xl text-xs font-bold transition-all duration-300 ${
-                        darkMode
-                          ? 'bg-gray-800/50 text-gray-300 hover:bg-gradient-to-r hover:from-emerald-600 hover:to-teal-600 hover:text-white border border-gray-700/50 hover:border-emerald-500/50'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gradient-to-r hover:from-emerald-600 hover:to-teal-600 hover:text-white border border-gray-200 hover:border-emerald-300'
+                        'bg-gray-800/50 text-gray-300 hover:bg-gradient-to-r hover:from-emerald-600 hover:to-teal-600 hover:text-white border border-gray-700/50 hover:border-emerald-500/50'
                       } hover:scale-105 hover:shadow-lg`}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
@@ -254,9 +235,7 @@ useEffect(() => {
                     <motion.button
                       onClick={() => navigate(`/pitch-simulator/${idea._id}`)}
                       className={`group/btn inline-flex items-center justify-center px-2 sm:px-4 py-1 sm:py-2 rounded-xl text-xs font-bold transition-all duration-300 ${
-                        darkMode
-                          ? 'bg-gray-800/50 text-gray-300 hover:bg-gradient-to-r hover:from-orange-600 hover:to-red-600 hover:text-white border border-gray-700/50 hover:border-orange-500/50'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gradient-to-r hover:from-orange-600 hover:to-red-600 hover:text-white border border-gray-200 hover:border-orange-300'
+                        'bg-gray-800/50 text-gray-300 hover:bg-gradient-to-r hover:from-orange-600 hover:to-red-600 hover:text-white border border-gray-700/50 hover:border-orange-500/50'
                       } hover:scale-105 hover:shadow-lg`}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
@@ -268,9 +247,7 @@ useEffect(() => {
                     <motion.button
                       onClick={() => handleDeleteClick(idea._id)}
                       className={`group/btn inline-flex items-center justify-center px-2 sm:px-4 py-1 sm:py-2 rounded-xl text-xs font-bold transition-all duration-300 ${
-                        darkMode
-                          ? 'bg-gray-800/50 text-red-400 hover:bg-gradient-to-r hover:from-red-600 hover:to-pink-600 hover:text-white border border-gray-700/50 hover:border-red-500/50'
-                          : 'bg-gray-100 text-red-600 hover:bg-gradient-to-r hover:from-red-600 hover:to-pink-600 hover:text-white border border-gray-200 hover:border-red-300'
+                        'bg-gray-800/50 text-red-400 hover:bg-gradient-to-r hover:from-red-600 hover:to-pink-600 hover:text-white border border-gray-700/50 hover:border-red-500/50'
                       } hover:scale-105 hover:shadow-lg hover:shadow-red-500/50`}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
@@ -290,13 +267,13 @@ useEffect(() => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className={`w-24 h-24 rounded-3xl bg-gradient-to-br from-violet-600 to-fuchsia-500 flex items-center justify-center mx-auto mb-6 shadow-2xl ${darkMode ? 'shadow-violet-500/50' : 'shadow-violet-500/30'}`}>
+            <div className={`w-24 h-24 rounded-3xl bg-gradient-to-br from-violet-600 to-fuchsia-500 flex items-center justify-center mx-auto mb-6 shadow-2xl shadow-violet-500/50`}>
               <Brain className="h-12 w-12 text-white" />
             </div>
-            <h3 className={`text-2xl font-black mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h3 className={`text-2xl font-black mb-3 text-white`}>
               No Ideas Yet
             </h3>
-            <p className={`text-lg mb-8 ${darkMode ? 'text-gray-400' : 'text-gray-600'} max-w-2xl mx-auto`}>
+            <p className={`text-lg mb-8 text-gray-400 max-w-2xl mx-auto`}>
               You haven't submitted any ideas yet. Start your entrepreneurial journey today and get instant AI validation!
             </p>
             <motion.button

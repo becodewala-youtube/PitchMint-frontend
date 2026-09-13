@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
-import { useTheme } from '../contexts/ThemeContext';
-import axios from 'axios';
-import { API_URL } from '../utils/constants';
+
+import api from '../utils/api';
+
 import { AlertCircle, ExternalLink, Filter, Star, MapPin, DollarSign, Sparkles, Zap, Users, Crown } from 'lucide-react';
 import InvestorDirectorySkeleton from '../components/skeleton/InvestorSkeleton';
 import { motion } from 'framer-motion';
@@ -31,8 +31,6 @@ const InvestorContacts = () => {
     type: '',
     industry: ''
   });
-
-  const { darkMode } = useTheme();
   const { token } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
@@ -49,8 +47,8 @@ const InvestorContacts = () => {
         if (filters.type) query.push(`type=${filters.type}`);
         if (filters.industry) query.push(`industry=${filters.industry}`);
 
-        const response = await axios.get(
-          `${API_URL}/api/investors${query.length ? `?${query.join('&')}` : ''}`,
+        const response = await api.get(
+          `/api/investors${query.length ? `?${query.join('&')}` : ''}`,
           config
         );
 
@@ -84,53 +82,40 @@ const InvestorContacts = () => {
 
   if (error) {
     return (
-      <div className={`min-h-screen flex items-center justify-center ${darkMode ? 'bg-[#0a0118]' : 'bg-gray-50'}`}>
+      <div className={`min-h-screen flex items-center justify-center bg-[#0a0118]`}>
         <motion.div 
-          className={`text-center p-8 rounded-3xl ${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl`}
+          className={`text-center p-8 rounded-3xl bg-gray-900/50 border border-gray-800/50 backdrop-blur-xl`}
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
         >
           <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-500 to-pink-500 flex items-center justify-center mx-auto mb-4 shadow-2xl shadow-red-500/50">
             <AlertCircle className="h-8 w-8 text-white" />
           </div>
-          <h3 className={`text-xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Error</h3>
-          <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{error}</p>
+          <h3 className={`text-xl font-bold mb-2 text-white`}>Error</h3>
+          <p className={`text-sm text-gray-400`}>{error}</p>
         </motion.div>
       </div>
     );
   }
 
   return (
-    <div className={`min-h-screen relative overflow-hidden ${darkMode ? 'bg-[#0a0118]' : 'bg-gray-50'}`}>
-      {/* Enhanced Animated Background */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div
-          className={`absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-amber-600/30 via-yellow-600/20 to-orange-600/30"
-              : "bg-gradient-to-br from-amber-300/40 via-yellow-300/30 to-orange-300/40"
-          }`}
-          style={{ animationDuration: '8s' }}
-        ></div>
+    <div className={`min-h-screen relative overflow-hidden bg-[#0a0118]`}>
+      <PageBackground theme="amber" />
         <div
           className={`absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-orange-600/30 via-red-600/20 to-pink-600/30"
-              : "bg-gradient-to-br from-orange-300/40 via-red-300/30 to-pink-300/40"
+            'bg-gradient-to-br from-orange-600/30 via-red-600/20 to-pink-600/30'
           }`}
           style={{ animationDuration: '10s', animationDelay: '2s' }}
         ></div>
         <div
           className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-yellow-600/20 via-amber-600/10 to-orange-600/20"
-              : "bg-gradient-to-br from-yellow-300/30 via-amber-300/20 to-orange-300/30"
+            'bg-gradient-to-br from-yellow-600/20 via-amber-600/10 to-orange-600/20'
           }`}
           style={{ animationDuration: '12s', animationDelay: '4s' }}
         ></div>
 
-        <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-b from-transparent via-amber-500/5 to-transparent' : 'bg-gradient-to-b from-transparent via-amber-200/10 to-transparent'}`} />
-        <div className={`absolute inset-0 ${darkMode ? 'bg-[linear-gradient(rgba(245,158,11,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(245,158,11,0.03)_1px,transparent_1px)]' : 'bg-[linear-gradient(rgba(245,158,11,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(245,158,11,0.05)_1px,transparent_1px)]'} bg-[size:64px_64px]`} />
+        <div className={`absolute inset-0 bg-gradient-to-b from-transparent via-amber-500/5 to-transparent`} />
+        <div className={`absolute inset-0 bg-[linear-gradient(rgba(245,158,11,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(245,158,11,0.03)_1px,transparent_1px)] bg-[size:64px_64px]`} />
 
         <div className="absolute top-20 left-[10%] w-2 h-2 bg-amber-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3s', animationDelay: '0s' }}></div>
         <div className="absolute top-40 right-[15%] w-1.5 h-1.5 bg-yellow-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '4s', animationDelay: '1s' }}></div>
@@ -147,17 +132,17 @@ const InvestorContacts = () => {
         >
           <div className="flex justify-center mb-4">
             <div className="flex items-center gap-4 text-center">
-              <div className={`w-6 sm:w-8 h-6 sm:h-8  rounded-2xl bg-gradient-to-br from-amber-600 to-orange-500 flex items-center justify-center shadow-2xl ${darkMode ? "shadow-amber-500/50" : "shadow-amber-500/30"}`}>
+              <div className={`w-6 sm:w-8 h-6 sm:h-8  rounded-2xl bg-gradient-to-br from-amber-600 to-orange-500 flex items-center justify-center shadow-2xl shadow-amber-500/50`}>
                 <Crown className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
               </div>
               <div>
-                <h1 className={`text-md md:text-lg font-black ${darkMode ? "text-white" : "text-gray-900"}`}>
+                <h1 className={`text-md md:text-lg font-black text-white`}>
                   Investor{" "}
                   <span className="bg-gradient-to-r from-amber-400 via-yellow-400 to-orange-400 bg-clip-text text-transparent">
                     Directory
                   </span>
                 </h1>
-                <p className={`text-xs  ${darkMode ? "text-gray-400" : "text-gray-600"} font-medium flex items-center gap-2 justify-center`}>
+                <p className={`text-xs  text-gray-400 font-medium flex items-center gap-2 justify-center`}>
                   <Sparkles className="w-3 h-3 md:w-4 md:h-4 text-amber-400" />
                   Connect with top investors, VCs, and accelerators
                 </p>
@@ -168,7 +153,7 @@ const InvestorContacts = () => {
 
         {/* Filters */}
         <motion.div 
-          className={`${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl rounded-3xl shadow-2xl p-3 mb-8`}
+          className={`bg-gray-900/50 border border-gray-800/50 backdrop-blur-xl rounded-3xl shadow-2xl p-3 mb-8`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
@@ -177,22 +162,20 @@ const InvestorContacts = () => {
             <div className="w-6 sm:w-8 h-6 sm:h-8  rounded-xl bg-gradient-to-br from-amber-600 to-orange-600 flex items-center justify-center shadow-xl">
               <Filter className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
             </div>
-            <h2 className={`text-sm font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h2 className={`text-sm font-black text-white`}>
               Filter Investors
             </h2>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
             <div>
-              <label className={`block text-xs font-bold mb-3 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              <label className={`block text-xs font-bold mb-3 text-gray-300`}>
                 Investor Type
               </label>
               <select
                 value={filters.type}
                 onChange={(e) => setFilters((prev) => ({ ...prev, type: e.target.value }))}
                 className={`w-full px-4 py-1 sm:py-2 text-xs rounded-xl border-2 transition-all duration-300 ${
-                  darkMode
-                    ? 'bg-gray-800/50 text-white border-gray-700 focus:border-amber-500 focus:bg-gray-800'
-                    : 'bg-white text-gray-900 border-gray-300 focus:border-amber-500 focus:bg-gray-50'
+                  'bg-gray-800/50 text-white border-gray-700 focus:border-amber-500 focus:bg-gray-800'
                 } focus:ring-4 focus:ring-amber-500/20 focus:outline-none`}
               >
                 <option value="">All Types</option>
@@ -204,16 +187,14 @@ const InvestorContacts = () => {
               </select>
             </div>
             <div>
-              <label className={`block text-xs font-bold mb-3 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              <label className={`block text-xs font-bold mb-3 text-gray-300`}>
                 Industry Focus
               </label>
               <select
                 value={filters.industry}
                 onChange={(e) => setFilters((prev) => ({ ...prev, industry: e.target.value }))}
                 className={`w-full px-4 py-1 sm:py-2 text-xs rounded-xl border-2 transition-all duration-300 ${
-                  darkMode
-                    ? 'bg-gray-800/50 text-white border-gray-700 focus:border-amber-500 focus:bg-gray-800'
-                    : 'bg-white text-gray-900 border-gray-300 focus:border-amber-500 focus:bg-gray-50'
+                  'bg-gray-800/50 text-white border-gray-700 focus:border-amber-500 focus:bg-gray-800'
                 } focus:ring-4 focus:ring-amber-500/20 focus:outline-none`}
               >
                 <option value="">All Industries</option>
@@ -233,7 +214,7 @@ const InvestorContacts = () => {
             {investors.map((investor, index) => (
               <motion.div
                 key={investor._id}
-                className={`group relative overflow-hidden ${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl rounded-3xl shadow-2xl hover:scale-[1.02] transition-all duration-500`}
+                className={`group relative overflow-hidden bg-gray-900/50 border border-gray-800/50 backdrop-blur-xl rounded-3xl shadow-2xl hover:scale-[1.02] transition-all duration-500`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 + index * 0.1 }}
@@ -245,24 +226,24 @@ const InvestorContacts = () => {
                 <div className="relative p-4">
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex-1">
-                      <h3 className={`text-sm md:text-md font-black mb-2 ${darkMode ? 'text-white' : 'text-gray-900'} group-hover:text-amber-500 transition-colors duration-300`}>
+                      <h3 className={`text-sm md:text-md font-black mb-2 text-white group-hover:text-amber-500 transition-colors duration-300`}>
                         {investor.name}
                       </h3>
                       <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold ${
-                        darkMode ? 'bg-amber-900/50 text-amber-300' : 'bg-amber-100 text-amber-800'
+                        'bg-amber-900/50 text-amber-300'
                       }`}>
                         {investor.type}
                       </span>
                     </div>
                   </div>
 
-                  <p className={`text-xs mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
+                  <p className={`text-xs mb-4 text-gray-300 leading-relaxed`}>
                     {investor.description}
                   </p>
 
                   <div className="space-y-3 mb-6">
-                    <div className={`p-2 rounded-2xl ${darkMode ? 'bg-blue-900/20 border border-blue-500/20' : 'bg-blue-50 border border-blue-200'}`}>
-                      <h4 className={`text-xs font-bold mb-3 ${darkMode ? 'text-blue-300' : 'text-blue-700'} flex items-center`}>
+                    <div className={`p-2 rounded-2xl bg-blue-900/20 border border-blue-500/20`}>
+                      <h4 className={`text-xs font-bold mb-3 text-blue-300 flex items-center`}>
                         <Zap className="w-4 h-4 mr-2" />
                         Industry Focus
                       </h4>
@@ -271,7 +252,7 @@ const InvestorContacts = () => {
                           <span
                             key={industry}
                             className={`inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold ${
-                              darkMode ? 'bg-blue-900/50 text-blue-300' : 'bg-blue-100 text-blue-800'
+                              'bg-blue-900/50 text-blue-300'
                             }`}
                           >
                             {industry}
@@ -281,21 +262,21 @@ const InvestorContacts = () => {
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
-                      <div className={`p-3 rounded-xl ${darkMode ? 'bg-gray-800/50 border border-gray-700' : 'bg-gray-50 border border-gray-200'}`}>
-                        <h4 className={`text-xs font-bold mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'} flex items-center`}>
+                      <div className={`p-3 rounded-xl bg-gray-800/50 border border-gray-700`}>
+                        <h4 className={`text-xs font-bold mb-2 text-gray-300 flex items-center`}>
                           <MapPin className="w-3 h-3 mr-1 text-green-500" />
                           Location
                         </h4>
-                        <p className={`text-xs font-semibold ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                        <p className={`text-xs font-semibold text-gray-400`}>
                           {investor.location}
                         </p>
                       </div>
-                      <div className={`p-3 rounded-xl ${darkMode ? 'bg-gray-800/50 border border-gray-700' : 'bg-gray-50 border border-gray-200'}`}>
-                        <h4 className={`text-xs font-bold mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'} flex items-center`}>
+                      <div className={`p-3 rounded-xl bg-gray-800/50 border border-gray-700`}>
+                        <h4 className={`text-xs font-bold mb-2 text-gray-300 flex items-center`}>
                           <DollarSign className="w-3 h-3 mr-1 text-green-500" />
                           Range
                         </h4>
-                        <p className={`text-xs font-semibold ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                        <p className={`text-xs font-semibold text-gray-400`}>
                           ${(investor.investmentRange.min / 1000)}K - ${(investor.investmentRange.max / 1000)}K
                         </p>
                       </div>
@@ -320,7 +301,7 @@ const InvestorContacts = () => {
           </div>
         ) : (
           <motion.div
-            className={`${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl rounded-3xl shadow-2xl p-12 text-center`}
+            className={`bg-gray-900/50 border border-gray-800/50 backdrop-blur-xl rounded-3xl shadow-2xl p-12 text-center`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -328,10 +309,10 @@ const InvestorContacts = () => {
             <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-gray-600 to-gray-500 flex items-center justify-center mx-auto mb-6 shadow-2xl">
               <AlertCircle className="h-10 w-10 text-white" />
             </div>
-            <h3 className={`text-2xl font-black mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h3 className={`text-2xl font-black mb-3 text-white`}>
               No Investors Found
             </h3>
-            <p className={`text-sm mb-6 ${darkMode ? 'text-gray-400' : 'text-gray-600'} max-w-md mx-auto`}>
+            <p className={`text-sm mb-6 text-gray-400 max-w-md mx-auto`}>
               No investors found matching your filters. Try adjusting your search criteria to discover more opportunities.
             </p>
           </motion.div>

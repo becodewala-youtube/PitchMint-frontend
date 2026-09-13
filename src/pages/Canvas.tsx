@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIdea, generateCanvas, clearError } from '../store/slices/ideaSlice';
 import { RootState } from '../store';
-import { useTheme } from '../contexts/ThemeContext';
+
 import { RefreshCw, AlertCircle, Layout, Target, Users, Lightbulb, TrendingUp, MessageSquare, DollarSign, Zap } from 'lucide-react';
 import CanvasSkeleton from '../components/skeleton/CanvasSkeleton';
 import { motion } from 'framer-motion';
@@ -12,15 +12,14 @@ import ReactMarkdown from 'react-markdown';
 
 const Canvas = () => {
   const { id } = useParams();
-  const dispatch = useDispatch();
-  const { darkMode } = useTheme();
+  const dispatch = useAppDispatch();
   
   const { currentIdea: idea, loading, error, creditError } = useSelector((state: RootState) => state.idea);
   const [isGenerating, setIsGenerating] = useState(false);
 
   useEffect(() => {
     if (id && !idea) {
-      dispatch(getIdea(id) as any);
+      dispatch(getIdea(id));
     }
   }, [dispatch, id, idea]);
 
@@ -28,7 +27,7 @@ const Canvas = () => {
     if (id && !isGenerating && !loading) {
       try {
         setIsGenerating(true);
-        await dispatch(generateCanvas(id) as any);
+        await dispatch(generateCanvas(id));
       } finally {
         setIsGenerating(false);
       }
@@ -57,7 +56,7 @@ const Canvas = () => {
 
   if (error) {
     return (
-      <div className={`min-h-screen flex items-center justify-center ${darkMode ? 'bg-[#0a0118]' : 'bg-gray-50'}`}>
+      <div className={`min-h-screen flex items-center justify-center bg-[#0a0118]`}>
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -66,8 +65,8 @@ const Canvas = () => {
           <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-red-500 to-pink-500 flex items-center justify-center mx-auto mb-6 shadow-2xl">
             <AlertCircle className="h-10 w-10 text-white" />
           </div>
-          <h3 className={`text-2xl font-black mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Error</h3>
-          <p className={`text-base ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{error}</p>
+          <h3 className={`text-2xl font-black mb-2 text-white`}>Error</h3>
+          <p className={`text-base text-gray-400`}>{error}</p>
         </motion.div>
       </div>
     );
@@ -155,17 +154,8 @@ const Canvas = () => {
   ];
 
   return (
-    <div className={`min-h-screen relative overflow-hidden ${darkMode ? 'bg-[#0a0118]' : 'bg-gray-50'}`}>
-      {/* Enhanced Animated Background */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        
-
-        {/* Mesh Gradient Overlay */}
-        <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-b from-transparent via-purple-500/5 to-transparent' : 'bg-gradient-to-b from-transparent via-purple-200/10 to-transparent'}`} />
-        
-        {/* Animated Grid */}
-        <div className={`absolute inset-0 ${darkMode ? 'bg-[linear-gradient(rgba(139,92,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.03)_1px,transparent_1px)]' : 'bg-[linear-gradient(rgba(139,92,246,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.05)_1px,transparent_1px)]'} bg-[size:64px_64px]`} />
-      </div>
+    <div className={`min-h-screen relative overflow-hidden bg-[#0a0118]`}>
+      <PageBackground theme="violet" />
 
       <div className="relative z-10 py-8 sm:py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -182,10 +172,10 @@ const Canvas = () => {
                   <Layout className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
                 </div>
                 <div>
-                  <h1 className={`text-md md:text-lg font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <h1 className={`text-md md:text-lg font-black text-white`}>
                     Business Model Canvas
                   </h1>
-                  <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                  <p className={`text-xs text-gray-400`}>
                     Lean startup methodology visualization
                   </p>
                 </div>
@@ -197,9 +187,7 @@ const Canvas = () => {
               className={`group relative flex items-center gap-2 px-6 py-1 sm:py-2 rounded-xl font-bold text-xs transition-all duration-300 shadow-xl overflow-hidden ${
                 loading || isGenerating
                   ? "bg-gray-400 cursor-not-allowed"
-                  : darkMode
-                  ? "bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:shadow-blue-500/50 text-white"
-                  : "bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 hover:shadow-blue-500/50 text-white"
+                  : 'bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:shadow-blue-500/50 text-white'
               }`}
               whileHover={!(loading || isGenerating) ? { scale: 1.02 } : {}}
               whileTap={!(loading || isGenerating) ? { scale: 0.98 } : {}}
@@ -220,7 +208,7 @@ const Canvas = () => {
                 <motion.div
                   key={section.title}
                   className={`group relative p-3 md:p-4 rounded-3xl backdrop-blur-xl border transition-all duration-500 hover:scale-105 cursor-pointer overflow-hidden ${section.span} ${
-                    darkMode ? "bg-gray-900/50 border-gray-800/50" : "bg-white/80 border-gray-200"
+                    'bg-gray-900/50 border-gray-800/50'
                   }`}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -235,13 +223,13 @@ const Canvas = () => {
                       <div className={`w-6 sm:w-8 h-6 sm:h-8 rounded-xl bg-gradient-to-br ${section.gradient} flex items-center justify-center mr-3 shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
                         <section.icon className="w-4 h-4 text-white" />
                       </div>
-                      <h2 className={`text-sm md:text-sm font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                      <h2 className={`text-sm md:text-sm font-black text-white`}>
                         {section.title}
                       </h2>
                     </div>
                     
                     <div className={`prose prose-sm text-xs sm:text-sm md:prose-base max-w-none text-justify leading-relaxed ${
-                      darkMode ? 'prose-invert text-gray-300' : 'text-gray-700'
+                      'prose-invert text-gray-300'
                     }`}>
                       <ReactMarkdown>{section.content || 'No content available'}</ReactMarkdown>
                     </div>
@@ -252,9 +240,7 @@ const Canvas = () => {
           ) : (
             <motion.div 
               className={`rounded-3xl shadow-2xl backdrop-blur-xl p-12 md:p-16 text-center border ${
-                darkMode
-                  ? "bg-gray-900/50 border-gray-800/50"
-                  : "bg-white/80 border-gray-200"
+                'bg-gray-900/50 border-gray-800/50'
               }`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -262,19 +248,17 @@ const Canvas = () => {
             >
               {/* Gradient Glow */}
               <div className={`absolute -inset-1 rounded-3xl opacity-50 blur-2xl pointer-events-none ${
-                darkMode
-                  ? "bg-gradient-to-r from-blue-600/20 via-indigo-600/20 to-purple-600/20"
-                  : "bg-gradient-to-r from-blue-300/30 via-indigo-300/30 to-purple-300/30"
+                'bg-gradient-to-r from-blue-600/20 via-indigo-600/20 to-purple-600/20'
               }`} />
 
               <div className="relative">
                 <div className="w-24 h-24 md:w-32 md:h-32 rounded-3xl bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 shadow-2xl shadow-blue-500/50 flex items-center justify-center mx-auto mb-8">
                   <Layout className="h-12 w-12 md:h-16 md:w-16 text-white" />
                 </div>
-                <h3 className={`text-2xl md:text-3xl font-black mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h3 className={`text-2xl md:text-3xl font-black mb-4 text-white`}>
                   {isGenerating ? 'Generating Canvas...' : 'No Business Model Canvas Available'}
                 </h3>
-                <p className={`text-base md:text-lg mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                <p className={`text-base md:text-lg mb-8 text-gray-300`}>
                   {isGenerating ? 'Please wait while we create your business model canvas.' : 'Click the generate button to create your canvas.'}
                 </p>
 

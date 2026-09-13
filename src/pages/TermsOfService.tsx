@@ -1,9 +1,8 @@
-import { useTheme } from '../contexts/ThemeContext';
+
 import { motion } from 'framer-motion';
 import { FileText, Users, CreditCard, Shield, AlertTriangle, Scale, Sparkles, CheckCircle2, Mail } from 'lucide-react';
 
 const TermsOfService = () => {
-  const { darkMode } = useTheme();
 
   const sections = [
     {
@@ -90,20 +89,8 @@ const TermsOfService = () => {
   ];
 
   return (
-    <div className={`min-h-screen relative overflow-hidden ${darkMode ? 'bg-[#0a0118]' : 'bg-gray-50'}`}>
-      {/* Enhanced Animated Background */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        {/* Primary Gradient Orbs */}
-        
-
-        {/* Mesh Gradient Overlay */}
-        <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-b from-transparent via-violet-500/5 to-transparent' : 'bg-gradient-to-b from-transparent via-violet-200/10 to-transparent'}`} />
-        
-        {/* Animated Grid */}
-        <div className={`absolute inset-0 ${darkMode ? 'bg-[linear-gradient(rgba(139,92,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.03)_1px,transparent_1px)]' : 'bg-[linear-gradient(rgba(139,92,246,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.05)_1px,transparent_1px)]'} bg-[size:64px_64px]`} />
-
-        {/* Floating Elements */}
-        <div className="absolute top-20 left-[10%] w-2 h-2 bg-violet-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3s', animationDelay: '0s' }}></div>
+    <div className={`min-h-screen relative overflow-hidden bg-[#0a0118]`}>
+      <PageBackground theme="violet" />
         <div className="absolute top-40 right-[15%] w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '4s', animationDelay: '1s' }}></div>
         <div className="absolute bottom-32 left-[20%] w-2.5 h-2.5 bg-fuchsia-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3.5s', animationDelay: '2s' }}></div>
       </div>
@@ -118,11 +105,11 @@ const TermsOfService = () => {
         >
           <div className="text-center">
             <div className="flex items-center justify-center gap-3 mb-2">
-              <div className={`w-8 h-8 rounded-2xl bg-gradient-to-br from-violet-600 to-purple-500 flex items-center justify-center shadow-2xl ${darkMode ? 'shadow-violet-500/50' : 'shadow-violet-500/30'}`}>
+              <div className={`w-8 h-8 rounded-2xl bg-gradient-to-br from-violet-600 to-purple-500 flex items-center justify-center shadow-2xl shadow-violet-500/50`}>
                 <FileText className="w-4 h-4 text-white" />
               </div>
               <div>
-                <h1 className={`text-lg md:text-xl font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h1 className={`text-lg md:text-xl font-black text-white`}>
                   Terms of{" "}
                   <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent">
                     Service
@@ -130,11 +117,11 @@ const TermsOfService = () => {
                 </h1>
               </div>
             </div>
-            <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'} font-medium flex items-center justify-center gap-2`}>
+            <p className={`text-xs text-gray-400 font-medium flex items-center justify-center gap-2`}>
               <Sparkles className="w-4 h-4 text-violet-400" />
               Legal terms and conditions for using PitchMint
             </p>
-            <p className={`text-xs mt-2 ${darkMode ? 'text-gray-500' : 'text-gray-500'}`}>
+            <p className={`text-xs mt-2 text-gray-500`}>
               Last updated: {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
             </p>
           </div>
@@ -143,7 +130,7 @@ const TermsOfService = () => {
         {/* Introduction */}
         <motion.div 
           className={`relative overflow-hidden rounded-3xl p-3 mb-8 ${
-            darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'
+            'bg-gray-900/50 border border-gray-800/50'
           } backdrop-blur-xl`}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -156,12 +143,12 @@ const TermsOfService = () => {
                 <FileText className="w-4 h-4 text-white" />
               </div>
               <div>
-                <h2 className={`text-sm font-bold mb-2 ${darkMode ? 'text-violet-400' : 'text-violet-600'}`}>
+                <h2 className={`text-sm font-bold mb-2 text-violet-400`}>
                   Welcome to PitchMint
                 </h2>
               </div>
             </div>
-            <p className={`text-xs text-justify leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            <p className={`text-xs text-justify leading-relaxed text-gray-300`}>
               Welcome to PitchMint! These Terms of Service ("Terms") govern your use of our AI-powered startup 
               validation platform. Please read these terms carefully before using our services. By creating an 
               account or using PitchMint, you agree to be bound by these terms.
@@ -175,7 +162,7 @@ const TermsOfService = () => {
             <motion.div
               key={section.title}
               className={`group relative overflow-hidden rounded-3xl p-6 ${
-                darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'
+                'bg-gray-900/50 border border-gray-800/50'
               } backdrop-blur-xl hover:scale-[1.01] transition-all duration-500`}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -194,7 +181,7 @@ const TermsOfService = () => {
                   <div className={`w-8 h-8 rounded-xl bg-gradient-to-br ${section.gradient} flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
                     <section.icon className="w-4 h-4 text-white" />
                   </div>
-                  <h2 className={`text-sm font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <h2 className={`text-sm font-bold text-white`}>
                     {section.title}
                   </h2>
                 </div>
@@ -212,7 +199,7 @@ const TermsOfService = () => {
                       <div className={`w-6 h-6 rounded-lg bg-gradient-to-br ${section.gradient} flex items-center justify-center flex-shrink-0 mt-0.5 shadow-lg`}>
                         <CheckCircle2 className="w-3 h-3 text-white" />
                       </div>
-                      <span className={`text-xs leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                      <span className={`text-xs leading-relaxed text-gray-300`}>
                         {item}
                       </span>
                     </motion.li>
@@ -226,7 +213,7 @@ const TermsOfService = () => {
         {/* Contact Footer */}
         <motion.div 
           className={`relative overflow-hidden rounded-3xl p-3 mt-5 ${
-            darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'
+            'bg-gray-900/50 border border-gray-800/50'
           } backdrop-blur-xl text-center`}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -234,10 +221,10 @@ const TermsOfService = () => {
         >
           <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 via-purple-500/10 to-fuchsia-500/10 opacity-50"></div>
           <div className="relative">
-            <h3 className={`text-md font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h3 className={`text-md font-bold mb-2 text-white`}>
               Questions About Terms?
             </h3>
-            <p className={`text-xs mb-3 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+            <p className={`text-xs mb-3 text-gray-400`}>
               If you have any questions about these Terms of Service, please contact us.
             </p>
             <a

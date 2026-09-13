@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
-import { API_URL } from '../utils/constants';
-import { useTheme } from '../contexts/ThemeContext';
+import api from '../utils/api';
+
+
 import { motion } from 'framer-motion';
 import { Shield, CheckCircle, Mail, Key, Lock, Eye, EyeOff, ArrowLeft, ArrowRight } from 'lucide-react';
 
@@ -19,7 +19,6 @@ const ResetPassword = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
-  const { darkMode } = useTheme();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({
@@ -38,7 +37,7 @@ const ResetPassword = () => {
     setError('');
 
     try {
-      await axios.post(`${API_URL}/api/auth/reset-password`, {
+      await api.post(`/api/auth/reset-password`, {
         email: formData.email,
         token: formData.token,
         newPassword: formData.newPassword
@@ -56,41 +55,28 @@ const ResetPassword = () => {
     return (
       <div
         className={`relative min-h-screen flex items-center justify-center overflow-hidden ${
-          darkMode ? "bg-[#0a0118]" : "bg-gray-50"
+          'bg-[#0a0118]'
         } py-12 px-4 sm:px-6 lg:px-8`}
       >
-        {/* Enhanced Animated Background */}
-        <div className="fixed inset-0 overflow-hidden pointer-events-none">
-          <div
-            className={`absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full blur-3xl animate-pulse ${
-              darkMode
-                ? "bg-gradient-to-br from-violet-600/30 via-purple-600/20 to-fuchsia-600/30"
-                : "bg-gradient-to-br from-violet-300/40 via-purple-300/30 to-fuchsia-300/40"
-            }`}
-            style={{ animationDuration: '8s' }}
-          ></div>
+        <PageBackground theme="violet" />
           <div
             className={`absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full blur-3xl animate-pulse ${
-              darkMode
-                ? "bg-gradient-to-br from-cyan-600/30 via-blue-600/20 to-indigo-600/30"
-                : "bg-gradient-to-br from-cyan-300/40 via-blue-300/30 to-indigo-300/40"
+              'bg-gradient-to-br from-cyan-600/30 via-blue-600/20 to-indigo-600/30'
             }`}
             style={{ animationDuration: '10s', animationDelay: '2s' }}
           ></div>
           <div
             className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full blur-3xl animate-pulse ${
-              darkMode
-                ? "bg-gradient-to-br from-emerald-600/20 via-teal-600/10 to-cyan-600/20"
-                : "bg-gradient-to-br from-emerald-300/30 via-teal-300/20 to-cyan-300/30"
+              'bg-gradient-to-br from-emerald-600/20 via-teal-600/10 to-cyan-600/20'
             }`}
             style={{ animationDuration: '12s', animationDelay: '4s' }}
           ></div>
 
           {/* Mesh Gradient Overlay */}
-          <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-b from-transparent via-purple-500/5 to-transparent' : 'bg-gradient-to-b from-transparent via-purple-200/10 to-transparent'}`} />
+          <div className={`absolute inset-0 bg-gradient-to-b from-transparent via-purple-500/5 to-transparent`} />
           
           {/* Animated Grid */}
-          <div className={`absolute inset-0 ${darkMode ? 'bg-[linear-gradient(rgba(139,92,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.03)_1px,transparent_1px)]' : 'bg-[linear-gradient(rgba(139,92,246,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.05)_1px,transparent_1px)]'} bg-[size:64px_64px]`} />
+          <div className={`absolute inset-0 bg-[linear-gradient(rgba(139,92,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.03)_1px,transparent_1px)] bg-[size:64px_64px]`} />
         </div>
 
         {/* Success Card */}
@@ -100,16 +86,12 @@ const ResetPassword = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6 }}
             className={`rounded-3xl shadow-2xl backdrop-blur-xl p-10 border ${
-              darkMode
-                ? "bg-gray-900/50 border-gray-800/50"
-                : "bg-white/80 border-gray-200"
+              'bg-gray-900/50 border-gray-800/50'
             }`}
           >
             {/* Gradient Glow */}
             <div className={`absolute -inset-1 rounded-3xl opacity-50 blur-2xl ${
-              darkMode
-                ? "bg-gradient-to-r from-emerald-600/20 via-teal-600/20 to-cyan-600/20"
-                : "bg-gradient-to-r from-emerald-300/30 via-teal-300/30 to-cyan-300/30"
+              'bg-gradient-to-r from-emerald-600/20 via-teal-600/20 to-cyan-600/20'
             }`} />
 
             <div className="relative text-center">
@@ -121,7 +103,7 @@ const ResetPassword = () => {
 
               <h2
                 className={`text-2xl sm:text-3xl font-black mb-3 ${
-                  darkMode ? "text-white" : "text-gray-900"
+                  'text-white'
                 }`}
               >
                 Password Reset Successfully!
@@ -129,7 +111,7 @@ const ResetPassword = () => {
               </h2>
               <p
                 className={`text-base mb-6 ${
-                  darkMode ? "text-gray-300" : "text-gray-600"
+                  'text-gray-300'
                 }`}
               >
                 Your password has been reset successfully. Redirecting you to login...
@@ -150,13 +132,11 @@ const ResetPassword = () => {
             className="mt-8 text-center"
           >
             <div className={`inline-flex items-center px-4 py-2 rounded-full backdrop-blur-xl ${
-              darkMode
-                ? 'bg-gradient-to-r from-emerald-600/10 to-cyan-600/10 border border-emerald-500/20'
-                : 'bg-white/60 border border-emerald-200'
+              'bg-gradient-to-r from-emerald-600/10 to-cyan-600/10 border border-emerald-500/20'
             } shadow-lg`}>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className={`text-xs font-semibold ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                <span className={`text-xs font-semibold text-gray-400`}>
                   Password reset complete
                 </span>
               </div>
@@ -170,41 +150,35 @@ const ResetPassword = () => {
   return (
     <div
       className={`relative min-h-screen flex items-center justify-center overflow-hidden ${
-        darkMode ? "bg-[#0a0118]" : "bg-gray-50"
+        'bg-[#0a0118]'
       } py-12 px-4 sm:px-6 lg:px-8`}
     >
       {/* Enhanced Animated Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div
           className={`absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-violet-600/30 via-purple-600/20 to-fuchsia-600/30"
-              : "bg-gradient-to-br from-violet-300/40 via-purple-300/30 to-fuchsia-300/40"
+            'bg-gradient-to-br from-violet-600/30 via-purple-600/20 to-fuchsia-600/30'
           }`}
           style={{ animationDuration: '8s' }}
         ></div>
         <div
           className={`absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-cyan-600/30 via-blue-600/20 to-indigo-600/30"
-              : "bg-gradient-to-br from-cyan-300/40 via-blue-300/30 to-indigo-300/40"
+            'bg-gradient-to-br from-cyan-600/30 via-blue-600/20 to-indigo-600/30'
           }`}
           style={{ animationDuration: '10s', animationDelay: '2s' }}
         ></div>
         <div
           className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-emerald-600/20 via-teal-600/10 to-cyan-600/20"
-              : "bg-gradient-to-br from-emerald-300/30 via-teal-300/20 to-cyan-300/30"
+            'bg-gradient-to-br from-emerald-600/20 via-teal-600/10 to-cyan-600/20'
           }`}
           style={{ animationDuration: '12s', animationDelay: '4s' }}
         ></div>
 
         {/* Mesh Gradient Overlay */}
-        <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-b from-transparent via-purple-500/5 to-transparent' : 'bg-gradient-to-b from-transparent via-purple-200/10 to-transparent'}`} />
+        <div className={`absolute inset-0 bg-gradient-to-b from-transparent via-purple-500/5 to-transparent`} />
         
         {/* Animated Grid */}
-        <div className={`absolute inset-0 ${darkMode ? 'bg-[linear-gradient(rgba(139,92,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.03)_1px,transparent_1px)]' : 'bg-[linear-gradient(rgba(139,92,246,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.05)_1px,transparent_1px)]'} bg-[size:64px_64px]`} />
+        <div className={`absolute inset-0 bg-[linear-gradient(rgba(139,92,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.03)_1px,transparent_1px)] bg-[size:64px_64px]`} />
       </div>
 
       {/* Reset Password Card */}
@@ -214,16 +188,12 @@ const ResetPassword = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className={`rounded-3xl shadow-2xl backdrop-blur-xl p-8 sm:p-10 border ${
-            darkMode
-              ? "bg-gray-900/50 border-gray-800/50"
-              : "bg-white/80 border-gray-200"
+            'bg-gray-900/50 border-gray-800/50'
           }`}
         >
           {/* Gradient Glow */}
           <div className={`absolute -inset-1 rounded-3xl opacity-50 blur-2xl ${
-            darkMode
-              ? "bg-gradient-to-r from-emerald-600/20 via-teal-600/20 to-cyan-600/20"
-              : "bg-gradient-to-r from-emerald-300/30 via-teal-300/30 to-cyan-300/30"
+            'bg-gradient-to-r from-emerald-600/20 via-teal-600/20 to-cyan-600/20'
           }`} />
 
           {/* Header */}
@@ -235,7 +205,7 @@ const ResetPassword = () => {
             </div>
             <h2
               className={`text-2xl sm:text-3xl font-black mb-2 ${
-                darkMode ? "text-white" : "text-gray-900"
+                'text-white'
               }`}
             >
               Reset Password
@@ -243,7 +213,7 @@ const ResetPassword = () => {
             </h2>
             <p
               className={`text-sm sm:text-base ${
-                darkMode ? "text-gray-400" : "text-gray-600"
+                'text-gray-400'
               }`}
             >
               Enter the code from your email and your new password
@@ -271,14 +241,14 @@ const ResetPassword = () => {
               <label
                 htmlFor="email"
                 className={`block text-sm font-semibold mb-2 ${
-                  darkMode ? "text-gray-300" : "text-gray-700"
+                  'text-gray-300'
                 }`}
               >
                 Email Address
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Mail className={`h-5 w-5 ${darkMode ? 'text-gray-500' : 'text-gray-400'}`} />
+                  <Mail className={`h-5 w-5 text-gray-500`} />
                 </div>
                 <input
                   id="email"
@@ -289,9 +259,7 @@ const ResetPassword = () => {
                   onChange={handleChange}
                   placeholder="you@example.com"
                   className={`w-full pl-12 pr-4 py-3 text-sm rounded-xl border outline-none transition-all duration-300 focus:ring-2 ${
-                    darkMode
-                      ? "bg-gray-800/50 border-gray-700/50 text-gray-100 placeholder-gray-500 focus:ring-emerald-500/50 focus:border-emerald-500/50"
-                      : "bg-white border-gray-300 text-gray-900 placeholder-gray-400 focus:ring-emerald-500/50 focus:border-emerald-500"
+                    'bg-gray-800/50 border-gray-700/50 text-gray-100 placeholder-gray-500 focus:ring-emerald-500/50 focus:border-emerald-500/50'
                   }`}
                 />
               </div>
@@ -302,14 +270,14 @@ const ResetPassword = () => {
               <label
                 htmlFor="token"
                 className={`block text-sm font-semibold mb-2 ${
-                  darkMode ? "text-gray-300" : "text-gray-700"
+                  'text-gray-300'
                 }`}
               >
                 Reset Code
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Key className={`h-5 w-5 ${darkMode ? 'text-gray-500' : 'text-gray-400'}`} />
+                  <Key className={`h-5 w-5 text-gray-500`} />
                 </div>
                 <input
                   id="token"
@@ -321,9 +289,7 @@ const ResetPassword = () => {
                   maxLength={6}
                   placeholder="••••••"
                   className={`w-full pl-12 pr-4 py-3 text-sm text-center tracking-widest rounded-xl border outline-none transition-all duration-300 focus:ring-2 ${
-                    darkMode
-                      ? "bg-gray-800/50 border-gray-700/50 text-gray-100 placeholder-gray-500 focus:ring-emerald-500/50 focus:border-emerald-500/50"
-                      : "bg-white border-gray-300 text-gray-900 placeholder-gray-400 focus:ring-emerald-500/50 focus:border-emerald-500"
+                    'bg-gray-800/50 border-gray-700/50 text-gray-100 placeholder-gray-500 focus:ring-emerald-500/50 focus:border-emerald-500/50'
                   }`}
                 />
               </div>
@@ -334,14 +300,14 @@ const ResetPassword = () => {
               <label
                 htmlFor="newPassword"
                 className={`block text-sm font-semibold mb-2 ${
-                  darkMode ? "text-gray-300" : "text-gray-700"
+                  'text-gray-300'
                 }`}
               >
                 New Password
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Lock className={`h-5 w-5 ${darkMode ? 'text-gray-500' : 'text-gray-400'}`} />
+                  <Lock className={`h-5 w-5 text-gray-500`} />
                 </div>
                 <input
                   id="newPassword"
@@ -352,9 +318,7 @@ const ResetPassword = () => {
                   onChange={handleChange}
                   placeholder="••••••••"
                   className={`w-full pl-12 pr-12 py-3 text-sm rounded-xl border outline-none transition-all duration-300 focus:ring-2 ${
-                    darkMode
-                      ? "bg-gray-800/50 border-gray-700/50 text-gray-100 placeholder-gray-500 focus:ring-emerald-500/50 focus:border-emerald-500/50"
-                      : "bg-white border-gray-300 text-gray-900 placeholder-gray-400 focus:ring-emerald-500/50 focus:border-emerald-500"
+                    'bg-gray-800/50 border-gray-700/50 text-gray-100 placeholder-gray-500 focus:ring-emerald-500/50 focus:border-emerald-500/50'
                   }`}
                 />
                 <button
@@ -364,9 +328,9 @@ const ResetPassword = () => {
                   tabIndex={-1}
                 >
                   {showNewPassword ? (
-                    <EyeOff className={`h-5 w-5 ${darkMode ? 'text-gray-500 group-hover:text-gray-400' : 'text-gray-400 group-hover:text-gray-500'} transition-colors`} />
+                    <EyeOff className={`h-5 w-5 text-gray-500 group-hover:text-gray-400 transition-colors`} />
                   ) : (
-                    <Eye className={`h-5 w-5 ${darkMode ? 'text-gray-500 group-hover:text-gray-400' : 'text-gray-400 group-hover:text-gray-500'} transition-colors`} />
+                    <Eye className={`h-5 w-5 text-gray-500 group-hover:text-gray-400 transition-colors`} />
                   )}
                 </button>
               </div>
@@ -377,14 +341,14 @@ const ResetPassword = () => {
               <label
                 htmlFor="confirmPassword"
                 className={`block text-sm font-semibold mb-2 ${
-                  darkMode ? "text-gray-300" : "text-gray-700"
+                  'text-gray-300'
                 }`}
               >
                 Confirm New Password
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Lock className={`h-5 w-5 ${darkMode ? 'text-gray-500' : 'text-gray-400'}`} />
+                  <Lock className={`h-5 w-5 text-gray-500`} />
                 </div>
                 <input
                   id="confirmPassword"
@@ -395,9 +359,7 @@ const ResetPassword = () => {
                   onChange={handleChange}
                   placeholder="••••••••"
                   className={`w-full pl-12 pr-12 py-3 text-sm rounded-xl border outline-none transition-all duration-300 focus:ring-2 ${
-                    darkMode
-                      ? "bg-gray-800/50 border-gray-700/50 text-gray-100 placeholder-gray-500 focus:ring-emerald-500/50 focus:border-emerald-500/50"
-                      : "bg-white border-gray-300 text-gray-900 placeholder-gray-400 focus:ring-emerald-500/50 focus:border-emerald-500"
+                    'bg-gray-800/50 border-gray-700/50 text-gray-100 placeholder-gray-500 focus:ring-emerald-500/50 focus:border-emerald-500/50'
                   }`}
                 />
                 <button
@@ -407,9 +369,9 @@ const ResetPassword = () => {
                   tabIndex={-1}
                 >
                   {showConfirmPassword ? (
-                    <EyeOff className={`h-5 w-5 ${darkMode ? 'text-gray-500 group-hover:text-gray-400' : 'text-gray-400 group-hover:text-gray-500'} transition-colors`} />
+                    <EyeOff className={`h-5 w-5 text-gray-500 group-hover:text-gray-400 transition-colors`} />
                   ) : (
-                    <Eye className={`h-5 w-5 ${darkMode ? 'text-gray-500 group-hover:text-gray-400' : 'text-gray-400 group-hover:text-gray-500'} transition-colors`} />
+                    <Eye className={`h-5 w-5 text-gray-500 group-hover:text-gray-400 transition-colors`} />
                   )}
                 </button>
               </div>
@@ -424,16 +386,12 @@ const ResetPassword = () => {
               className={`w-full group relative flex items-center justify-center gap-2 text-base font-bold py-3.5 rounded-xl transition-all duration-300 shadow-xl overflow-hidden ${
                 loading
                   ? "bg-gray-400 cursor-not-allowed"
-                  : darkMode
-                  ? "bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:shadow-emerald-500/50 text-white"
-                  : "bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-600 hover:shadow-emerald-500/50 text-white"
+                  : 'bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:shadow-emerald-500/50 text-white'
               }`}
             >
               {!loading && (
                 <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-                  darkMode
-                    ? "bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-600"
-                    : "bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-600"
+                  'bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-600'
                 }`} />
               )}
               
@@ -451,13 +409,11 @@ const ResetPassword = () => {
             </motion.button>
 
             {/* Back to Login Link */}
-            <div className={`text-center pt-6 border-t ${darkMode ? 'border-gray-800' : 'border-gray-200'}`}>
+            <div className={`text-center pt-6 border-t border-gray-800`}>
               <Link
                 to="/login"
                 className={`inline-flex items-center text-sm font-bold transition-colors duration-300 ${
-                  darkMode
-                    ? "text-gray-400 hover:text-white"
-                    : "text-gray-600 hover:text-gray-900"
+                  'text-gray-400 hover:text-white'
                 }`}
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
@@ -475,13 +431,11 @@ const ResetPassword = () => {
           className="mt-8 text-center"
         >
           <div className={`inline-flex items-center px-4 py-2 rounded-full backdrop-blur-xl ${
-            darkMode
-              ? 'bg-gradient-to-r from-emerald-600/10 to-cyan-600/10 border border-emerald-500/20'
-              : 'bg-white/60 border border-emerald-200'
+            'bg-gradient-to-r from-emerald-600/10 to-cyan-600/10 border border-emerald-500/20'
           } shadow-lg`}>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className={`text-xs font-semibold ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              <span className={`text-xs font-semibold text-gray-400`}>
                 Secure password reset
               </span>
             </div>

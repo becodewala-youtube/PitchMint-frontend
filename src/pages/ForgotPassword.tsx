@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { API_URL } from '../utils/constants';
-import { useTheme } from '../contexts/ThemeContext';
+import api from '../utils/api';
+
+
 import { motion } from 'framer-motion';
 import { Lock, ArrowLeft, CheckCircle, Mail, Sparkles, ArrowRight } from 'lucide-react';
 
@@ -11,7 +11,6 @@ const ForgotPassword = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
-  const { darkMode } = useTheme();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,7 +18,7 @@ const ForgotPassword = () => {
     setError('');
 
     try {
-      await axios.post(`${API_URL}/api/auth/forgot-password`, { email });
+      await api.post(`/api/auth/forgot-password`, { email });
       setSuccess(true);
     } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to send reset email');
@@ -32,15 +31,10 @@ const ForgotPassword = () => {
     return (
       <div
         className={`relative min-h-screen flex items-center justify-center overflow-hidden ${
-          darkMode ? "bg-[#0a0118]" : "bg-gray-50"
+          'bg-[#0a0118]'
         } py-12 px-4 sm:px-6 lg:px-8`}
       >
-        {/* Enhanced Animated Background */}
-        <div className="fixed inset-0 overflow-hidden pointer-events-none">
-          
-          {/* Animated Grid */}
-          <div className={`absolute inset-0 ${darkMode ? 'bg-[linear-gradient(rgba(139,92,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.03)_1px,transparent_1px)]' : 'bg-[linear-gradient(rgba(139,92,246,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.05)_1px,transparent_1px)]'} bg-[size:64px_64px]`} />
-        </div>
+        <PageBackground theme="violet" />
 
         {/* Success Card */}
         <div className="relative z-10 max-w-md w-full">
@@ -49,16 +43,12 @@ const ForgotPassword = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6 }}
             className={`rounded-3xl shadow-2xl backdrop-blur-xl p-10 border ${
-              darkMode
-                ? "bg-gray-900/50 border-gray-800/50"
-                : "bg-white/80 border-gray-200"
+              'bg-gray-900/50 border-gray-800/50'
             }`}
           >
             {/* Gradient Glow */}
             <div className={`absolute -inset-1 rounded-3xl opacity-50 blur-2xl ${
-              darkMode
-                ? "bg-gradient-to-r from-emerald-600/20 via-teal-600/20 to-cyan-600/20"
-                : "bg-gradient-to-r from-emerald-300/30 via-teal-300/30 to-cyan-300/30"
+              'bg-gradient-to-r from-emerald-600/20 via-teal-600/20 to-cyan-600/20'
             }`} />
 
             <div className="relative text-center">
@@ -70,7 +60,7 @@ const ForgotPassword = () => {
 
               <h2
                 className={`text-2xl sm:text-3xl font-black mb-3 ${
-                  darkMode ? "text-white" : "text-gray-900"
+                  'text-white'
                 }`}
               >
                 Check Your Email
@@ -78,7 +68,7 @@ const ForgotPassword = () => {
               </h2>
               <p
                 className={`text-base mb-2 ${
-                  darkMode ? "text-gray-300" : "text-gray-600"
+                  'text-gray-300'
                 }`}
               >
                 We've sent a password reset link to
@@ -90,30 +80,24 @@ const ForgotPassword = () => {
               <Link
                 to="/reset-password"
                 className={`group relative flex items-center justify-center gap-2 w-full py-3.5 rounded-xl font-bold text-base transition-all duration-300 shadow-xl overflow-hidden ${
-                  darkMode
-                    ? "bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:shadow-emerald-500/50 text-white"
-                    : "bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-600 hover:shadow-emerald-500/50 text-white"
+                  'bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:shadow-emerald-500/50 text-white'
                 }`}
               >
                 <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-                  darkMode
-                    ? "bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-600"
-                    : "bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-600"
+                  'bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-600'
                 }`} />
                 
                 <span className="relative z-10">Continue to Reset Password</span>
                 <ArrowRight className="relative z-10 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
               </Link>
 
-              <div className={`mt-8 pt-6 border-t ${darkMode ? 'border-gray-800' : 'border-gray-200'}`}>
-                <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              <div className={`mt-8 pt-6 border-t border-gray-800`}>
+                <p className={`text-sm text-gray-400`}>
                   Didn't receive the email?{' '}
                   <button
                     onClick={() => setSuccess(false)}
                     className={`font-bold transition-colors ${
-                      darkMode
-                        ? "text-emerald-400 hover:text-emerald-300"
-                        : "text-emerald-600 hover:text-emerald-500"
+                      'text-emerald-400 hover:text-emerald-300'
                     }`}
                   >
                     Try again
@@ -131,13 +115,11 @@ const ForgotPassword = () => {
             className="mt-8 text-center"
           >
             <div className={`inline-flex items-center px-4 py-2 rounded-full backdrop-blur-xl ${
-              darkMode
-                ? 'bg-gradient-to-r from-emerald-600/10 to-cyan-600/10 border border-emerald-500/20'
-                : 'bg-white/60 border border-emerald-200'
+              'bg-gradient-to-r from-emerald-600/10 to-cyan-600/10 border border-emerald-500/20'
             } shadow-lg`}>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className={`text-xs font-semibold ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                <span className={`text-xs font-semibold text-gray-400`}>
                   Email sent successfully
                 </span>
               </div>
@@ -151,14 +133,14 @@ const ForgotPassword = () => {
   return (
     <div
       className={`relative min-h-screen flex items-center justify-center overflow-hidden ${
-        darkMode ? "bg-[#0a0118]" : "bg-gray-50"
+        'bg-[#0a0118]'
       } py-12 px-4 sm:px-6 lg:px-8`}
     >
       {/* Enhanced Animated Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
          
         {/* Animated Grid */}
-        <div className={`absolute inset-0 ${darkMode ? 'bg-[linear-gradient(rgba(139,92,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.03)_1px,transparent_1px)]' : 'bg-[linear-gradient(rgba(139,92,246,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.05)_1px,transparent_1px)]'} bg-[size:64px_64px]`} />
+        <div className={`absolute inset-0 bg-[linear-gradient(rgba(139,92,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.03)_1px,transparent_1px)] bg-[size:64px_64px]`} />
       </div>
 
       {/* Forgot Password Card */}
@@ -168,16 +150,12 @@ const ForgotPassword = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className={`rounded-3xl shadow-2xl backdrop-blur-xl p-8 sm:p-6 border ${
-            darkMode
-              ? "bg-gray-900/50 border-gray-800/50"
-              : "bg-white/80 border-gray-200"
+            'bg-gray-900/50 border-gray-800/50'
           }`}
         >
           {/* Gradient Glow */}
           <div className={`absolute -inset-1 rounded-3xl opacity-50 blur-2xl ${
-            darkMode
-              ? "bg-gradient-to-r from-orange-600/20 via-amber-600/20 to-yellow-600/20"
-              : "bg-gradient-to-r from-orange-300/30 via-amber-300/30 to-yellow-300/30"
+            'bg-gradient-to-r from-orange-600/20 via-amber-600/20 to-yellow-600/20'
           }`} />
 
           {/* Header */}
@@ -192,7 +170,7 @@ const ForgotPassword = () => {
             </div>
             <h2
               className={`text-md sm:text-lg font-black mb-1 ${
-                darkMode ? "text-white" : "text-gray-900"
+                'text-white'
               }`}
             >
               Forgot Password?
@@ -200,7 +178,7 @@ const ForgotPassword = () => {
             </h2>
             <p
               className={`text-xs  ${
-                darkMode ? "text-gray-400" : "text-gray-600"
+                'text-gray-400'
               }`}
             >
               Enter your email address to receive a password reset link
@@ -228,14 +206,14 @@ const ForgotPassword = () => {
               <label
                 htmlFor="email"
                 className={`block text-xs font-semibold mb-2 ${
-                  darkMode ? "text-gray-300" : "text-gray-700"
+                  'text-gray-300'
                 }`}
               >
                 Email Address
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Mail className={`h-3 w-3 ${darkMode ? 'text-gray-500' : 'text-gray-400'}`} />
+                  <Mail className={`h-3 w-3 text-gray-500`} />
                 </div>
                 <input
                   id="email"
@@ -245,9 +223,7 @@ const ForgotPassword = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
                   className={`w-full pl-12 pr-4 py-2 text-sm rounded-xl border outline-none transition-all duration-300 focus:ring-1 ${
-                    darkMode
-                      ? "bg-gray-800/50 border-gray-700/50 text-gray-100 placeholder-gray-500 focus:ring-orange-500/50 focus:border-orange-500/50"
-                      : "bg-white border-gray-300 text-gray-900 placeholder-gray-400 focus:ring-orange-500/50 focus:border-orange-500"
+                    'bg-gray-800/50 border-gray-700/50 text-gray-100 placeholder-gray-500 focus:ring-orange-500/50 focus:border-orange-500/50'
                   }`}
                 />
               </div>
@@ -262,16 +238,12 @@ const ForgotPassword = () => {
               className={`w-full group relative flex items-center justify-center gap-2 text-base font-bold py-2 rounded-xl transition-all duration-300 shadow-xl overflow-hidden ${
                 loading || !email
                   ? "bg-gray-400 cursor-not-allowed"
-                  : darkMode
-                  ? "bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 hover:shadow-orange-500/50 text-white"
-                  : "bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-600 hover:shadow-orange-500/50 text-white"
+                  : 'bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 hover:shadow-orange-500/50 text-white'
               }`}
             >
               {!(loading || !email) && (
                 <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-                  darkMode
-                    ? "bg-gradient-to-r from-yellow-600 via-amber-600 to-orange-600"
-                    : "bg-gradient-to-r from-yellow-600 via-amber-600 to-orange-600"
+                  'bg-gradient-to-r from-yellow-600 via-amber-600 to-orange-600'
                 }`} />
               )}
               
@@ -289,13 +261,11 @@ const ForgotPassword = () => {
             </motion.button>
 
             {/* Back to Login Link */}
-            <div className={`text-center  pt-4 border-t ${darkMode ? 'border-gray-800' : 'border-gray-200'}`}>
+            <div className={`text-center  pt-4 border-t border-gray-800`}>
               <Link
                 to="/login"
                 className={`inline-flex items-center text-sm font-bold transition-colors duration-300 ${
-                  darkMode
-                    ? "text-gray-400 hover:text-white"
-                    : "text-gray-600 hover:text-gray-900"
+                  'text-gray-400 hover:text-white'
                 }`}
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
@@ -313,13 +283,11 @@ const ForgotPassword = () => {
           className="mt-8 text-center"
         >
           <div className={`inline-flex items-center px-4 py-2 rounded-full backdrop-blur-xl ${
-            darkMode
-              ? 'bg-gradient-to-r from-orange-600/10 to-yellow-600/10 border border-orange-500/20'
-              : 'bg-white/60 border border-orange-200'
+            'bg-gradient-to-r from-orange-600/10 to-yellow-600/10 border border-orange-500/20'
           } shadow-lg`}>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
-              <span className={`text-xs font-semibold ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              <span className={`text-xs font-semibold text-gray-400`}>
                 Secure password recovery
               </span>
             </div>

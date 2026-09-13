@@ -1,16 +1,11 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { API_URL } from '../utils/constants';
-import { useTheme } from '../contexts/ThemeContext';
-import { login } from '../store/slices/authSlice';
+import api from '../utils/api';
 
-declare global {
-  interface Window {
-    google: any;
-  }
-}
+
+import { setAuthenticated } from '../store/slices/authSlice';
+
 
 interface GoogleSignInProps {
   onSuccess?: () => void;
@@ -20,7 +15,6 @@ interface GoogleSignInProps {
 const GoogleSignIn = ({ onSuccess, onError }: GoogleSignInProps) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { darkMode } = useTheme();
 
   useEffect(() => {
     // Load Google Sign-In script
@@ -40,7 +34,7 @@ const GoogleSignIn = ({ onSuccess, onError }: GoogleSignInProps) => {
         window.google.accounts.id.renderButton(
           document.getElementById('google-signin-button'),
           {
-            theme: darkMode ? 'filled_black' : 'outline',
+            theme: 'filled_black',
             size: 'medium',
             width: '100%',
             text: 'continue_with',
@@ -60,22 +54,18 @@ const GoogleSignIn = ({ onSuccess, onError }: GoogleSignInProps) => {
 
  const handleCredentialResponse = async (response: any) => {
   try {
-    const result = await axios.post(`${API_URL}/api/auth/google`, {
+    const result = await api.post(`/api/auth/google`, {
       credential: response.credential,
     });
 
-    // CRITICAL FIX: Store token and user data in localStorage
+    // CRITICAL FIX: Store token in localStorage (do not store full user object)
     localStorage.setItem('token', result.data.token);
-    localStorage.setItem('user', JSON.stringify(result.data.user));
 
-    // Use Redux action to properly handle authentication
-    const authData = {
+    // Update Redux store with authenticated state
+    dispatch(setAuthenticated({
       token: result.data.token,
       user: result.data.user
-    };
-
-    // Dispatch login action to update Redux store
-    dispatch(login.fulfilled(authData, '', { email: '', password: '' }));
+    }));
 
     if (onSuccess) {
       onSuccess();

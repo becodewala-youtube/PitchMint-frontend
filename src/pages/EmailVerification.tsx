@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import axios from 'axios';
-import { API_URL } from '../utils/constants';
-import { useTheme } from '../contexts/ThemeContext';
+import api from '../utils/api';
+
+
 import { motion } from 'framer-motion';
 import { Mail, RefreshCw, CheckCircle } from 'lucide-react';
 import { verifyEmail } from '../store/slices/authSlice'; // ✅ Import the action
@@ -17,8 +17,7 @@ const EmailVerification = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { darkMode } = useTheme();
+  const dispatch = useAppDispatch();
 
   const handleVerify = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,7 +55,7 @@ const EmailVerification = () => {
     setError('');
 
     try {
-      await axios.post(`${API_URL}/api/auth/resend-verification`, { email });
+      await api.post(`/api/auth/resend-verification`, { email });
       // Show success message (you might want to add a success state)
       alert('Verification code resent successfully!');
     } catch (err: any) {
@@ -69,24 +68,22 @@ const EmailVerification = () => {
   if (success) {
     return (
       <div className={`min-h-screen flex items-center justify-center py-12 px-4 ${
-        darkMode ? 'bg-[#0a0118]' : 'bg-gray-50'
+        'bg-[#0a0118]'
       }`}>
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           className={`rounded-3xl shadow-2xl backdrop-blur-xl p-8 text-center max-w-md w-full border ${
-            darkMode
-              ? 'bg-gray-900/50 border-gray-800/50'
-              : 'bg-white/80 border-gray-200'
+            'bg-gray-900/50 border-gray-800/50'
           }`}
         >
           <div className="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-500 to-green-600 mx-auto mb-6 flex items-center justify-center">
             <CheckCircle className="h-12 w-12 text-white" />
           </div>
-          <h2 className={`text-lg font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+          <h2 className={`text-lg font-bold mb-4 text-white`}>
             Email Verified!
           </h2>
-          <p className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} mb-4`}>
+          <p className={`text-gray-300 mb-4`}>
             Your email has been successfully verified. Redirecting to dashboard...
           </p>
           <div className="w-8 h-8 border-4 border-violet-500/30 border-t-violet-500 rounded-full animate-spin mx-auto"></div>
@@ -97,7 +94,7 @@ const EmailVerification = () => {
 
   return (
     <div className={`relative min-h-screen flex items-center justify-center py-12 px-4 ${
-      darkMode ? 'bg-[#0a0118]' : 'bg-gray-50'
+      'bg-[#0a0118]'
     }`}>
       {/* Animated Background */}
       
@@ -107,22 +104,20 @@ const EmailVerification = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className={`rounded-3xl shadow-2xl backdrop-blur-xl p-4 border ${
-            darkMode
-              ? 'bg-gray-900/50 border-gray-800/50'
-              : 'bg-white/80 border-gray-200'
+            'bg-gray-900/50 border-gray-800/50'
           }`}
         >
           <div className="text-center mb-4">
             <div className="w-8 h-8 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 mx-auto mb-1 flex items-center justify-center shadow-2xl shadow-blue-500/50">
               <Mail className="h-4 w-4 text-white" />
             </div>
-            <h2 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'} mb-1`}>
+            <h2 className={`text-xl font-bold text-white mb-1`}>
               Verify Your Email
             </h2>
-            <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+            <p className={`text-sm text-gray-400`}>
               We've sent a verification code to
             </p>
-            <p className={`text-sm font-semibold ${darkMode ? 'text-white' : 'text-gray-900'} mt-1`}>
+            <p className={`text-sm font-semibold text-white mt-1`}>
               {email}
             </p>
           </div>
@@ -149,9 +144,7 @@ const EmailVerification = () => {
                 value={verificationCode}
                 onChange={(e) => setVerificationCode(e.target.value)}
                 className={`w-full px-4 py-1 text-center text-md tracking-widest rounded-xl border outline-none transition-all duration-300 focus:ring-2 ${
-                  darkMode
-                    ? 'bg-gray-800/50 border-gray-700/50 text-gray-100 placeholder-gray-500 focus:ring-violet-500/50 focus:border-violet-500/50'
-                    : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 focus:ring-violet-500/50 focus:border-violet-500'
+                  'bg-gray-800/50 border-gray-700/50 text-gray-100 placeholder-gray-500 focus:ring-violet-500/50 focus:border-violet-500/50'
                 }`}
                 placeholder="000000"
                 maxLength={6}
@@ -180,7 +173,7 @@ const EmailVerification = () => {
             </motion.button>
 
             <div className="text-center pt-1">
-              <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-2`}>
+              <p className={`text-sm text-gray-400 mb-2`}>
                 Didn't receive the code?
               </p>
               <motion.button

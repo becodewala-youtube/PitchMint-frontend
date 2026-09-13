@@ -7,7 +7,7 @@ import {
   clearError,
 } from "../store/slices/ideaSlice";
 import { RootState } from "../store";
-import { useTheme } from "../contexts/ThemeContext";
+
 import {
   ChevronLeft,
   ChevronRight,
@@ -24,12 +24,12 @@ import { motion } from "framer-motion";
 import InsufficientCreditsModal from "../components/modals/InsufficientCreditsModal";
 import Markdown from "react-markdown";
 import PitchDeckSkeleton from "../components/skeleton/PitchDeckSkeleton";
+import SlideThumbnails from "../components/pitch-deck/SlideThumbnails";
 
 const PitchDeck = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { darkMode } = useTheme();
+  const dispatch = useAppDispatch();
 
   const {
     currentIdea: idea,
@@ -43,7 +43,7 @@ const PitchDeck = () => {
 
   useEffect(() => {
     if (id && !idea) {
-      dispatch(getIdea(id) as any);
+      dispatch(getIdea(id));
     }
   }, [dispatch, id, idea]);
 
@@ -51,7 +51,7 @@ const PitchDeck = () => {
     if (id && !isGenerating && !loading) {
       try {
         setIsGenerating(true);
-        await dispatch(generatePitchDeck(id) as any);
+        await dispatch(generatePitchDeck(id));
       } finally {
         setIsGenerating(false);
       }
@@ -70,8 +70,7 @@ const PitchDeck = () => {
     try {
       setExportLoading(true);
       await exportAllSlidesToPDF(slides, `pitch-deck-${id}`, darkMode);
-    } catch (error) {
-      console.error("Failed to export PDF:", error);
+    } catch (error) { (import.meta.env.DEV) console.error("Failed to export PDF:", error);
     } finally {
       setExportLoading(false);
     }
@@ -104,7 +103,7 @@ const PitchDeck = () => {
   if (error) {
     return (
       <div
-        className={`min-h-screen flex items-center justify-center ${darkMode ? "bg-[#0a0118]" : "bg-gray-50"}`}
+        className={`min-h-screen flex items-center justify-center bg-[#0a0118]`}
       >
         <motion.div
           className="text-center"
@@ -116,12 +115,12 @@ const PitchDeck = () => {
             <AlertCircle className="h-10 w-10 text-white" />
           </div>
           <h3
-            className={`text-2xl font-black mb-2 ${darkMode ? "text-white" : "text-gray-900"}`}
+            className={`text-2xl font-black mb-2 text-white`}
           >
             Oops! Something went wrong
           </h3>
           <p
-            className={`text-lg ${darkMode ? "text-gray-400" : "text-gray-600"}`}
+            className={`text-lg text-gray-400`}
           >
             {error}
           </p>
@@ -191,27 +190,9 @@ const PitchDeck = () => {
 
   return (
     <div
-      className={`min-h-screen relative overflow-hidden ${darkMode ? "bg-[#0a0118]" : "bg-gray-50"}`}
+      className={`min-h-screen relative overflow-hidden bg-[#0a0118]`}
     >
-      {/* Enhanced Animated Background */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        {/* Primary Gradient Orbs */}
-
-        {/* Mesh Gradient Overlay */}
-        <div
-          className={`absolute inset-0 ${darkMode ? "bg-gradient-to-b from-transparent via-purple-500/5 to-transparent" : "bg-gradient-to-b from-transparent via-purple-200/10 to-transparent"}`}
-        />
-
-        {/* Animated Grid */}
-        <div
-          className={`absolute inset-0 ${darkMode ? "bg-[linear-gradient(rgba(139,92,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.03)_1px,transparent_1px)]" : "bg-[linear-gradient(rgba(139,92,246,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.05)_1px,transparent_1px)]"} bg-[size:64px_64px]`}
-        />
-
-        {/* Floating Elements */}
-        <div
-          className="absolute top-20 left-[10%] w-2 h-2 bg-violet-400 rounded-full animate-bounce opacity-60"
-          style={{ animationDuration: "3s", animationDelay: "0s" }}
-        ></div>
+      <PageBackground theme="violet" />
         <div
           className="absolute top-40 right-[15%] w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce opacity-60"
           style={{ animationDuration: "4s", animationDelay: "1s" }}
@@ -234,13 +215,13 @@ const PitchDeck = () => {
             <div>
               <div className="flex items-center gap-3 mb-2">
                 <div
-                  className={`w-6 sm:w-8 h-6 sm:h-8 rounded-2xl bg-gradient-to-br from-violet-600 to-purple-500 flex items-center justify-center shadow-2xl ${darkMode ? "shadow-violet-500/50" : "shadow-violet-500/30"}`}
+                  className={`w-6 sm:w-8 h-6 sm:h-8 rounded-2xl bg-gradient-to-br from-violet-600 to-purple-500 flex items-center justify-center shadow-2xl shadow-violet-500/50`}
                 >
                   <Presentation className="w-4 h-4 text-white" />
                 </div>
                 <div>
                   <h1
-                    className={`text-lg md:text-xl font-black ${darkMode ? "text-white" : "text-gray-900"}`}
+                    className={`text-lg md:text-xl font-black text-white`}
                   >
                     Pitch{" "}
                     <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent">
@@ -250,7 +231,7 @@ const PitchDeck = () => {
                 </div>
               </div>
               <p
-                className={`text-xs ${darkMode ? "text-gray-400" : "text-gray-600"} font-medium flex items-center gap-2 ml-15`}
+                className={`text-xs text-gray-400 font-medium flex items-center gap-2 ml-15`}
               >
                 <Sparkles className="w-4 h-4 text-violet-400" />
                 Professional investor presentation
@@ -298,21 +279,17 @@ const PitchDeck = () => {
             {/* Main Slide Card */}
             <div
               className={`relative overflow-hidden rounded-3xl mb-4 ${
-                darkMode
-                  ? "bg-gray-900/50 border border-gray-800/50"
-                  : "bg-white border border-gray-200"
+                'bg-gray-900/50 border border-gray-800/50'
               } backdrop-blur-xl`}
             >
               {/* Slide Navigation Header */}
               <div
-                className={`flex justify-between items-center px-6 py-1 border-b ${darkMode ? "border-gray-800" : "border-gray-200"}`}
+                className={`flex justify-between items-center px-6 py-1 border-b border-gray-800`}
               >
                 <motion.button
                   onClick={prevSlide}
                   className={`group w-6 sm:w-8 h-6 sm:h-8 rounded-xl flex items-center justify-center transition-all duration-300 ${
-                    darkMode
-                      ? "bg-gray-800/50 hover:bg-gradient-to-r hover:from-violet-600 hover:to-purple-600 text-gray-300 hover:text-white border border-gray-700/50"
-                      : "bg-gray-100 hover:bg-gradient-to-r hover:from-violet-600 hover:to-purple-600 text-gray-600 hover:text-white border border-gray-200"
+                    'bg-gray-800/50 hover:bg-gradient-to-r hover:from-violet-600 hover:to-purple-600 text-gray-300 hover:text-white border border-gray-700/50'
                   } hover:scale-110`}
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
@@ -322,7 +299,7 @@ const PitchDeck = () => {
 
                 <div className="text-center">
                   <div
-                    className={`text-sm font-bold mb-1 ${darkMode ? "text-white" : "text-gray-900"}`}
+                    className={`text-sm font-bold mb-1 text-white`}
                   >
                     Slide {currentSlide + 1} of {slides.length}
                   </div>
@@ -336,9 +313,7 @@ const PitchDeck = () => {
                 <motion.button
                   onClick={nextSlide}
                   className={`group w-6 sm:w-8 h-6 sm:h-8 rounded-xl flex items-center justify-center transition-all duration-300 ${
-                    darkMode
-                      ? "bg-gray-800/50 hover:bg-gradient-to-r hover:from-violet-600 hover:to-purple-600 text-gray-300 hover:text-white border border-gray-700/50"
-                      : "bg-gray-100 hover:bg-gradient-to-r hover:from-violet-600 hover:to-purple-600 text-gray-600 hover:text-white border border-gray-200"
+                    'bg-gray-800/50 hover:bg-gradient-to-r hover:from-violet-600 hover:to-purple-600 text-gray-300 hover:text-white border border-gray-700/50'
                   } hover:scale-110`}
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
@@ -362,7 +337,7 @@ const PitchDeck = () => {
                       className={`w-1 h-4 sm:h-6 rounded-full bg-gradient-to-b ${slides[currentSlide].gradient}`}
                     ></div>
                     <h2
-                      className={`text-md md:text-xl font-black ${darkMode ? "text-white" : "text-gray-900"}`}
+                      className={`text-md md:text-xl font-black text-white`}
                     >
                       {slides[currentSlide].title}
                     </h2>
@@ -371,9 +346,7 @@ const PitchDeck = () => {
                   {/* Slide Content */}
                   <div
                     className={`prose prose-lg text-xs sm:text-sm max-w-none text-justify leading-relaxed ${
-                      darkMode
-                        ? "prose-invert prose-headings:text-white prose-p:text-gray-300 prose-strong:text-white prose-ul:text-gray-300"
-                        : "prose-headings:text-gray-900 prose-p:text-gray-700 prose-strong:text-gray-900 prose-ul:text-gray-700"
+                      'prose-invert prose-headings:text-white prose-p:text-gray-300 prose-strong:text-white prose-ul:text-gray-300'
                     }`}
                   >
                     <Markdown>{slides[currentSlide].content}</Markdown>
@@ -383,65 +356,11 @@ const PitchDeck = () => {
             </div>
 
             {/* Slide Thumbnails */}
-            <div
-              className={`relative overflow-hidden rounded-3xl p-3 ${
-                darkMode
-                  ? "bg-gray-900/50 border border-gray-800/50"
-                  : "bg-white border border-gray-200"
-              } backdrop-blur-xl`}
-            >
-              <div className="flex items-center justify-between mb-4">
-                <h3
-                  className={`text-sm font-bold ${darkMode ? "text-white" : "text-gray-900"}`}
-                >
-                  All Slides
-                </h3>
-                <div
-                  className={`text-xs font-medium ${darkMode ? "text-gray-400" : "text-gray-600"}`}
-                >
-                  {slides.length} slides total
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-                {slides.map((slide, index) => (
-                  <motion.button
-                    key={slide.title}
-                    onClick={() => setCurrentSlide(index)}
-                    className={`group relative overflow-hidden p-2 sm:p-3 rounded-xl transition-all duration-300 ${
-                      currentSlide === index
-                        ? `bg-gradient-to-br ${slide.gradient} text-white shadow-xl`
-                        : darkMode
-                          ? "bg-gray-800/50 text-gray-300 hover:bg-gray-800 border border-gray-700/50"
-                          : "bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-200"
-                    } hover:scale-105`}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    {/* Gradient overlay for non-active slides */}
-                    {currentSlide !== index && (
-                      <div
-                        className={`absolute inset-0 bg-gradient-to-br ${slide.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
-                      ></div>
-                    )}
-
-                    <div className="relative flex items-center gap-2">
-                      <div
-                        className={`text-xs font-bold ${currentSlide === index ? "text-white" : ""}`}
-                      >
-                        {index + 1}.
-                      </div>
-
-                      <div
-                        className={`text-xs font-semibold line-clamp-2 ${currentSlide === index ? "text-white" : ""}`}
-                      >
-                        {slide.title}
-                      </div>
-                    </div>
-                  </motion.button>
-                ))}
-              </div>
-            </div>
+            <SlideThumbnails 
+              slides={slides} 
+              currentSlide={currentSlide} 
+              setCurrentSlide={setCurrentSlide} 
+            />
           </motion.div>
         ) : (
           <motion.div
@@ -451,19 +370,19 @@ const PitchDeck = () => {
             transition={{ duration: 0.8 }}
           >
             <div
-              className={`w-24 h-24 rounded-3xl bg-gradient-to-br from-violet-600 to-fuchsia-500 flex items-center justify-center mx-auto mb-6 shadow-2xl ${darkMode ? "shadow-violet-500/50" : "shadow-violet-500/30"}`}
+              className={`w-24 h-24 rounded-3xl bg-gradient-to-br from-violet-600 to-fuchsia-500 flex items-center justify-center mx-auto mb-6 shadow-2xl shadow-violet-500/50`}
             >
               <FileText className="h-12 w-12 text-white" />
             </div>
             <h3
-              className={`text-2xl font-black mb-3 ${darkMode ? "text-white" : "text-gray-900"}`}
+              className={`text-2xl font-black mb-3 text-white`}
             >
               {isGenerating
                 ? "Generating Your Pitch Deck..."
                 : "No Pitch Deck Available"}
             </h3>
             <p
-              className={`text-lg mb-8 ${darkMode ? "text-gray-400" : "text-gray-600"} max-w-2xl mx-auto`}
+              className={`text-lg mb-8 text-gray-400 max-w-2xl mx-auto`}
             >
               {isGenerating
                 ? "Please wait while we create your professional pitch deck with AI-powered insights."

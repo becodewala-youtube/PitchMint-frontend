@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIdea } from '../store/slices/ideaSlice';
 import { RootState } from '../store';
-import { useTheme } from '../contexts/ThemeContext';
+
 import IdeaAnalysisSkeleton from '../components/skeleton/IdeaAnalysisSkeleton';
 import { FileText, Layout, AlertCircle, Users, MessageSquare, Sparkles, Target, TrendingUp, DollarSign, Award, CheckCircle2, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -11,14 +11,13 @@ import { motion } from 'framer-motion';
 const IdeaResults = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { darkMode } = useTheme();
+  const dispatch = useAppDispatch();
   
   const { currentIdea: idea, loading, error } = useSelector((state: RootState) => state.idea);
 
   useEffect(() => {
     if (id && !idea) {
-      dispatch(getIdea(id) as any);
+      dispatch(getIdea(id));
     }
   }, [dispatch, id, idea]);
 
@@ -56,7 +55,7 @@ const IdeaResults = () => {
 
   if (error) {
     return (
-      <div className={`min-h-screen flex items-center justify-center ${darkMode ? 'bg-[#0a0118]' : 'bg-gray-50'}`}>
+      <div className={`min-h-screen flex items-center justify-center bg-[#0a0118]`}>
         <motion.div 
           className="text-center"
           initial={{ opacity: 0, scale: 0.9 }}
@@ -66,8 +65,8 @@ const IdeaResults = () => {
           <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-red-500 to-pink-500 flex items-center justify-center mx-auto mb-6 shadow-2xl shadow-red-500/50">
             <AlertCircle className="h-10 w-10 text-white" />
           </div>
-          <h3 className={`text-2xl font-black mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Oops! Something went wrong</h3>
-          <p className={`text-lg ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{error}</p>
+          <h3 className={`text-2xl font-black mb-2 text-white`}>Oops! Something went wrong</h3>
+          <p className={`text-lg text-gray-400`}>{error}</p>
         </motion.div>
       </div>
     );
@@ -140,16 +139,8 @@ const IdeaResults = () => {
   ];
 
   return (
-    <div className={`min-h-screen relative overflow-hidden ${darkMode ? 'bg-[#0a0118]' : 'bg-gray-50'}`}>
-      {/* Enhanced Animated Background */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        {/* Primary Gradient Orbs */}
-       
-        {/* Animated Grid */}
-        <div className={`absolute inset-0 ${darkMode ? 'bg-[linear-gradient(rgba(139,92,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.03)_1px,transparent_1px)]' : 'bg-[linear-gradient(rgba(139,92,246,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.05)_1px,transparent_1px)]'} bg-[size:64px_64px]`} />
-
-        {/* Floating Elements */}
-        <div className="absolute top-20 left-[10%] w-2 h-2 bg-violet-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3s', animationDelay: '0s' }}></div>
+    <div className={`min-h-screen relative overflow-hidden bg-[#0a0118]`}>
+      <PageBackground theme="violet" />
         <div className="absolute top-40 right-[15%] w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '4s', animationDelay: '1s' }}></div>
         <div className="absolute bottom-32 left-[20%] w-2.5 h-2.5 bg-fuchsia-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3.5s', animationDelay: '2s' }}></div>
       </div>
@@ -164,17 +155,17 @@ const IdeaResults = () => {
         >
           {/* Title */}
           <div className="flex items-center gap-3 mb-4">
-            <div className={`w-8 h-8 rounded-2xl bg-gradient-to-br from-violet-600 to-fuchsia-500 flex items-center justify-center shadow-2xl ${darkMode ? 'shadow-violet-500/50' : 'shadow-violet-500/30'}`}>
+            <div className={`w-8 h-8 rounded-2xl bg-gradient-to-br from-violet-600 to-fuchsia-500 flex items-center justify-center shadow-2xl shadow-violet-500/50`}>
               <Sparkles className="w-4 h-4 text-white" />
             </div>
             <div>
-              <h1 className={`text-mf md:text-lg font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h1 className={`text-mf md:text-lg font-black text-white`}>
                 Idea Analysis{" "}
                 <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent">
                   Results
                 </span>
               </h1>
-              <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'} font-medium`}>
+              <p className={`text-xs text-gray-400 font-medium`}>
                 Comprehensive validation and insights
               </p>
             </div>
@@ -182,7 +173,7 @@ const IdeaResults = () => {
 
           {/* Idea Card */}
           <div className={`relative overflow-hidden rounded-3xl p-2 sm:p-3 mb-6 ${
-            darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'
+            'bg-gray-900/50 border border-gray-800/50'
           } backdrop-blur-xl`}>
             <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 via-purple-500/10 to-fuchsia-500/10 opacity-50"></div>
             <div className="relative">
@@ -191,10 +182,10 @@ const IdeaResults = () => {
                   <CheckCircle2 className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
                 </div>
                 <div className="flex-1">
-                  <h3 className={`text-sm font-bold mb-1 ${darkMode ? 'text-violet-400' : 'text-violet-600'}`}>
+                  <h3 className={`text-sm font-bold mb-1 text-violet-400`}>
                     Your Startup Idea
                   </h3>
-                  <p className={`text-xs md:text-sm text-justify leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <p className={`text-xs md:text-sm text-justify leading-relaxed text-gray-300`}>
                     {idea?.ideaText}
                   </p>
                 </div>
@@ -205,9 +196,7 @@ const IdeaResults = () => {
                 <motion.button
                   onClick={handleGeneratePitchDeck}
                   className={`group/btn inline-flex items-center justify-center px-4 py-1 sm:py-2 rounded-xl text-xs font-bold transition-all duration-300 ${
-                    darkMode
-                      ? 'bg-gray-800/50 text-gray-300 hover:bg-gradient-to-r hover:from-violet-600 hover:to-purple-600 hover:text-white border border-gray-700/50 hover:border-violet-500/50'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gradient-to-r hover:from-violet-600 hover:to-purple-600 hover:text-white border border-gray-200 hover:border-violet-300'
+                    'bg-gray-800/50 text-gray-300 hover:bg-gradient-to-r hover:from-violet-600 hover:to-purple-600 hover:text-white border border-gray-700/50 hover:border-violet-500/50'
                   } hover:scale-105 hover:shadow-lg`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -219,9 +208,7 @@ const IdeaResults = () => {
                 <motion.button
                   onClick={handleGenerateCanvas}
                   className={`group/btn inline-flex items-center justify-center px-4 py-1 sm:py-2 rounded-xl text-xs font-bold transition-all duration-300 ${
-                    darkMode
-                      ? 'bg-gray-800/50 text-gray-300 hover:bg-gradient-to-r hover:from-cyan-600 hover:to-blue-600 hover:text-white border border-gray-700/50 hover:border-cyan-500/50'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gradient-to-r hover:from-cyan-600 hover:to-blue-600 hover:text-white border border-gray-200 hover:border-cyan-300'
+                    'bg-gray-800/50 text-gray-300 hover:bg-gradient-to-r hover:from-cyan-600 hover:to-blue-600 hover:text-white border border-gray-700/50 hover:border-cyan-500/50'
                   } hover:scale-105 hover:shadow-lg`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -233,9 +220,7 @@ const IdeaResults = () => {
                 <motion.button
                   onClick={handleCompetitorAnalysis}
                   className={`group/btn inline-flex items-center justify-center px-4 py-1 sm:py-2 rounded-xl text-xs font-bold transition-all duration-300 ${
-                    darkMode
-                      ? 'bg-gray-800/50 text-gray-300 hover:bg-gradient-to-r hover:from-emerald-600 hover:to-teal-600 hover:text-white border border-gray-700/50 hover:border-emerald-500/50'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gradient-to-r hover:from-emerald-600 hover:to-teal-600 hover:text-white border border-gray-200 hover:border-emerald-300'
+                    'bg-gray-800/50 text-gray-300 hover:bg-gradient-to-r hover:from-emerald-600 hover:to-teal-600 hover:text-white border border-gray-700/50 hover:border-emerald-500/50'
                   } hover:scale-105 hover:shadow-lg`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -247,9 +232,7 @@ const IdeaResults = () => {
                 <motion.button
                   onClick={handlePitchSimulator}
                   className={`group/btn inline-flex items-center justify-center px-4 py-1 sm:py-2 rounded-xl text-xs font-bold transition-all duration-300 ${
-                    darkMode
-                      ? 'bg-gray-800/50 text-gray-300 hover:bg-gradient-to-r hover:from-orange-600 hover:to-red-600 hover:text-white border border-gray-700/50 hover:border-orange-500/50'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gradient-to-r hover:from-orange-600 hover:to-red-600 hover:text-white border border-gray-200 hover:border-orange-300'
+                    'bg-gray-800/50 text-gray-300 hover:bg-gradient-to-r hover:from-orange-600 hover:to-red-600 hover:text-white border border-gray-700/50 hover:border-orange-500/50'
                   } hover:scale-105 hover:shadow-lg`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -268,9 +251,7 @@ const IdeaResults = () => {
             <motion.div
               key={score.label}
               className={`group relative overflow-hidden rounded-2xl md:rounded-3xl p-4 ${
-                darkMode
-                  ? "bg-gray-900/50 border border-gray-800/50"
-                  : "bg-white border border-gray-200"
+                'bg-gray-900/50 border border-gray-800/50'
               } backdrop-blur-xl hover:scale-105 transition-all duration-500 cursor-pointer`}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -296,18 +277,18 @@ const IdeaResults = () => {
                   </div>
                 </div>
 
-                <h3 className={`text-xs font-semibold mb-1 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                <h3 className={`text-xs font-semibold mb-1 text-gray-400`}>
                   {score.label}
                 </h3>
-                <p className={`text-md sm:text-xl font-black mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <p className={`text-md sm:text-xl font-black mb-1 text-white`}>
                   {score.value}%
                 </p>
-                <p className={`text-xs ${darkMode ? 'text-gray-500' : 'text-gray-500'}`}>
+                <p className={`text-xs text-gray-500`}>
                   {score.description}
                 </p>
 
                 {/* Progress Bar */}
-                <div className={`w-full mt-2 sm:mt-4 rounded-full h-1 sm:h-2 ${darkMode ? 'bg-gray-800' : 'bg-gray-200'} overflow-hidden`}>
+                <div className={`w-full mt-2 sm:mt-4 rounded-full h-1 sm:h-2 bg-gray-800 overflow-hidden`}>
                   <motion.div
                     className={`h-2 rounded-full bg-gradient-to-r ${score.gradient}`}
                     initial={{ width: 0 }}
@@ -327,13 +308,13 @@ const IdeaResults = () => {
           transition={{ duration: 0.8, delay: 0.6 }}
         >
           <div className="mb-6">
-            <h2 className={`text-md md:text-lg font-black mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h2 className={`text-md md:text-lg font-black mb-1 text-white`}>
               Detailed{" "}
               <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent">
                 Analysis
               </span>
             </h2>
-            <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+            <p className={`text-xs text-gray-400`}>
               In-depth breakdown of your startup idea
             </p>
           </div>
@@ -343,7 +324,7 @@ const IdeaResults = () => {
               <motion.div
                 key={analysis.title}
                 className={`group relative overflow-hidden rounded-2xl p-3 ${
-                  darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'
+                  'bg-gray-900/50 border border-gray-800/50'
                 } backdrop-blur-xl hover:scale-[1.02] transition-all duration-500`}
                 initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -358,11 +339,11 @@ const IdeaResults = () => {
                     <div className={`w-8 h-8 rounded-xl bg-gradient-to-br ${analysis.gradient} flex items-center justify-center mr-3 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
                       <analysis.icon className="w-4 h-4 text-white" />
                     </div>
-                    <h3 className={`text-sm font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <h3 className={`text-sm font-bold text-white`}>
                       {analysis.title}
                     </h3>
                   </div>
-                  <p className={`text-xs text-justify leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                  <p className={`text-xs text-justify leading-relaxed text-gray-300`}>
                     {analysis.content}
                   </p>
                 </div>

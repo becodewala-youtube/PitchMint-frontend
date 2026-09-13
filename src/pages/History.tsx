@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store';
 import { fetchUserHistory } from '../store/slices/historySlice';
-import { useTheme } from '../contexts/ThemeContext';
+
 import { motion, AnimatePresence } from 'framer-motion';
 import { History as HistoryIcon, Brain, Users, MessageSquare, TrendingUp, Target, Filter, Calendar, Eye, X, Sparkles, Zap } from 'lucide-react';
 import ActivityHistorySkeleton from '../components/skeleton/ActivityHistorySkeleton';
+import { useAppDispatch } from '../store/hooks';
 
 // ============ ALL YOUR EXISTING INTERFACES - UNCHANGED ============
 interface BaseActivity {
@@ -216,7 +217,6 @@ const History = () => {
   );
 
   const { token } = useSelector((state: RootState) => state.auth);
-  const { darkMode } = useTheme();
 
   const serviceTypes = [
     { value: 'all', label: 'All Activities', icon: HistoryIcon, gradient: 'from-purple-600 to-pink-600' },
@@ -228,11 +228,17 @@ const History = () => {
   ];
 
 
-useEffect(() => {
-  if (token && !fetchedOnce) {
-    dispatch(fetchUserHistory());
-  }
-}, [token, fetchedOnce, dispatch]);
+  useEffect(() => {
+    let promise: any;
+    if (token && !fetchedOnce) {
+      promise = dispatch(fetchUserHistory());
+    }
+    return () => {
+      if (promise) {
+        promise.abort();
+      }
+    };
+  }, [token, fetchedOnce, dispatch]);
 
 useEffect(() => {
   if (selectedFilter === 'all') {
@@ -266,28 +272,28 @@ useEffect(() => {
         return (
           <div className="sm:space-y-4 space-y-4">
             <div>
-              <h4 className={`font-bold text-sm mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h4 className={`font-bold text-sm mb-1 text-white`}>
                 Idea Overview
               </h4>
-              <p className={`text-sm text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+              <p className={`text-sm text-justify text-gray-300`}>
                 {activity.data.ideaText}
               </p>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs sm:text-md">
-              <div className={`p-4 rounded-xl ${darkMode ? 'bg-blue-900/50' : 'bg-blue-50'} text-xs sm:text-md`}>
+              <div className={`p-4 rounded-xl bg-blue-900/50 text-xs sm:text-md`}>
                 <h5 className="font-bold text-blue-500">Market Demand</h5>
                 <p className="font-bold">{activity.data.scores?.marketDemand || 0}/100</p>
               </div>
-              <div className={`p-4 rounded-xl ${darkMode ? 'bg-red-900/50' : 'bg-red-50'}`}>
+              <div className={`p-4 rounded-xl bg-red-900/50`}>
                 <h5 className="font-bold text-red-500">Competition</h5>
                 <p className="font-bold">{activity.data.scores?.competition || 0}/100</p>
               </div>
-              <div className={`p-4 rounded-xl ${darkMode ? 'bg-green-900/50' : 'bg-green-50'}`}>
+              <div className={`p-4 rounded-xl bg-green-900/50`}>
                 <h5 className="font-bold text-green-500">Monetization</h5>
                 <p className="font-bold">{activity.data.scores?.monetization || 0}/100</p>
               </div>
-              <div className={`p-4 rounded-xl ${darkMode ? 'bg-purple-900/50' : 'bg-purple-50'}`}>
+              <div className={`p-4 rounded-xl bg-purple-900/50`}>
                 <h5 className="font-bold text-purple-500">Overall</h5>
                 <p className="font-bold">{activity.data.scores?.overall || 0}/100</p>
               </div>
@@ -295,34 +301,34 @@ useEffect(() => {
 
             <div className="space-y-4">
               <div>
-                <h4 className={`font-bold text-sm mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h4 className={`font-bold text-sm mb-2 text-white`}>
                   Market Demand
                 </h4>
-                <p className={`text-xs text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                <p className={`text-xs text-justify text-gray-300`}>
                   {activity.data.analysis?.marketDemand?.text}
                 </p>
               </div>
               <div>
-                <h4 className={`font-bold text-sm mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h4 className={`font-bold text-sm mb-2 text-white`}>
                   Competition
                 </h4>
-                <p className={`text-xs text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                <p className={`text-xs text-justify text-gray-300`}>
                   {activity.data.analysis?.competition?.text}
                 </p>
               </div>
               <div>
-                <h4 className={`font-bold text-sm mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h4 className={`font-bold text-sm mb-2 text-white`}>
                   Monetization
                 </h4>
-                <p className={`text-xs text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                <p className={`text-xs text-justify text-gray-300`}>
                   {activity.data.analysis?.monetization?.text}
                 </p>
               </div>
               <div>
-                <h4 className={`font-bold text-sm mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h4 className={`font-bold text-sm mb-2 text-white`}>
                   Overall Assessment
                 </h4>
-                <p className={`text-xs text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                <p className={`text-xs text-justify text-gray-300`}>
                   {activity.data.analysis?.overall?.text}
                 </p>
               </div>
@@ -330,18 +336,18 @@ useEffect(() => {
 
             <div className="space-y-4 pt-3 border-t border-gray-200 dark:border-gray-700">
               <div className="flex justify-between items-center text-xs">
-                <span className={`${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                <span className={`text-gray-400`}>
                   Credits Used:
                 </span>
-                <span className={`font-medium text-xs ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <span className={`font-medium text-xs text-white`}>
                   {activity.creditsUsed}
                 </span>
               </div>
               <div className="flex justify-between items-center text-xs">
-                <span className={`${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                <span className={`text-gray-400`}>
                   Created:
                 </span>
-                <span className={`font-medium text-xs ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <span className={`font-medium text-xs text-white`}>
                   {new Date(activity.createdAt).toLocaleDateString()}
                 </span>
               </div>
@@ -353,10 +359,10 @@ useEffect(() => {
         return (
           <div className="sm:space-y-5 space-y-4">
             <div>
-              <h4 className={`font-bold text-sm mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h4 className={`font-bold text-sm mb-3 text-white`}>
                 Search Criteria
               </h4>
-              <div className={`p-2 sm:p-2 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}>
+              <div className={`p-2 sm:p-2 rounded-xl bg-gray-700/50`}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
                   <div>
                     <span className="font-medium">Industry:</span> {activity.data.criteria?.industry || 'N/A'}
@@ -380,18 +386,18 @@ useEffect(() => {
             </div>
 
             <div>
-              <h4 className={`font-bold mb-3 text-sm ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h4 className={`font-bold mb-3 text-sm text-white`}>
                 Investor Matches ({activity.data.matches?.length || 0} found)
               </h4>
               <div className="space-y-4">
                 {activity.data.matches?.map((match, index) => (
-                  <div key={index} className={`p-3 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}>
+                  <div key={index} className={`p-3 rounded-xl bg-gray-700/50`}>
                     <div className="flex justify-between items-start mb-1">
                       <div>
-                        <h5 className={`font-bold text-sm sm:text-md ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                        <h5 className={`font-bold text-sm sm:text-md text-white`}>
                           {match.name}
                         </h5>
-                        <p className={`text-xs  ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                        <p className={`text-xs  text-gray-400`}>
                           {match.type} • {match.location}
                         </p>
                       </div>
@@ -400,21 +406,21 @@ useEffect(() => {
                           {match.matchScore}% Match
                         </span>
                         {match.portfolioSize && (
-                          <p className={`text-xs mt-1 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                          <p className={`text-xs mt-1 text-gray-400`}>
                             Portfolio: {match.portfolioSize} companies
                           </p>
                         )}
                       </div>
                     </div>
 
-                    <p className={`text-xs text-justify mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                    <p className={`text-xs text-justify mb-4 text-gray-300`}>
                       {match.description}
                     </p>
 
                     {match.investmentRange && (
                       <div className="mb-3">
                         <span className="font-medium text-sm">Investment Range: </span>
-                        <span className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                        <span className={`text-sm text-gray-300`}>
                           ${(match.investmentRange.min / 1000).toFixed(0)}K - ${(match.investmentRange.max / 1000).toFixed(0)}K
                         </span>
                       </div>
@@ -425,7 +431,7 @@ useEffect(() => {
                         <span className="font-medium text-sm block mb-2">Industry Focus:</span>
                         <div className="flex flex-wrap gap-2">
                           {match.industryFocus.map((industry, i) => (
-                            <span key={i} className={`px-2 py-1 rounded text-xs ${darkMode ? 'bg-blue-900/50 text-blue-300' : 'bg-blue-100 text-blue-800'}`}>
+                            <span key={i} className={`px-2 py-1 rounded text-xs bg-blue-900/50 text-blue-300`}>
                               {industry}
                             </span>
                           ))}
@@ -438,7 +444,7 @@ useEffect(() => {
                         <span className="font-medium text-sm block mb-2">Why This Is a Good Match:</span>
                         <ul className="space-y-1">
                           {match.matchReasons.map((reason, i) => (
-                            <li key={i} className={`text-xs ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                            <li key={i} className={`text-xs text-gray-300`}>
                               • {reason}
                             </li>
                           ))}
@@ -451,7 +457,7 @@ useEffect(() => {
                         <span className="font-medium text-sm block mb-2">Recent Investments:</span>
                         <div className="flex flex-wrap gap-1">
                           {match.recentInvestments.map((investment, i) => (
-                            <span key={i} className={`px-2 py-1 rounded text-xs ${darkMode ? 'bg-gray-600/50 text-gray-300' : 'bg-gray-200 text-gray-700'}`}>
+                            <span key={i} className={`px-2 py-1 rounded text-xs bg-gray-600/50 text-gray-300`}>
                               {investment}
                             </span>
                           ))}
@@ -482,54 +488,54 @@ useEffect(() => {
         return (
           <div className="space-y-4 sm:space-y-6">
             <div>
-              <h4 className={`font-bold mb-3 text-sm ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h4 className={`font-bold mb-3 text-sm text-white`}>
                 Market Overview
               </h4>
-              <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}>
-                <p className={`text-xs text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
+              <div className={`p-4 rounded-xl bg-gray-700/50`}>
+                <p className={`text-xs text-justify text-gray-300 leading-relaxed`}>
                   {activity.data.summary}
                 </p>
               </div>
             </div>
 
             <div>
-              <h4 className={`font-bold mb-3 text-sm ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h4 className={`font-bold mb-3 text-sm text-white`}>
                 Competitor Analysis ({activity.data.competitors?.length || 0} competitors)
               </h4>
               <div className="space-y-6">
                 {activity.data.competitors?.map((competitor, index) => (
-                  <div key={index} className={`p-4 sm:p-3 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}>
-                    <h5 className={`font-bold text-sm  mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <div key={index} className={`p-4 sm:p-3 rounded-xl bg-gray-700/50`}>
+                    <h5 className={`font-bold text-sm  mb-1 text-white`}>
                       {competitor.name}
                     </h5>
-                    <p className={`text-xs mb-4 text-justify ${darkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
+                    <p className={`text-xs mb-4 text-justify text-gray-300 leading-relaxed`}>
                       {competitor.description}
                     </p>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-4">
-                        <div className={`p-4 rounded-xl ${darkMode ? 'bg-green-900/30' : 'bg-green-50'}`}>
+                        <div className={`p-4 rounded-xl bg-green-900/30`}>
                           <h6 className="font-bold text-green-600 text-sm mb-2 flex items-center">
                             <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
                             Strengths
                           </h6>
                           <ul className="space-y-1">
                             {competitor.swot?.strengths?.map((strength, i) => (
-                              <li key={i} className={`text-xs ${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
+                              <li key={i} className={`text-xs text-gray-300 leading-relaxed`}>
                                 • {strength}
                               </li>
                             ))}
                           </ul>
                         </div>
                         
-                        <div className={`p-4 rounded-xl ${darkMode ? 'bg-blue-900/30' : 'bg-blue-50'}`}>
+                        <div className={`p-4 rounded-xl bg-blue-900/30`}>
                           <h6 className="font-bold text-blue-600 text-sm mb-2 flex items-center">
                             <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
                             Opportunities
                           </h6>
                           <ul className="space-y-1">
                             {competitor.swot?.opportunities?.map((opportunity, i) => (
-                              <li key={i} className={`text-xs ${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
+                              <li key={i} className={`text-xs text-gray-300 leading-relaxed`}>
                                 • {opportunity}
                               </li>
                             ))}
@@ -538,28 +544,28 @@ useEffect(() => {
                       </div>
 
                       <div className="space-y-4">
-                        <div className={`p-4 rounded-xl ${darkMode ? 'bg-red-900/30' : 'bg-red-50'}`}>
+                        <div className={`p-4 rounded-xl bg-red-900/30`}>
                           <h6 className="font-bold text-red-600 text-sm mb-2 flex items-center">
                             <span className="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
                             Weaknesses
                           </h6>
                           <ul className="space-y-1">
                             {competitor.swot?.weaknesses?.map((weakness, i) => (
-                              <li key={i} className={`text-xs ${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
+                              <li key={i} className={`text-xs text-gray-300 leading-relaxed`}>
                                 • {weakness}
                               </li>
                             ))}
                           </ul>
                         </div>
                         
-                        <div className={`p-4 rounded-xl ${darkMode ? 'bg-yellow-900/30' : 'bg-yellow-50'}`}>
+                        <div className={`p-4 rounded-xl bg-yellow-900/30`}>
                           <h6 className="font-bold text-yellow-600 text-sm mb-2 flex items-center">
                             <span className="w-2 h-2 bg-yellow-500 rounded-full mr-2"></span>
                             Threats
                           </h6>
                           <ul className="space-y-1">
                             {competitor.swot?.threats?.map((threat, i) => (
-                              <li key={i} className={`text-xs ${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
+                              <li key={i} className={`text-xs text-gray-300 leading-relaxed`}>
                                 • {threat}
                               </li>
                             ))}
@@ -578,30 +584,30 @@ useEffect(() => {
         return (
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className={`p-2 sm:p-4 rounded-xl ${darkMode ? 'bg-blue-900/50' : 'bg-blue-50'}`}>
+              <div className={`p-2 sm:p-4 rounded-xl bg-blue-900/50`}>
                 <h5 className="font-bold text-sm text-blue-500">TAM (Total)</h5>
                 <p className="text-md font-bold">
                   ${activity.data.tam?.value ? (activity.data.tam.value / 1000000000).toFixed(1) : '0'}B
                 </p>
-                <p className={`text-xs mt-1 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                <p className={`text-xs mt-1 text-gray-300`}>
                   Total Addressable Market
                 </p>
               </div>
-              <div className={`p-4 rounded-xl ${darkMode ? 'bg-green-900/50' : 'bg-green-50'}`}>
+              <div className={`p-4 rounded-xl bg-green-900/50`}>
                 <h5 className="font-bold text-sm text-green-500">SAM (Serviceable)</h5>
                 <p className="text-md font-bold">
                   ${activity.data.sam?.value ? (activity.data.sam.value / 1000000000).toFixed(1) : '0'}B
                 </p>
-                <p className={`text-xs mt-1 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                <p className={`text-xs mt-1 text-gray-300`}>
                   Serviceable Addressable Market
                 </p>
               </div>
-              <div className={`p-4 rounded-xl ${darkMode ? 'bg-purple-900/50' : 'bg-purple-50'}`}>
+              <div className={`p-4 rounded-xl bg-purple-900/50`}>
                 <h5 className="font-bold text-sm text-purple-500">SOM (Obtainable)</h5>
                 <p className="text-md font-bold">
                   ${activity.data.som?.value ? (activity.data.som.value / 1000000).toFixed(0) : '0'}M
                 </p>
-                <p className={`text-xs mt-1 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                <p className={`text-xs mt-1 text-gray-300`}>
                   Serviceable Obtainable Market
                 </p>
               </div>
@@ -609,15 +615,15 @@ useEffect(() => {
 
             <div className="space-y-4">
               {activity.data.tam?.description && (
-                <div className={`p-3 rounded-xl ${darkMode ? 'bg-blue-900/20' : 'bg-blue-50'}`}>
+                <div className={`p-3 rounded-xl bg-blue-900/20`}>
                   <h6 className="font-bold text-sm text-blue-600 mb-1">TAM Analysis</h6>
-                  <p className={`text-xs text-justify ${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
+                  <p className={`text-xs text-justify text-gray-300 leading-relaxed`}>
                     {activity.data.tam.description}
                   </p>
                   {activity.data.tam.sources && (
                     <div className="mt-2">
                       <span className="text-xs font-medium">Sources: </span>
-                      <span className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                      <span className={`text-xs text-gray-400`}>
                         {activity.data.tam.sources.join(', ')}
                       </span>
                     </div>
@@ -626,15 +632,15 @@ useEffect(() => {
               )}
               
               {activity.data.sam?.description && (
-                <div className={`p-4 rounded-xl ${darkMode ? 'bg-green-900/20' : 'bg-green-50'}`}>
+                <div className={`p-4 rounded-xl bg-green-900/20`}>
                   <h6 className="font-bold text-sm text-green-600 mb-1">SAM Analysis</h6>
-                  <p className={`text-xs text-justify ${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
+                  <p className={`text-xs text-justify text-gray-300 leading-relaxed`}>
                     {activity.data.sam.description}
                   </p>
                   {activity.data.sam.methodology && (
                     <div className="mt-2">
                       <span className="text-xs font-medium">Methodology: </span>
-                      <span className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                      <span className={`text-xs text-gray-400`}>
                         {activity.data.sam.methodology}
                       </span>
                     </div>
@@ -643,15 +649,15 @@ useEffect(() => {
               )}
               
               {activity.data.som?.description && (
-                <div className={`p-4 rounded-xl ${darkMode ? 'bg-purple-900/20' : 'bg-purple-50'}`}>
+                <div className={`p-4 rounded-xl bg-purple-900/20`}>
                   <h6 className="font-bold text-sm text-purple-600 mb-1">SOM Analysis</h6>
-                  <p className={`text-xs text-justify ${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
+                  <p className={`text-xs text-justify text-gray-300 leading-relaxed`}>
                     {activity.data.som.description}
                   </p>
                   {activity.data.som.timeline && (
                     <div className="mt-2">
                       <span className="text-xs font-medium">Timeline: </span>
-                      <span className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                      <span className={`text-xs text-gray-400`}>
                         {activity.data.som.timeline}
                       </span>
                     </div>
@@ -662,21 +668,21 @@ useEffect(() => {
 
             {activity.data.trends && (
               <div>
-                <h4 className={`font-bold text-sm sm:text-md mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h4 className={`font-bold text-sm sm:text-md mb-3 text-white`}>
                   Market Trends
                 </h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {activity.data.trends.map((trend, index) => (
-                    <div key={index} className={`p-3 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}>
+                    <div key={index} className={`p-3 rounded-xl bg-gray-700/50`}>
                       <div className="flex justify-between items-center mb-1">
-                        <h6 className={`font-medium text-sm ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                        <h6 className={`font-medium text-sm text-white`}>
                           {trend.keyword}
                         </h6>
                         <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">
                           {trend.interest}% Interest
                         </span>
                       </div>
-                      <p className={`text-xs ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                      <p className={`text-xs text-gray-300`}>
                         {trend.growth}
                       </p>
                     </div>
@@ -687,20 +693,20 @@ useEffect(() => {
 
             {activity.data.personas && (
               <div>
-                <h4 className={`font-bold text-sm sm:text-md mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h4 className={`font-bold text-sm sm:text-md mb-3 text-white`}>
                   Customer Personas
                 </h4>
                 <div className="space-y-4">
                   {activity.data.personas.map((persona, index) => (
-                    <div key={index} className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}>
-                      <h5 className={`font-bold sm:text-md mb-2 text-sm ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <div key={index} className={`p-4 rounded-xl bg-gray-700/50`}>
+                      <h5 className={`font-bold sm:text-md mb-2 text-sm text-white`}>
                         {persona.name}
                       </h5>
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div>
                           <h6 className="font-medium text-sm text-blue-500 mb-1">Demographics</h6>
-                          <div className={`text-xs space-y-1 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                          <div className={`text-xs space-y-1 text-gray-300`}>
                             <p><span className="font-medium">Age:</span> {persona.demographics?.age}</p>
                             <p><span className="font-medium">Income:</span> {persona.demographics?.income}</p>
                             <p><span className="font-medium">Location:</span> {persona.demographics?.location}</p>
@@ -713,14 +719,14 @@ useEffect(() => {
                           {persona.psychographics?.values && (
                             <div className="flex flex-wrap gap-1 mb-2">
                               {persona.psychographics.values.map((value, i) => (
-                                <span key={i} className={`px-2 py-1 rounded text-xs ${darkMode ? 'bg-green-900/50 text-green-300' : 'bg-green-100 text-green-800'}`}>
+                                <span key={i} className={`px-2 py-1 rounded text-xs bg-green-900/50 text-green-300`}>
                                   {value}
                                 </span>
                               ))}
                             </div>
                           )}
                           {persona.psychographics?.interests && (
-                            <div className={`text-xs ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                            <div className={`text-xs text-gray-300`}>
                               <span className="font-medium">Interests: </span>
                               {persona.psychographics.interests.join(', ')}
                             </div>
@@ -733,7 +739,7 @@ useEffect(() => {
                           <h6 className="font-medium text-sm text-red-500 mb-1">Pain Points</h6>
                           <ul className="space-y-1">
                             {persona.psychographics.painPoints.map((pain, i) => (
-                              <li key={i} className={`text-xs ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                              <li key={i} className={`text-xs text-gray-300`}>
                                 • {pain}
                               </li>
                             ))}
@@ -744,7 +750,7 @@ useEffect(() => {
                       {persona.behaviors && (
                         <div>
                           <h6 className="font-medium text-sm text-purple-500 mb-1">Behaviors</h6>
-                          <div className={`text-xs space-y-1 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                          <div className={`text-xs space-y-1 text-gray-300`}>
                             {persona.behaviors.buyingHabits && (
                               <p><span className="font-medium">Buying Habits:</span> {persona.behaviors.buyingHabits}</p>
                             )}
@@ -762,14 +768,14 @@ useEffect(() => {
 
             {activity.data.competitorActivity && (
               <div>
-                <h4 className={`font-bold text-sm sm:text-md mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h4 className={`font-bold text-sm sm:text-md mb-3 text-white`}>
                   Competitor Activity
                 </h4>
                 <div className="space-y-2">
                   {activity.data.competitorActivity.map((competitor, index) => (
-                    <div key={index} className={`p-3 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}>
+                    <div key={index} className={`p-3 rounded-xl bg-gray-700/50`}>
                       <div className="flex justify-between items-center">
-                        <h6 className={`font-medium text-xs sm:text-sm ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                        <h6 className={`font-medium text-xs sm:text-sm text-white`}>
                           {competitor.name}
                         </h6>
                         <div className="flex gap-4 text-xs">
@@ -778,7 +784,7 @@ useEffect(() => {
                         </div>
                       </div>
                       {competitor.lastFunding && competitor.lastFunding !== 'N/A' && (
-                        <p className={`text-xs mt-1 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                        <p className={`text-xs mt-1 text-gray-400`}>
                           Last Funding: {competitor.lastFunding}
                         </p>
                       )}
@@ -793,21 +799,21 @@ useEffect(() => {
       case 'pitch_simulator':
         return (
           <div className="space-y-4 sm:space-y-6">
-            <h4 className={`font-bold text-sm mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h4 className={`font-bold text-sm mb-1 text-white`}>
               Q&A Session
             </h4>
 
             {activity.data.questions?.map((qa: any, index: number) => (
               <div
                 key={index}
-                className={`p-2 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}
+                className={`p-2 rounded-xl bg-gray-700/50`}
               >
                 <div className={`p-1 rounded-xl mb-3`}>
                   <h5 className="font-bold text-xs text-blue-500">Q: {qa.question}</h5>
                 </div>
 
                 {qa.answer && (
-                  <div className={`p-3 rounded-xl mb-3 ${darkMode ? 'bg-green-900/50' : 'bg-green-50'}`}>
+                  <div className={`p-3 rounded-xl mb-3 bg-green-900/50`}>
                     <h5 className="font-bold text-green-500">A: {qa.answer}</h5>
                   </div>
                 )}
@@ -822,7 +828,7 @@ useEffect(() => {
                         <h6 className="font-semibold text-green-500">Strengths</h6>
                         <ul className="list-disc list-inside space-y-1">
                           {qa.feedback.strengths.map((point: string, idx: number) => (
-                            <li key={idx} className={darkMode ? 'text-gray-300' : 'text-gray-700'}>
+                            <li key={idx} className='text-gray-300'>
                               {point}
                             </li>
                           ))}
@@ -834,7 +840,7 @@ useEffect(() => {
                         <h6 className="font-semibold text-red-500">Improvements</h6>
                         <ul className="list-disc list-inside space-y-1">
                           {qa.feedback.improvements.map((point: string, idx: number) => (
-                            <li key={idx} className={darkMode ? 'text-gray-300' : 'text-gray-700'}>
+                            <li key={idx} className='text-gray-300'>
                               {point}
                             </li>
                           ))}
@@ -844,7 +850,7 @@ useEffect(() => {
                     {qa.feedback.additionalAdvice && (
                       <div>
                         <h6 className="font-semibold text-blue-500">Additional Advice</h6>
-                        <p className={darkMode ? 'text-gray-300' : 'text-gray-700'}>
+                        <p className='text-gray-300'>
                           {qa.feedback.additionalAdvice}
                         </p>
                       </div>
@@ -855,22 +861,22 @@ useEffect(() => {
             ))}
 
             {activity.data.question && (
-              <div className={`p-3 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-100'}`}>
+              <div className={`p-3 rounded-xl bg-gray-700/50`}>
                 <div className={`p-2 rounded-xl mb-3`}>
                   <h5 className="font-bold text-xs text-justify text-indigo-500">Q: {activity.data.question}</h5>
                 </div>
 
                 {activity.data.answer && (
-                  <div className={`p-3 rounded-xl mb-3 text-xs sm:text-sm ${darkMode ? 'bg-green-900/50' : 'bg-green-50'}`}>
+                  <div className={`p-3 rounded-xl mb-3 text-xs sm:text-sm bg-green-900/50`}>
                     <h5 className="font-bold text-green-500 mb-2">Your Answer</h5>
-                    <p className={darkMode ? 'text-gray-200 text-justify text-xs' : 'text-gray-800 text-justify text-xs'}>
+                    <p className='text-gray-200 text-justify text-xs'>
                       {activity.data.answer}
                     </p>
                   </div>
                 )}
 
                 {activity.data.feedback && (
-                  <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-800/70' : 'bg-gray-100'}`}>
+                  <div className={`p-4 rounded-xl bg-gray-800/70`}>
                     <h5 className="font-bold mb-2 text-yellow-500 text-xs sm:text-sm">Investor Feedback</h5>
 
                     <p className="mb-2">
@@ -882,7 +888,7 @@ useEffect(() => {
                         <h6 className="font-semibold text-green-500">Strengths</h6>
                         <ul className="list-disc text-xs list-inside space-y-1">
                           {activity.data.feedback.strengths.map((point: string, idx: number) => (
-                            <li key={idx} className={darkMode ? 'text-gray-300' : 'text-gray-700'}>
+                            <li key={idx} className='text-gray-300'>
                               {point}
                             </li>
                           ))}
@@ -895,7 +901,7 @@ useEffect(() => {
                         <h6 className="font-semibold text-red-500">Improvements</h6>
                         <ul className="list-disc text-xs list-inside space-y-1">
                           {activity.data.feedback.improvements.map((point: string, idx: number) => (
-                            <li key={idx} className={darkMode ? 'text-gray-300' : 'text-gray-700'}>
+                            <li key={idx} className='text-gray-300'>
                               {point}
                             </li>
                           ))}
@@ -906,7 +912,7 @@ useEffect(() => {
                     {activity.data.feedback.additionalAdvice && (
                       <div className='text-xs sm:text-sm text-justify'>
                         <h6 className="font-semibold text-blue-500">Additional Advice</h6>
-                        <p className={darkMode ? 'text-gray-300 text-xs' : 'text-xs text-gray-700'}>
+                        <p className='text-gray-300 text-xs'>
                           {activity.data.feedback.additionalAdvice}
                         </p>
                       </div>
@@ -920,7 +926,7 @@ useEffect(() => {
 
       default:
         return (
-          <pre className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'} whitespace-pre-wrap`}>
+          <pre className={`text-sm text-gray-300 whitespace-pre-wrap`}>
             {JSON.stringify((activity as any).data, null, 2)}
           </pre>
         );
@@ -936,14 +942,8 @@ useEffect(() => {
   }
 
   return (
-    <div className={`min-h-screen relative overflow-hidden ${darkMode ? 'bg-[#0a0118]' : 'bg-gray-50'}`}>
-      {/* Enhanced Animated Background */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        
-        <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-b from-transparent via-purple-500/5 to-transparent' : 'bg-gradient-to-b from-transparent via-purple-200/10 to-transparent'}`} />
-        <div className={`absolute inset-0 ${darkMode ? 'bg-[linear-gradient(rgba(168,85,247,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(168,85,247,0.03)_1px,transparent_1px)]' : 'bg-[linear-gradient(rgba(168,85,247,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(168,85,247,0.05)_1px,transparent_1px)]'} bg-[size:64px_64px]`} />
-
-        <div className="absolute top-20 left-[10%] w-2 h-2 bg-purple-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3s', animationDelay: '0s' }}></div>
+    <div className={`min-h-screen relative overflow-hidden bg-[#0a0118]`}>
+      <PageBackground theme="violet" />
         <div className="absolute top-40 right-[15%] w-1.5 h-1.5 bg-pink-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '4s', animationDelay: '1s' }}></div>
         <div className="absolute bottom-32 left-[20%] w-2.5 h-2.5 bg-indigo-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3.5s', animationDelay: '2s' }}></div>
       </div>
@@ -958,17 +958,17 @@ useEffect(() => {
         >
           <div className="flex justify-center mb-4">
             <div className="flex items-center gap-4 text-center">
-              <div className={`w-6 sm:w-8 h-6 sm:h-8 rounded-2xl bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center shadow-2xl ${darkMode ? "shadow-purple-500/50" : "shadow-purple-500/30"}`}>
+              <div className={`w-6 sm:w-8 h-6 sm:h-8 rounded-2xl bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center shadow-2xl shadow-purple-500/50`}>
                 <HistoryIcon className="w-4 h-4 text-white" />
               </div>
               <div>
-                <h1 className={`text-md md:text-xl font-black ${darkMode ? "text-white" : "text-gray-900"}`}>
+                <h1 className={`text-md md:text-xl font-black text-white`}>
                   Activity{" "}
                   <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-fuchsia-400 bg-clip-text text-transparent">
                     History
                   </span>
                 </h1>
-                <p className={`text-xs  ${darkMode ? "text-gray-400" : "text-gray-600"} font-medium flex items-center gap-2 justify-center`}>
+                <p className={`text-xs  text-gray-400 font-medium flex items-center gap-2 justify-center`}>
                   <Sparkles className="w-3 h-3 md:w-4 md:h-4 text-purple-400" />
                   Track your startup validation journey
                 </p>
@@ -979,7 +979,7 @@ useEffect(() => {
 
         {/* Filters */}
         <motion.div 
-          className={`${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl rounded-3xl shadow-2xl p-3 mb-5`}
+          className={`bg-gray-900/50 border border-gray-800/50 backdrop-blur-xl rounded-3xl shadow-2xl p-3 mb-5`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
@@ -988,7 +988,7 @@ useEffect(() => {
             <div className="w-6 h-6 rounded-xl bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center shadow-xl">
               <Filter className="w-3 h-3 text-white" />
             </div>
-            <h2 className={`text-xs sm:text-sm font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h2 className={`text-xs sm:text-sm font-black text-white`}>
               Filter Activities
             </h2>
           </div>
@@ -1002,9 +1002,7 @@ useEffect(() => {
                   className={`flex items-center px-4 py-1  rounded-xl text-xs  sm:font-bold transition-all duration-300 ${
                     selectedFilter === service.value
                       ? `bg-gradient-to-r ${service.gradient} text-white shadow-xl`
-                      : darkMode
-                        ? 'bg-gray-800/50 text-gray-300 hover:bg-gray-700'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      : 'bg-gray-800/50 text-gray-300 hover:bg-gray-700'
                   }`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -1026,7 +1024,7 @@ useEffect(() => {
               return (
                 <motion.div
                   key={activity._id}
-                  className={`group relative overflow-hidden ${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl rounded-3xl shadow-2xl p-3 hover:scale-[1.01] transition-all duration-500`}
+                  className={`group relative overflow-hidden bg-gray-900/50 border border-gray-800/50 backdrop-blur-xl rounded-3xl shadow-2xl p-3 hover:scale-[1.01] transition-all duration-500`}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8, delay: 0.4 + index * 0.05 }}
@@ -1039,16 +1037,16 @@ useEffect(() => {
                         <Icon className="w-3 h-3 text-white" />
                       </div>
                       <div className="flex-1">
-                        <h3 className={`text-xs md:text-md font-black mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                        <h3 className={`text-xs md:text-md font-black mb-1 text-white`}>
                           {activity.title}
                         </h3>
-                        <p className={`text-xs mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
+                        <p className={`text-xs mb-1 text-gray-300 leading-relaxed`}>
                           {activity.description}
                         </p>
                         <div className="flex flex-wrap items-center gap-3">
                           <div className="flex items-center">
                             <Calendar className="w-3 h-3 mr-2 text-blue-500" />
-                            <span className={`text-xs font-semibold ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                            <span className={`text-xs font-semibold text-gray-400`}>
                               {new Date(activity.createdAt).toLocaleDateString('en-US', { 
                                 year: 'numeric', 
                                 month: 'short', 
@@ -1056,9 +1054,9 @@ useEffect(() => {
                               })}
                             </span>
                           </div>
-                          <div className={`flex items-center px-3 py-1 rounded-lg ${darkMode ? 'bg-red-900/30 border border-red-500/30' : 'bg-red-50 border border-red-200'}`}>
+                          <div className={`flex items-center px-3 py-1 rounded-lg bg-red-900/30 border border-red-500/30`}>
                             <Zap className="w-3 h-3 mr-1 text-red-500" />
-                            <span className={`text-xs font-semibold sm:font-bold ${darkMode ? 'text-red-300' : 'text-red-700'}`}>
+                            <span className={`text-xs font-semibold sm:font-bold text-red-300`}>
                               {activity.creditsUsed} {activity.creditsUsed === 1 ? 'Credit' : 'Credits'}
                             </span>
                           </div>
@@ -1081,7 +1079,7 @@ useEffect(() => {
           </div>
         ) : (
           <motion.div
-            className={`${darkMode ? 'bg-gray-900/50 border border-gray-800/50' : 'bg-white border border-gray-200'} backdrop-blur-xl rounded-3xl shadow-2xl p-12 text-center`}
+            className={`bg-gray-900/50 border border-gray-800/50 backdrop-blur-xl rounded-3xl shadow-2xl p-12 text-center`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -1089,10 +1087,10 @@ useEffect(() => {
             <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-gray-600 to-gray-500 flex items-center justify-center mx-auto mb-6 shadow-2xl">
               <HistoryIcon className="h-10 w-10 text-white" />
             </div>
-            <h3 className={`text-2xl font-black mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h3 className={`text-2xl font-black mb-3 text-white`}>
               No Activity Found
             </h3>
-            <p className={`text-sm mb-6 ${darkMode ? 'text-gray-400' : 'text-gray-600'} max-w-md mx-auto`}>
+            <p className={`text-sm mb-6 text-gray-400 max-w-md mx-auto`}>
               {selectedFilter === 'all' 
                 ? 'You haven\'t used any services yet. Start validating your ideas and building your startup!'
                 : `No ${serviceTypes.find(s => s.value === selectedFilter)?.label} activities found. Try a different filter or start using our services.`
@@ -1121,13 +1119,13 @@ useEffect(() => {
               />
               
               <motion.div 
-                className={`relative ${darkMode ? 'bg-gray-900 border border-gray-800' : 'bg-white border border-gray-200'} rounded-3xl max-w-4xl w-full max-h-[85vh] overflow-hidden shadow-2xl`}
+                className={`relative bg-gray-900 border border-gray-800 rounded-3xl max-w-4xl w-full max-h-[85vh] overflow-hidden shadow-2xl`}
                 initial={{ scale: 0.9, y: 20 }}
                 animate={{ scale: 1, y: 0 }}
                 exit={{ scale: 0.9, y: 20 }}
                 transition={{ type: "spring", duration: 0.5 }}
               >
-                <div className={`sticky top-0 z-10 ${darkMode ? 'bg-gray-900/95 border-b border-gray-800' : 'bg-white/95 border-b border-gray-200'} backdrop-blur-xl p-3`}>
+                <div className={`sticky top-0 z-10 bg-gray-900/95 border-b border-gray-800 backdrop-blur-xl p-3`}>
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-center gap-4">
                       <div className={`w-8 h-8 rounded-xl bg-gradient-to-br ${getServiceGradient(selectedActivity.serviceType)} flex items-center justify-center shadow-xl`}>
@@ -1137,10 +1135,10 @@ useEffect(() => {
                         })()}
                       </div>
                       <div>
-                        <h2 className={`text-xs sm:text-sm font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                        <h2 className={`text-xs sm:text-sm font-black text-white`}>
                           {selectedActivity.title}
                         </h2>
-                        <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                        <p className={`text-xs text-gray-400`}>
                           {new Date(selectedActivity.createdAt).toLocaleDateString('en-US', { 
                             year: 'numeric', 
                             month: 'long', 
@@ -1153,7 +1151,7 @@ useEffect(() => {
                     </div>
                     <button
                       onClick={() => setShowModal(false)}
-                      className={`p-2 rounded-xl ${darkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'} transition-colors`}
+                      className={`p-2 rounded-xl hover:bg-gray-800 transition-colors`}
                     >
                       <X className="w-6 h-6" />
                     </button>
