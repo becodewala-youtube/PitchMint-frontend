@@ -4,8 +4,6 @@ import { useState } from "react";
 import {
   Menu,
   X,
-  Moon,
-  Sun,
   LogOut,
   Star,
   User,
@@ -18,12 +16,10 @@ import {
   TrendingUp,
   Target,
   Crown,
-  Sparkles,
 } from "lucide-react";
 import { History as HistoryIcon } from "lucide-react";
 import { RootState } from "../../store";
 import { logout } from "../../store/slices/authSlice";
-import { useTheme } from "../../contexts/ThemeContext";
 import UpgradeModal from "../premium/UpgradeModal";
 import icon from "../../assets/icon.png";
 
@@ -34,7 +30,6 @@ const Navbar = () => {
   const { user, isAuthenticated } = useSelector(
     (state: RootState) => state.auth
   );
-  const { darkMode, toggleDarkMode } = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -55,44 +50,29 @@ const Navbar = () => {
 
   return (
     <>
-      <nav
-        className={`sticky top-0 z-50 backdrop-blur-xl border-b transition-all duration-300 ${
-          darkMode
-            ? "bg-[#050505]/80 border-gray-900"
-            : "bg-white/90 border-gray-100"
-        }`}
-      >
-
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav className="fixed top-0 inset-x-0 z-50 bg-black/50 backdrop-blur-md border-b border-white/10 transition-all duration-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
               <Link to="/" className="flex items-center group">
-                <div className="w-10 h-10 rounded-xl   flex items-center justify-center mr-3 group-hover:scale-110 transition-transform duration-300">
-                  <img src={icon} alt="logo" className="w-6 h-6" />
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center mr-3 bg-white/5 border border-white/10 group-hover:scale-105 transition-transform duration-300">
+                  <img src={icon} alt="logo" className="w-5 h-5" />
                 </div>
-                <span
-                  className={`font-bold text-xl tracking-tight transition-colors ${darkMode ? "text-white" : "text-gray-900"}`}
-                >
-                  Pitch<span className="text-indigo-500">Mint</span>
+                <span className="font-semibold text-[17px] tracking-tight text-white">
+                  PitchMint<span className="text-purple-400"> AI</span>
                 </span>
               </Link>
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:ml-6 lg:flex lg:items-center lg:space-x-1 xl:space-x-2">
+            <div className="hidden lg:ml-6 lg:flex lg:items-center lg:space-x-2 xl:space-x-4">
               {isAuthenticated ? (
                 <>
                   <Link
                     to="/dashboard"
-                    className={`relative px-3 xl:px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 group overflow-hidden ${
-                      darkMode
-                        ? "text-gray-300 hover:text-white"
-                        : "text-gray-700 hover:text-gray-900"
-                    }`}
+                    className="px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-200"
                   >
-                    <span className={`absolute inset-0 rounded-xl transition-all duration-300 opacity-0 group-hover:opacity-100 ${darkMode ? 'bg-gradient-to-r from-violet-600/10 to-fuchsia-600/10' : 'bg-gradient-to-r from-violet-100 to-fuchsia-100'}`} />
-                    <span className="relative">Dashboard</span>
+                    Dashboard
                   </Link>
 
                   {/* Tools Dropdown */}
@@ -100,114 +80,52 @@ const Navbar = () => {
                     <button
                       onMouseEnter={() => setShowToolsDropdown(true)}
                       onMouseLeave={() => setShowToolsDropdown(false)}
-                      className={`relative flex items-center px-3 xl:px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 overflow-hidden ${
-                        darkMode
-                          ? "text-gray-300 hover:text-white"
-                          : "text-gray-700 hover:text-gray-900"
-                      }`}
+                      className="flex items-center px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-200"
                     >
-                      <span className={`absolute inset-0 rounded-xl transition-all duration-300 opacity-0 group-hover:opacity-100 ${darkMode ? 'bg-gradient-to-r from-violet-600/10 to-fuchsia-600/10' : 'bg-gradient-to-r from-violet-100 to-fuchsia-100'}`} />
-                      <span className="relative flex items-center">
-                        Tools
-                        <ChevronDown className="w-4 h-4 ml-1 transition-transform duration-300 group-hover:rotate-180" />
-                      </span>
+                      Tools
+                      <ChevronDown className="w-4 h-4 ml-1 transition-transform duration-300 group-hover:rotate-180 text-gray-500" />
                     </button>
 
                     {/* Dropdown Menu */}
                     <div
-                      className={`absolute left-0 mt-2 w-64 rounded-2xl shadow-2xl backdrop-blur-xl border transition-all duration-300 overflow-hidden ${
+                      className={`absolute left-0 mt-2 w-64 rounded-xl shadow-2xl backdrop-blur-xl border border-white/10 bg-[#0a0a0a]/95 transition-all duration-300 overflow-hidden ${
                         showToolsDropdown
                           ? "opacity-100 visible translate-y-0"
                           : "opacity-0 invisible -translate-y-2"
-                      } ${darkMode ? "bg-gray-900/95 border-violet-500/20" : "bg-white/95 border-gray-200"}`}
+                      }`}
                       onMouseEnter={() => setShowToolsDropdown(true)}
                       onMouseLeave={() => setShowToolsDropdown(false)}
                     >
-                      {/* Gradient header */}
-                      <div className="p-3 bg-gradient-to-r from-violet-600/10 to-fuchsia-600/10 border-b border-violet-500/20">
-                        <p className={`text-xs font-bold uppercase tracking-wider ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                      <div className="p-3 bg-white/[0.02] border-b border-white/5">
+                        <p className="text-[11px] font-bold uppercase tracking-widest text-gray-500">
                           Startup Tools
                         </p>
                       </div>
                       
                       <div className="p-1">
-                        <Link
-                          to="/submit-idea"
-                          className={`flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 group ${
-                            darkMode
-                              ? "text-gray-300 hover:text-white hover:bg-violet-600/10"
-                              : "text-gray-700 hover:text-gray-900 hover:bg-violet-50"
-                          }`}
-                        >
-                          <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-violet-500 to-purple-500 flex items-center justify-center mr-3 group-hover:scale-110 transition-transform duration-300">
-                            <Brain className="w-3 h-3 text-white" />
-                          </div>
-                          <span>Submit Idea</span>
+                        <Link to="/submit-idea" className="flex items-center px-4 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-200 group">
+                          <Brain className="w-4 h-4 mr-3 text-purple-400 group-hover:text-purple-300" />
+                          Submit Idea
                         </Link>
-                        <Link
-                          to="/competitors"
-                          className={`flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 group ${
-                            darkMode
-                              ? "text-gray-300 hover:text-white hover:bg-violet-600/10"
-                              : "text-gray-700 hover:text-gray-900 hover:bg-violet-50"
-                          }`}
-                        >
-                          <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center mr-3 group-hover:scale-110 transition-transform duration-300">
-                            <Users className="w-3 h-3 text-white" />
-                          </div>
-                          <span>Competitors</span>
+                        <Link to="/competitors" className="flex items-center px-4 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-200 group">
+                          <Users className="w-4 h-4 mr-3 text-blue-400 group-hover:text-blue-300" />
+                          Competitors
                         </Link>
-                        <Link
-                          to="/pitch-simulator"
-                          className={`flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 group ${
-                            darkMode
-                              ? "text-gray-300 hover:text-white hover:bg-violet-600/10"
-                              : "text-gray-700 hover:text-gray-900 hover:bg-violet-50"
-                          }`}
-                        >
-                          <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center mr-3 group-hover:scale-110 transition-transform duration-300">
-                            <MessageSquare className="w-3 h-3 text-white" />
-                          </div>
-                          <span>Pitch Arena</span>
+                        <Link to="/pitch-simulator" className="flex items-center px-4 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-200 group">
+                          <MessageSquare className="w-4 h-4 mr-3 text-emerald-400 group-hover:text-emerald-300" />
+                          Pitch Arena
                         </Link>
-                        <Link
-                          to="/market-research"
-                          className={`flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 group ${
-                            darkMode
-                              ? "text-gray-300 hover:text-white hover:bg-violet-600/10"
-                              : "text-gray-700 hover:text-gray-900 hover:bg-violet-50"
-                          }`}
-                        >
-                          <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center mr-3 group-hover:scale-110 transition-transform duration-300">
-                            <TrendingUp className="w-3 h-3 text-white" />
-                          </div>
-                          <span>Market Research</span>
+                        <Link to="/market-research" className="flex items-center px-4 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-200 group">
+                          <TrendingUp className="w-4 h-4 mr-3 text-amber-400 group-hover:text-amber-300" />
+                          Market Research
                         </Link>
-                        <Link
-                          to="/investor-matching"
-                          className={`flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 group ${
-                            darkMode
-                              ? "text-gray-300 hover:text-white hover:bg-violet-600/10"
-                              : "text-gray-700 hover:text-gray-900 hover:bg-violet-50"
-                          }`}
-                        >
-                          <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center mr-3 group-hover:scale-110 transition-transform duration-300">
-                            <Target className="w-3 h-3 text-white" />
-                          </div>
-                          <span>Investor Matching</span>
+                        <Link to="/investor-matching" className="flex items-center px-4 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-200 group">
+                          <Target className="w-4 h-4 mr-3 text-red-400 group-hover:text-red-300" />
+                          Investor Matching
                         </Link>
-                        <Link
-                          to="/history"
-                          className={`flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 group ${
-                            darkMode
-                              ? "text-gray-300 hover:text-white hover:bg-violet-600/10"
-                              : "text-gray-700 hover:text-gray-900 hover:bg-violet-50"
-                          }`}
-                        >
-                          <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center mr-3 group-hover:scale-110 transition-transform duration-300">
-                            <HistoryIcon className="w-3 h-3 text-white" />
-                          </div>
-                          <span>History</span>
+                        <Link to="/history" className="flex items-center px-4 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-200 group">
+                          <HistoryIcon className="w-4 h-4 mr-3 text-gray-400 group-hover:text-white" />
+                          History
                         </Link>
                       </div>
                     </div>
@@ -215,100 +133,55 @@ const Navbar = () => {
 
                   <button
                     onClick={handleInvestorsClick}
-                    className={`relative flex items-center px-3 xl:px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 group overflow-hidden ${
+                    className={`flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                       user?.isPremium
-                        ? darkMode
-                          ? "text-gray-300 hover:text-white"
-                          : "text-gray-700 hover:text-gray-900"
-                        : "text-amber-400 hover:text-amber-300"
+                        ? "text-gray-300 hover:text-white hover:bg-white/5"
+                        : "text-purple-400 hover:text-purple-300 hover:bg-purple-500/10"
                     }`}
                   >
-                    <span className={`absolute inset-0 rounded-xl transition-all duration-300 opacity-0 group-hover:opacity-100 ${user?.isPremium ? (darkMode ? 'bg-gradient-to-r from-violet-600/10 to-fuchsia-600/10' : 'bg-gradient-to-r from-violet-100 to-fuchsia-100') : 'bg-gradient-to-r from-amber-600/10 to-orange-600/10'}`} />
-                    <span className="relative flex items-center">
-                      {user?.isPremium ? <Star className="w-4 h-4 mr-1.5 fill-current" /> : <Crown className="w-4 h-4 mr-1.5" />}
-                      <span className="hidden xl:inline">Investors</span>
-                    </span>
+                    {user?.isPremium ? <Star className="w-4 h-4 mr-1.5 fill-current" /> : <Crown className="w-4 h-4 mr-1.5" />}
+                    Investors
                   </button>
 
                   {/* Credits Display */}
                   <Link
                     to="/credits"
-                    className={`relative flex items-center px-3 xl:px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 group overflow-hidden ${
-                      darkMode
-                        ? "text-gray-300 hover:text-white"
-                        : "text-gray-700 hover:text-gray-900"
-                    }`}
+                    className="flex items-center px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-200"
                   >
-                    <span className={`absolute inset-0 rounded-xl transition-all duration-300 opacity-0 group-hover:opacity-100 ${darkMode ? 'bg-gradient-to-r from-violet-600/10 to-fuchsia-600/10' : 'bg-gradient-to-r from-violet-100 to-fuchsia-100'}`} />
-                    <span className="relative flex items-center">
-                      <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center mr-2 group-hover:scale-110 transition-transform duration-300">
-                        <CreditCard className="w-3 h-3 text-white" />
-                      </div>
-                      <span className="font-bold">{user?.credits || 0}</span>
-                      <span className="hidden xl:inline ml-1.5">Credits</span>
-                    </span>
+                    <CreditCard className="w-4 h-4 mr-2 text-gray-400" />
+                    <span>{user?.credits || 0}</span>
                   </Link>
 
                   {/* Profile Dropdown */}
-                  <div className="relative group">
-                    <button
-                      className={`relative flex items-center px-2 xl:px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-300 overflow-hidden ${
-                        darkMode
-                          ? "text-gray-300 hover:text-white"
-                          : "text-gray-700 hover:text-gray-900"
-                      }`}
-                    >
-                      <span className={`absolute inset-0 rounded-xl transition-all duration-300 opacity-0 group-hover:opacity-100 ${darkMode ? 'bg-gradient-to-r from-violet-600/10 to-fuchsia-600/10' : 'bg-gradient-to-r from-violet-100 to-fuchsia-100'}`} />
-                      <span className="relative flex items-center">
-                        {user?.profilePicture ? (
-                          <img
-                            src={user.profilePicture}
-                            alt="Profile"
-                            className="w-8 h-8 rounded-xl mr-2 object-cover ring-2 ring-violet-500/20 group-hover:ring-violet-500/50 transition-all duration-300"
-                            onError={(e) => {
-                              e.currentTarget.style.display = "none";
-                              const fallback = document.createElement("div");
-                              fallback.className = "w-8 h-8 rounded-xl mr-2 bg-gradient-to-br from-violet-600 via-purple-600 to-fuchsia-600 flex items-center justify-center text-white text-sm font-bold ring-2 ring-violet-500/20 group-hover:ring-violet-500/50 transition-all duration-300";
-                              fallback.textContent = user?.name?.charAt(0).toUpperCase() || "U";
-                              e.currentTarget.parentNode?.insertBefore(fallback, e.currentTarget);
-                            }}
-                          />
-                        ) : (
-                          <div className="w-8 h-8 rounded-xl mr-2 bg-gradient-to-br from-violet-600 via-purple-600 to-fuchsia-600 flex items-center justify-center text-white text-sm font-bold ring-2 ring-violet-500/20 group-hover:ring-violet-500/50 transition-all duration-300 shadow-lg">
-                            {user?.name?.charAt(0).toUpperCase()}
-                          </div>
-                        )}
-                        <span className="hidden xl:inline truncate max-w-24 font-semibold">
-                          {user?.name}
-                        </span>
-                      </span>
+                  <div className="relative group ml-2">
+                    <button className="flex items-center px-2 py-1.5 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-200">
+                      {user?.profilePicture ? (
+                        <img
+                          src={user.profilePicture}
+                          alt="Profile"
+                          className="w-7 h-7 rounded-full mr-2 object-cover border border-white/10"
+                        />
+                      ) : (
+                        <div className="w-7 h-7 rounded-full mr-2 bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center text-white text-[11px] font-bold border border-white/10">
+                          {user?.name?.charAt(0).toUpperCase() || 'U'}
+                        </div>
+                      )}
+                      <span className="max-w-[100px] truncate">{user?.name}</span>
                     </button>
 
                     {/* Dropdown Menu */}
-                    <div
-                      className={`absolute right-0 mt-2 w-56 rounded-2xl shadow-2xl backdrop-blur-xl border transition-all duration-300 overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 -translate-y-2 ${
-                        darkMode
-                          ? "bg-gray-900/95 border-violet-500/20"
-                          : "bg-white/95 border-gray-200"
-                      }`}
-                    >
-                    
-
-                      <div className="p-2">
+                    <div className="absolute right-0 mt-2 w-48 rounded-xl shadow-2xl backdrop-blur-xl border border-white/10 bg-[#0a0a0a]/95 transition-all duration-300 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 -translate-y-2">
+                      <div className="p-1">
                         <Link
                           to="/profile"
-                          className={`flex items-center px-2 py-2 rounded-xl text-sm font-medium transition-all duration-300 group ${
-                            darkMode
-                              ? "text-gray-300 hover:text-white hover:bg-violet-600/10"
-                              : "text-gray-700 hover:text-gray-900 hover:bg-violet-50"
-                          }`}
+                          className="flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-200"
                         >
-                          <User className="w-4 h-4 mr-3" />
-                          Profile Settings
+                          <User className="w-4 h-4 mr-3 text-gray-400" />
+                          Settings
                         </Link>
                         <button
                           onClick={handleLogout}
-                          className={`w-full flex items-center px-2 py-2 rounded-xl text-sm font-medium transition-all duration-300 text-red-500 hover:bg-red-500/10`}
+                          className="w-full flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-all duration-200"
                         >
                           <LogOut className="w-4 h-4 mr-3" />
                           Logout
@@ -318,72 +191,30 @@ const Navbar = () => {
                   </div>
                 </>
               ) : (
-                <>
+                <div className="flex items-center gap-3">
                   <Link
                     to="/login"
-                    className={`relative px-4 xl:px-5 py-2 rounded-xl text-sm font-semibold transition-all duration-300 group overflow-hidden ${
-                      darkMode
-                        ? "text-gray-300 hover:text-white"
-                        : "text-gray-700 hover:text-gray-900"
-                    }`}
+                    className="px-4 py-2 rounded-full text-sm font-medium text-gray-300 hover:text-white transition-colors"
                   >
-                    <span className={`absolute inset-0 rounded-xl transition-all duration-300 opacity-0 group-hover:opacity-100 ${darkMode ? 'bg-gradient-to-r from-violet-600/10 to-fuchsia-600/10' : 'bg-gradient-to-r from-violet-100 to-fuchsia-100'}`} />
-                    <span className="relative">Login</span>
+                    Log In
                   </Link>
                   <Link
                     to="/signup"
-                    className={`inline-flex items-center justify-center px-5 py-2 rounded-lg text-sm font-medium transition-colors ${
-                      darkMode
-                        ? "bg-white text-black hover:bg-gray-100"
-                        : "bg-black text-white hover:bg-gray-800"
-                    }`}
+                    className="px-5 py-2 rounded-full text-sm font-semibold bg-[#6c28ff] text-white hover:bg-[#5a1ec0] shadow-[0_0_20px_rgba(108,40,255,0.3)] transition-colors"
                   >
                     Sign Up
                   </Link>
-                </>
+                </div>
               )}
-              <button
-                onClick={toggleDarkMode}
-                className={`relative p-2.5 rounded-xl transition-all duration-300 group overflow-hidden ${
-                  darkMode
-                    ? "text-gray-300 hover:text-white"
-                    : "text-gray-700 hover:text-gray-900"
-                }`}
-              >
-                <span className={`absolute inset-0 rounded-xl transition-all duration-300 opacity-0 group-hover:opacity-100 ${darkMode ? 'bg-gradient-to-r from-violet-600/10 to-fuchsia-600/10' : 'bg-gradient-to-r from-violet-100 to-fuchsia-100'}`} />
-                <span className="relative block group-hover:scale-110 transition-transform duration-300">
-                  {darkMode ? <Sun size={20} /> : <Moon size={20} />}
-                </span>
-              </button>
             </div>
 
             {/* Mobile menu button */}
-            <div className="flex items-center lg:hidden gap-2">
-              <button
-                onClick={toggleDarkMode}
-                className={`relative p-2.5 rounded-xl transition-all duration-300 group overflow-hidden ${
-                  darkMode
-                    ? "text-gray-300 hover:text-white"
-                    : "text-gray-700 hover:text-gray-900"
-                }`}
-              >
-                <span className={`absolute inset-0 rounded-xl transition-all duration-300 opacity-0 group-hover:opacity-100 ${darkMode ? 'bg-gradient-to-r from-violet-600/10 to-fuchsia-600/10' : 'bg-gradient-to-r from-violet-100 to-fuchsia-100'}`} />
-                <span className="relative block">
-                  {darkMode ? <Sun size={20} /> : <Moon size={20} />}
-                </span>
-              </button>
+            <div className="flex items-center lg:hidden">
               <button
                 onClick={toggleMenu}
-                className={`relative p-2.5 rounded-xl transition-all duration-300 group overflow-hidden ${
-                  darkMode
-                    ? "text-gray-400 hover:text-white"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
+                className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
               >
-                <span className={`absolute inset-0 rounded-xl transition-all duration-300 opacity-0 group-hover:opacity-100 ${darkMode ? 'bg-gradient-to-r from-violet-600/10 to-fuchsia-600/10' : 'bg-gradient-to-r from-violet-100 to-fuchsia-100'}`} />
-                <span className="relative block">
-                  {isOpen ? <X size={24} /> : <Menu size={24} />}
-                </span>
+                {isOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
             </div>
           </div>
@@ -391,209 +222,56 @@ const Navbar = () => {
 
         {/* Mobile menu */}
         {isOpen && (
-          <div
-            className={`lg:hidden border-t backdrop-blur-xl ${darkMode ? "border-gray-900 bg-[#050505]/95" : "border-gray-100 bg-white/95"}`}
-          >
-            <div className="px-4 pt-4 pb-3 space-y-2">
+          <div className="lg:hidden border-t border-white/10 bg-[#0a0a0a]/95 backdrop-blur-xl">
+            <div className="px-4 pt-4 pb-6 space-y-2">
               {isAuthenticated ? (
                 <>
-                  {/* User Profile Section */}
-                  <div className={`p-4 rounded-2xl mb-4 ${darkMode ? 'bg-gradient-to-r from-violet-600/10 to-fuchsia-600/10 border border-violet-500/20' : 'bg-gradient-to-r from-violet-50 to-fuchsia-50 border border-violet-200'}`}>
+                  <div className="p-4 rounded-xl mb-4 bg-white/[0.02] border border-white/5">
                     <div className="flex items-center">
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-600 via-purple-600 to-fuchsia-600 flex items-center justify-center text-white font-bold shadow-lg">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center text-white font-bold text-sm">
                         {user?.name?.charAt(0).toUpperCase()}
                       </div>
-                      <div className="ml-3 flex-1">
-                        <p className={`text-sm font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                      <div className="ml-3">
+                        <p className="text-sm font-bold text-white">
                           {user?.name}
                         </p>
-                        <div className="flex items-center gap-2 mt-1">
+                        <div className="flex items-center gap-3 mt-1">
                           {user?.isPremium && (
-                            <div className="flex items-center">
-                              <Crown className="w-3 h-3 text-amber-400 mr-1" />
-                              <span className="text-xs font-semibold text-amber-400">Premium</span>
+                            <div className="flex items-center text-purple-400">
+                              <Star className="w-3 h-3 mr-1 fill-current" />
+                              <span className="text-xs font-semibold">Pro</span>
                             </div>
                           )}
-                          <div className="flex items-center">
-                            <CreditCard className="w-3 h-3 text-emerald-400 mr-1" />
-                            <span className="text-xs font-semibold text-emerald-400">{user?.credits || 0} Credits</span>
+                          <div className="flex items-center text-gray-400">
+                            <CreditCard className="w-3 h-3 mr-1" />
+                            <span className="text-xs">{user?.credits || 0}</span>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <Link
-                    to="/dashboard"
-                    className={`flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
-                      darkMode
-                        ? "text-white hover:bg-violet-600/10"
-                        : "text-gray-700 hover:bg-violet-50"
-                    }`}
-                    onClick={toggleMenu}
-                  >
-                    Dashboard
-                  </Link>
-                  <Link
-                    to="/submit-idea"
-                    className={`flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
-                      darkMode
-                        ? "text-white hover:bg-violet-600/10"
-                        : "text-gray-700 hover:bg-violet-50"
-                    }`}
-                    onClick={toggleMenu}
-                  >
-                    <Brain className="w-4 h-4 mr-3" />
-                    Submit Idea
-                  </Link>
-                  <Link
-                    to="/saved-ideas"
-                    className={`flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
-                      darkMode
-                        ? "text-white hover:bg-violet-600/10"
-                        : "text-gray-700 hover:bg-violet-50"
-                    }`}
-                    onClick={toggleMenu}
-                  >
-                    <FileText className="w-4 h-4 mr-3" />
-                    Saved Ideas
-                  </Link>
-                  <Link
-                    to="/competitors"
-                    className={`flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
-                      darkMode
-                        ? "text-white hover:bg-violet-600/10"
-                        : "text-gray-700 hover:bg-violet-50"
-                    }`}
-                    onClick={toggleMenu}
-                  >
-                    <Users className="w-4 h-4 mr-3" />
-                    Competitors
-                  </Link>
-                  <Link
-                    to="/pitch-simulator"
-                    className={`flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
-                      darkMode
-                        ? "text-white hover:bg-violet-600/10"
-                        : "text-gray-700 hover:bg-violet-50"
-                    }`}
-                    onClick={toggleMenu}
-                  >
-                    <MessageSquare className="w-4 h-4 mr-3" />
-                    Pitch Arena
-                  </Link>
-                  <Link
-                    to="/market-research"
-                    className={`flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
-                      darkMode
-                        ? "text-white hover:bg-violet-600/10"
-                        : "text-gray-700 hover:bg-violet-50"
-                    }`}
-                    onClick={toggleMenu}
-                  >
-                    <TrendingUp className="w-4 h-4 mr-3" />
-                    Market Research
-                  </Link>
-                  <Link
-                    to="/investor-matching"
-                    className={`flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
-                      darkMode
-                        ? "text-white hover:bg-violet-600/10"
-                        : "text-gray-700 hover:bg-violet-50"
-                    }`}
-                    onClick={toggleMenu}
-                  >
-                    <Target className="w-4 h-4 mr-3" />
-                    Investor Matching
-                  </Link>
-                  <Link
-                    to="/history"
-                    className={`flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
-                      darkMode
-                        ? "text-white hover:bg-violet-600/10"
-                        : "text-gray-700 hover:bg-violet-50"
-                    }`}
-                    onClick={toggleMenu}
-                  >
-                    <HistoryIcon className="w-4 h-4 mr-3" />
-                    History
-                  </Link>
-                  <Link
-                    to="/credits"
-                    className={`flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
-                      darkMode
-                        ? "text-white hover:bg-violet-600/10"
-                        : "text-gray-700 hover:bg-violet-50"
-                    }`}
-                    onClick={toggleMenu}
-                  >
-                    <CreditCard className="w-4 h-4 mr-3" />
-                    Credits
-                  </Link>
-                  <button
-                    onClick={() => {
-                      toggleMenu();
-                      handleInvestorsClick();
-                    }}
-                    className={`flex items-center w-full px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
-                      user?.isPremium
-                        ? darkMode
-                          ? "text-white hover:bg-violet-600/10"
-                          : "text-gray-700 hover:bg-violet-50"
-                        : "text-amber-400 hover:bg-amber-500/10"
-                    }`}
-                  >
-                    {user?.isPremium ? <Star className="w-4 h-4 mr-3 fill-current" /> : <Crown className="w-4 h-4 mr-3" />}
-                    Investors
-                  </button>
-                  <Link
-                    to="/profile"
-                    className={`flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
-                      darkMode
-                        ? "text-white hover:bg-violet-600/10"
-                        : "text-gray-700 hover:bg-violet-50"
-                    }`}
-                    onClick={toggleMenu}
-                  >
-                    <User className="w-4 h-4 mr-3" />
-                    Profile
-                  </Link>
-                  <button
-                    onClick={() => {
-                      handleLogout();
-                      toggleMenu();
-                    }}
-                    className="flex items-center w-full px-4 py-3 rounded-xl text-sm font-semibold text-red-500 hover:bg-red-500/10 transition-all duration-300 mt-2"
-                  >
-                    <LogOut size={18} className="mr-3" />
-                    Logout
+                  {/* Mobile Links */}
+                  <Link to="/dashboard" onClick={toggleMenu} className="flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5">Dashboard</Link>
+                  <Link to="/submit-idea" onClick={toggleMenu} className="flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5">Submit Idea</Link>
+                  <Link to="/saved-ideas" onClick={toggleMenu} className="flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5">Saved Ideas</Link>
+                  <Link to="/competitors" onClick={toggleMenu} className="flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5">Competitors</Link>
+                  <Link to="/pitch-simulator" onClick={toggleMenu} className="flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5">Pitch Arena</Link>
+                  <Link to="/profile" onClick={toggleMenu} className="flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5">Settings</Link>
+                  
+                  <button onClick={() => { handleLogout(); toggleMenu(); }} className="flex items-center w-full px-3 py-2.5 mt-4 rounded-lg text-sm font-medium text-red-400 hover:bg-red-500/10">
+                    <LogOut size={16} className="mr-2" /> Logout
                   </button>
                 </>
               ) : (
-                <>
-                  <Link
-                    to="/login"
-                    className={`block px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
-                      darkMode
-                        ? "text-white hover:bg-violet-600/10"
-                        : "text-gray-700 hover:bg-violet-50"
-                    }`}
-                    onClick={toggleMenu}
-                  >
-                    Login
+                <div className="flex flex-col gap-3">
+                  <Link to="/login" onClick={toggleMenu} className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-semibold text-gray-300 border border-white/10 hover:bg-white/5">
+                    Log In
                   </Link>
-                  <Link
-                    to="/signup"
-                    className={`flex items-center justify-center px-4 py-3 rounded-lg text-sm font-medium transition-colors mt-2 ${
-                      darkMode
-                        ? "bg-white text-black hover:bg-gray-100"
-                        : "bg-black text-white hover:bg-gray-800"
-                    }`}
-                    onClick={toggleMenu}
-                  >
+                  <Link to="/signup" onClick={toggleMenu} className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-semibold bg-white text-black hover:bg-gray-200">
                     Sign Up
                   </Link>
-                </>
+                </div>
               )}
             </div>
           </div>

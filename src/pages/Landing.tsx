@@ -1,27 +1,23 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { useTheme } from "../contexts/ThemeContext";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import {
-  Terminal,
   ArrowRight,
   Search,
   Filter,
-  CheckCircle2,
   ChevronDown,
   Brain,
   MessageSquare,
   LayoutTemplate,
-  Users,
-  Target
+  Target,
+  Play
 } from "lucide-react";
 import Demo from '../assets/run.mp4';
 
 const Landing = () => {
   const navigate = useNavigate();
-  const { darkMode } = useTheme();
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
 
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -34,56 +30,68 @@ const Landing = () => {
 
   const faqs = [
     {
-      question: "What is PitchMint?",
+      question: "What is PitchMint AI?",
       answer: "PitchMint is an AI-powered platform designed to help founders validate their startup ideas, generate professional pitch decks, and practice pitches with simulated investors."
     },
     {
-      question: "How can I validate my startup idea?",
+      question: "How can I validate my idea?",
       answer: "Simply enter your idea into our AI engine, and we'll analyze market demand, competition, and monetization potential to give you a comprehensive validation score."
     },
     {
-      question: "Is PitchMint free to use?",
+      question: "Is PitchMint AI free to use?",
       answer: "We offer 3 free credits per month. For unlimited access to advanced features like competitor analysis and the pitch simulator, check out our Pro plans."
     },
     {
       question: "How are ideas scored?",
       answer: "Our AI evaluates multiple dimensions including Total Addressable Market (TAM), competitive density, technical feasibility, and current market trends."
+    },
+    {
+      question: "How do I get started?",
+      answer: "Create an account, describe your idea, and click validate. You'll receive instant insights and a complete roadmap."
+    },
+    {
+      question: "Can I suggest new features?",
+      answer: "Absolutely! We love feedback. You can suggest features directly from your dashboard."
+    },
+    {
+      question: "What is PitchMint Pro?",
+      answer: "Pro unlocks unlimited validations, competitor deep-dives, downloadable pitch decks, and our premium investor matchmaking algorithm."
     }
   ];
 
   const testimonials = [
     {
-      quote: "This platform helped me validate my startup idea and secure seed funding. The AI-generated insights were incredibly valuable.",
+      quote: "PitchMint has been instrumental in giving me meaningful insights. The validation reports offer genuine insight into the realities of the market. You're never left feeling alone in your goals. Instead, you're consistently building and growing alongside a supportive, high-caliber AI.",
       author: "Sarah Chen",
       handle: "@sarah_chen",
       avatar: "S"
     },
     {
-      quote: "The pitch simulator prepared me for real investor meetings. It's like having a personal pitch coach available 24/7. Highly recommended for any serious founder.",
+      quote: "Being part of PitchMint for the past couple of weeks has been a great experience. The guidance from the platform helped a lot to pivot my idea. Highly recommended!",
       author: "Michael R.",
       handle: "@michael_innovate",
       avatar: "M"
     },
     {
-      quote: "Generated a professional pitch deck in minutes that would have taken weeks to create manually. The structure was perfect and the content hit all the right notes.",
+      quote: "Generated a professional pitch deck in minutes that would have taken weeks to create manually. The structure was perfect and the content hit all the right notes. Thanks to PitchMint for playing a huge role in my growth as a founder.",
       author: "Emily Zhang",
       handle: "@emilyz_data",
       avatar: "E"
     },
     {
-      quote: "The competitor analysis feature alone is worth its weight in gold. Found indirect competitors I hadn't even considered.",
+      quote: "The competitor analysis feature alone is worth its weight in gold. Found indirect competitors I hadn't even considered. Ambitious and obsessed regarding market research.",
       author: "David L.",
       handle: "@david_builds",
       avatar: "D"
     },
     {
-      quote: "Ajeet's guidance and the PitchMint community have been instrumental in my journey. The AI feedback on my lean canvas helped me pivot early.",
+      quote: "PitchMint turned out to be more than what I initially expected. The community and AI insights have been real helpful. My go-to person for any questions regarding startup tech.",
       author: "Rajat Sharma",
       handle: "@rajat_startup",
       avatar: "R"
     },
     {
-      quote: "Ambitious and obsessed regarding career and open source... PitchMint takes that same energy to startup validation.",
+      quote: "I don't know how, but this tool is the most active I have ever seen. I've even bought very expensive courses, but this platform stood out. Ambitious and obsessed regarding startup validation.",
       author: "Shiv Shukla",
       handle: "@shiv_shukla",
       avatar: "S"
@@ -91,62 +99,64 @@ const Landing = () => {
   ];
 
   return (
-    <div className={`min-h-screen selection:bg-purple-500/30 font-sans overflow-hidden ${darkMode ? "bg-[#0a0a0a] text-white" : "bg-gray-50 text-gray-900"}`}>
-      
-      {/* Navbar spacer */}
-      <div className="h-20"></div>
+    <div className="bg-[#000000] text-white selection:bg-purple-500/30 overflow-hidden font-sans w-full">
 
       {/* Hero Section */}
-      <section className="relative w-full pt-20 pb-32 overflow-hidden z-10 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center">
-        
-        {/* Rich Purple Gradient Background */}
-        <div className="absolute inset-0 -z-10 bg-[#050505]">
-          <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[120vw] h-[800px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-800/60 via-purple-900/20 to-[#0a0a0a] blur-[100px] opacity-80"></div>
-          {/* Subtle grid pattern overlay */}
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] [mask-image:linear-gradient(to_bottom,black_40%,transparent_100%)] opacity-50"></div>
+      <section className="relative w-full pt-32 pb-32 overflow-hidden z-10 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[90vh]">
+
+        {/* Rich Purple Gradient Background with Noise */}
+        <div className="absolute inset-0 -z-10 bg-black overflow-hidden">
+          <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[120vw] h-[900px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#4c1d95]/70 via-[#2e1065]/20 to-black blur-[100px] opacity-100"></div>
+          {/* Noise texture overlay */}
+          <div className="absolute inset-0 opacity-[0.15] mix-blend-overlay" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
         </div>
-        
-        <div className="relative z-20 w-full max-w-5xl mx-auto flex flex-col items-center text-center">
-          
+
+        <div className="relative z-20 w-full max-w-5xl mx-auto flex flex-col items-center text-center mt-8">
+
+          {/* Pill Badge */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="flex items-center justify-center mb-8"
+            className="flex items-center justify-center mb-10"
           >
-            <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md backdrop-blur-md border ${
-                darkMode ? "bg-black/40 border-white/10" : "bg-white/80 border-gray-200"
-              }`}>
-              <span className={`text-xs font-medium ${darkMode ? "text-gray-300" : "text-gray-600"}`}>Backed by</span>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/60 border border-white/10 backdrop-blur-sm">
+              <span className="text-xs font-semibold text-gray-300">Backed by</span>
               <div className="flex items-center gap-1.5">
-                <div className="w-4 h-4 bg-gradient-to-br from-[#FF6154] to-[#FF8C00] rounded-[4px] flex items-center justify-center">
+                <div className="w-4 h-4 bg-gradient-to-br from-[#ff512f] to-[#dd2476] rounded-[4px] flex items-center justify-center shadow-[0_0_10px_rgba(255,81,47,0.5)]">
                   <span className="text-white text-[10px] font-bold leading-none">U</span>
                 </div>
-                <span className={`text-xs font-medium ${darkMode ? "text-white" : "text-gray-900"}`}>sers</span>
+                <span className="text-xs font-semibold text-white">sers</span>
               </div>
             </div>
           </motion.div>
 
+          {/* Main Heading */}
           <motion.h1
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-semibold tracking-tighter leading-[1.05] text-balance mb-6 max-w-4xl"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-semibold tracking-tight leading-[1.1] text-white text-balance mb-8 max-w-4xl drop-shadow-xl"
           >
             Only platform you need to rock <span className="block">Startup Validation</span>
           </motion.h1>
-          
-          <motion.p
+
+          {/* Subheading */}
+          <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-            className={`w-full text-lg lg:text-xl tracking-tight font-light mb-10 ${darkMode ? "text-gray-300" : "text-gray-600"}`}
+            className="w-full text-base md:text-lg tracking-tight font-light mb-12 text-gray-300 flex justify-center"
           >
-            <span className={`inline-flex items-center gap-1 border-b cursor-pointer transition-colors duration-300 pb-0.5 ${darkMode ? "border-gray-500 hover:border-white hover:text-white" : "border-gray-400 hover:border-gray-900 hover:text-gray-900"}`} onClick={() => navigate("/signup")}>
-              achieve in days what took months in validation ↗
+            <span
+              className="inline-flex items-center cursor-pointer hover:text-white transition-colors duration-300 pb-0.5 border-b border-gray-500 hover:border-white"
+              onClick={() => navigate("/signup")}
+            >
+              achieve in 1 week what took me 3 months in validation ↗
             </span>
-          </motion.p>
+          </motion.div>
 
+          {/* Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -155,14 +165,14 @@ const Landing = () => {
           >
             <button
               onClick={() => navigate("/signup")}
-              className="group flex gap-2 items-center justify-center px-6 py-3 rounded-xl border border-[#7630f5] bg-gradient-to-b from-[#6b25ef] to-[#5100FF] shadow-[0px_1px_2px_0px_rgba(255,255,255,0.3)_inset] hover:opacity-90 transition-all duration-200 text-white font-medium text-sm"
+              className="flex gap-2 items-center justify-center px-6 py-2.5 rounded-full bg-[#6c28ff] hover:bg-[#5a1ec0] transition-colors duration-200 text-white font-semibold text-sm shadow-[0_0_20px_rgba(108,40,255,0.4),inset_0_1px_1px_rgba(255,255,255,0.3)] border border-[#7c3aed]"
             >
-              <Terminal className="w-4 h-4" />
+              <span className="font-mono text-[13px] mr-1">{'>_'}</span>
               Get Started
             </button>
             <button
               onClick={() => navigate("/login")}
-              className="flex gap-2 items-center justify-center px-6 py-3 rounded-xl border border-[#5100FF] bg-[#2a1b54]/40 hover:bg-[#2a1b54]/60 transition-colors duration-200 text-white font-medium text-sm backdrop-blur-sm"
+              className="flex gap-2 items-center justify-center px-6 py-2.5 rounded-full bg-[#3e0ea6] hover:bg-[#2d0a7a] transition-colors duration-200 text-white font-semibold text-sm shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] border border-[#5113d7]"
             >
               <ArrowRight className="w-4 h-4" />
               Check Pro
@@ -171,163 +181,236 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* Supercharge Section */}
+      {/* Supercharge Section Title */}
       <section className="w-full flex flex-col items-center">
-        <div className={`w-full py-16 flex items-center justify-center relative border-y ${darkMode ? "border-[#222] bg-[#111]" : "border-gray-200 bg-gray-50"}`}>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-center z-10">
-            Supercharge Your Startup Journey
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+          className="w-full py-20 flex items-center justify-center relative border-y border-white/5 bg-black"
+        >
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-center z-10 text-white">
+            Supercharge Your Validation Journey
           </h2>
-          {darkMode && (
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#1a1a1a_0%,_transparent_70%)]"></div>
-          )}
-        </div>
+          {/* Subtle dotted background */}
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] [mask-image:radial-gradient(ellipse_at_center,black,transparent)] opacity-50"></div>
+        </motion.div>
 
-        {/* Bento Grid */}
-        <div className="w-full max-w-[2000px] mx-auto border-x border-[#222]">
+        {/* Bento Grid Features */}
+        <div className="w-full max-w-[2000px] mx-auto border-x border-white/5 bg-[#0a0a0a]">
           <div className="grid lg:grid-cols-2">
-            
-            {/* Bento Card 1: Seamless Validation */}
-            <div className={`p-8 md:p-12 border-b lg:border-b-0 lg:border-r ${darkMode ? "border-[#222] bg-[#0c0c0c]" : "border-gray-200 bg-white"} min-h-[400px] flex flex-col relative overflow-hidden group`}>
-              <div className="relative z-10 mb-12">
-                <h3 className="text-2xl md:text-3xl font-medium tracking-tight mb-2">Seamless Validation</h3>
-                <p className={`text-sm md:text-base ${darkMode ? "text-gray-400" : "text-gray-600"}`}>Analyze thousands of data points for your idea instantly.</p>
-              </div>
-              
-              {/* Spinning Graphic */}
-              <div className="absolute bottom-[-10%] right-[-10%] w-[350px] h-[350px] md:w-[450px] md:h-[450px] flex items-center justify-center">
-                {/* Outer dashed ring */}
-                <div className="absolute w-[90%] h-[90%] rounded-full border-2 border-dashed border-[#333] animate-[spin_40s_linear_infinite]">
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-[#1a1a1a] border border-[#333] rounded-xl flex items-center justify-center shadow-lg -rotate-[0deg]"><Brain className="w-5 h-5 text-purple-400"/></div>
-                  <div className="absolute bottom-1/4 left-0 -translate-x-1/2 w-8 h-8 bg-white rounded-lg flex items-center justify-center shadow-lg"><Target className="w-4 h-4 text-black"/></div>
-                </div>
-                {/* Inner solid ring */}
-                <div className="absolute w-[60%] h-[60%] rounded-full border border-[#444] bg-[#111] animate-[spin_20s_linear_infinite_reverse]">
-                  <div className="absolute bottom-0 right-1/4 translate-y-1/2 w-12 h-12 bg-purple-600 rounded-xl flex items-center justify-center shadow-xl"><LayoutTemplate className="w-6 h-6 text-white"/></div>
-                </div>
-                {/* Center text */}
-                <div className="absolute z-20 font-bold text-xl md:text-2xl tracking-tighter">PitchMint AI</div>
-              </div>
-            </div>
 
-            {/* Bento Card 2: Precision Filters */}
-            <div className={`p-8 md:p-12 border-b ${darkMode ? "border-[#222] bg-[#0c0c0c]" : "border-gray-200 bg-white"} min-h-[400px] flex flex-col relative overflow-hidden group`}>
-              <div className="relative z-10 mb-12">
-                <h3 className="text-2xl md:text-3xl font-medium tracking-tight mb-2">Precision Metrics</h3>
-                <p className={`text-sm md:text-base ${darkMode ? "text-gray-400" : "text-gray-600"}`}>Zero in on ideas by market size, competition and cost.</p>
+            {/* Seamless Search (Concentric Circles) */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6 }}
+              className="p-8 md:p-14 border-b lg:border-b-0 lg:border-r border-white/5 min-h-[450px] flex flex-col relative overflow-hidden group bg-[#0a0a0a]"
+            >
+              <div className="relative z-20 mb-12">
+                <h3 className="text-2xl md:text-[28px] font-medium tracking-tight mb-2 text-white">Seamless Validation</h3>
+                <p className="text-[15px] text-gray-400">Search thousands of data points instantly.</p>
               </div>
-              
-              {/* Filter Graphic */}
-              <div className="absolute bottom-[10%] left-[10%] w-[80%] h-auto rounded-[2rem] border border-[#333] bg-[#141414] p-6 shadow-2xl backdrop-blur-md transform group-hover:translate-y-[-10px] transition-transform duration-500">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-6 h-6 rounded bg-purple-500/20 flex items-center justify-center">
+
+              {/* Graphic: Concentric Circles */}
+              <div className="absolute bottom-[-15%] right-[-10%] w-[450px] h-[450px] md:w-[550px] md:h-[550px] flex items-center justify-center">
+                {/* Outermost ring */}
+                <div className="absolute w-full h-full rounded-full border border-white/5"></div>
+
+                {/* Orbit ring 1 */}
+                <div className="absolute w-[75%] h-[75%] rounded-full border border-white/5 animate-[spin_40s_linear_infinite]">
+                  <div className="absolute top-[10%] left-[15%] w-10 h-10 bg-black border border-white/10 rounded-xl flex items-center justify-center -rotate-[0deg] shadow-lg">
+                    <Target className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="absolute bottom-[20%] right-[5%] w-10 h-10 bg-black border border-white/10 rounded-xl flex items-center justify-center shadow-lg">
+                    <MessageSquare className="w-5 h-5 text-purple-400" />
+                  </div>
+                </div>
+
+                {/* Orbit ring 2 */}
+                <div className="absolute w-[50%] h-[50%] rounded-full border border-white/10 bg-black/50 backdrop-blur-sm animate-[spin_20s_linear_infinite_reverse]">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-white px-3 py-1 rounded-full text-black font-semibold text-xs shadow-lg">Cal</div>
+                  <div className="absolute bottom-4 right-0 bg-purple-600 w-10 h-10 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(147,51,234,0.5)]">
+                    <Brain className="w-5 h-5 text-white" />
+                  </div>
+                </div>
+
+                {/* Center text */}
+                <div className="absolute z-20 font-bold text-2xl tracking-tighter text-white bg-black/80 backdrop-blur-sm px-4 py-2 rounded-full border border-white/5">PitchMint AI</div>
+              </div>
+            </motion.div>
+
+            {/* Precision Filters (Floating UI Card) */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="p-8 md:p-14 border-b border-white/5 min-h-[450px] flex flex-col relative overflow-hidden group bg-[#0a0a0a]"
+            >
+              <div className="relative z-20 mb-12">
+                <h3 className="text-2xl md:text-[28px] font-medium tracking-tight mb-2 text-white">Precision Metrics</h3>
+                <p className="text-[15px] text-gray-400">Zero in on ideas by market, stack and activity level.</p>
+              </div>
+
+              {/* Graphic: Floating UI */}
+              <div className="absolute bottom-[15%] right-[10%] w-[350px] rounded-[24px] border border-white/5 bg-[#141414] p-6 shadow-2xl backdrop-blur-md transform group-hover:-translate-y-2 transition-transform duration-500">
+                <div className="flex items-center gap-2 mb-6">
+                  <div className="w-6 h-6 rounded bg-purple-500/20 flex items-center justify-center border border-purple-500/30">
                     <Filter className="w-3 h-3 text-purple-400" />
                   </div>
-                  <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Filter By: METRICS</span>
+                  <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest">Filter By: METRICS</span>
                 </div>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1.5 rounded-lg bg-[#222] border border-[#333] text-xs font-medium text-gray-300 flex items-center gap-2 hover:bg-[#333] cursor-default transition-colors"><span className="w-2 h-2 rounded-full bg-green-400"></span> High TAM</span>
-                  <span className="px-3 py-1.5 rounded-lg bg-[#222] border border-[#333] text-xs font-medium text-gray-300 flex items-center gap-2 hover:bg-[#333] cursor-default transition-colors"><span className="w-2 h-2 rounded-full bg-blue-400"></span> Low CAC</span>
-                  <span className="px-3 py-1.5 rounded-lg bg-[#222] border border-[#333] text-xs font-medium text-gray-300 flex items-center gap-2 hover:bg-[#333] cursor-default transition-colors"><span className="w-2 h-2 rounded-full bg-orange-400"></span> SaaS</span>
-                  <span className="px-3 py-1.5 rounded-lg bg-[#222] border border-[#333] text-xs font-medium text-gray-300 flex items-center gap-2 hover:bg-[#333] cursor-default transition-colors"><span className="w-2 h-2 rounded-full bg-purple-400"></span> B2B</span>
+
+                <div className="flex flex-wrap gap-3">
+                  <div className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-gray-300 flex items-center gap-2">
+                    <div className="w-4 h-4 rounded-full bg-emerald-500 flex items-center justify-center"><span className="text-white text-[8px] font-bold">M</span></div>
+                    Market Size
+                  </div>
+                  <div className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-gray-300 flex items-center gap-2">
+                    <div className="w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center"><span className="text-white text-[8px] font-bold">C</span></div>
+                    Competition
+                  </div>
+                  <div className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-gray-300 flex items-center gap-2">
+                    <div className="w-4 h-4 rounded-full bg-yellow-500 flex items-center justify-center"><span className="text-black text-[8px] font-bold">T</span></div>
+                    Time to MVP
+                  </div>
                 </div>
               </div>
-            </div>
-
+            </motion.div>
           </div>
         </div>
 
-        {/* Demo Video Container */}
-        <div className={`w-full max-w-[2000px] mx-auto p-4 md:p-12 border-x border-b ${darkMode ? "border-[#222] bg-[#111]" : "border-gray-200 bg-gray-50"}`}>
-          <div className="w-full max-w-4xl mx-auto rounded-xl overflow-hidden border border-[#333] bg-[#000] relative shadow-2xl aspect-video group cursor-pointer">
-            <video src={Demo} autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"></video>
-            
-            {/* Play Button Overlay */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center shadow-[0_0_30px_rgba(220,38,38,0.5)] transform group-hover:scale-110 transition-transform duration-300">
-                <svg className="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        {/* Demo Video Frame */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+          className="w-full max-w-[2000px] mx-auto p-4 md:p-12 border-x border-b border-white/5 bg-[#0a0a0a]"
+        >
+          <div className="w-full max-w-5xl mx-auto rounded-xl overflow-hidden border border-white/10 bg-black relative shadow-2xl group cursor-pointer">
+            {/* Fake macOS Header */}
+            <div className="absolute top-0 left-0 w-full h-8 bg-[#141414] border-b border-white/5 flex items-center px-4 gap-2 z-20">
+              <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]"></div>
+              <div className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]"></div>
+              <div className="w-2.5 h-2.5 rounded-full bg-[#27c93f]"></div>
+              <div className="mx-auto text-[10px] text-gray-500 font-medium">PitchMint Dashboard</div>
+            </div>
+
+            {/* Video content */}
+            <div className="pt-8 aspect-video relative">
+              <img
+                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=2000"
+                className="absolute inset-0 pt-8 w-full h-full object-cover opacity-40 grayscale"
+                alt="Dashboard Mockup"
+              />
+              <video src={Demo} autoPlay loop muted playsInline className="absolute inset-0 pt-8 w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-300"></video>
+
+              {/* Large Red Play Button Overlay */}
+              <div className="absolute inset-0 flex items-center justify-center z-30">
+                <div className="w-20 h-20 rounded-full bg-[#ff0000] flex items-center justify-center shadow-[0_0_30px_rgba(255,0,0,0.4)] transform group-hover:scale-110 transition-transform duration-300 cursor-pointer">
+                  <Play className="w-8 h-8 text-white ml-1 fill-white" />
+                </div>
               </div>
             </div>
-            {/* Fake Window Header */}
-            <div className="absolute top-0 left-0 w-full h-10 bg-[#1a1a1a] border-b border-[#333] flex items-center px-4 gap-2">
-              <div className="w-3 h-3 rounded-full bg-red-500"></div>
-              <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-              <div className="w-3 h-3 rounded-full bg-green-500"></div>
-              <div className="mx-auto text-[10px] text-gray-500 uppercase tracking-wider font-semibold">PitchMint Demo</div>
-            </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* How it Works Section */}
-      <section className={`w-full py-24 md:py-32 relative border-b ${darkMode ? "border-[#222] bg-[#0a0a0a]" : "border-gray-200 bg-white"}`}>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-center mb-20">
+      <section className="w-full py-24 md:py-32 relative border-b border-white/5 bg-[#050505]">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-3xl md:text-4xl lg:text-[40px] font-medium tracking-tight text-center mb-24 text-white"
+          >
             How it Works
-          </h2>
-          
+          </motion.h2>
+
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            
-            {/* Steps */}
-            <div className="flex flex-col border-l border-[#333]">
-              <div className="p-8 border-b border-[#333] relative">
-                <div className="absolute -left-[5px] top-10 w-2.5 h-2.5 rounded-full bg-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.8)]"></div>
-                <h4 className="text-xl font-medium mb-3">1. Describe Your Idea</h4>
-                <p className={`text-sm leading-relaxed ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
-                  Enter a brief description of your startup idea, target audience, and potential business model.
-                </p>
-              </div>
-              <div className="p-8 border-b border-[#333] relative">
-                <h4 className="text-xl font-medium mb-3">2. AI Validation Instantly</h4>
-                <p className={`text-sm leading-relaxed ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
-                  Our AI engine cross-references market data to generate a comprehensive validation report.
-                </p>
-              </div>
-              <div className="p-8 relative">
-                <h4 className="text-xl font-medium mb-3">3. Discover & Pivot</h4>
-                <p className={`text-sm leading-relaxed ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
-                  Review the feedback, refine your lean canvas, and practice your pitch with our simulator.
-                </p>
-              </div>
+
+            {/* Steps List */}
+            <div className="flex flex-col">
+              {[
+                { step: "1", title: "Describe Your Idea", desc: "Choose the market, audience, and features that matter to you." },
+                { step: "2", title: "Validate Instantly", desc: "Hit validate and let AI cross-reference market data against your criteria." },
+                { step: "3", title: "Pivot & Build", desc: "Find the perfect product-market fit, start building, and make meaningful progress." }
+              ].map((item, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="p-8 border-b border-white/5 relative group cursor-pointer hover:bg-white/[0.02] transition-colors"
+                >
+                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[2px] h-0 bg-purple-500 group-hover:h-full transition-all duration-300"></div>
+                  <h4 className="text-[17px] font-semibold mb-2 text-white">{item.step}. {item.title}</h4>
+                  <p className="text-[14px] text-gray-400 leading-relaxed">
+                    {item.desc}
+                  </p>
+                </motion.div>
+              ))}
             </div>
 
-            {/* Graphic Right */}
-            <div className={`rounded-3xl border p-8 flex items-center justify-center relative overflow-hidden h-[400px] ${darkMode ? "border-[#333] bg-gradient-to-br from-[#111] to-[#1a1a1a]" : "border-gray-200 bg-gray-50"}`}>
-              <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]"></div>
-              
-              {/* 3D-ish Search UI Simulation */}
-              <div className="relative z-10 rounded-2xl border border-purple-500/50 bg-[#160b29] p-2 shadow-[0_0_50px_rgba(147,51,234,0.3)] transform -rotate-2 hover:rotate-0 transition-transform duration-500">
-                <div className="rounded-xl border border-purple-400 bg-purple-900/50 px-8 py-4 flex items-center gap-4">
-                  <Search className="w-8 h-8 text-purple-300" />
-                  <span className="text-3xl font-semibold text-purple-100 tracking-tight">Validate</span>
-                </div>
-                <div className="absolute -bottom-6 right-4 rounded-lg border border-purple-500 bg-[#160b29] px-6 py-2 shadow-lg">
-                  <span className="text-lg font-medium text-purple-300">Insights</span>
+            {/* Neon Graphic Right */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="h-[450px] w-full border border-white/5 bg-[#0a0a0a] rounded-[24px] relative flex items-center justify-center overflow-hidden"
+            >
+              {/* Perspective Grid Background */}
+              <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0MHY0MEgwem0yMCAyMGMxMS4wNDYgMCAyMC04Ljk1NCAyMC0yMFMyOC45NTQgMCAyMCAwIDAgOC45NTQgMCAyMHNiLjk1NCAyMCAyMCAyMHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIgc3Ryb2tlLXdpZHRoPSIwLjUiLz48L3N2Zz4=')] [transform:perspective(500px)_rotateX(60deg)] opacity-30 origin-bottom"></div>
+
+              {/* Glowing 3D Validate Graphic */}
+              <div className="relative z-10 w-[280px] h-[120px] rounded-[32px] bg-[#1a0b36] border-[4px] border-[#9d4edd] shadow-[0_0_60px_rgba(157,78,221,0.5),inset_0_0_20px_rgba(157,78,221,0.5)] flex items-center px-8 gap-4 transform rotate-[-5deg] hover:rotate-0 transition-transform duration-500">
+                <Brain className="w-10 h-10 text-[#d8b4fe] stroke-[3px]" />
+                <span className="text-[36px] font-bold text-[#d8b4fe] tracking-tight">Validate</span>
+
+                {/* Floating button below */}
+                <div className="absolute -bottom-16 right-4 rounded-xl border-2 border-[#9d4edd] bg-[#1a0b36] px-8 py-3 shadow-[0_0_30px_rgba(157,78,221,0.3)]">
+                  <span className="text-xl font-bold text-[#d8b4fe]">Insights</span>
                 </div>
               </div>
-            </div>
+            </motion.div>
+
           </div>
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section className={`w-full py-24 md:py-32 relative border-b ${darkMode ? "border-[#222] bg-[#111]" : "border-gray-200 bg-gray-50"}`}>
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-center mb-16">
+      {/* Frequently Asked Questions */}
+      <section className="w-full py-24 md:py-32 relative border-b border-white/5 bg-[#080808]">
+        <div className="max-w-[800px] mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-3xl md:text-4xl lg:text-[40px] font-medium tracking-tight text-center mb-16 text-white"
+          >
             Frequently Asked Questions
-          </h2>
-          
-          <div className="space-y-4">
+          </motion.h2>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="space-y-[1px] bg-white/5 border border-white/5 rounded-xl overflow-hidden"
+          >
             {faqs.map((faq, index) => (
-              <div 
-                key={index} 
-                className={`border rounded-xl overflow-hidden transition-colors ${darkMode ? "border-[#333] bg-[#1a1a1a]" : "border-gray-200 bg-white"}`}
-              >
+              <div key={index} className="bg-[#0a0a0a]">
                 <button
                   onClick={() => setActiveFaq(activeFaq === index ? null : index)}
-                  className="w-full px-6 py-4 flex items-center justify-between text-left focus:outline-none"
+                  className="w-full px-8 py-5 flex items-center justify-between text-left focus:outline-none hover:bg-white/[0.02] transition-colors"
                 >
-                  <span className="font-medium text-[15px]">{faq.question}</span>
-                  <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${activeFaq === index ? "rotate-180" : ""}`} />
+                  <span className="font-semibold text-[15px] text-gray-200">{faq.question}</span>
+                  <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform duration-300 ${activeFaq === index ? "rotate-180" : ""}`} />
                 </button>
                 <AnimatePresence>
                   {activeFaq === index && (
@@ -337,7 +420,7 @@ const Landing = () => {
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <div className={`px-6 pb-4 text-sm ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
+                      <div className="px-8 pb-6 pt-1 text-[14px] leading-relaxed text-gray-400">
                         {faq.answer}
                       </div>
                     </motion.div>
@@ -345,92 +428,184 @@ const Landing = () => {
                 </AnimatePresence>
               </div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Statistics Section */}
-      <section className={`w-full py-16 border-b ${darkMode ? "border-[#222] bg-[#0a0a0a]" : "border-gray-200 bg-white"}`}>
-        <div className="max-w-5xl mx-auto px-4">
+      {/* Statistics */}
+      <section className="w-full py-24 border-b border-white/5 bg-[#050505]">
+        <div className="max-w-6xl mx-auto px-4">
           <h2 className="sr-only">Statistics</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-[#333]">
-            <div className="flex flex-col items-center justify-center py-8">
-              <span className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#6b25ef] to-[#5100FF] mb-2">32,757+</span>
-              <span className="text-lg md:text-xl font-medium text-[#6b25ef] tracking-wide">Validations</span>
-            </div>
-            <div className="flex flex-col items-center justify-center py-8">
-              <span className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#6b25ef] to-[#5100FF] mb-2">13,597+</span>
-              <span className="text-lg md:text-xl font-medium text-[#6b25ef] tracking-wide">Founders</span>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-white/5 border border-white/5 rounded-3xl bg-[#0a0a0a] overflow-hidden">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              className="flex flex-col items-center justify-center py-16 px-4 hover:bg-white/[0.01] transition-colors cursor-default"
+            >
+              <span className="text-5xl md:text-[80px] font-bold text-transparent bg-clip-text bg-gradient-to-br from-[#8b5cf6] to-[#4c1d95] mb-4 tracking-tighter leading-none">32,757+</span>
+              <span className="text-xl md:text-2xl font-semibold text-[#8b5cf6] tracking-wide">Validations</span>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="flex flex-col items-center justify-center py-16 px-4 hover:bg-white/[0.01] transition-colors cursor-default"
+            >
+              <span className="text-5xl md:text-[80px] font-bold text-transparent bg-clip-text bg-gradient-to-br from-[#8b5cf6] to-[#4c1d95] mb-4 tracking-tighter leading-none">13,597+</span>
+              <span className="text-xl md:text-2xl font-semibold text-[#8b5cf6] tracking-wide">Founders</span>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* Testimonials */}
-      <section className={`w-full py-24 md:py-32 relative ${darkMode ? "bg-[#111]" : "bg-gray-50"}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-center mb-16">
+      <section className="w-full py-24 md:py-32 relative bg-[#000000] overflow-hidden">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-3xl md:text-4xl lg:text-[40px] font-medium tracking-tight text-center mb-16 text-white relative z-20"
+          >
             Testimonials
-          </h2>
+          </motion.h2>
 
-          <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-            {testimonials.map((t, idx) => (
-              <div key={idx} className={`break-inside-avoid p-6 rounded-2xl border ${
-                darkMode ? "border-[#222] bg-[#1a1a1a]" : "border-gray-200 bg-white"
-              }`}>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center font-bold text-white shadow-md">
-                    {t.avatar}
+          {/* Infinite Marquee Container */}
+          <div className="relative h-[800px] overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)] -mx-4 sm:mx-0 flex justify-center gap-6">
+
+            {/* Column 1 - Scrolling UP */}
+            <div className="w-full sm:w-[350px] flex-shrink-0 flex flex-col gap-6 animate-marqueeUp hover:[animation-play-state:paused] h-max">
+              {[...testimonials, ...testimonials].map((t, idx) => (
+                <div
+                  key={`col1-${idx}`}
+                  className="p-6 rounded-2xl border border-white/5 bg-[#0a0a0a] hover:bg-[#111] transition-colors"
+                >
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center font-bold text-white text-sm">
+                        {t.avatar}
+                      </div>
+                      <div>
+                        <div className="font-semibold text-[14px] text-gray-200 leading-tight">{t.author}</div>
+                        <div className="text-[12px] text-gray-500">{t.handle}</div>
+                      </div>
+                    </div>
+                    <svg className="w-4 h-4 text-gray-600" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
                   </div>
-                  <div>
-                    <div className="font-semibold text-sm">{t.author}</div>
-                    <div className={`text-xs ${darkMode ? "text-gray-500" : "text-gray-400"}`}>{t.handle}</div>
-                  </div>
+                  <p className="text-[14px] leading-relaxed text-gray-400">
+                    {t.quote}
+                  </p>
                 </div>
-                <p className={`text-sm leading-relaxed ${darkMode ? "text-gray-300" : "text-gray-600"}`}>
-                  {t.quote}
-                </p>
-              </div>
-            ))}
+              ))}
+            </div>
+
+            {/* Column 2 - Scrolling DOWN */}
+            <div className="hidden md:flex w-[350px] flex-shrink-0 flex-col gap-6 animate-marqueeDown hover:[animation-play-state:paused] h-max">
+              {[...testimonials, ...testimonials].reverse().map((t, idx) => (
+                <div
+                  key={`col2-${idx}`}
+                  className="p-6 rounded-2xl border border-white/5 bg-[#0a0a0a] hover:bg-[#111] transition-colors"
+                >
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#8C52FF] to-[#6014FF] flex items-center justify-center font-bold text-white text-sm">
+                        {t.avatar}
+                      </div>
+                      <div>
+                        <div className="font-semibold text-[14px] text-gray-200 leading-tight">{t.author}</div>
+                        <div className="text-[12px] text-gray-500">{t.handle}</div>
+                      </div>
+                    </div>
+                    <svg className="w-4 h-4 text-gray-600" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+                  </div>
+                  <p className="text-[14px] leading-relaxed text-gray-400">
+                    {t.quote}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {/* Column 3 - Scrolling UP */}
+            <div className="hidden lg:flex w-[350px] flex-shrink-0 flex-col gap-6 animate-marqueeUp hover:[animation-play-state:paused] h-max">
+              {/* Mix order for variation */}
+              {[...testimonials, ...testimonials].map((t, idx) => (
+                <div
+                  key={`col3-${idx}`}
+                  className="p-6 rounded-2xl border border-white/5 bg-[#0a0a0a] hover:bg-[#111] transition-colors"
+                >
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#4c1d95] to-[#2e1065] flex items-center justify-center font-bold text-white text-sm">
+                        {t.avatar}
+                      </div>
+                      <div>
+                        <div className="font-semibold text-[14px] text-gray-200 leading-tight">{t.author}</div>
+                        <div className="text-[12px] text-gray-500">{t.handle}</div>
+                      </div>
+                    </div>
+                    <svg className="w-4 h-4 text-gray-600" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+                  </div>
+                  <p className="text-[14px] leading-relaxed text-gray-400">
+                    {t.quote}
+                  </p>
+                </div>
+              ))}
+            </div>
+
           </div>
         </div>
       </section>
 
       {/* Radiant CTA Section */}
-      <section className={`w-full px-4 sm:px-6 lg:px-8 py-20 pb-32 ${darkMode ? "bg-[#111]" : "bg-gray-50"}`}>
-        <div className="max-w-6xl mx-auto rounded-[2.5rem] relative overflow-hidden border border-[#5100FF]/30 p-12 md:p-24 text-center">
-          
-          {/* Vibrant Background */}
-          <div className="absolute inset-0 z-0">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#d8b4fe] via-[#a855f7] to-[#3b82f6] opacity-90 mix-blend-multiply"></div>
-            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44KSIvPjwvc3ZnPg==')] opacity-40"></div>
-            {/* White glow center */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-white/40 blur-[80px] rounded-full"></div>
+      <section className="w-full px-4 sm:px-6 lg:px-8 py-20 pb-32 bg-[#000000]">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="max-w-[1200px] mx-auto rounded-[32px] relative overflow-hidden p-12 md:p-24 text-center"
+        >
+          {/* Opensox-style Heavy Noise Purple Background */}
+          <div className="absolute inset-0 z-0 overflow-hidden">
+            {/* Base: light lavender/lilac that shows through the noise */}
+            <div className="absolute inset-0 bg-[#a78bfa]"></div>
+
+            {/* Heavy coarse noise texture — the defining visual */}
+            <div className="absolute inset-0 opacity-[0.6]" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 512 512%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.035%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
+
+            {/* Dark purple vignette — dark center, lighter noisy edges */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(55,20,130,0.85)_0%,_rgba(55,20,130,0.4)_50%,_rgba(55,20,130,0.0)_80%)]"></div>
+
+            {/* Subtle purple color tint over everything */}
+            <div className="absolute inset-0 bg-[#6c28ff]/25 mix-blend-multiply"></div>
           </div>
 
           <div className="relative z-10 flex flex-col items-center">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4 text-white drop-shadow-md text-balance">
-              Ready to dive into<br/>Startup Validation?
+            <h2 className="text-4xl md:text-5xl lg:text-[64px] font-bold tracking-tight mb-6 text-white drop-shadow-sm text-balance leading-tight">
+              Ready to dive into<br />Startup Validation?
             </h2>
-            <p className="text-lg md:text-xl text-white/90 font-medium mb-10 max-w-xl text-balance drop-shadow-sm">
+            <p className="text-lg md:text-xl text-gray-200 font-medium mb-10 max-w-xl text-balance">
               Join 10,000+ founders accelerating their journey.
             </p>
-            
+
             <button
               onClick={() => navigate("/signup")}
-              className="flex gap-2 items-center justify-center px-8 py-4 rounded-xl border border-white/20 bg-[#6b25ef] hover:bg-[#5a1ec0] transition-colors duration-200 text-white font-medium text-lg shadow-2xl mb-6"
+              className="flex gap-2 items-center justify-center px-6 py-2.5 rounded-full bg-[#6c28ff] hover:bg-[#5a1ec0] transition-colors duration-200 text-white font-semibold text-sm shadow-[0_0_20px_rgba(108,40,255,0.4),inset_0_1px_1px_rgba(255,255,255,0.3)] border border-[#7c3aed] mb-8"
             >
-              <Terminal className="w-5 h-5" />
+              <span className="font-mono text-[13px] mr-1">{'>_'}</span>
               Get Started
             </button>
-            
-            <a href="#" className="text-sm font-medium text-white underline underline-offset-4 hover:text-white/80 transition-colors">
-              See what our investors say →
+
+            <a href="#" className="text-[14px] font-medium text-gray-300 hover:text-white transition-colors flex items-center gap-1 border-b border-gray-500 hover:border-gray-300 pb-0.5">
+              See what our investors say <ArrowRight className="w-3.5 h-3.5" />
             </a>
           </div>
-        </div>
+        </motion.div>
       </section>
 
+      {/* Footer has been removed here because it's managed globally by App.tsx */}
     </div>
   );
 };

@@ -57,12 +57,8 @@ function App() {
   const { token, isAuthenticated } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [darkMode]);
+    document.documentElement.classList.add('dark');
+  }, []);
 
   // Load user on app start if token exists
   useEffect(() => {
@@ -72,7 +68,7 @@ function App() {
   }, [token, isAuthenticated, dispatch]);
 
   return (
-    <div className={`min-h-screen flex flex-col ${darkMode ? 'dark bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
+    <div className="min-h-screen flex flex-col dark bg-[#000000] text-white">
       <Navbar />
       <main className="flex-grow">
         <Suspense fallback={<PageLoader />}>
