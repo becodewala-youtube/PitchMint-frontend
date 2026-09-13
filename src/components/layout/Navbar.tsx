@@ -58,15 +58,11 @@ const Navbar = () => {
       <nav
         className={`sticky top-0 z-50 backdrop-blur-xl border-b transition-all duration-300 ${
           darkMode
-            ? "bg-[#0a0118]/70 border-violet-500/10"
-            : "bg-white/90 border-gray-200/50"
+            ? "bg-[#050505]/80 border-gray-900"
+            : "bg-white/90 border-gray-100"
         }`}
       >
-        {/* Gradient Glow Effect */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className={`absolute top-0 left-1/4 w-96 h-24 blur-3xl opacity-20 ${darkMode ? 'bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600' : 'bg-gradient-to-r from-violet-300 via-purple-300 to-fuchsia-300'}`} />
-          <div className={`absolute top-0 right-1/4 w-96 h-24 blur-3xl opacity-20 ${darkMode ? 'bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600' : 'bg-gradient-to-r from-cyan-300 via-blue-300 to-indigo-300'}`} />
-        </div>
+
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
@@ -76,9 +72,9 @@ const Navbar = () => {
                   <img src={icon} alt="logo" className="w-6 h-6" />
                 </div>
                 <span
-                  className={`font-black text-xl ${darkMode ? "text-white" : "text-gray-900"} group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-violet-400 group-hover:to-fuchsia-400 group-hover:bg-clip-text transition-all duration-300`}
+                  className={`font-bold text-xl tracking-tight transition-colors ${darkMode ? "text-white" : "text-gray-900"}`}
                 >
-                  Pitch<span className="bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">Mint</span>
+                  Pitch<span className="text-indigo-500">Mint</span>
                 </span>
               </Link>
             </div>
@@ -336,11 +332,13 @@ const Navbar = () => {
                   </Link>
                   <Link
                     to="/signup"
-                    className="relative inline-flex items-center justify-center px-6 py-2.5 overflow-hidden rounded-xl bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 text-white text-sm font-bold transition-all duration-300 hover:scale-105 group shadow-lg hover:shadow-xl hover:shadow-violet-500/50"
+                    className={`inline-flex items-center justify-center px-5 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      darkMode
+                        ? "bg-white text-black hover:bg-gray-100"
+                        : "bg-black text-white hover:bg-gray-800"
+                    }`}
                   >
-                    <div className="absolute inset-0 bg-gradient-to-r from-fuchsia-600 via-purple-600 to-violet-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <Sparkles className="w-4 h-4 mr-2 relative z-10" />
-                    <span className="relative z-10">Sign Up</span>
+                    Sign Up
                   </Link>
                 </>
               )}
@@ -394,7 +392,7 @@ const Navbar = () => {
         {/* Mobile menu */}
         {isOpen && (
           <div
-            className={`lg:hidden border-t backdrop-blur-xl ${darkMode ? "border-violet-500/10 bg-[#0a0118]/95" : "border-gray-200/50 bg-white/95"}`}
+            className={`lg:hidden border-t backdrop-blur-xl ${darkMode ? "border-gray-900 bg-[#050505]/95" : "border-gray-100 bg-white/95"}`}
           >
             <div className="px-4 pt-4 pb-3 space-y-2">
               {isAuthenticated ? (
@@ -586,10 +584,13 @@ const Navbar = () => {
                   </Link>
                   <Link
                     to="/signup"
-                    className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-bold bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 text-white hover:shadow-lg hover:shadow-violet-500/50 transition-all duration-300 mt-2"
+                    className={`flex items-center justify-center px-4 py-3 rounded-lg text-sm font-medium transition-colors mt-2 ${
+                      darkMode
+                        ? "bg-white text-black hover:bg-gray-100"
+                        : "bg-black text-white hover:bg-gray-800"
+                    }`}
                     onClick={toggleMenu}
                   >
-                    <Sparkles className="w-4 h-4 mr-2" />
                     Sign Up
                   </Link>
                 </>

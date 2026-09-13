@@ -1,232 +1,30 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "../contexts/ThemeContext";
-import {
-  Brain,
-  FileText,
-  Users,
-  MessageSquare,
-  TrendingUp,
-  Target,
-} from "lucide-react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import { useEffect, useState } from "react";
-import Demo from '../assets/run.mp4'
-
-interface StarFieldProps {
-  darkMode: boolean;
-}
-
-interface Star {
-  id: number;
-  x: number;
-  y: number;
-  size: number;
-  opacity: number;
-  animationDelay: number;
-  animationDuration: number;
-}
-
-interface Comet {
-  id: number;
-  startX: number;
-  startY: number;
-  endX: number;
-  endY: number;
-  animationDelay: number;
-  animationDuration: number;
-}
-
-const StarField = ({ darkMode }: StarFieldProps) => {
-  const [stars, setStars] = useState<Star[]>([]);
-  const [comets, setComets] = useState<Comet[]>([]);
-
-  useEffect(() => {
-    // Generate random stars
-    const generateStars = () => {
-      const starArray = [];
-      for (let i = 0; i < 50; i++) {
-        starArray.push({
-          id: i,
-          x: Math.random() * 100,
-          y: Math.random() * 100,
-          size: Math.random() * 3 + 1,
-          opacity: Math.random() * 0.8 + 0.2,
-          animationDelay: Math.random() * 5,
-          animationDuration: Math.random() * 3 + 2,
-        });
-      }
-      setStars(starArray);
-    };
-
-    // Generate random comets
-    const generateComets = () => {
-      const cometArray = [];
-      for (let i = 0; i < 3; i++) {
-        cometArray.push({
-          id: i,
-          startX: Math.random() * 100,
-          startY: -10,
-          endX: Math.random() * 100,
-          endY: 110,
-          animationDelay: Math.random() * 10,
-          animationDuration: Math.random() * 3 + 4,
-        });
-      }
-      setComets(cometArray);
-    };
-
-    generateStars();
-    generateComets();
-  }, []);
-
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {/* Stars */}
-      {stars.map((star) => (
-        <div
-          key={`star-${star.id}`}
-          className={`absolute rounded-full ${
-            darkMode ? "bg-white" : "bg-gray-800"
-          }`}
-          style={{
-            left: `${star.x}%`,
-            top: `${star.y}%`,
-            width: `${star.size}px`,
-            height: `${star.size}px`,
-            opacity: star.opacity,
-            animation: `twinkle ${star.animationDuration}s ease-in-out infinite`,
-            animationDelay: `${star.animationDelay}s`,
-          }}
-        />
-      ))}
-
-      {/* Comets */}
-      {comets.map((comet) => (
-        <div
-          key={`comet-${comet.id}`}
-          className="absolute"
-          style={{
-            animation: `comet ${comet.animationDuration}s linear infinite`,
-            animationDelay: `${comet.animationDelay}s`,
-          }}
-        >
-          <div
-            className={`w-2 h-2 rounded-full ${
-              darkMode
-                ? "bg-gradient-to-r from-violet-400 to-fuchsia-400"
-                : "bg-gradient-to-r from-amber-400 to-orange-400"
-            }`}
-            style={{
-              boxShadow: darkMode
-                ? "0 0 6px #a78bfa, 0 0 12px #e879f9, 0 0 18px #e879f9"
-                : "0 0 6px #fbbf24, 0 0 12px #f97316, 0 0 18px #f97316",
-            }}
-          />
-          <div
-            className={`absolute top-0 left-0 w-1 h-12 ${
-              darkMode
-                ? "bg-gradient-to-t from-transparent via-violet-400 to-fuchsia-400"
-                : "bg-gradient-to-t from-transparent via-amber-400 to-orange-400"
-            } transform -rotate-45 origin-bottom`}
-            style={{
-              transform: "rotate(-45deg) translateX(-50%)",
-              filter: "blur(1px)",
-            }}
-          />
-        </div>
-      ))}
-
-      {/* Shooting Stars */}
-      <div className="shooting-star-1"></div>
-      <div className="shooting-star-2"></div>
-      <div className="shooting-star-3"></div>
-
-      <style>{`
-        @keyframes twinkle {
-          0%, 100% { opacity: 0.2; transform: scale(1); }
-          50% { opacity: 1; transform: scale(1.2); }
-        }
-
-        @keyframes comet {
-          0% {
-            transform: translateX(${comets[0]?.startX || 0}vw) translateY(-10vh);
-            opacity: 0;
-          }
-          10% {
-            opacity: 1;
-          }
-          90% {
-            opacity: 1;
-          }
-          100% {
-            transform: translateX(${comets[0]?.endX || 0}vw) translateY(110vh);
-            opacity: 0;
-          }
-        }
-
-        .shooting-star-1, .shooting-star-2, .shooting-star-3 {
-          position: absolute;
-          width: 2px;
-          height: 2px;
-          border-radius: 50%;
-          background: ${darkMode ? "#ffffff" : "#1f2937"};
-          animation: shoot 3s linear infinite;
-        }
-
-        .shooting-star-1 {
-          top: 20%;
-          left: 0;
-          animation-delay: 0s;
-        }
-
-        .shooting-star-2 {
-          top: 40%;
-          left: 0;
-          animation-delay: 1.5s;
-        }
-
-        .shooting-star-3 {
-          top: 60%;
-          left: 0;
-          animation-delay: 3s;
-        }
-
-        @keyframes shoot {
-          0% {
-            transform: translateX(-100px) translateY(0);
-            opacity: 0;
-          }
-          10% {
-            opacity: 1;
-          }
-          90% {
-            opacity: 1;
-          }
-          100% {
-            transform: translateX(100vw) translateY(-200px);
-            opacity: 0;
-          }
-        }
-
-        .shooting-star-1::after, .shooting-star-2::after, .shooting-star-3::after {
-          content: '';
-          position: absolute;
-          width: 100px;
-          height: 1px;
-          background: linear-gradient(90deg, ${darkMode ? "#ffffff" : "#1f2937"}, transparent);
-          transform: translateX(-100px);
-        }
-      `}</style>
-    </div>
-  );
-};
+import {
+  Terminal,
+  ArrowRight,
+  Search,
+  Filter,
+  CheckCircle2,
+  ChevronDown,
+  Brain,
+  MessageSquare,
+  LayoutTemplate,
+  Users,
+  Target
+} from "lucide-react";
+import Demo from '../assets/run.mp4';
 
 const Landing = () => {
   const navigate = useNavigate();
   const { darkMode } = useTheme();
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+
+  const [activeFaq, setActiveFaq] = useState<number | null>(null);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -234,628 +32,405 @@ const Landing = () => {
     }
   }, [isAuthenticated, navigate]);
 
-  const features = [
+  const faqs = [
     {
-      icon: Brain,
-      title: "AI-Powered Validation",
-      description:
-        "Get instant analysis of your startup idea with detailed scores for market demand, competition, and monetization potential.",
-      iconBg: "from-violet-500 via-purple-500 to-fuchsia-500",
-      hoverBg: "from-violet-500/10 to-fuchsia-500/10",
-      glowColor: "shadow-violet-500/50",
+      question: "What is PitchMint?",
+      answer: "PitchMint is an AI-powered platform designed to help founders validate their startup ideas, generate professional pitch decks, and practice pitches with simulated investors."
     },
     {
-      icon: FileText,
-      title: "Professional Pitch Decks",
-      description:
-        "Generate investor-ready pitch decks automatically with all essential sections and compelling content.",
-      iconBg: "from-cyan-500 via-blue-500 to-indigo-500",
-      hoverBg: "from-cyan-500/10 to-indigo-500/10",
-      glowColor: "shadow-cyan-500/50",
+      question: "How can I validate my startup idea?",
+      answer: "Simply enter your idea into our AI engine, and we'll analyze market demand, competition, and monetization potential to give you a comprehensive validation score."
     },
     {
-      icon: Users,
-      title: "Competitor Analysis",
-      description:
-        "Deep dive into your competitive landscape with detailed SWOT analysis and market positioning.",
-      iconBg: "from-orange-500 via-red-500 to-pink-500",
-      hoverBg: "from-orange-500/10 to-pink-500/10",
-      glowColor: "shadow-orange-500/50",
+      question: "Is PitchMint free to use?",
+      answer: "We offer 3 free credits per month. For unlimited access to advanced features like competitor analysis and the pitch simulator, check out our Pro plans."
     },
     {
-      icon: MessageSquare,
-      title: "Pitch Simulator",
-      description:
-        "Practice your pitch with AI-powered investor Q&A and get real-time feedback to improve.",
-      iconBg: "from-emerald-500 via-teal-500 to-cyan-500",
-      hoverBg: "from-emerald-500/10 to-cyan-500/10",
-      glowColor: "shadow-emerald-500/50",
-    },
-    {
-      icon: Users,
-      title: "Smart Investor Matching",
-      description:
-        "AI-powered investor matchmaking based on your startup stage, industry, and funding requirements with compatibility scoring.",
-      iconBg: "from-amber-500 via-orange-500 to-red-500",
-      hoverBg: "from-amber-500/10 to-red-500/10",
-      glowColor: "shadow-amber-500/50",
-    },
-    {
-      icon: MessageSquare,
-      title: "Advanced Market Research",
-      description:
-        "Generate TAM/SAM/SOM analysis, customer personas, and market trends with comprehensive competitive intelligence.",
-      iconBg: "from-pink-500 via-rose-500 to-red-500",
-      hoverBg: "from-pink-500/10 to-red-500/10",
-      glowColor: "shadow-pink-500/50",
-    },
-    {
-      icon: TrendingUp,
-      title: "Business Model Canvas",
-      description:
-        "Create lean startup canvases with detailed analysis of your value proposition, channels, and revenue streams.",
-      iconBg: "from-indigo-500 via-purple-500 to-pink-500",
-      hoverBg: "from-indigo-500/10 to-pink-500/10",
-      glowColor: "shadow-indigo-500/50",
-    },
-    {
-      icon: Target,
-      title: "Activity History & Analytics",
-      description:
-        "Track your validation journey with detailed history of all analyses, pitch simulations, and investor interactions.",
-      iconBg: "from-blue-500 via-cyan-500 to-teal-500",
-      hoverBg: "from-blue-500/10 to-teal-500/10",
-      glowColor: "shadow-blue-500/50",
-    },
+      question: "How are ideas scored?",
+      answer: "Our AI evaluates multiple dimensions including Total Addressable Market (TAM), competitive density, technical feasibility, and current market trends."
+    }
   ];
 
   const testimonials = [
     {
-      quote:
-        "This platform helped me validate my startup idea and secure seed funding. The AI-generated insights were incredibly valuable.",
+      quote: "This platform helped me validate my startup idea and secure seed funding. The AI-generated insights were incredibly valuable.",
       author: "Sarah Chen",
-      role: "Founder, TechStart",
-      iconBg: "from-violet-500 to-fuchsia-500",
-      hoverBg: "from-violet-500/10 to-fuchsia-500/10",
+      handle: "@sarah_chen",
+      avatar: "S"
     },
     {
-      quote:
-        "The pitch simulator prepared me for real investor meetings. It's like having a personal pitch coach available 24/7.",
-      author: "Michael Rodriguez",
-      role: "CEO, InnovateCo",
-      iconBg: "from-cyan-500 to-blue-500",
-      hoverBg: "from-cyan-500/10 to-blue-500/10",
+      quote: "The pitch simulator prepared me for real investor meetings. It's like having a personal pitch coach available 24/7. Highly recommended for any serious founder.",
+      author: "Michael R.",
+      handle: "@michael_innovate",
+      avatar: "M"
     },
     {
-      quote:
-        "Generated a professional pitch deck in minutes that would have taken weeks to create manually. Highly recommended!",
+      quote: "Generated a professional pitch deck in minutes that would have taken weeks to create manually. The structure was perfect and the content hit all the right notes.",
       author: "Emily Zhang",
-      role: "Founder, DataFlow",
-      iconBg: "from-emerald-500 to-teal-500",
-      hoverBg: "from-emerald-500/10 to-teal-500/10",
+      handle: "@emilyz_data",
+      avatar: "E"
     },
+    {
+      quote: "The competitor analysis feature alone is worth its weight in gold. Found indirect competitors I hadn't even considered.",
+      author: "David L.",
+      handle: "@david_builds",
+      avatar: "D"
+    },
+    {
+      quote: "Ajeet's guidance and the PitchMint community have been instrumental in my journey. The AI feedback on my lean canvas helped me pivot early.",
+      author: "Rajat Sharma",
+      handle: "@rajat_startup",
+      avatar: "R"
+    },
+    {
+      quote: "Ambitious and obsessed regarding career and open source... PitchMint takes that same energy to startup validation.",
+      author: "Shiv Shukla",
+      handle: "@shiv_shukla",
+      avatar: "S"
+    }
   ];
 
   return (
-    <div
-      className={`min-h-screen relative overflow-hidden ${darkMode ? "bg-[#0a0118]" : "bg-gray-50"}`}
-    >
-      {/* Enhanced Animated Background */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div
-          className={`absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-violet-600/30 via-purple-600/20 to-fuchsia-600/30"
-              : "bg-gradient-to-br from-violet-300/40 via-purple-300/30 to-fuchsia-300/40"
-          }`}
-          style={{ animationDuration: '8s' }}
-        ></div>
-        <div
-          className={`absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-cyan-600/30 via-blue-600/20 to-indigo-600/30"
-              : "bg-gradient-to-br from-cyan-300/40 via-blue-300/30 to-indigo-300/40"
-          }`}
-          style={{ animationDuration: '10s', animationDelay: '2s' }}
-        ></div>
-        <div
-          className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full blur-3xl animate-pulse ${
-            darkMode
-              ? "bg-gradient-to-br from-emerald-600/20 via-teal-600/10 to-cyan-600/20"
-              : "bg-gradient-to-br from-emerald-300/30 via-teal-300/20 to-cyan-300/30"
-          }`}
-          style={{ animationDuration: '12s', animationDelay: '4s' }}
-        ></div>
-
-        {/* Mesh Gradient Overlay */}
-        <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-b from-transparent via-purple-500/5 to-transparent' : 'bg-gradient-to-b from-transparent via-purple-200/10 to-transparent'}`} />
-        
-        {/* Animated Grid */}
-        <div className={`absolute inset-0 ${darkMode ? 'bg-[linear-gradient(rgba(139,92,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.03)_1px,transparent_1px)]' : 'bg-[linear-gradient(rgba(139,92,246,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.05)_1px,transparent_1px)]'} bg-[size:64px_64px]`} />
-
-        {/* Star Field Animation - Only in Dark Mode */}
-        {darkMode && <StarField darkMode={darkMode} />}
-      </div>
+    <div className={`min-h-screen selection:bg-purple-500/30 font-sans overflow-hidden ${darkMode ? "bg-[#0a0a0a] text-white" : "bg-gray-50 text-gray-900"}`}>
+      
+      {/* Navbar spacer */}
+      <div className="h-20"></div>
 
       {/* Hero Section */}
-      <div className="relative z-10 overflow-hidden">
-        {/* Decorative gradient blobs */}
-        <div className={`absolute -left-32 -top-24 w-[40rem] h-[40rem] pointer-events-none opacity-30 blur-3xl rounded-full transform rotate-12 -z-10 ${
-          darkMode
-            ? "bg-gradient-to-tr from-violet-600 via-purple-600 to-fuchsia-600"
-            : "bg-gradient-to-tr from-violet-300 via-purple-300 to-fuchsia-300"
-        }`} />
-        <div className={`absolute -right-40 bottom-[-6rem] w-[36rem] h-[36rem] pointer-events-none opacity-25 blur-2xl rounded-full transform -rotate-12 -z-10 ${
-          darkMode
-            ? "bg-gradient-to-br from-cyan-600 via-blue-600 to-indigo-600"
-            : "bg-gradient-to-br from-cyan-300 via-blue-300 to-indigo-300"
-        }`} />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 md:pb-28 pb-6">
-          {/* Product Hunt / Badge */}
+      <section className="relative w-full pt-20 pb-32 overflow-hidden z-10 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center">
+        
+        {/* Rich Purple Gradient Background */}
+        <div className="absolute inset-0 -z-10 bg-[#050505]">
+          <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[120vw] h-[800px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-800/60 via-purple-900/20 to-[#0a0a0a] blur-[100px] opacity-80"></div>
+          {/* Subtle grid pattern overlay */}
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] [mask-image:linear-gradient(to_bottom,black_40%,transparent_100%)] opacity-50"></div>
+        </div>
+        
+        <div className="relative z-20 w-full max-w-5xl mx-auto flex flex-col items-center text-center">
+          
           <motion.div
-            className="flex justify-center mb-8"
-            initial={{ opacity: 0, y: -12 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="flex items-center justify-center mb-8"
           >
-            <div
-              className={`inline-flex items-center gap-3 px-5 py-2 rounded-full shadow-lg backdrop-blur-xl border ${
-                darkMode
-                  ? "bg-gradient-to-r from-violet-600/10 via-purple-600/10 to-fuchsia-600/10 border-violet-500/20"
-                  : "bg-white/60 border-violet-200"
-              }`}
-              aria-hidden="true"
-            >
-              <span className="text-md">🚀</span>
-              <span className={`text-xs  font-bold ${darkMode ? 'text-violet-300' : 'text-violet-800'}`}>
-                #1 AI-Powered Startup Validator
-              </span>
+            <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md backdrop-blur-md border ${
+                darkMode ? "bg-black/40 border-white/10" : "bg-white/80 border-gray-200"
+              }`}>
+              <span className={`text-xs font-medium ${darkMode ? "text-gray-300" : "text-gray-600"}`}>Backed by</span>
+              <div className="flex items-center gap-1.5">
+                <div className="w-4 h-4 bg-gradient-to-br from-[#FF6154] to-[#FF8C00] rounded-[4px] flex items-center justify-center">
+                  <span className="text-white text-[10px] font-bold leading-none">U</span>
+                </div>
+                <span className={`text-xs font-medium ${darkMode ? "text-white" : "text-gray-900"}`}>sers</span>
+              </div>
             </div>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            {/* Left: headline + copy */}
-            <div className="lg:col-span-7 text-center lg:text-left">
-              <motion.h1
-                className={`text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-tight mb-4 ${
-                  darkMode ? "text-white" : "text-gray-900"
-                }`}
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.08 }}
-              >
-                <span className="block italic">Validate your</span>
-                <span className="block bg-gradient-to-r from-violet-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent mt-2">
-                  Startup Ideas
-                </span>
-                <span className="block">— faster with AI</span>
-              </motion.h1>
+          <motion.h1
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-semibold tracking-tighter leading-[1.05] text-balance mb-6 max-w-4xl"
+          >
+            Only platform you need to rock <span className="block">Startup Validation</span>
+          </motion.h1>
+          
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+            className={`w-full text-lg lg:text-xl tracking-tight font-light mb-10 ${darkMode ? "text-gray-300" : "text-gray-600"}`}
+          >
+            <span className={`inline-flex items-center gap-1 border-b cursor-pointer transition-colors duration-300 pb-0.5 ${darkMode ? "border-gray-500 hover:border-white hover:text-white" : "border-gray-400 hover:border-gray-900 hover:text-gray-900"}`} onClick={() => navigate("/signup")}>
+              achieve in days what took months in validation ↗
+            </span>
+          </motion.p>
 
-              <motion.p
-                className={`mx-auto lg:mx-0 max-w-3xl text-sm md:text-lg mb-8 leading-relaxed ${
-                  darkMode ? "text-gray-300" : "text-gray-600"
-                }`}
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.18 }}
-              >
-                Instant validation scores, investor-ready pitch decks, and live pitch simulations —
-                everything you need to move from idea to traction.
-                <span className="block mt-2 text-base font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-violet-500">
-                  Turn ideas into investor-ready products.
-                </span>
-              </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
+            className="flex items-center justify-center gap-4 flex-wrap"
+          >
+            <button
+              onClick={() => navigate("/signup")}
+              className="group flex gap-2 items-center justify-center px-6 py-3 rounded-xl border border-[#7630f5] bg-gradient-to-b from-[#6b25ef] to-[#5100FF] shadow-[0px_1px_2px_0px_rgba(255,255,255,0.3)_inset] hover:opacity-90 transition-all duration-200 text-white font-medium text-sm"
+            >
+              <Terminal className="w-4 h-4" />
+              Get Started
+            </button>
+            <button
+              onClick={() => navigate("/login")}
+              className="flex gap-2 items-center justify-center px-6 py-3 rounded-xl border border-[#5100FF] bg-[#2a1b54]/40 hover:bg-[#2a1b54]/60 transition-colors duration-200 text-white font-medium text-sm backdrop-blur-sm"
+            >
+              <ArrowRight className="w-4 h-4" />
+              Check Pro
+            </button>
+          </motion.div>
+        </div>
+      </section>
 
-              {/* CTAs */}
-              <motion.div
-                className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 justify-center lg:justify-start mb-8"
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.28 }}
-              >
-                {/* Primary CTA */}
-                <button
-                  onClick={() => navigate("/signup")}
-                  className={`mx-auto sm:mx-0 relative group flex items-center gap-3 px-6 sm:px-8 py-2 rounded-xl overflow-hidden font-bold text-white shadow-2xl hover:scale-105 transform transition-all duration-300 ${
-                    darkMode 
-                      ? "bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 hover:shadow-violet-500/50"
-                      : "bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-600 hover:shadow-cyan-500/50"
-                  }`}
-                  aria-label="Start Validating Free"
-                >
-                  {/* Glow effect */}
-                  <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-                    darkMode
-                      ? "bg-gradient-to-r from-fuchsia-600 via-purple-600 to-violet-600"
-                      : "bg-gradient-to-r from-violet-600 via-blue-600 to-cyan-600"
-                  }`} />
-                  
-                  {/* small accent circle */}
-                  <span className="relative z-10 w-5 h-5 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
-                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                      <path d="M14.187 8.096L15 5.25L15.813 8.096C16.023 8.831 16.417 9.5006 16.9577 10.0413C17.4984 10.5819 18.1679 10.9759 18.903 11.186L21.75 12L18.904 12.813C18.169 13.0231 17.4994 13.4171 16.9587 13.9577C16.4181 14.4984 16.0241 15.1679 15.814 15.903L15 18.75L14.187 15.904C13.977 15.1689 13.583 14.4994 13.0423 13.9587C12.5016 13.4181 11.8321 13.0241 11.097 12.814L8.25 12L11.096 11.187C11.831 10.9769 12.5006 10.5829 13.0413 10.0423C13.5819 9.5016 13.976 8.83214 14.186 8.097" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </span>
+      {/* Supercharge Section */}
+      <section className="w-full flex flex-col items-center">
+        <div className={`w-full py-16 flex items-center justify-center relative border-y ${darkMode ? "border-[#222] bg-[#111]" : "border-gray-200 bg-gray-50"}`}>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-center z-10">
+            Supercharge Your Startup Journey
+          </h2>
+          {darkMode && (
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#1a1a1a_0%,_transparent_70%)]"></div>
+          )}
+        </div>
 
-                  <span className="relative z-10 text-sm">Start Validating Free</span>
-                </button>
-
-                {/* Secondary CTA */}
-                <button
-                  onClick={() => navigate("/login")}
-                  className={`mx-auto sm:mx-0 px-6 sm:px-8 py-2 text-sm rounded-xl border-2 font-bold transition-all duration-300 hover:scale-105 ${
-                    darkMode
-                      ? "border-gray-700 text-gray-300 hover:border-violet-500 hover:bg-violet-600/10 hover:text-violet-300"
-                      : "border-gray-300 text-gray-700 hover:border-violet-500 hover:bg-violet-50 hover:text-violet-600"
-                  }`}
-                  aria-label="Sign In"
-                >
-                  Sign In
-                </button>
-              </motion.div>
-
-              {/* Trust / short features */}
-              <motion.div
-                className="flex flex-wrap gap-3 justify-center lg:justify-start items-center text-sm"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.7, delay: 0.36 }}
-              >
-                <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl backdrop-blur-xl border ${darkMode ? 'bg-white/5 border-gray-800' : 'bg-white/60 border-gray-200'} shadow-lg`}>
-                  <svg className="w-4 h-4 text-emerald-500" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                  </svg>
-                  <span className={`text-xs font-semibold ${darkMode ? "text-gray-300" : "text-gray-700"}`}>Instant validations</span>
+        {/* Bento Grid */}
+        <div className="w-full max-w-[2000px] mx-auto border-x border-[#222]">
+          <div className="grid lg:grid-cols-2">
+            
+            {/* Bento Card 1: Seamless Validation */}
+            <div className={`p-8 md:p-12 border-b lg:border-b-0 lg:border-r ${darkMode ? "border-[#222] bg-[#0c0c0c]" : "border-gray-200 bg-white"} min-h-[400px] flex flex-col relative overflow-hidden group`}>
+              <div className="relative z-10 mb-12">
+                <h3 className="text-2xl md:text-3xl font-medium tracking-tight mb-2">Seamless Validation</h3>
+                <p className={`text-sm md:text-base ${darkMode ? "text-gray-400" : "text-gray-600"}`}>Analyze thousands of data points for your idea instantly.</p>
+              </div>
+              
+              {/* Spinning Graphic */}
+              <div className="absolute bottom-[-10%] right-[-10%] w-[350px] h-[350px] md:w-[450px] md:h-[450px] flex items-center justify-center">
+                {/* Outer dashed ring */}
+                <div className="absolute w-[90%] h-[90%] rounded-full border-2 border-dashed border-[#333] animate-[spin_40s_linear_infinite]">
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-[#1a1a1a] border border-[#333] rounded-xl flex items-center justify-center shadow-lg -rotate-[0deg]"><Brain className="w-5 h-5 text-purple-400"/></div>
+                  <div className="absolute bottom-1/4 left-0 -translate-x-1/2 w-8 h-8 bg-white rounded-lg flex items-center justify-center shadow-lg"><Target className="w-4 h-4 text-black"/></div>
                 </div>
-
-                <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl backdrop-blur-xl border ${darkMode ? 'bg-white/5 border-gray-800' : 'bg-white/60 border-gray-200'} shadow-lg`}>
-                  <svg className="w-4 h-4 text-cyan-500" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v9a3 3 0 01-3 3H6a3 3 0 01-3-3V4z"/>
-                    <path d="M8 12h8" stroke="#fff" strokeLinecap="round"/>
-                  </svg>
-                  <span className={`text-xs font-semibold ${darkMode ? "text-gray-300" : "text-gray-700"}`}>Pitch decks in minutes</span>
+                {/* Inner solid ring */}
+                <div className="absolute w-[60%] h-[60%] rounded-full border border-[#444] bg-[#111] animate-[spin_20s_linear_infinite_reverse]">
+                  <div className="absolute bottom-0 right-1/4 translate-y-1/2 w-12 h-12 bg-purple-600 rounded-xl flex items-center justify-center shadow-xl"><LayoutTemplate className="w-6 h-6 text-white"/></div>
                 </div>
-
-                <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl backdrop-blur-xl border ${darkMode ? 'bg-white/5 border-gray-800' : 'bg-white/60 border-gray-200'} shadow-lg`}>
-                  <svg className="w-4 h-4 text-violet-500" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M10 2a1 1 0 00-1 1v6H3a1 1 0 000 2h6v6a1 1 0 002 0v-6h6a1 1 0 000-2h-6V3a1 1 0 00-1-1z"/>
-                  </svg>
-                  <span className={`text-xs font-semibold ${darkMode ? "text-gray-300" : "text-gray-700"}`}>Practice with AI investors</span>
-                </div>
-              </motion.div>
+                {/* Center text */}
+                <div className="absolute z-20 font-bold text-xl md:text-2xl tracking-tighter">PitchMint AI</div>
+              </div>
             </div>
 
-            {/* Right: Mockup / visual panel */}
-            <div className="lg:col-span-5">
-              <motion.div
-                className={`relative mx-auto w-full max-w-md sm:max-w-lg rounded-3xl p-4 sm:p-5 backdrop-blur-xl shadow-2xl border overflow-hidden ${
-                  darkMode 
-                    ? "bg-gradient-to-br from-gray-900/60 to-gray-800/30 border-gray-800/50" 
-                    : "bg-white/70 border-gray-200"
-                }`}
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.34 }}
-              >
-                {/* Gradient glow */}
-                <div className={`absolute -inset-1 rounded-3xl opacity-50 blur-2xl ${
-                  darkMode
-                    ? "bg-gradient-to-r from-violet-600/20 via-purple-600/20 to-fuchsia-600/20"
-                    : "bg-gradient-to-r from-violet-300/30 via-purple-300/30 to-fuchsia-300/30"
-                }`} />
-
-                {/* small top chips */}
-                <div className="relative flex gap-2 items-center mb-4">
-                  <div className="h-3 w-3 rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 shadow-lg" />
-                  <div className="h-3 w-3 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 shadow-lg" />
-                  <div className="h-3 w-3 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 shadow-lg" />
-                  <div className={`ml-auto text-xs font-bold ${darkMode ? "text-gray-400" : "text-gray-600"}`}>Live Preview</div>
-                </div>
-
-                {/* mockup content */}
-                <div
-                  className={`relative rounded-2xl p-3 border shadow-xl backdrop-blur-md transition-all duration-300 overflow-hidden ${
-                    darkMode
-                      ? "bg-gradient-to-br from-gray-800/60 to-gray-700/30 border-gray-700/50"
-                      : "bg-white border-gray-100"
-                  }`}
-                >
-                  {/* Video Demo Section */}
-                  <div
-                    className={`relative h-44 sm:h-56 w-full rounded-xl overflow-hidden ${
-                      darkMode
-                        ? "bg-gradient-to-br from-violet-500/30 via-purple-500/20 to-transparent"
-                        : "bg-gradient-to-br from-cyan-200 via-violet-200 to-white"
-                    }`}
-                  >
-                    <video
-                      src={Demo}
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      className="absolute inset-0 w-full h-full object-cover rounded-xl"
-                    ></video>
-
-                    {/* Optional overlay gradient for contrast */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent rounded-xl"></div>
+            {/* Bento Card 2: Precision Filters */}
+            <div className={`p-8 md:p-12 border-b ${darkMode ? "border-[#222] bg-[#0c0c0c]" : "border-gray-200 bg-white"} min-h-[400px] flex flex-col relative overflow-hidden group`}>
+              <div className="relative z-10 mb-12">
+                <h3 className="text-2xl md:text-3xl font-medium tracking-tight mb-2">Precision Metrics</h3>
+                <p className={`text-sm md:text-base ${darkMode ? "text-gray-400" : "text-gray-600"}`}>Zero in on ideas by market size, competition and cost.</p>
+              </div>
+              
+              {/* Filter Graphic */}
+              <div className="absolute bottom-[10%] left-[10%] w-[80%] h-auto rounded-[2rem] border border-[#333] bg-[#141414] p-6 shadow-2xl backdrop-blur-md transform group-hover:translate-y-[-10px] transition-transform duration-500">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-6 h-6 rounded bg-purple-500/20 flex items-center justify-center">
+                    <Filter className="w-3 h-3 text-purple-400" />
                   </div>
-
-                  {/* Stats below video */}
-                  <div className="mt-4 grid grid-cols-2 gap-3">
-                    <div
-                      className={`p-3 rounded-xl backdrop-blur-sm shadow-lg border ${
-                        darkMode
-                          ? "bg-white/5 border-gray-700/50"
-                          : "bg-white/90 border-gray-100"
-                      }`}
-                    >
-                      <div className={`text-xs font-bold mb-1 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                        AI Score
-                      </div>
-                      <div className={`text-lg font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                        8.5 / 10
-                      </div>
-                    </div>
-
-                    <div
-                      className={`p-3 rounded-xl backdrop-blur-sm shadow-lg border ${
-                        darkMode
-                          ? "bg-white/5 border-gray-700/50"
-                          : "bg-white/90 border-gray-100"
-                      }`}
-                    >
-                      <div className={`text-xs font-bold mb-1 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                        Market Fit
-                      </div>
-                      <div className={`text-lg font-black ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                        High
-                      </div>
-                    </div>
-                  </div>
+                  <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Filter By: METRICS</span>
                 </div>
-
-                {/* footer small features */}
-                <div className={`relative mt-4 flex items-center justify-between text-xs font-semibold ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                  <div>Auto pitch deck · Investor Q&A</div>
-                  <div className="bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent font-bold">3 free credits/month</div>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-3 py-1.5 rounded-lg bg-[#222] border border-[#333] text-xs font-medium text-gray-300 flex items-center gap-2 hover:bg-[#333] cursor-default transition-colors"><span className="w-2 h-2 rounded-full bg-green-400"></span> High TAM</span>
+                  <span className="px-3 py-1.5 rounded-lg bg-[#222] border border-[#333] text-xs font-medium text-gray-300 flex items-center gap-2 hover:bg-[#333] cursor-default transition-colors"><span className="w-2 h-2 rounded-full bg-blue-400"></span> Low CAC</span>
+                  <span className="px-3 py-1.5 rounded-lg bg-[#222] border border-[#333] text-xs font-medium text-gray-300 flex items-center gap-2 hover:bg-[#333] cursor-default transition-colors"><span className="w-2 h-2 rounded-full bg-orange-400"></span> SaaS</span>
+                  <span className="px-3 py-1.5 rounded-lg bg-[#222] border border-[#333] text-xs font-medium text-gray-300 flex items-center gap-2 hover:bg-[#333] cursor-default transition-colors"><span className="w-2 h-2 rounded-full bg-purple-400"></span> B2B</span>
                 </div>
-              </motion.div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {/* Demo Video Container */}
+        <div className={`w-full max-w-[2000px] mx-auto p-4 md:p-12 border-x border-b ${darkMode ? "border-[#222] bg-[#111]" : "border-gray-200 bg-gray-50"}`}>
+          <div className="w-full max-w-4xl mx-auto rounded-xl overflow-hidden border border-[#333] bg-[#000] relative shadow-2xl aspect-video group cursor-pointer">
+            <video src={Demo} autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"></video>
+            
+            {/* Play Button Overlay */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center shadow-[0_0_30px_rgba(220,38,38,0.5)] transform group-hover:scale-110 transition-transform duration-300">
+                <svg className="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+            </div>
+            {/* Fake Window Header */}
+            <div className="absolute top-0 left-0 w-full h-10 bg-[#1a1a1a] border-b border-[#333] flex items-center px-4 gap-2">
+              <div className="w-3 h-3 rounded-full bg-red-500"></div>
+              <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+              <div className="w-3 h-3 rounded-full bg-green-500"></div>
+              <div className="mx-auto text-[10px] text-gray-500 uppercase tracking-wider font-semibold">PitchMint Demo</div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Features Section */}
-      <div
-        className={`relative z-10 py-6 sm:py-6 backdrop-blur-sm ${darkMode ? "bg-gray-900/30" : "bg-white/30"}`}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            className="text-center mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2
-              className={`text-2xl md:text-2xl lg:text-3xl font-black mb-1 ${darkMode ? "text-white" : "text-gray-900"}`}
-            >
-              Everything You Need to
-              <span className="block mt-2 bg-gradient-to-r from-violet-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent">
-                Launch Successfully
-              </span>
-            </h2>
-            <p
-              className={`text-xs md:text-sm max-w-3xl mx-auto leading-relaxed ${darkMode ? "text-gray-400" : "text-gray-600"}`}
-            >
-              Comprehensive AI-powered tools to validate, refine, and pitch your
-              startup ideas
-            </p>
-          </motion.div>
+      {/* How it Works Section */}
+      <section className={`w-full py-24 md:py-32 relative border-b ${darkMode ? "border-[#222] bg-[#0a0a0a]" : "border-gray-200 bg-white"}`}>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-center mb-20">
+            How it Works
+          </h2>
+          
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            
+            {/* Steps */}
+            <div className="flex flex-col border-l border-[#333]">
+              <div className="p-8 border-b border-[#333] relative">
+                <div className="absolute -left-[5px] top-10 w-2.5 h-2.5 rounded-full bg-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.8)]"></div>
+                <h4 className="text-xl font-medium mb-3">1. Describe Your Idea</h4>
+                <p className={`text-sm leading-relaxed ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
+                  Enter a brief description of your startup idea, target audience, and potential business model.
+                </p>
+              </div>
+              <div className="p-8 border-b border-[#333] relative">
+                <h4 className="text-xl font-medium mb-3">2. AI Validation Instantly</h4>
+                <p className={`text-sm leading-relaxed ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
+                  Our AI engine cross-references market data to generate a comprehensive validation report.
+                </p>
+              </div>
+              <div className="p-8 relative">
+                <h4 className="text-xl font-medium mb-3">3. Discover & Pivot</h4>
+                <p className={`text-sm leading-relaxed ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
+                  Review the feedback, refine your lean canvas, and practice your pitch with our simulator.
+                </p>
+              </div>
+            </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-            {features.map((feature, index) => (
-              <motion.div
-                key={index}
-                className={`group relative p-4 rounded-3xl backdrop-blur-xl border transition-all duration-500 hover:scale-105 cursor-pointer overflow-hidden ${
-                  darkMode ? "bg-gray-900/50 border-gray-800/50" : "bg-white/80 border-gray-200"
-                }`}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -10 }}
-              >
-                {/* Dynamic hover background color */}
-                <div
-                  className={`absolute inset-0 bg-gradient-to-br ${feature.hoverBg} rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
-                ></div>
-
-                {/* Glow Effect */}
-                <div className={`absolute -inset-1 bg-gradient-to-br ${feature.iconBg} opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500`} />
-
-                <div className="relative">
-                  {/* Dynamic icon color */}
-                  <div
-                    className={`w-8 h-8 rounded-2xl bg-gradient-to-br ${feature.iconBg} flex items-center justify-center mb-2 shadow-xl ${feature.glowColor} group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}
-                  >
-                    <feature.icon className="h-4 w-4 text-white" />
-                  </div>
-
-                  <h3
-                    className={`text-md font-black mb-1 ${
-                      darkMode ? "text-white" : "text-gray-900"
-                    }`}
-                  >
-                    {feature.title}
-                  </h3>
-
-                  <p
-                    className={`text-xs leading-relaxed ${
-                      darkMode ? "text-gray-400" : "text-gray-600"
-                    }`}
-                  >
-                    {feature.description}
-                  </p>
+            {/* Graphic Right */}
+            <div className={`rounded-3xl border p-8 flex items-center justify-center relative overflow-hidden h-[400px] ${darkMode ? "border-[#333] bg-gradient-to-br from-[#111] to-[#1a1a1a]" : "border-gray-200 bg-gray-50"}`}>
+              <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+              
+              {/* 3D-ish Search UI Simulation */}
+              <div className="relative z-10 rounded-2xl border border-purple-500/50 bg-[#160b29] p-2 shadow-[0_0_50px_rgba(147,51,234,0.3)] transform -rotate-2 hover:rotate-0 transition-transform duration-500">
+                <div className="rounded-xl border border-purple-400 bg-purple-900/50 px-8 py-4 flex items-center gap-4">
+                  <Search className="w-8 h-8 text-purple-300" />
+                  <span className="text-3xl font-semibold text-purple-100 tracking-tight">Validate</span>
                 </div>
-              </motion.div>
+                <div className="absolute -bottom-6 right-4 rounded-lg border border-purple-500 bg-[#160b29] px-6 py-2 shadow-lg">
+                  <span className="text-lg font-medium text-purple-300">Insights</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className={`w-full py-24 md:py-32 relative border-b ${darkMode ? "border-[#222] bg-[#111]" : "border-gray-200 bg-gray-50"}`}>
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-center mb-16">
+            Frequently Asked Questions
+          </h2>
+          
+          <div className="space-y-4">
+            {faqs.map((faq, index) => (
+              <div 
+                key={index} 
+                className={`border rounded-xl overflow-hidden transition-colors ${darkMode ? "border-[#333] bg-[#1a1a1a]" : "border-gray-200 bg-white"}`}
+              >
+                <button
+                  onClick={() => setActiveFaq(activeFaq === index ? null : index)}
+                  className="w-full px-6 py-4 flex items-center justify-between text-left focus:outline-none"
+                >
+                  <span className="font-medium text-[15px]">{faq.question}</span>
+                  <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${activeFaq === index ? "rotate-180" : ""}`} />
+                </button>
+                <AnimatePresence>
+                  {activeFaq === index && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <div className={`px-6 pb-4 text-sm ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
+                        {faq.answer}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             ))}
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Testimonials Section */}
-      <div className="relative z-10 py-6 sm:py-6">
+      {/* Statistics Section */}
+      <section className={`w-full py-16 border-b ${darkMode ? "border-[#222] bg-[#0a0a0a]" : "border-gray-200 bg-white"}`}>
+        <div className="max-w-5xl mx-auto px-4">
+          <h2 className="sr-only">Statistics</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-[#333]">
+            <div className="flex flex-col items-center justify-center py-8">
+              <span className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#6b25ef] to-[#5100FF] mb-2">32,757+</span>
+              <span className="text-lg md:text-xl font-medium text-[#6b25ef] tracking-wide">Validations</span>
+            </div>
+            <div className="flex flex-col items-center justify-center py-8">
+              <span className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#6b25ef] to-[#5100FF] mb-2">13,597+</span>
+              <span className="text-lg md:text-xl font-medium text-[#6b25ef] tracking-wide">Founders</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className={`w-full py-24 md:py-32 relative ${darkMode ? "bg-[#111]" : "bg-gray-50"}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            className="text-center mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2
-              className={`text-2xl md:text-2xl lg:text-2xl font-black mb-2 ${darkMode ? "text-white" : "text-gray-900"}`}
-            >
-              Trusted by
-              <span className="block mt-2 bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent">
-                Successful Founders
-              </span>
-            </h2>
-          </motion.div>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-center mb-16">
+            Testimonials
+          </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={index}
-                className={`group relative p-6 sm:p-4 rounded-3xl backdrop-blur-xl border transition-all duration-500 hover:scale-105 cursor-pointer overflow-hidden ${
-                  darkMode ? "bg-gray-900/50 border-gray-800/50" : "bg-white/80 border-gray-200"
-                }`}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -10 }}
-              >
-                {/* Dynamic hover gradient */}
-                <div
-                  className={`absolute inset-0 bg-gradient-to-br ${testimonial.hoverBg} rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
-                ></div>
-
-                {/* Glow Effect */}
-                <div className={`absolute -inset-1 bg-gradient-to-br ${testimonial.iconBg} opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500`} />
-
-                <div className="relative">
-                  {/* Star rating */}
-                  <div className="flex items-center mb-2">
-                    {[...Array(5)].map((_, i) => (
-                      <svg
-                        key={i}
-                        className="w-5 h-5 text-amber-400 fill-current"
-                        viewBox="0 0 20 20"
-                      >
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ))}
+          <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+            {testimonials.map((t, idx) => (
+              <div key={idx} className={`break-inside-avoid p-6 rounded-2xl border ${
+                darkMode ? "border-[#222] bg-[#1a1a1a]" : "border-gray-200 bg-white"
+              }`}>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center font-bold text-white shadow-md">
+                    {t.avatar}
                   </div>
-
-                  {/* Quote */}
-                  <p
-                    className={`text-sm italic mb-6 leading-relaxed ${
-                      darkMode ? "text-gray-300" : "text-gray-600"
-                    }`}
-                  >
-                    "{testimonial.quote}"
-                  </p>
-
-                  {/* Author section */}
-                  <div className="flex items-center">
-                    <div
-                      className={`w-8 h-8 rounded-xl bg-gradient-to-br ${testimonial.iconBg} flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300 shadow-lg`}
-                    >
-                      <span className="text-white font-bold text-md">
-                        {testimonial.author.charAt(0)}
-                      </span>
-                    </div>
-                    <div>
-                      <p
-                        className={`text-sm font-bold ${
-                          darkMode ? "text-white" : "text-gray-900"
-                        }`}
-                      >
-                        {testimonial.author}
-                      </p>
-                      <p
-                        className={`text-xs ${
-                          darkMode ? "text-gray-400" : "text-gray-500"
-                        }`}
-                      >
-                        {testimonial.role}
-                      </p>
-                    </div>
+                  <div>
+                    <div className="font-semibold text-sm">{t.author}</div>
+                    <div className={`text-xs ${darkMode ? "text-gray-500" : "text-gray-400"}`}>{t.handle}</div>
                   </div>
                 </div>
-              </motion.div>
+                <p className={`text-sm leading-relaxed ${darkMode ? "text-gray-300" : "text-gray-600"}`}>
+                  {t.quote}
+                </p>
+              </div>
             ))}
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* CTA Section */}
-      <div
-        className={`relative z-10 py-8 sm:py-8 backdrop-blur-sm ${darkMode ? "bg-gradient-to-br from-gray-900/50 to-gray-800/30" : "bg-gradient-to-br from-gray-50 to-white"}`}
-      >
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2
-              className={`text-2xl md:text-xl lg:text-2xl font-black mb-2 ${darkMode ? "text-white" : "text-gray-900"}`}
-            >
-              Ready to Build the
-              <span className="block mt-1 bg-gradient-to-r from-violet-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent">
-                Next Big Thing?
-              </span>
+      {/* Radiant CTA Section */}
+      <section className={`w-full px-4 sm:px-6 lg:px-8 py-20 pb-32 ${darkMode ? "bg-[#111]" : "bg-gray-50"}`}>
+        <div className="max-w-6xl mx-auto rounded-[2.5rem] relative overflow-hidden border border-[#5100FF]/30 p-12 md:p-24 text-center">
+          
+          {/* Vibrant Background */}
+          <div className="absolute inset-0 z-0">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#d8b4fe] via-[#a855f7] to-[#3b82f6] opacity-90 mix-blend-multiply"></div>
+            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44KSIvPjwvc3ZnPg==')] opacity-40"></div>
+            {/* White glow center */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-white/40 blur-[80px] rounded-full"></div>
+          </div>
+
+          <div className="relative z-10 flex flex-col items-center">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4 text-white drop-shadow-md text-balance">
+              Ready to dive into<br/>Startup Validation?
             </h2>
-            <p
-              className={`text-xs sm:text-base  mb-4 sm:mb-10 leading-relaxed ${darkMode ? "text-gray-300" : "text-gray-600"}`}
-            >
-              Join thousands of entrepreneurs who've validated their ideas with
-              AI
+            <p className="text-lg md:text-xl text-white/90 font-medium mb-10 max-w-xl text-balance drop-shadow-sm">
+              Join 10,000+ founders accelerating their journey.
             </p>
-            <div className="flex justify-center">
-              <button
-                onClick={() => navigate("/signup")}
-                className={`group relative flex items-center gap-3 px-10 py-2 overflow-hidden rounded-xl font-bold text-lg transition-all duration-300 hover:scale-110 shadow-2xl ${
-                  darkMode
-                    ? "bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 text-white hover:shadow-violet-500/50"
-                    : "bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-600 text-white hover:shadow-cyan-500/50"
-                }`}
-              >
-                {/* Button inner background with glow */}
-                <div className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-                  darkMode
-                    ? "bg-gradient-to-r from-fuchsia-600 via-purple-600 to-violet-600"
-                    : "bg-gradient-to-r from-violet-600 via-blue-600 to-cyan-600"
-                }`}></div>
-
-                {/* Button text + arrow */}
-                <span className="relative z-10 flex items-center text-sm">
-                  Start Your Journey Today
-                  <svg className="w-6 h-6 ml-3 group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </span>
-              </button>
-            </div>
-          </motion.div>
+            
+            <button
+              onClick={() => navigate("/signup")}
+              className="flex gap-2 items-center justify-center px-8 py-4 rounded-xl border border-white/20 bg-[#6b25ef] hover:bg-[#5a1ec0] transition-colors duration-200 text-white font-medium text-lg shadow-2xl mb-6"
+            >
+              <Terminal className="w-5 h-5" />
+              Get Started
+            </button>
+            
+            <a href="#" className="text-sm font-medium text-white underline underline-offset-4 hover:text-white/80 transition-colors">
+              See what our investors say →
+            </a>
+          </div>
         </div>
-      </div>
+      </section>
+
     </div>
   );
 };

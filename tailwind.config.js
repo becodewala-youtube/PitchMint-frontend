@@ -6,6 +6,13 @@ export default {
     extend: {
       animation: {
         'spin-slow': 'spin 20s linear infinite',
+        rainbow: "rainbow var(--speed, 2s) infinite linear",
+      },
+      keyframes: {
+        rainbow: {
+          "0%": { "background-position": "0" },
+          "100%": { "background-position": "200%" },
+        },
       },
     },
   },
