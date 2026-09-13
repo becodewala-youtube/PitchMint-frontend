@@ -72,7 +72,7 @@ const Navbar = () => {
   const navbarClasses = isLandingPage
     ? `fixed z-50 transition-all duration-500 ${
         scrolled
-          ? "top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-[1000px] rounded-full bg-[#1e1045]/70 backdrop-blur-xl border border-white/5 shadow-[0_10px_40px_rgba(0,0,0,0.5)] opacity-100"
+          ? "top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-[1000px] rounded-full bg-white/5 backdrop-blur-xl border border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.5)] opacity-100"
           : "top-0 inset-x-0 w-full opacity-0 pointer-events-none -translate-y-4"
       }`
     : "fixed top-0 inset-x-0 z-50 bg-black/50 backdrop-blur-md border-b border-white/10 transition-all duration-300";

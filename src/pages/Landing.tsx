@@ -12,9 +12,121 @@ import {
   MessageSquare,
   LayoutTemplate,
   Target,
-  Play
+  Play,
+  Users,
+  CreditCard,
+  Layers,
+  TrendingUp
 } from "lucide-react";
 import Demo from '../assets/run.mp4';
+
+const FILTER_CARDS = [
+  {
+    title: "METRICS",
+    icon: <Filter className="w-3 h-3 text-purple-400" />,
+    iconBg: "bg-purple-500/20 border-purple-500/30",
+    items: [
+      { letter: "M", label: "Market Size", dotClass: "bg-emerald-500 text-white" },
+      { letter: "C", label: "Competition", dotClass: "bg-blue-500 text-white" },
+      { letter: "T", label: "Time to MVP", dotClass: "bg-yellow-500 text-black" },
+    ],
+  },
+  {
+    title: "AUDIENCE",
+    icon: <Users className="w-3 h-3 text-blue-400" />,
+    iconBg: "bg-blue-500/20 border-blue-500/30",
+    items: [
+      { letter: "B", label: "B2B", dotClass: "bg-blue-600 text-white" },
+      { letter: "B", label: "B2C", dotClass: "bg-pink-500 text-white" },
+      { letter: "E", label: "Enterprise", dotClass: "bg-indigo-500 text-white" },
+    ],
+  },
+  {
+    title: "TOOLS",
+    icon: <LayoutTemplate className="w-3 h-3 text-rose-400" />,
+    iconBg: "bg-rose-500/20 border-rose-500/30",
+    items: [
+      { letter: "M", label: "Market", dotClass: "bg-gray-800 text-white" },
+      { letter: "P", label: "Pitching", dotClass: "bg-yellow-400 text-black" },
+      { letter: "I", label: "Investors", dotClass: "bg-cyan-500 text-black" },
+    ],
+  },
+  {
+    title: "REVENUE",
+    icon: <CreditCard className="w-3 h-3 text-emerald-400" />,
+    iconBg: "bg-emerald-500/20 border-emerald-500/30",
+    items: [
+      { letter: "S", label: "SaaS", dotClass: "bg-emerald-500 text-white" },
+      { letter: "U", label: "Usage", dotClass: "bg-blue-400 text-white" },
+      { letter: "O", label: "One-time", dotClass: "bg-orange-500 text-white" },
+    ],
+  },
+];
+
+const AnimatedMetricCards = () => {
+  const [cards, setCards] = useState(FILTER_CARDS);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCards((prevCards) => {
+        const newCards = [...prevCards];
+        const firstCard = newCards.shift();
+        if (firstCard) newCards.push(firstCard);
+        return newCards;
+      });
+    }, 1500); // rotate every 1.5 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 mt-12 w-[350px] h-[200px] flex items-center justify-center">
+      <AnimatePresence>
+        {cards.map((card, index) => {
+          const scale = 1 - index * 0.05; 
+          const yOffset = index * -20; 
+          const zIndex = 40 - index;
+          const opacity = 1 - index * 0.2; 
+
+          return (
+            <motion.div
+              key={card.title}
+              layout
+              initial={{ scale: 0.8, opacity: 0, y: yOffset - 20 }}
+              animate={{
+                scale,
+                y: yOffset,
+                zIndex,
+                opacity,
+              }}
+              exit={{ scale: 1.05, opacity: 0, filter: "blur(10px)" }}
+              transition={{ duration: 0.6, ease: "easeInOut" }}
+              className="absolute w-full rounded-[24px] border border-white/5 bg-[#141414]/95 p-6 shadow-[0_20px_40px_rgba(0,0,0,0.8)] backdrop-blur-xl"
+            >
+              <div className="flex items-center gap-2 mb-6">
+                <div className={`w-6 h-6 rounded flex items-center justify-center border ${card.iconBg}`}>
+                  {card.icon}
+                </div>
+                <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest">Filter By: {card.title}</span>
+              </div>
+
+              <div className="flex flex-wrap gap-3">
+                {card.items.map((item, i) => (
+                  <div key={i} className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-gray-300 flex items-center gap-2 shadow-inner">
+                    <div className={`w-4 h-4 rounded-full flex items-center justify-center ${item.dotClass}`}>
+                      <span className="text-[8px] font-bold">{item.letter}</span>
+                    </div>
+                    {item.label}
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          );
+        })}
+      </AnimatePresence>
+    </div>
+  );
+};
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -223,30 +335,32 @@ const Landing = () => {
               </div>
 
               {/* Graphic: Concentric Circles */}
-              <div className="absolute bottom-[-15%] right-[-10%] w-[450px] h-[450px] md:w-[550px] md:h-[550px] flex items-center justify-center">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 mt-12 w-[350px] h-[350px] md:w-[450px] md:h-[450px] flex items-center justify-center">
                 {/* Outermost ring */}
                 <div className="absolute w-full h-full rounded-full border border-white/5"></div>
 
                 {/* Orbit ring 1 */}
-                <div className="absolute w-[75%] h-[75%] rounded-full border border-white/5 animate-[spin_40s_linear_infinite]">
-                  <div className="absolute top-[10%] left-[15%] w-10 h-10 bg-black border border-white/10 rounded-xl flex items-center justify-center -rotate-[0deg] shadow-lg">
-                    <Target className="w-5 h-5 text-white" />
+                <div className="absolute w-[75%] h-[75%] rounded-full border border-white/5 animate-[spin_20s_linear_infinite]">
+                  <div className="absolute top-[10%] left-[15%] w-10 h-10 bg-[#12052b] border border-[#c084fc]/30 rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(192,132,252,0.3)] -ml-5 -mt-5" style={{ animation: "spin 20s linear infinite reverse" }}>
+                    <Target className="w-5 h-5 text-[#c084fc]" />
                   </div>
-                  <div className="absolute bottom-[20%] right-[5%] w-10 h-10 bg-black border border-white/10 rounded-xl flex items-center justify-center shadow-lg">
-                    <MessageSquare className="w-5 h-5 text-purple-400" />
+                  <div className="absolute bottom-[20%] right-[5%] w-10 h-10 bg-[#12052b] border border-[#c084fc]/30 rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(192,132,252,0.3)] -mr-5 -mb-5" style={{ animation: "spin 20s linear infinite reverse" }}>
+                    <TrendingUp className="w-5 h-5 text-[#c084fc]" />
                   </div>
                 </div>
 
                 {/* Orbit ring 2 */}
-                <div className="absolute w-[50%] h-[50%] rounded-full border border-white/10 bg-black/50 backdrop-blur-sm animate-[spin_20s_linear_infinite_reverse]">
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-white px-3 py-1 rounded-full text-black font-semibold text-xs shadow-lg">Cal</div>
-                  <div className="absolute bottom-4 right-0 bg-purple-600 w-10 h-10 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(147,51,234,0.5)]">
+                <div className="absolute w-[50%] h-[50%] rounded-full border border-white/10 bg-black/50 backdrop-blur-sm animate-[spin_10s_linear_infinite_reverse]">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-white px-3 py-1 rounded-full text-black font-semibold text-xs shadow-lg" style={{ animation: "spin 10s linear infinite" }}>
+                    Data
+                  </div>
+                  <div className="absolute bottom-0 right-0 -mr-2 -mb-2 bg-purple-600 w-10 h-10 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(147,51,234,0.5)]" style={{ animation: "spin 10s linear infinite" }}>
                     <Brain className="w-5 h-5 text-white" />
                   </div>
                 </div>
 
                 {/* Center text */}
-                <div className="absolute z-20 font-bold text-2xl tracking-tighter text-white bg-black/80 backdrop-blur-sm px-4 py-2 rounded-full border border-white/5">PitchMint AI</div>
+                <div className="absolute z-20 font-bold text-2xl tracking-tighter text-white bg-black/80 backdrop-blur-sm px-5 py-2 rounded-full border border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.8)]">PitchMint AI</div>
               </div>
             </motion.div>
 
@@ -263,30 +377,8 @@ const Landing = () => {
                 <p className="text-[15px] text-gray-400">Zero in on ideas by market, stack and activity level.</p>
               </div>
 
-              {/* Graphic: Floating UI */}
-              <div className="absolute bottom-[15%] right-[10%] w-[350px] rounded-[24px] border border-white/5 bg-[#141414] p-6 shadow-2xl backdrop-blur-md transform group-hover:-translate-y-2 transition-transform duration-500">
-                <div className="flex items-center gap-2 mb-6">
-                  <div className="w-6 h-6 rounded bg-purple-500/20 flex items-center justify-center border border-purple-500/30">
-                    <Filter className="w-3 h-3 text-purple-400" />
-                  </div>
-                  <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest">Filter By: METRICS</span>
-                </div>
-
-                <div className="flex flex-wrap gap-3">
-                  <div className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-gray-300 flex items-center gap-2">
-                    <div className="w-4 h-4 rounded-full bg-emerald-500 flex items-center justify-center"><span className="text-white text-[8px] font-bold">M</span></div>
-                    Market Size
-                  </div>
-                  <div className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-gray-300 flex items-center gap-2">
-                    <div className="w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center"><span className="text-white text-[8px] font-bold">C</span></div>
-                    Competition
-                  </div>
-                  <div className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-gray-300 flex items-center gap-2">
-                    <div className="w-4 h-4 rounded-full bg-yellow-500 flex items-center justify-center"><span className="text-black text-[8px] font-bold">T</span></div>
-                    Time to MVP
-                  </div>
-                </div>
-              </div>
+              {/* Graphic: Animated Looping UI Cards */}
+              <AnimatedMetricCards />
             </motion.div>
           </div>
         </div>
