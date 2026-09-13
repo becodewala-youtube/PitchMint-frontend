@@ -1,6 +1,6 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Menu,
   X,
@@ -27,11 +27,32 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showToolsDropdown, setShowToolsDropdown] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { user, isAuthenticated } = useSelector(
     (state: RootState) => state.auth
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const isLandingPage = location.pathname === "/";
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+    
+    if (isLandingPage) {
+      window.addEventListener("scroll", handleScroll);
+      handleScroll(); // Check initial position
+      return () => window.removeEventListener("scroll", handleScroll);
+    } else {
+      setScrolled(true);
+    }
+  }, [isLandingPage]);
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -48,10 +69,18 @@ const Navbar = () => {
     }
   };
 
+  const navbarClasses = isLandingPage
+    ? `fixed z-50 transition-all duration-500 ${
+        scrolled
+          ? "top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-[1000px] rounded-full bg-[#1e1045]/70 backdrop-blur-xl border border-white/5 shadow-[0_10px_40px_rgba(0,0,0,0.5)] opacity-100"
+          : "top-0 inset-x-0 w-full opacity-0 pointer-events-none -translate-y-4"
+      }`
+    : "fixed top-0 inset-x-0 z-50 bg-black/50 backdrop-blur-md border-b border-white/10 transition-all duration-300";
+
   return (
     <>
-      <nav className="fixed top-0 inset-x-0 z-50 bg-black/50 backdrop-blur-md border-b border-white/10 transition-all duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav className={navbarClasses}>
+        <div className={isLandingPage && scrolled ? "px-6 w-full" : "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"}>
           <div className="flex justify-between h-16">
             <div className="flex items-center">
               <Link to="/" className="flex items-center group">
@@ -190,6 +219,22 @@ const Navbar = () => {
                     </div>
                   </div>
                 </>
+              ) : isLandingPage ? (
+                <div className="flex items-center gap-10">
+                  <div className="hidden lg:flex items-center gap-8 text-[14px] font-medium text-gray-300">
+                    <a href="#pricing" className="hover:text-white transition-colors">Pricing</a>
+                    <a href="#testimonials" className="hover:text-white transition-colors">Testimonials</a>
+                    <a href="#blogs" className="hover:text-white transition-colors">Blogs</a>
+                    <a href="#newsletter" className="hover:text-white transition-colors">Newsletter</a>
+                  </div>
+                  <Link
+                    to="/signup"
+                    className="flex gap-2 items-center justify-center px-6 py-2.5 rounded-full bg-[#6c28ff] hover:bg-[#5a1ec0] transition-colors duration-200 text-white font-semibold text-sm shadow-[0_0_20px_rgba(108,40,255,0.4),inset_0_1px_1px_rgba(255,255,255,0.3)] border border-[#7c3aed]"
+                  >
+                    <span className="font-mono text-[13px] mr-1">{'>_'}</span>
+                    Get Started
+                  </Link>
+                </div>
               ) : (
                 <div className="flex items-center gap-3">
                   <Link

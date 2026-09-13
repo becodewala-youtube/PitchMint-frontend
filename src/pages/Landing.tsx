@@ -104,11 +104,16 @@ const Landing = () => {
       {/* Hero Section */}
       <section className="relative w-full pt-32 pb-32 overflow-hidden z-10 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[90vh]">
 
-        {/* Rich Purple Gradient Background with Noise */}
-        <div className="absolute inset-0 -z-10 bg-black overflow-hidden">
-          <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[120vw] h-[900px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#4c1d95]/70 via-[#2e1065]/20 to-black blur-[100px] opacity-100"></div>
-          {/* Noise texture overlay */}
-          <div className="absolute inset-0 opacity-[0.15] mix-blend-overlay" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
+        {/* Opensox-style Refined Smooth Hero Background */}
+        <div className="absolute inset-0 -z-10 bg-[#000000] overflow-hidden">
+          {/* Massive smooth radial gradient from top center */}
+          <div className="absolute top-[-30%] left-1/2 -translate-x-1/2 w-[160vw] h-[1200px] md:h-[1400px] bg-[radial-gradient(ellipse_at_top,_rgba(90,35,220,0.85)_0%,_rgba(60,15,150,0.7)_35%,_rgba(20,5,60,0.3)_65%,_rgba(0,0,0,1)_90%)]"></div>
+          
+          {/* Finer static-like noise texture with mix-blend-overlay for seamless integration */}
+          <div className="absolute inset-0 opacity-[0.35] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 400 400%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
+          
+          {/* Edge darkening to ensure perfect blend into below sections */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#000000] pointer-events-none opacity-80"></div>
         </div>
 
         <div className="relative z-20 w-full max-w-5xl mx-auto flex flex-col items-center text-center mt-8">
@@ -136,7 +141,7 @@ const Landing = () => {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-semibold tracking-tight leading-[1.1] text-white text-balance mb-8 max-w-4xl drop-shadow-xl"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-semibold tracking-tighter leading-[1.1] text-white text-balance mb-8 max-w-4xl drop-shadow-xl"
           >
             Only platform you need to rock <span className="block">Startup Validation</span>
           </motion.h1>
@@ -149,7 +154,7 @@ const Landing = () => {
             className="w-full text-base md:text-lg tracking-tight font-light mb-12 text-gray-300 flex justify-center"
           >
             <span
-              className="inline-flex items-center cursor-pointer hover:text-white transition-colors duration-300 pb-0.5 border-b border-gray-500 hover:border-white"
+              className="inline-flex items-center cursor-pointer hover:text-white transition-colors duration-300 pb-0.5 border-b border-gray-400"
               onClick={() => navigate("/signup")}
             >
               achieve in 1 week what took me 3 months in validation ↗
@@ -190,7 +195,7 @@ const Landing = () => {
           transition={{ duration: 0.8 }}
           className="w-full py-20 flex items-center justify-center relative border-y border-white/5 bg-black"
         >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-center z-10 text-white">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tighter text-center z-10 text-white">
             Supercharge Your Validation Journey
           </h2>
           {/* Subtle dotted background */}
@@ -198,8 +203,11 @@ const Landing = () => {
         </motion.div>
 
         {/* Bento Grid Features */}
-        <div className="w-full max-w-[2000px] mx-auto border-x border-white/5 bg-[#0a0a0a]">
-          <div className="grid lg:grid-cols-2">
+        <div className="w-full max-w-[2000px] mx-auto border-x border-white/5 bg-[#0a0a0a] relative">
+          {/* Subtle dot matrix background */}
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNykiLz48L3N2Zz4=')] pointer-events-none"></div>
+          
+          <div className="grid lg:grid-cols-2 relative z-10">
 
             {/* Seamless Search (Concentric Circles) */}
             <motion.div
@@ -207,7 +215,7 @@ const Landing = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6 }}
-              className="p-8 md:p-14 border-b lg:border-b-0 lg:border-r border-white/5 min-h-[450px] flex flex-col relative overflow-hidden group bg-[#0a0a0a]"
+              className="p-8 md:p-14 border-b lg:border-b-0 lg:border-r border-white/5 min-h-[450px] flex flex-col relative overflow-hidden group bg-transparent"
             >
               <div className="relative z-20 mb-12">
                 <h3 className="text-2xl md:text-[28px] font-medium tracking-tight mb-2 text-white">Seamless Validation</h3>
@@ -248,7 +256,7 @@ const Landing = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="p-8 md:p-14 border-b border-white/5 min-h-[450px] flex flex-col relative overflow-hidden group bg-[#0a0a0a]"
+              className="p-8 md:p-14 border-b border-white/5 min-h-[450px] flex flex-col relative overflow-hidden group bg-transparent"
             >
               <div className="relative z-20 mb-12">
                 <h3 className="text-2xl md:text-[28px] font-medium tracking-tight mb-2 text-white">Precision Metrics</h3>
@@ -322,12 +330,15 @@ const Landing = () => {
 
       {/* How it Works Section */}
       <section className="w-full py-24 md:py-32 relative border-b border-white/5 bg-[#050505]">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Subtle dot matrix background */}
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] pointer-events-none"></div>
+
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl lg:text-[40px] font-medium tracking-tight text-center mb-24 text-white"
+            className="text-3xl md:text-4xl lg:text-[40px] font-medium tracking-tighter text-center mb-24 text-white"
           >
             How it Works
           </motion.h2>
@@ -370,13 +381,13 @@ const Landing = () => {
               <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0MHY0MEgwem0yMCAyMGMxMS4wNDYgMCAyMC04Ljk1NCAyMC0yMFMyOC45NTQgMCAyMCAwIDAgOC45NTQgMCAyMHNiLjk1NCAyMCAyMCAyMHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIgc3Ryb2tlLXdpZHRoPSIwLjUiLz48L3N2Zz4=')] [transform:perspective(500px)_rotateX(60deg)] opacity-30 origin-bottom"></div>
 
               {/* Glowing 3D Validate Graphic */}
-              <div className="relative z-10 w-[280px] h-[120px] rounded-[32px] bg-[#1a0b36] border-[4px] border-[#9d4edd] shadow-[0_0_60px_rgba(157,78,221,0.5),inset_0_0_20px_rgba(157,78,221,0.5)] flex items-center px-8 gap-4 transform rotate-[-5deg] hover:rotate-0 transition-transform duration-500">
-                <Brain className="w-10 h-10 text-[#d8b4fe] stroke-[3px]" />
-                <span className="text-[36px] font-bold text-[#d8b4fe] tracking-tight">Validate</span>
+              <div className="relative z-10 w-[280px] h-[120px] rounded-[32px] bg-[#1a0b36] border-[6px] border-[#c084fc] shadow-[0_0_80px_rgba(192,132,252,0.6),inset_0_0_30px_rgba(192,132,252,0.5)] flex items-center px-8 gap-4 transform rotate-[-5deg] hover:rotate-0 transition-transform duration-500">
+                <Brain className="w-10 h-10 text-white stroke-[3px] drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]" />
+                <span className="text-[36px] font-bold text-white tracking-tight drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]">Validate</span>
 
                 {/* Floating button below */}
-                <div className="absolute -bottom-16 right-4 rounded-xl border-2 border-[#9d4edd] bg-[#1a0b36] px-8 py-3 shadow-[0_0_30px_rgba(157,78,221,0.3)]">
-                  <span className="text-xl font-bold text-[#d8b4fe]">Insights</span>
+                <div className="absolute -bottom-16 right-4 rounded-xl border-[3px] border-[#c084fc] bg-[#1a0b36] px-8 py-3 shadow-[0_0_40px_rgba(192,132,252,0.4)]">
+                  <span className="text-xl font-bold text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">Insights</span>
                 </div>
               </div>
             </motion.div>
@@ -392,7 +403,7 @@ const Landing = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl lg:text-[40px] font-medium tracking-tight text-center mb-16 text-white"
+            className="text-3xl md:text-4xl lg:text-[40px] font-medium tracking-tighter text-center mb-16 text-white"
           >
             Frequently Asked Questions
           </motion.h2>
@@ -467,7 +478,7 @@ const Landing = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl lg:text-[40px] font-medium tracking-tight text-center mb-16 text-white relative z-20"
+            className="text-3xl md:text-4xl lg:text-[40px] font-medium tracking-tighter text-center mb-16 text-white relative z-20"
           >
             Testimonials
           </motion.h2>
@@ -567,19 +578,13 @@ const Landing = () => {
           transition={{ duration: 0.5 }}
           className="max-w-[1200px] mx-auto rounded-[32px] relative overflow-hidden p-12 md:p-24 text-center"
         >
-          {/* Opensox-style Heavy Noise Purple Background */}
-          <div className="absolute inset-0 z-0 overflow-hidden">
-            {/* Base: light lavender/lilac that shows through the noise */}
-            <div className="absolute inset-0 bg-[#a78bfa]"></div>
-
-            {/* Heavy coarse noise texture — the defining visual */}
-            <div className="absolute inset-0 opacity-[0.6]" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 512 512%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.035%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
-
-            {/* Dark purple vignette — dark center, lighter noisy edges */}
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(55,20,130,0.85)_0%,_rgba(55,20,130,0.4)_50%,_rgba(55,20,130,0.0)_80%)]"></div>
-
-            {/* Subtle purple color tint over everything */}
-            <div className="absolute inset-0 bg-[#6c28ff]/25 mix-blend-multiply"></div>
+          {/* Opensox-style Refined Smooth Background */}
+          <div className="absolute inset-0 z-0 bg-[#000000] overflow-hidden">
+            {/* Massive smooth radial gradient from center */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(90,35,220,0.85)_0%,_rgba(60,15,150,0.7)_40%,_rgba(20,5,60,0.5)_70%,_rgba(0,0,0,1)_100%)]"></div>
+            
+            {/* Finer static-like noise texture with mix-blend-overlay for seamless integration */}
+            <div className="absolute inset-0 opacity-[0.35] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 400 400%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
           </div>
 
           <div className="relative z-10 flex flex-col items-center">
