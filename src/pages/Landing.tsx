@@ -219,7 +219,7 @@ const Landing = () => {
         {/* Opensox-style Refined Smooth Hero Background */}
         <div className="absolute inset-0 -z-10 bg-[#000000] overflow-hidden">
           {/* Massive smooth radial gradient from top center */}
-          <div className="absolute top-[-30%] left-1/2 -translate-x-1/2 w-[160vw] h-[1200px] md:h-[1400px] bg-[radial-gradient(ellipse_at_top,_rgba(90,35,220,0.85)_0%,_rgba(60,15,150,0.7)_35%,_rgba(20,5,60,0.3)_65%,_rgba(0,0,0,1)_90%)]"></div>
+          <div className="absolute top-[-30%] left-1/2 -translate-x-1/2 w-[160vw] h-[1200px] md:h-[1400px] bg-[radial-gradient(ellipse_at_top,_#3d1db5_0%,_rgba(61,29,181,0.7)_35%,_rgba(20,5,60,0.3)_65%,_rgba(0,0,0,1)_90%)]"></div>
           
           {/* Finer static-like noise texture with mix-blend-overlay for seamless integration */}
           <div className="absolute inset-0 opacity-[0.35] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 400 400%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
@@ -282,14 +282,14 @@ const Landing = () => {
           >
             <button
               onClick={() => navigate("/signup")}
-              className="flex gap-2 items-center justify-center px-6 py-2.5 rounded-full bg-[#6c28ff] hover:bg-[#5a1ec0] transition-colors duration-200 text-white font-semibold text-sm shadow-[0_0_20px_rgba(108,40,255,0.4),inset_0_1px_1px_rgba(255,255,255,0.3)] border border-[#7c3aed]"
+              className="btn-primary gap-2 px-6 py-2.5"
             >
               <span className="font-mono text-[13px] mr-1">{'>_'}</span>
               Get Started
             </button>
             <button
-              onClick={() => navigate("/login")}
-              className="flex gap-2 items-center justify-center px-6 py-2.5 rounded-full bg-[#3e0ea6] hover:bg-[#2d0a7a] transition-colors duration-200 text-white font-semibold text-sm shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] border border-[#5113d7]"
+              onClick={() => navigate("/signin")}
+              className="btn-secondary gap-2 px-6 py-2.5"
             >
               <ArrowRight className="w-4 h-4" />
               Check Pro
@@ -673,7 +673,7 @@ const Landing = () => {
           {/* Opensox-style Refined Smooth Background */}
           <div className="absolute inset-0 z-0 bg-[#000000] overflow-hidden">
             {/* Massive smooth radial gradient from center */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(90,35,220,0.85)_0%,_rgba(60,15,150,0.7)_40%,_rgba(20,5,60,0.5)_70%,_rgba(0,0,0,1)_100%)]"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_#3d1db5_0%,_rgba(61,29,181,0.7)_40%,_rgba(20,5,60,0.5)_70%,_rgba(0,0,0,1)_100%)]"></div>
             
             {/* Finer static-like noise texture with mix-blend-overlay for seamless integration */}
             <div className="absolute inset-0 opacity-[0.35] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 400 400%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}></div>
@@ -689,7 +689,7 @@ const Landing = () => {
 
             <button
               onClick={() => navigate("/signup")}
-              className="flex gap-2 items-center justify-center px-6 py-2.5 rounded-full bg-[#6c28ff] hover:bg-[#5a1ec0] transition-colors duration-200 text-white font-semibold text-sm shadow-[0_0_20px_rgba(108,40,255,0.4),inset_0_1px_1px_rgba(255,255,255,0.3)] border border-[#7c3aed] mb-8"
+              className="btn-primary gap-2 px-6 py-2.5 mb-8"
             >
               <span className="font-mono text-[13px] mr-1">{'>_'}</span>
               Get Started

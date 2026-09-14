@@ -36,6 +36,8 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const isLandingPage = location.pathname === "/";
+  const isSignupPage = location.pathname === "/signup";
+  const isSigninPage = location.pathname === "/signin";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -238,18 +240,22 @@ const Navbar = () => {
                 </div>
               ) : (
                 <div className="flex items-center gap-3">
-                  <Link
-                    to="/login"
-                    className="px-4 py-2 rounded-full text-sm font-medium text-gray-300 hover:text-white transition-colors"
-                  >
-                    Log In
-                  </Link>
-                  <Link
-                    to="/signup"
-                    className="px-5 py-2 rounded-full text-sm font-semibold bg-[#6c28ff] text-white hover:bg-[#5a1ec0] shadow-[0_0_20px_rgba(108,40,255,0.3)] transition-colors"
-                  >
-                    Sign Up
-                  </Link>
+                  {!isSigninPage && (
+                    <Link
+                      to="/signin"
+                      className="btn-secondary px-5 py-2"
+                    >
+                      Sign In
+                    </Link>
+                  )}
+                  {!isSignupPage && (
+                    <Link
+                      to="/signup"
+                      className="btn-primary px-5 py-2"
+                    >
+                      Sign Up
+                    </Link>
+                  )}
                 </div>
               )}
             </div>
@@ -311,12 +317,16 @@ const Navbar = () => {
                 </>
               ) : (
                 <div className="flex flex-col gap-3">
-                  <Link to="/login" onClick={toggleMenu} className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-semibold text-gray-300 border border-white/10 hover:bg-white/5">
-                    Log In
-                  </Link>
-                  <Link to="/signup" onClick={toggleMenu} className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-semibold bg-white text-black hover:bg-gray-200">
-                    Sign Up
-                  </Link>
+                  {!isSigninPage && (
+                    <Link to="/signin" onClick={toggleMenu} className="btn-secondary w-full py-3">
+                      Sign In
+                    </Link>
+                  )}
+                  {!isSignupPage && (
+                    <Link to="/signup" onClick={toggleMenu} className="btn-primary w-full py-3">
+                      Sign Up
+                    </Link>
+                  )}
                 </div>
               )}
             </div>

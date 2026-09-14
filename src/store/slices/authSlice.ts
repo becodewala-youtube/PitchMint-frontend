@@ -48,22 +48,25 @@ export const register = createAsyncThunk(
   }
 );
 
-// Login User
-export const login = createAsyncThunk(
-  'auth/login',
+// Sign In User
+export const signin = createAsyncThunk(
+  'auth/signin',
   async (userData: { email: string; password: string }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${API_URL}/api/auth/login`, userData);
+      const response = await axios.post(`${API_URL}/api/auth/signin`, userData);
       
       localStorage.setItem('token', response.data.token);
       
       return response.data;
     } catch (error: any) {
-      const message = error.response?.data?.message || 'Login failed';
+      const message = error.response?.data?.message || 'Sign in failed';
       return rejectWithValue(message);
     }
   }
 );
+
+// Export login alias for backwards compatibility
+export const login = signin;
 
 // Verify Email - Store token/user ONLY after verification
 export const verifyEmail = createAsyncThunk(
@@ -171,18 +174,18 @@ const authSlice = createSlice({
         state.error = action.payload as string;
       })
       
-      // Login
-      .addCase(login.pending, (state) => {
+      // Sign In
+      .addCase(signin.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(login.fulfilled, (state, action: PayloadAction<{ token: string; user: User }>) => {
+      .addCase(signin.fulfilled, (state, action: PayloadAction<{ token: string; user: User }>) => {
         state.loading = false;
         state.isAuthenticated = true;
         state.token = action.payload.token;
         state.user = action.payload.user;
       })
-      .addCase(login.rejected, (state, action) => {
+      .addCase(signin.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       })

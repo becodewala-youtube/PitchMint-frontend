@@ -2,41 +2,39 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../store/hooks';
-import { register, clearError } from '../store/slices/authSlice';
+import { signin, clearError } from '../store/slices/authSlice';
 import { RootState } from '../store';
-import { Eye, EyeOff, Sparkles, Mail, Lock, User, ArrowRight, CheckCircle } from 'lucide-react';
 
+import { Eye, EyeOff, Sparkles, Mail, Lock, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import GoogleSignIn from '../components/GoogleSignIn';
 import AuthLayout from '../components/layout/AuthLayout';
 import Icon from '../assets/icon.png';
 
-const Signup = () => {
-  const [name, setName] = useState('');
+const Signin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [passwordError, setPasswordError] = useState('');
   const [localError, setLocalError] = useState('');
-  
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  
+
   const { loading, error } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
-    if (error || passwordError || localError) {
+    if (error || localError) {
       const timer = setTimeout(() => {
-        if (error) dispatch(clearError());
-        if (passwordError) setPasswordError('');
-        if (localError) setLocalError('');
+        if (error) {
+          dispatch(clearError());
+        }
+        if (localError) {
+          setLocalError('');
+        }
       }, 2000);
 
       return () => clearTimeout(timer);
     }
-  }, [error, passwordError, localError, dispatch]);
+  }, [error, localError, dispatch]);
 
   useEffect(() => {
     return () => {
@@ -46,36 +44,18 @@ const Signup = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (password.length < 8) {
-      setPasswordError('Password must be at least 8 characters long');
-      return;
-    }
-    
-    if (password !== confirmPassword) {
-      setPasswordError('Passwords do not match');
-      return;
-    }
-    
-    setPasswordError('');
     setLocalError('');
-    const result = await dispatch(register({ name, email, password }));
-    if (!result.error) {
+    const result = await dispatch(signin({ email, password }));
+    
+    if (result.error && result.payload?.emailNotVerified) {
       navigate(`/verify-email?email=${encodeURIComponent(email)}`);
-    } else {
-      const errorMsg = typeof result.payload === 'string' ? result.payload.toLowerCase() : '';
-      if (errorMsg.includes('already') || errorMsg.includes('exist')) {
-        setTimeout(() => {
-          navigate('/signin');
-        }, 1500);
-      }
+    } else if (!result.error) {
+      navigate('/dashboard');
     }
   };
 
   const handleGoogleSuccess = () => {
-    setTimeout(() => {
-      navigate('/dashboard');
-    }, 100);
+    navigate('/dashboard');
   };
 
   const handleGoogleError = (error: string) => {
@@ -95,21 +75,21 @@ const Signup = () => {
           <div className="relative text-center mb-4">
             <div className="flex justify-center mb-2">
               <div className="w-8 h-8 rounded-xl flex items-center justify-center bg-[#141414] border border-white/5 shadow-inner">
-                <img src={Icon} alt="signup logo" className="w-4 h-4" />
+                <img src={Icon} alt="sign in logo" className="w-4 h-4" />
               </div>
             </div>
             <h2 className="text-[18px] font-semibold tracking-tight text-white mb-0.5">
-              Create Your Account
+              Welcome Back
             </h2>
             <p className="text-[12px] text-gray-400">
-              Start your journey with us today
+              Sign in to continue your journey
             </p>
           </div>
 
           {/* Form */}
           <form className="relative space-y-2.5" onSubmit={handleSubmit}>
             <AnimatePresence>
-              {(error || passwordError || localError) && (
+              {(error || localError) && (
                 <motion.div
                   key="error-box"
                   className="bg-gradient-to-r from-red-500/10 to-pink-500/10 border border-red-500/50 text-red-500 px-4 py-3 rounded-xl relative text-sm backdrop-blur-sm"
@@ -121,36 +101,11 @@ const Signup = () => {
                 >
                   <div className="flex items-center">
                     <div className="w-2 h-2 rounded-full bg-red-500 mr-2 animate-pulse" />
-                    {error || passwordError || localError}
+                    {error || localError}
                   </div>
                 </motion.div>
               )}
             </AnimatePresence>
-
-            {/* Full Name Field */}
-            <div className="relative group">
-              <label
-                htmlFor="name"
-                className="block text-[11px] font-medium text-gray-300 mb-1"
-              >
-                Full Name
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <User className="h-3 w-3 text-gray-500" />
-                </div>
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="John Doe"
-                  className="w-full pl-8 pr-3 py-1.5 bg-[#141414] border border-white/10 rounded-lg text-[12px] text-white placeholder-gray-500 focus:outline-none focus:border-[#7c3aed] focus:ring-1 focus:ring-[#7c3aed] transition-colors"
-                />
-              </div>
-            </div>
 
             {/* Email Field */}
             <div className="relative group">
@@ -194,6 +149,7 @@ const Signup = () => {
                   id="password"
                   name="password"
                   type={showPassword ? "text" : "password"}
+                  autoComplete="current-password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -203,7 +159,7 @@ const Signup = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword((prev) => !prev)}
-                  className="absolute inset-y-0 right-0 pr-4 flex items-center focus:outline-none group"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center focus:outline-none group"
                   tabIndex={-1}
                 >
                   {showPassword ? (
@@ -215,54 +171,15 @@ const Signup = () => {
               </div>
             </div>
 
-            {/* Confirm Password Field */}
-            <div className="relative group">
-              <label
-                htmlFor="confirm-password"
-                className="block text-[11px] font-medium text-gray-300 mb-1"
+            {/* Forgot Password */}
+            <div className="flex justify-end">
+              <Link
+                to="/forgot-password"
+                className="text-[10px] font-semibold text-gray-400 hover:text-white transition-colors duration-300"
               >
-                Confirm Password
-              </label>
-              <div className="relative mb-1">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-3 w-3 text-gray-500" />
-                </div>
-                <input
-                  id="confirm-password"
-                  name="confirm-password"
-                  type={showConfirmPassword ? "text" : "password"}
-                  required
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="w-full pl-8 pr-8 py-1.5 bg-[#141414] border border-white/10 rounded-lg text-[12px] text-white placeholder-gray-500 focus:outline-none focus:border-[#7c3aed] focus:ring-1 focus:ring-[#7c3aed] transition-colors"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmPassword((prev) => !prev)}
-                  className="absolute inset-y-0 right-0 pr-4 flex items-center focus:outline-none group"
-                  tabIndex={-1}
-                >
-                  {showConfirmPassword ? (
-                    <EyeOff className="h-3 w-3 text-gray-500 group-hover:text-gray-300 transition-colors" />
-                  ) : (
-                    <Eye className="h-3 w-3 text-gray-500 group-hover:text-gray-300 transition-colors" />
-                  )}
-                </button>
-              </div>
+                Forgot your password?
+              </Link>
             </div>
-
-            {/* Password Strength Indicator */}
-            {password && (
-              <div className="pt-0.5">
-                <div className="flex items-center gap-1.5 text-[10px] font-medium">
-                  <CheckCircle className={`w-3 h-3 ${password.length >= 8 ? 'text-emerald-500' : 'text-gray-600'}`} />
-                  <span className={password.length >= 8 ? 'text-emerald-500' : 'text-gray-500'}>
-                    At Least 8 characters
-                  </span>
-                </div>
-              </div>
-            )}
 
             {/* Submit Button */}
             <motion.button
@@ -277,11 +194,11 @@ const Signup = () => {
               {loading ? (
                 <div className="flex items-center justify-center">
                   <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></div>
-                  <span className="text-[12px]">Creating...</span>
+                  <span className="text-[12px]">Signing in...</span>
                 </div>
               ) : (
                 <>
-                  <span className="font-semibold text-[12px]">Create Account</span>
+                  <span className="font-semibold text-[12px]">Sign in</span>
                   <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform duration-300" />
                 </>
               )}
@@ -305,15 +222,15 @@ const Signup = () => {
               onError={handleGoogleError}
             />
 
-            {/* Sign In Redirect */}
+            {/* Sign Up Redirect */}
             <div className="text-center pt-3 border-t border-white/5 mt-3">
               <p className="text-[11px] text-gray-400">
-                Already have an account?{" "}
+                Don't have an account?{" "}
                 <Link
-                  to="/signin"
+                  to="/signup"
                   className="font-semibold text-white hover:text-gray-200 transition-colors inline-flex items-center gap-1 border-b border-gray-500 hover:border-gray-300 pb-[1px]"
                 >
-                  Sign in
+                  Sign up
                   <Sparkles className="w-2.5 h-2.5" />
                 </Link>
               </p>
@@ -325,4 +242,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Signin;

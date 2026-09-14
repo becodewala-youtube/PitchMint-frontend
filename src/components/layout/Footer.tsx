@@ -24,7 +24,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="w-full border-t border-white/5 bg-[#000000] py-16 pb-24">
+    <footer className="w-full border-t border-white/5 bg-transparent py-16 pb-24">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-12">
 
         {/* Logo and branding column */}

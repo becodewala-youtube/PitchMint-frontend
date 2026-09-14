@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import PageBackground from '../components/ui/PageBackground';
 import { Link } from 'react-router-dom';
 import api from '../utils/api';
-
+import AuthLayout from '../components/layout/AuthLayout';
 
 import { motion } from 'framer-motion';
-import { Lock, ArrowLeft, CheckCircle, Mail, Sparkles, ArrowRight } from 'lucide-react';
+import { Lock, ArrowLeft, CheckCircle, Mail, ArrowRight } from 'lucide-react';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -30,250 +29,51 @@ const ForgotPassword = () => {
 
   if (success) {
     return (
-      <div
-        className={`relative min-h-screen flex items-center justify-center overflow-hidden ${
-          'bg-[#0a0118]'
-        } py-12 px-4 sm:px-6 lg:px-8`}
-      >
-        <PageBackground theme="violet" />
-
-        {/* Success Card */}
-        <div className="relative z-10 max-w-md w-full">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6 }}
-            className={`rounded-3xl shadow-2xl backdrop-blur-xl p-10 border ${
-              'bg-gray-900/50 border-gray-800/50'
-            }`}
-          >
-            {/* Gradient Glow */}
-            <div className={`absolute -inset-1 rounded-3xl opacity-50 blur-2xl ${
-              'bg-gradient-to-r from-emerald-600/20 via-teal-600/20 to-cyan-600/20'
-            }`} />
-
-            <div className="relative text-center">
-              <div className="flex justify-center mb-6">
-                <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-600 shadow-2xl shadow-emerald-500/50 flex items-center justify-center">
-                  <CheckCircle className="w-10 h-10 text-white" />
-                </div>
-              </div>
-
-              <h2
-                className={`text-2xl sm:text-3xl font-black mb-3 ${
-                  'text-white'
-                }`}
-              >
-                Check Your Email
-                <span className="inline-block ml-2">✉️</span>
-              </h2>
-              <p
-                className={`text-base mb-2 ${
-                  'text-gray-300'
-                }`}
-              >
-                We've sent a password reset link to
-              </p>
-              <p className="text-lg font-bold bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent mb-8">
-                {email}
-              </p>
-
-              <Link
-                to="/reset-password"
-                className={`group relative flex items-center justify-center gap-2 w-full py-3.5 rounded-xl font-bold text-base transition-all duration-300 shadow-xl overflow-hidden ${
-                  'bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:shadow-emerald-500/50 text-white'
-                }`}
-              >
-                <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-                  'bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-600'
-                }`} />
-                
-                <span className="relative z-10">Continue to Reset Password</span>
-                <ArrowRight className="relative z-10 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-              </Link>
-
-              <div className={`mt-8 pt-6 border-t border-gray-800`}>
-                <p className={`text-sm text-gray-400`}>
-                  Didn't receive the email?{' '}
-                  <button
-                    onClick={() => setSuccess(false)}
-                    className={`font-bold transition-colors ${
-                      'text-emerald-400 hover:text-emerald-300'
-                    }`}
-                  >
-                    Try again
-                  </button>
-                </p>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Trust Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="mt-8 text-center"
-          >
-            <div className={`inline-flex items-center px-4 py-2 rounded-full backdrop-blur-xl ${
-              'bg-gradient-to-r from-emerald-600/10 to-cyan-600/10 border border-emerald-500/20'
-            } shadow-lg`}>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className={`text-xs font-semibold text-gray-400`}>
-                  Email sent successfully
-                </span>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div
-      className={`relative min-h-screen flex items-center justify-center overflow-hidden ${
-        'bg-[#0a0118]'
-      } py-12 px-4 sm:px-6 lg:px-8`}
-    >
-      {/* Enhanced Animated Background */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-         
-        {/* Animated Grid */}
-        <div className={`absolute inset-0 bg-[linear-gradient(rgba(139,92,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.03)_1px,transparent_1px)] bg-[size:64px_64px]`} />
-      </div>
-
-      {/* Forgot Password Card */}
-      <div className="relative z-10 max-w-md w-full">
+      <AuthLayout theme="violet">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className={`rounded-3xl shadow-2xl backdrop-blur-xl p-8 sm:p-6 border ${
-            'bg-gray-900/50 border-gray-800/50'
-          }`}
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
+          className="rounded-[20px] bg-[#141414] shadow-[0_20px_40px_rgba(0,0,0,0.8)] p-10 border border-white/10 relative z-10 w-full max-w-md"
         >
-          {/* Gradient Glow */}
-          <div className={`absolute -inset-1 rounded-3xl opacity-50 blur-2xl ${
-            'bg-gradient-to-r from-orange-600/20 via-amber-600/20 to-yellow-600/20'
-          }`} />
-
-          {/* Header */}
-          <div className="relative text-center mb-4">
-            <div className="flex justify-center mb-2">
-              <div className="relative">
-                <div className="absolute inset-0 bg-orange-500/30 blur-xl rounded-full"></div>
-                <div className="relative w-8 h-8 rounded-2xl bg-gradient-to-br from-orange-600 via-amber-600 to-yellow-600 shadow-2xl shadow-orange-500/50 flex items-center justify-center">
-                  <Lock className="w-4 h-4 text-white" />
-                </div>
+          <div className="relative text-center">
+            <div className="flex justify-center mb-6">
+              <div className="w-16 h-16 rounded-2xl bg-[#1a1a1a] border border-white/10 flex items-center justify-center">
+                <CheckCircle className="w-8 h-8 text-[#7c3aed]" />
               </div>
             </div>
-            <h2
-              className={`text-md sm:text-lg font-black mb-1 ${
-                'text-white'
-              }`}
-            >
-              Forgot Password?
-              <span className="inline-block ml-2">🔐</span>
+
+            <h2 className="text-[22px] sm:text-[24px] font-bold mb-3 text-white tracking-tight">
+              Check Your Email
+              <span className="inline-block ml-2">✉️</span>
             </h2>
-            <p
-              className={`text-xs  ${
-                'text-gray-400'
-              }`}
-            >
-              Enter your email address to receive a password reset link
+            <p className="text-[13px] mb-2 text-gray-400">
+              We've sent a password reset link to
             </p>
-          </div>
+            <p className="text-[14px] font-semibold text-white mb-8">
+              {email}
+            </p>
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="relative space-y-6">
-            {error && (
-              <motion.div
-                className="bg-gradient-to-r from-red-500/10 to-pink-500/10 border border-red-500/50 text-red-500 px-4 py-3 rounded-xl relative text-sm backdrop-blur-sm"
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className="flex items-center">
-                  <div className="w-2 h-2 rounded-full bg-red-500 mr-2 animate-pulse" />
-                  {error}
-                </div>
-              </motion.div>
-            )}
-
-            {/* Email Field */}
-            <div className="relative group">
-              <label
-                htmlFor="email"
-                className={`block text-xs font-semibold mb-2 ${
-                  'text-gray-300'
-                }`}
-              >
-                Email Address
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Mail className={`h-3 w-3 text-gray-500`} />
-                </div>
-                <input
-                  id="email"
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@example.com"
-                  className={`w-full pl-12 pr-4 py-2 text-sm rounded-xl border outline-none transition-all duration-300 focus:ring-1 ${
-                    'bg-gray-800/50 border-gray-700/50 text-gray-100 placeholder-gray-500 focus:ring-orange-500/50 focus:border-orange-500/50'
-                  }`}
-                />
-              </div>
-            </div>
-
-            {/* Submit Button */}
-            <motion.button
-              type="submit"
-              disabled={loading || !email}
-              whileHover={!(loading || !email) ? { scale: 1.02 } : {}}
-              whileTap={!(loading || !email) ? { scale: 0.98 } : {}}
-              className={`w-full group relative flex items-center justify-center gap-2 text-base font-bold py-2 rounded-xl transition-all duration-300 shadow-xl overflow-hidden ${
-                loading || !email
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : 'bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 hover:shadow-orange-500/50 text-white'
-              }`}
+            <Link
+              to="/reset-password"
+              className="btn-primary w-full py-2.5 flex items-center justify-center gap-2 rounded-xl text-[13px] font-semibold"
             >
-              {!(loading || !email) && (
-                <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-                  'bg-gradient-to-r from-yellow-600 via-amber-600 to-orange-600'
-                }`} />
-              )}
-              
-              {loading ? (
-                <div className="flex items-center justify-center">
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></div>
-                  Sending...
-                </div>
-              ) : (
-                <>
-                  <span className="relative z-10 text-xs  sm:text-sm">Send Reset Link</span>
-                  <ArrowRight className="relative z-10 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-                </>
-              )}
-            </motion.button>
+              <span>Continue to Reset Password</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
 
-            {/* Back to Login Link */}
-            <div className={`text-center  pt-4 border-t border-gray-800`}>
-              <Link
-                to="/login"
-                className={`inline-flex items-center text-sm font-bold transition-colors duration-300 ${
-                  'text-gray-400 hover:text-white'
-                }`}
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Login
-              </Link>
+            <div className="mt-8 pt-6 border-t border-white/5">
+              <p className="text-[12px] text-gray-400">
+                Didn't receive the email?{' '}
+                <button
+                  onClick={() => setSuccess(false)}
+                  className="font-semibold text-[#7c3aed] hover:text-[#5e17eb] transition-colors"
+                >
+                  Try again
+                </button>
+              </p>
             </div>
-          </form>
+          </div>
         </motion.div>
 
         {/* Trust Badge */}
@@ -281,21 +81,136 @@ const ForgotPassword = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="mt-8 text-center"
+          className="mt-8 text-center relative z-10"
         >
-          <div className={`inline-flex items-center px-4 py-2 rounded-full backdrop-blur-xl ${
-            'bg-gradient-to-r from-orange-600/10 to-yellow-600/10 border border-orange-500/20'
-          } shadow-lg`}>
+          <div className="inline-flex items-center px-4 py-2 rounded-full bg-[#141414] border border-white/10 shadow-lg">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
-              <span className={`text-xs font-semibold text-gray-400`}>
-                Secure password recovery
+              <div className="w-2 h-2 rounded-full bg-[#7c3aed] animate-pulse" />
+              <span className="text-[11px] font-semibold text-gray-400">
+                Email sent successfully
               </span>
             </div>
           </div>
         </motion.div>
-      </div>
-    </div>
+      </AuthLayout>
+    );
+  }
+
+  return (
+    <AuthLayout theme="violet">
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="rounded-[20px] bg-[#141414] shadow-[0_20px_40px_rgba(0,0,0,0.8)] border border-white/10 p-8 sm:p-6 relative z-10 w-full max-w-md"
+      >
+        {/* Header */}
+        <div className="relative text-center mb-6">
+          <div className="flex justify-center mb-4">
+            <div className="w-12 h-12 rounded-2xl bg-[#1a1a1a] border border-white/10 flex items-center justify-center">
+              <Lock className="w-5 h-5 text-gray-300" />
+            </div>
+          </div>
+          <h2 className="text-[18px] sm:text-[22px] font-bold mb-1 text-white tracking-tight">
+            Forgot Password?
+            <span className="inline-block ml-2">🔐</span>
+          </h2>
+          <p className="text-[12px] text-gray-400">
+            Enter your email address to receive a password reset link
+          </p>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="relative space-y-5">
+          {error && (
+            <motion.div
+              className="bg-red-500/10 border border-red-500/20 text-red-500 px-3 py-2.5 rounded-lg relative text-[12px] flex items-center"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="w-1.5 h-1.5 rounded-full bg-red-500 mr-2 flex-shrink-0" />
+              {error}
+            </motion.div>
+          )}
+
+          {/* Email Field */}
+          <div className="relative group">
+            <label
+              htmlFor="email"
+              className="block text-[12px] font-medium mb-1.5 text-gray-300"
+            >
+              Email Address
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Mail className="h-4 w-4 text-gray-500" />
+              </div>
+              <input
+                id="email"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                className="bg-[#141414] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#7c3aed] focus:ring-1 focus:ring-[#7c3aed] transition-colors w-full pl-9 py-2 pr-3 text-[12px]"
+              />
+            </div>
+          </div>
+
+          {/* Submit Button */}
+          <motion.button
+            type="submit"
+            disabled={loading || !email}
+            className={`w-full py-2.5 flex items-center justify-center gap-2 text-[13px] font-semibold rounded-xl transition-all duration-200 ${
+              loading || !email
+                ? "bg-white/5 text-gray-500 cursor-not-allowed border border-white/5"
+                : "btn-primary text-white"
+            }`}
+          >
+            {loading ? (
+              <div className="flex items-center justify-center">
+                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></div>
+                Sending...
+              </div>
+            ) : (
+              <>
+                <span>Send Reset Link</span>
+                <ArrowRight className="w-4 h-4" />
+              </>
+            )}
+          </motion.button>
+
+          {/* Back to Sign In Link */}
+          <div className="text-center pt-5 mt-2 border-t border-white/5">
+            <Link
+              to="/signin"
+              className="inline-flex items-center text-[12px] font-medium text-gray-400 hover:text-white transition-colors duration-200"
+            >
+              <ArrowLeft className="w-3.5 h-3.5 mr-1.5" />
+              Back to Sign In
+            </Link>
+          </div>
+        </form>
+      </motion.div>
+
+      {/* Trust Badge */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        className="mt-6 text-center relative z-10"
+      >
+        <div className="inline-flex items-center px-4 py-2 rounded-full bg-[#141414] border border-white/10 shadow-lg">
+          <div className="flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-[#7c3aed] animate-pulse" />
+            <span className="text-[11px] font-medium text-gray-400">
+              Secure password recovery
+            </span>
+          </div>
+        </div>
+      </motion.div>
+    </AuthLayout>
   );
 };
 

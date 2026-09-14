@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import PageBackground from '../components/ui/PageBackground';
 import { useSelector } from 'react-redux';
 import api from '../utils/api';
 
@@ -120,330 +119,299 @@ const PitchSimulator = () => {
   };
 
   return (
-    <div className={`min-h-screen relative overflow-hidden bg-[#0a0118]`}>
-      <PageBackground theme="violet" />
+    <div className="min-h-screen bg-[#000000] relative overflow-hidden text-white pt-24 sm:pt-28 pb-16 selection:bg-[#7c3aed]/30">
+      {/* Subtle Dot Grid Background Pattern like Dashboard */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNCkiLz48L3N2Zz4=')] pointer-events-none" />
 
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {/* Enhanced Header */}
+      <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6">
+        {/* Header */}
         <motion.div 
-          className="mb-6"
-          initial={{ opacity: 0, y: 30 }}
+          className="text-center mb-5"
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <div className="text-center">
-            <div className="flex items-center justify-center gap-3 mb-2">
-              <div className={`w-8 h-8 rounded-2xl bg-gradient-to-br from-orange-600 to-red-500 flex items-center justify-center shadow-2xl shadow-orange-500/50`}>
-                <MessageSquare className="w-4 h-4 text-white" />
-              </div>
-              <div>
-                <h1 className={`text-lg md:text-2xl font-black text-white`}>
-                  Pitch{" "}
-                  <span className="bg-gradient-to-r from-orange-400 via-red-400 to-pink-400 bg-clip-text text-transparent">
-                    Simulator
-                  </span>
-                </h1>
-              </div>
+          <div className="flex justify-center mb-2.5">
+            <div className="w-9 h-9 rounded-xl bg-[#0a0a0a] border border-white/10 flex items-center justify-center shadow-inner">
+              <MessageSquare className="w-4 h-4 text-[#7c3aed]" />
             </div>
-            <p className={`text-xs sm:text-sm text-gray-400 font-medium flex items-center justify-center gap-2`}>
-              <Sparkles className="w-4 h-4 text-orange-400" />
-              Practice your pitch with AI-powered investor Q&A
-            </p>
           </div>
+          <h1 className="text-[20px] sm:text-[22px] font-semibold tracking-tight text-white mb-1">
+            Pitch Simulator
+          </h1>
+          <p className="text-[11px] sm:text-[12px] text-gray-400 font-normal flex items-center gap-1.5 justify-center">
+            <Sparkles className="w-3.5 h-3.5 text-[#7c3aed]" />
+            Practice your pitch with AI-powered investor Q&A
+          </p>
         </motion.div>
 
+        {/* Error Message */}
+        {error && (
+          <motion.div 
+            className="mb-4 flex items-center justify-between p-2.5 bg-red-500/10 border border-red-500/20 text-red-400 rounded-lg text-[11px] sm:text-[12px]"
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+          >
+            <div className="flex items-center gap-2">
+              <AlertCircle className="h-3.5 w-3.5 flex-shrink-0" />
+              <span>{error}</span>
+            </div>
+            <button 
+              onClick={() => setError(null)}
+              className="text-[11px] font-medium text-red-400 hover:text-red-300 transition-colors ml-4"
+            >
+              Dismiss
+            </button>
+          </motion.div>
+        )}
+
+        {/* Main Form Card */}
         <motion.div 
-          className={`relative overflow-hidden rounded-3xl p-2 sm:p-3 ${
-            'bg-gray-900/50 border border-gray-800/50'
-          } backdrop-blur-xl`}
-          initial={{ opacity: 0, y: 30 }}
+          className="rounded-[18px] bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.8)] p-5 sm:p-6 relative z-10 mb-6"
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
         >
           {!questions.length ? (
-            <form onSubmit={handleSimulate}>
-              <div className="mb-4">
+            <form onSubmit={handleSimulate} className="space-y-3.5">
+              <div>
                 <label
                   htmlFor="pitch"
-                  className={`flex items-center gap-2 text-base font-bold mb-4 text-white`}
+                  className="flex items-center gap-2 text-[12px] font-medium mb-2 text-gray-200"
                 >
-                  <div className={`w-8 h-8 rounded-lg bg-gradient-to-br from-orange-600 to-red-500 flex items-center justify-center shadow-lg`}>
-                    <Lightbulb className="w-4 h-4 text-white" />
+                  <div className="w-6 h-6 rounded-lg bg-[#141414] border border-white/10 flex items-center justify-center text-[#7c3aed]">
+                    <Lightbulb className="w-3.5 h-3.5" />
                   </div>
-                  Your Pitch
+                  <span>Your Pitch</span>
                 </label>
-                <textarea
-                  id="pitch"
-                  value={pitch}
-                  onChange={(e) => setPitch(e.target.value)}
-                  rows={5}
-                  className={`w-full px-6 py-4 text-sm rounded-2xl border-2 transition-all duration-300 ${
-                    'bg-gray-800/50 text-white border-gray-700 placeholder-gray-500 focus:border-orange-500 focus:bg-gray-800'
-                  } focus:ring-1 focus:ring-orange-500/20 focus:outline-none`}
-                  placeholder="Describe your startup pitch here. Include your problem statement, solution, market opportunity, and what makes you unique..."
-                />
-              </div>
-
-              <motion.button
-                type="submit"
-                disabled={loading || !pitch.trim()}
-                className={`w-full flex justify-center items-center py-2 px-8 rounded-xl text-sm font-bold text-white transition-all duration-300 shadow-xl ${
-                  (loading || !pitch.trim())
-                    ? 'bg-gray-400 cursor-not-allowed'
-                    : 'bg-gradient-to-r from-orange-600 via-red-600 to-pink-600 hover:shadow-2xl hover:shadow-orange-500/50 hover:scale-105'
-                }`}
-                whileHover={!(loading || !pitch.trim()) ? { scale: 1.05 } : {}}
-                whileTap={!(loading || !pitch.trim()) ? { scale: 0.95 } : {}}
-              >
-                {loading ? (
-                  <>
-                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-3" />
-                    Generating Questions...
-                  </>
-                ) : (
-                  <>
-                    <Play className="w-5 h-5 mr-3" />
-                    Start Simulation (1 Credit)
-                    <ArrowRight className="w-5 h-5 ml-3" />
-                  </>
-                )}
-              </motion.button>
-            </form>
-          ) : (
-            <div>
-              {/* Your Pitch Display */}
-              <div className={`relative overflow-hidden rounded-2xl p-4 sm:p-6 mb-6 bg-gray-800/50 border border-gray-700/50`}>
-                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-red-500/10 to-pink-500/10 opacity-50"></div>
                 <div className="relative">
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className={`w-8 h-8 rounded-lg bg-gradient-to-br from-orange-600 to-red-500 flex items-center justify-center shadow-lg`}>
-                      <Lightbulb className="w-4 h-4 text-white" />
-                    </div>
-                    <h3 className={`font-bold text-sm text-orange-400`}>
-                      Your Pitch
-                    </h3>
+                  <textarea
+                    id="pitch"
+                    value={pitch}
+                    onChange={(e) => setPitch(e.target.value)}
+                    rows={5}
+                    className="w-full p-3 pb-7 text-[12px] rounded-lg border bg-[#141414] border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-[#7c3aed] focus:ring-1 focus:ring-[#7c3aed] transition-colors resize-none leading-relaxed"
+                    placeholder="Describe your startup pitch here. Include your problem statement, solution, market opportunity, and what makes you unique..."
+                  />
+                  <div className={`absolute bottom-2.5 right-2.5 text-[10px] font-medium transition-colors ${
+                    pitch.length < 50 ? 'text-gray-500' : 'text-[#a78bfa]'
+                  }`}>
+                    {pitch.length} characters
                   </div>
-                  <p className={`text-xs sm:text-sm text-justify leading-relaxed text-gray-300`}>
-                    {pitch}
-                  </p>
+                </div>
+                <div className="mt-2 flex items-center gap-1.5 text-[11px] text-gray-400">
+                  <Sparkles className="w-3 h-3 text-[#7c3aed] flex-shrink-0" />
+                  <span>AI investors will analyze your pitch and generate tough, realistic questions</span>
                 </div>
               </div>
 
+              <button
+                type="submit"
+                disabled={loading || !pitch.trim()}
+                className={
+                  loading || !pitch.trim()
+                    ? "w-full py-2 px-5 rounded-lg text-[12px] font-medium bg-[#141414] text-gray-500 border border-white/5 cursor-not-allowed flex items-center justify-center gap-2 mt-3.5"
+                    : "btn-primary w-full py-2 px-5 rounded-lg text-[12px] font-semibold flex items-center justify-center gap-2 mt-3.5"
+                }
+              >
+                {loading ? (
+                  <div className="flex items-center justify-center">
+                    <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
+                    <span>Generating Questions...</span>
+                  </div>
+                ) : (
+                  <>
+                    <Play className="w-3.5 h-3.5" />
+                    <span>Start Simulation (1 Credit)</span>
+                    <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                  </>
+                )}
+              </button>
+            </form>
+          ) : (
+            <div className="space-y-4">
+              {/* Your Pitch Display */}
+              <div className="p-3.5 sm:p-4 rounded-xl bg-[#141414] border border-white/10">
+                <div className="flex items-center gap-2 mb-1.5">
+                  <div className="w-6 h-6 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-[#7c3aed]">
+                    <Lightbulb className="w-3.5 h-3.5" />
+                  </div>
+                  <h3 className="font-semibold text-[12px] text-white">
+                    Your Pitch
+                  </h3>
+                </div>
+                <p className="text-[11px] sm:text-[12px] leading-relaxed text-gray-300">
+                  {pitch}
+                </p>
+              </div>
+
               {currentQuestion ? (
-                <div>
+                <div className="space-y-4">
                   {/* Investor Question Card */}
-                  <div className={`relative overflow-hidden rounded-2xl p-2 sm:p-4 mb-4 bg-purple-900/30 border border-purple-500/30`}>
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-fuchsia-500/10 to-pink-500/10"></div>
-                    <div className="relative">
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-2">
-                          <div className={`w-6 sm:w-8 h-6 sm:h-8 rounded-lg bg-gradient-to-br from-purple-600 to-fuchsia-500 flex items-center justify-center shadow-lg`}>
-                            <MessageSquare className="w-4 h-4 text-white" />
-                          </div>
-                          <h3 className={`font-bold text-xs sm:text-sm text-purple-300`}>
-                            Investor Question
-                          </h3>
+                  <div className="p-4 rounded-xl bg-[#141414] border border-[#7c3aed]/30">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 rounded-lg bg-[#7c3aed]/20 flex items-center justify-center text-[#a78bfa]">
+                          <MessageSquare className="w-3.5 h-3.5" />
                         </div>
-                        <span className={`text-xs font-semibold px-3 py-1 rounded-lg bg-purple-600/30 text-purple-300`}>
-                          {currentQuestion.category}
-                        </span>
+                        <h3 className="font-semibold text-[12px] text-[#a78bfa]">
+                          Investor Question
+                        </h3>
                       </div>
-                      <p className={`text-xs sm:text-sm font-medium text-justify leading-relaxed text-white`}>
-                        {currentQuestion.question}
-                      </p>
+                      <span className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-[#7c3aed]/20 text-[#a78bfa] border border-[#7c3aed]/30">
+                        {currentQuestion.category}
+                      </span>
                     </div>
+                    <p className="text-[12px] sm:text-[13px] font-medium leading-relaxed text-white">
+                      {currentQuestion.question}
+                    </p>
                   </div>
 
                   {/* Answer Textarea */}
-                  <div className="mb-6">
+                  <div>
                     <label
                       htmlFor="answer"
-                      className={`flex items-center gap-2 text-xs sm:text-sm font-bold mb-4 text-white`}
+                      className="flex items-center gap-2 text-[12px] font-medium mb-2 text-gray-200"
                     >
-                      <div className={`w-6 sm:w-8 h-6 sm:h-8 rounded-lg bg-gradient-to-br from-emerald-600 to-teal-500 flex items-center justify-center shadow-lg`}>
-                        <Send className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
+                      <div className="w-6 h-6 rounded-lg bg-[#141414] border border-white/10 flex items-center justify-center text-emerald-400">
+                        <Send className="w-3 h-3" />
                       </div>
-                      Your Answer
+                      <span>Your Answer</span>
                     </label>
                     <textarea
                       id="answer"
                       value={answer}
                       onChange={(e) => setAnswer(e.target.value)}
-                      rows={6}
-                      className={`w-full px-3 sm:px-6 py-2 sm:py-4 text-xs sm:text-sm rounded-2xl border-2 transition-all duration-300 ${
-                        'bg-gray-800/50 text-white border-gray-700 placeholder-gray-500 focus:border-emerald-500 focus:bg-gray-800'
-                      } focus:ring-2 focus:ring-emerald-500/20 focus:outline-none`}
-                      placeholder="Type your answer here..."
+                      rows={5}
+                      className="w-full p-3 text-[12px] rounded-lg border bg-[#141414] border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-[#7c3aed] focus:ring-1 focus:ring-[#7c3aed] transition-colors resize-none leading-relaxed"
+                      placeholder="Type your response to the investor here..."
                     />
                   </div>
 
-                  <motion.button
+                  <button
                     onClick={handleAnswer}
                     disabled={loading || !answer.trim()}
-                    className={`w-full flex justify-center items-center py-1 sm:py-2 px-8 rounded-xl text-xs sm:text-sm font-bold text-white transition-all duration-300 shadow-xl ${
-                      (loading || !answer.trim())
-                        ? 'bg-gray-400 cursor-not-allowed'
-                        : 'bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:shadow-2xl hover:shadow-emerald-500/50 hover:scale-105'
-                    }`}
-                    whileHover={!(loading || !answer.trim()) ? { scale: 1.05 } : {}}
-                    whileTap={!(loading || !answer.trim()) ? { scale: 0.95 } : {}}
+                    className={
+                      loading || !answer.trim()
+                        ? "w-full py-2 px-5 rounded-lg text-[12px] font-medium bg-[#141414] text-gray-500 border border-white/5 cursor-not-allowed flex items-center justify-center gap-2"
+                        : "btn-primary w-full py-2 px-5 rounded-lg text-[12px] font-semibold flex items-center justify-center gap-2"
+                    }
                   >
                     {loading ? (
-                      <>
-                        <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-3" />
-                        Evaluating Answer...
-                      </>
+                      <div className="flex items-center justify-center">
+                        <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
+                        <span>Evaluating Answer...</span>
+                      </div>
                     ) : (
                       <>
-                        <Send className="w-4 sm:w-5 h-4 sm:h-5 mr-3" />
-                        Submit Answer
-                        <ArrowRight className="w-5 h-5 ml-3" />
+                        <Send className="w-3.5 h-3.5" />
+                        <span>Submit Answer</span>
+                        <ArrowRight className="w-3.5 h-3.5 ml-1" />
                       </>
                     )}
-                  </motion.button>
+                  </button>
 
                   {/* Feedback Section */}
                   {feedback && (
                     <motion.div 
-                      className="mt-6"
-                      initial={{ opacity: 0, y: 30 }}
+                      className="mt-4 p-4 rounded-xl bg-[#0a0a0a] border border-white/10 space-y-3.5"
+                      initial={{ opacity: 0, y: 15 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5 }}
+                      transition={{ duration: 0.4 }}
                     >
-                      <div className={`relative overflow-hidden rounded-2xl p-2 sm:p-3 bg-gray-800/50 border border-gray-700/50`}>
-                        <div className="relative">
-                          {/* Rating Header */}
-                          <div className="flex items-center justify-between mb-4 pb-2 border-b border-gray-700/50">
-                            <div className="flex items-center gap-3">
-                              <div className={`w-8 h-8 rounded-xl bg-gradient-to-br from-amber-600 to-orange-500 flex items-center justify-center shadow-lg`}>
-                                <Award className="w-4 h-4 text-white" />
-                              </div>
-                              <h3 className={`text-sm sm:text-md font-bold text-white`}>
-                                Feedback
-                              </h3>
-                            </div>
-                            <div className={`px-4 py-2 text-xs sm:text-sm rounded-xl bg-gradient-to-r ${
-                              feedback.rating >= 4 
-                                ? 'from-emerald-500 to-teal-500' 
-                                : feedback.rating >= 3 
-                                ? 'from-amber-500 to-orange-500'
-                                : 'from-red-500 to-pink-500'
-                            } text-white font-bold shadow-lg`}>
-                              {feedback.rating}/5 ⭐
-                            </div>
+                      {/* Rating Header */}
+                      <div className="flex items-center justify-between pb-2 border-b border-white/5">
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400">
+                            <Award className="w-3.5 h-3.5" />
                           </div>
-
-                          <div className="space-y-6">
-                            {/* Strengths */}
-                            <div className={`p-4 rounded-xl bg-emerald-900/20 border border-emerald-500/20`}>
-                              <div className="flex items-center gap-2 mb-3">
-                                <div className="w-6 sm:w-8 h-6 sm:h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shadow-lg">
-                                  <CheckCircle2 className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
-                                </div>
-                                <h4 className="font-bold text-sm text-emerald-500">
-                                  Strengths
-                                </h4>
-                              </div>
-                              <ul className="space-y-2">
-                                {feedback.strengths.map((strength, index) => (
-                                  <li key={index} className={`text-xs sm:text-sm text-justify flex items-start text-gray-300`}>
-                                    <CheckCircle2 className="w-3 sm:w-4 h-3 sm:h-4 text-emerald-500 mr-2 flex-shrink-0 mt-0.5" />
-                                    {strength}
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-
-                            {/* Improvements */}
-                            <div className={`p-4 rounded-xl bg-amber-900/20 border border-amber-500/20`}>
-                              <div className="flex items-center gap-2 mb-3">
-                                <div className="w-6 sm:w-8 h-6 sm:h-8 rounded-lg bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-lg">
-                                  <TrendingUp className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
-                                </div>
-                                <h4 className="font-bold text-sm text-amber-500">
-                                  Areas for Improvement
-                                </h4>
-                              </div>
-                              <ul className="space-y-2">
-                                {feedback.improvements.map((improvement, index) => (
-                                  <li key={index} className={`text-xs sm:text-sm text-justify flex items-start text-gray-300`}>
-                                    <TrendingUp className="w-4 h-4 text-amber-500 mr-2 flex-shrink-0 mt-0.5" />
-                                    {improvement}
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-
-                            {/* Additional Advice */}
-                            <div className={`p-4 rounded-xl bg-blue-900/20 border border-blue-500/20`}>
-                              <div className="flex items-center gap-2 mb-3">
-                                <div className="w-6 sm:w-8 h-6 sm:h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg">
-                                  <Lightbulb className="w-4 h-4 text-white" />
-                                </div>
-                                <h4 className="font-bold text-sm text-blue-500">
-                                  Additional Advice
-                                </h4>
-                              </div>
-                              <p className={`text-xs sm:text-sm text-justify leading-relaxed text-gray-300`}>
-                                {feedback.additionalAdvice}
-                              </p>
-                            </div>
-
-                            {/* Next Question Button */}
-                            <motion.button
-                              onClick={handleNextQuestion}
-                              className="w-full py-1 sm:py-2 px-8 rounded-xl text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 hover:shadow-2xl hover:shadow-violet-500/50 transition-all duration-300 hover:scale-105 shadow-xl flex items-center justify-center"
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
-                            >
-                              Next Question
-                              <ArrowRight className="w-5 h-5 ml-3" />
-                            </motion.button>
-                          </div>
+                          <h3 className="text-[13px] font-semibold text-white">
+                            Answer Evaluation
+                          </h3>
                         </div>
+                        <div className="px-2.5 py-0.5 text-[11px] rounded-md bg-[#141414] border border-white/10 text-white font-semibold">
+                          Score: {feedback.rating}/5 ⭐
+                        </div>
+                      </div>
+
+                      <div className="space-y-2.5">
+                        {/* Strengths */}
+                        <div className="p-3 rounded-lg bg-[#141414] border border-emerald-500/15">
+                          <h4 className="font-semibold text-[11px] text-emerald-400 flex items-center gap-1.5 mb-1.5">
+                            <CheckCircle2 className="w-3 h-3 flex-shrink-0" />
+                            Strengths
+                          </h4>
+                          <ul className="space-y-1">
+                            {feedback.strengths.map((strength, index) => (
+                              <li key={index} className="text-[11px] text-gray-300 flex items-start">
+                                <span className="text-emerald-400 mr-1.5">•</span>
+                                <span>{strength}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        {/* Improvements */}
+                        <div className="p-3 rounded-lg bg-[#141414] border border-amber-500/15">
+                          <h4 className="font-semibold text-[11px] text-amber-400 flex items-center gap-1.5 mb-1.5">
+                            <TrendingUp className="w-3 h-3 flex-shrink-0" />
+                            Areas for Improvement
+                          </h4>
+                          <ul className="space-y-1">
+                            {feedback.improvements.map((improvement, index) => (
+                              <li key={index} className="text-[11px] text-gray-300 flex items-start">
+                                <span className="text-amber-400 mr-1.5">•</span>
+                                <span>{improvement}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        {/* Additional Advice */}
+                        <div className="p-3 rounded-lg bg-[#141414] border border-blue-500/15">
+                          <h4 className="font-semibold text-[11px] text-blue-400 flex items-center gap-1.5 mb-1.5">
+                            <Lightbulb className="w-3 h-3 flex-shrink-0" />
+                            Additional Advice
+                          </h4>
+                          <p className="text-[11px] leading-relaxed text-gray-300">
+                            {feedback.additionalAdvice}
+                          </p>
+                        </div>
+
+                        {/* Next Question Button */}
+                        <button
+                          onClick={handleNextQuestion}
+                          className="btn-primary w-full py-2 px-5 rounded-lg text-[12px] font-semibold flex items-center justify-center gap-2 mt-2"
+                        >
+                          <span>Next Question</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </button>
                       </div>
                     </motion.div>
                   )}
                 </div>
               ) : (
-                <div className="text-center py-8">
-                  <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-600 to-red-500 flex items-center justify-center mx-auto mb-3 shadow-2xl shadow-orange-500/50`}>
-                    <MessageSquare className="w-5 h-5 text-white" />
+                <div className="text-center py-6 sm:py-8">
+                  <div className="w-10 h-10 rounded-xl bg-[#141414] border border-white/10 flex items-center justify-center mx-auto mb-3 text-[#7c3aed] shadow-inner">
+                    <MessageSquare className="w-5 h-5" />
                   </div>
-                  <h3 className={`text-lg font-black mb-1 text-white`}>
+                  <h3 className="text-[16px] font-semibold text-white mb-1 tracking-tight">
                     Ready to Start?
                   </h3>
-                  <p className={`text-sm mb-6 text-gray-400`}>
+                  <p className="text-[12px] text-gray-400 mb-4 max-w-sm mx-auto">
                     {questions.length} investor questions generated. Let's begin the Q&A session!
                   </p>
-                  <motion.button
+                  <button
                     onClick={() => setCurrentQuestion(questions[0])}
-                    className="inline-flex items-center px-8 py-2 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-orange-600 via-red-600 to-pink-600 hover:shadow-2xl hover:shadow-orange-500/50 transition-all duration-300 hover:scale-105 shadow-xl"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                    className="btn-primary inline-flex items-center px-6 py-2 rounded-lg text-[12px] font-semibold gap-2 mx-auto"
                   >
-                    <Play className="w-5 h-5 mr-3" />
-                    Start Q&A Session
-                    <ArrowRight className="w-5 h-5 ml-3" />
-                  </motion.button>
+                    <Play className="w-3.5 h-3.5" />
+                    <span>Start Q&A Session</span>
+                    <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                  </button>
                 </div>
               )}
             </div>
-          )}
-
-          {/* Error Message */}
-          {error && (
-            <motion.div 
-              className={`mt-6 p-4 rounded-xl border bg-red-900/20 border-red-500/30 text-red-300`}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="flex items-center">
-                <AlertCircle className="h-5 w-5 mr-2" />
-                {error}
-              </div>
-            </motion.div>
           )}
         </motion.div>
       </div>

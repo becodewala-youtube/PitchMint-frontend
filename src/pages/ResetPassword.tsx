@@ -44,7 +44,7 @@ const ResetPassword = () => {
         newPassword: formData.newPassword
       });
       setSuccess(true);
-      setTimeout(() => navigate('/login'), 3000);
+      setTimeout(() => navigate('/signin'), 3000);
     } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to reset password');
     } finally {
@@ -97,7 +97,7 @@ const ResetPassword = () => {
                   'text-gray-300'
                 }`}
               >
-                Your password has been reset successfully. Redirecting you to login...
+                Your password has been reset successfully. Redirecting you to sign in...
               </p>
 
               {/* Loading Spinner */}
@@ -391,16 +391,16 @@ const ResetPassword = () => {
               )}
             </motion.button>
 
-            {/* Back to Login Link */}
+            {/* Back to Sign In Link */}
             <div className={`text-center pt-6 border-t border-gray-800`}>
               <Link
-                to="/login"
+                to="/signin"
                 className={`inline-flex items-center text-sm font-bold transition-colors duration-300 ${
                   'text-gray-400 hover:text-white'
                 }`}
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Login
+                Back to Sign In
               </Link>
             </div>
           </form>

@@ -4,6 +4,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .btn-primary {
+    @apply flex items-center justify-center bg-[#5e17eb] hover:bg-[#4d10c7] transition-all duration-200 text-white font-semibold shadow-none border-b-[4px] border-[#3904a6] hover:border-b-2 hover:translate-y-[2px] rounded-xl;
+  }
+
+  .btn-secondary {
+    @apply flex items-center justify-center bg-[#5e17eb] hover:bg-[#4d10c7] transition-all duration-200 text-white font-semibold shadow-none border-b-[4px] border-[#3904a6] hover:border-b-2 hover:translate-y-[2px] rounded-xl;
+  }
+}
+
 @layer base {
   :root,
   .dark {

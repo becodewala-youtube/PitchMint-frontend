@@ -8,7 +8,6 @@ import { RootState } from '../store';
 import { Brain, AlertCircle, Sparkles, CheckCircle, Target, Users, TrendingUp, DollarSign, ArrowRight, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 import InsufficientCreditsModal from '../components/modals/InsufficientCreditsModal';
-import PageBackground from '../components/ui/PageBackground';
 
 const SubmitIdea = () => {
   const [ideaText, setIdeaText] = useState('');
@@ -33,90 +32,77 @@ const SubmitIdea = () => {
     {
       icon: Target,
       title: 'Problem & Solution',
-      description: 'Be clear about the problem your idea solves',
-      gradient: 'from-violet-500 to-fuchsia-500',
+      description: 'Be clear about the specific pain point your idea solves and for whom.',
     },
     {
       icon: Users,
       title: 'Target Audience',
-      description: 'Describe your target audience or market',
-      gradient: 'from-cyan-500 to-blue-500',
+      description: 'Describe your core customer segments, demographics, and market niche.',
     },
     {
       icon: TrendingUp,
       title: 'Unique Value',
-      description: 'Explain how your solution is unique or better than alternatives',
-      gradient: 'from-emerald-500 to-teal-500',
+      description: 'Explain what makes your solution unique or 10x better than alternatives.',
     },
     {
       icon: DollarSign,
       title: 'Business Model',
-      description: 'Include potential revenue streams or business model ideas',
-      gradient: 'from-amber-500 to-orange-500',
+      description: 'Outline your anticipated monetization strategy and revenue streams.',
     },
   ];
 
   return (
-    <div className={`relative min-h-screen overflow-hidden bg-[#0a0118] py-4 sm:py-6`}>
-      <PageBackground theme="violet" />
+    <div className="min-h-screen bg-[#000000] relative overflow-hidden text-white pt-24 sm:pt-28 pb-16 selection:bg-[#7c3aed]/30">
+      {/* Subtle Dot Grid Background Pattern like Dashboard */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNCkiLz48L3N2Zz4=')] pointer-events-none" />
 
-      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-2xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <motion.div 
-          className="text-center mb-10 sm:mb-6"
-          initial={{ opacity: 0, y: 20 }}
+          className="text-center mb-5"
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <div className="flex justify-center mb-2">
-            <div className="w-8 h-8 md:w-10 md:h-10 rounded-2xl bg-gradient-to-br from-cyan-600 via-blue-600 to-indigo-600 shadow-2xl shadow-cyan-500/50 flex items-center justify-center">
-              <Brain className="w-4 h-4 md:w-5 md:h-5 text-white" />
+          <div className="flex justify-center mb-2.5">
+            <div className="w-9 h-9 rounded-xl bg-[#0a0a0a] border border-white/10 flex items-center justify-center shadow-inner">
+              <Brain className="w-4 h-4 text-[#7c3aed]" />
             </div>
           </div>
-          <h1 className={`text-lg sm:text-xl md:text-xl font-black sm:mb-1 text-white`}>
-            Submit Your
-            <span className="ml-2 mt-2 bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400 bg-clip-text text-transparent">
-              Startup Idea
-            </span>
+          <h1 className="text-[20px] sm:text-[22px] font-semibold tracking-tight text-white mb-1">
+            Submit Your Startup Idea
           </h1>
-          <p className={`text-xs md:text-sm text-gray-300 max-w-2xl mx-auto`}>
-            Get instant AI-powered validation and analysis
+          <p className="text-[11px] sm:text-[12px] text-gray-400 max-w-sm mx-auto">
+            Get instant AI-powered validation, competitive analysis, and strategic roadmap
           </p>
         </motion.div>
 
         {/* Main Form */}
         <motion.div 
-          className={`rounded-3xl shadow-2xl backdrop-blur-xl py-3 px-4 sm:p-8 md:px-6 md:py-3 border mb-6 ${
-            'bg-gray-900/50 border-gray-800/50'
-          }`}
-          initial={{ opacity: 0, y: 20 }}
+          className="rounded-[18px] bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.8)] p-5 sm:p-6 relative z-10 mb-4"
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
         >
-          {/* Gradient Glow */}
-          <div className={`absolute -inset-1 rounded-3xl opacity-50 blur-2xl pointer-events-none ${
-            'bg-gradient-to-r from-cyan-600/20 via-blue-600/20 to-indigo-600/20'
-          }`} />
-
           <div className="relative">
             {error && (
               <motion.div 
-                className="mb-6 flex items-start p-4 bg-gradient-to-r from-red-500/10 to-pink-500/10 border border-red-500/50 text-red-500 rounded-xl backdrop-blur-sm" 
+                className="mb-4 flex items-center p-2.5 bg-red-500/10 border border-red-500/20 text-red-400 rounded-lg text-[11px] sm:text-[12px]" 
                 role="alert"
-                initial={{ opacity: 0, scale: 0.95 }}
+                initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3 }}
               >
-                <AlertCircle className="h-5 w-5 mr-3 flex-shrink-0 mt-0.5" />
-                <span className="text-sm">{error}</span>
+                <AlertCircle className="h-3.5 w-3.5 mr-2 flex-shrink-0" />
+                <span>{error}</span>
               </motion.div>
             )}
 
-            <form onSubmit={handleSubmit} className=" space-y-4 sm:space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label
                   htmlFor="idea"
-                  className={`block text-sm md:text-md font-bold mb-3 text-gray-300`}
+                  className="block text-[12px] font-medium mb-1.5 text-gray-300"
                 >
                   Describe your startup idea
                 </label>
@@ -124,71 +110,57 @@ const SubmitIdea = () => {
                   <textarea
                     id="idea"
                     name="idea"
-                    rows={5}
+                    rows={4}
                     value={ideaText}
                     onChange={(e) => setIdeaText(e.target.value)}
                     placeholder="Example: A mobile app that uses AI to help people learn new languages through personalized, interactive conversations. Our platform adapts to each user's learning style and provides real-time feedback..."
-                    className={`w-full px-4 py-2 text-sm  rounded-xl border outline-none transition-all duration-300 focus:ring-1 resize-none ${
-                      'bg-gray-800/50 border-gray-700/50 text-gray-100 placeholder-gray-500 focus:ring-cyan-500/50 focus:border-cyan-500/50'
-                    }`}
+                    className="w-full p-3 pb-7 text-[12px] rounded-lg border bg-[#141414] border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-[#7c3aed] focus:ring-1 focus:ring-[#7c3aed] transition-colors resize-none leading-relaxed"
                   />
-                  <div className={`absolute bottom-3 right-3 text-xs font-semibold ${
+                  <div className={`absolute bottom-2.5 right-2.5 text-[10px] font-medium transition-colors ${
                     ideaText.length < 50 
-                      ? 'text-gray-600'
-                      : 'text-cyan-400'
+                      ? 'text-gray-500' 
+                      : 'text-[#a78bfa]'
                   }`}>
                     {ideaText.length} characters
                   </div>
                 </div>
-                <p className={`mt-2 text-xs md:text-sm flex items-start text-gray-400`}>
-                  <Sparkles className="w-4 h-4 mr-2 flex-shrink-0 mt-0.5 text-cyan-400" />
-                  <span>Be specific about your idea's value proposition, target market, and how it solves a problem.</span>
-                </p>
+                <div className="mt-2 flex items-center gap-1.5 text-[11px] text-gray-400">
+                  <Sparkles className="w-3 h-3 text-[#7c3aed] flex-shrink-0" />
+                  <span>Be specific about your value proposition, target market, and the core problem you are solving.</span>
+                </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4">
-                <motion.button
+              <div className="flex flex-col sm:flex-row gap-2.5 pt-1">
+                <button
                   type="submit"
                   disabled={loading || !ideaText.trim()}
-                  className={`flex-1 group relative flex items-center justify-center gap-2 text-xs sm:text-sm font-bold py-1 sm:py-2  rounded-xl transition-all duration-300 shadow-xl overflow-hidden ${
-                    (loading || !ideaText.trim())
-                      ? "bg-gray-400 cursor-not-allowed"
-                      : 'bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 hover:shadow-cyan-500/50 text-white'
-                  }`}
-                  whileHover={!(loading || !ideaText.trim()) ? { scale: 1.02 } : {}}
-                  whileTap={!(loading || !ideaText.trim()) ? { scale: 0.98 } : {}}
+                  className={
+                    loading || !ideaText.trim()
+                      ? "w-full sm:flex-1 py-2 px-5 rounded-lg text-[12px] font-medium bg-[#141414] text-gray-500 border border-white/5 cursor-not-allowed flex items-center justify-center gap-2"
+                      : "btn-primary w-full sm:flex-1 py-2 px-5 rounded-lg text-[12px] font-semibold flex items-center justify-center gap-2"
+                  }
                 >
-                  {!(loading || !ideaText.trim()) && (
-                    <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-                      'bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-600'
-                    }`} />
-                  )}
-                  
                   {loading ? (
                     <div className="flex items-center justify-center">
-                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></div>
-                      Analyzing...
+                      <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></div>
+                      <span>Analyzing...</span>
                     </div>
                   ) : (
                     <>
-                      <span className="relative z-10">Analyze Idea (1 Credit)</span>
-                      <ArrowRight className="relative z-10 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                      <span>Analyze Idea (1 Credit)</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
                     </>
                   )}
-                </motion.button>
+                </button>
                 
-                <motion.button
+                <button
                   type="button"
                   onClick={() => navigate(-1)}
-                  className={`sm:w-auto px-6 py-1 sm:py-2 rounded-xl font-bold text-xs sm:text-sm border-2 transition-all duration-300 ${
-                    'border-gray-700 text-gray-300 hover:border-gray-600 hover:bg-gray-800/50'
-                  }`}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  className="w-full sm:w-auto px-4 py-2 rounded-lg text-[12px] font-medium text-gray-300 bg-[#141414] border border-white/10 hover:bg-white/5 hover:text-white transition-all duration-200 flex items-center justify-center gap-1.5"
                 >
-                  <X className="w-4 h-4 inline mr-2" />
-                  Cancel
-                </motion.button>
+                  <X className="w-3.5 h-3.5" />
+                  <span>Cancel</span>
+                </button>
               </div>
             </form>
           </div>
@@ -196,81 +168,61 @@ const SubmitIdea = () => {
 
         {/* Tips Section */}
         <motion.div 
-          className={`rounded-3xl shadow-2xl backdrop-blur-xl  p-3 md:p-4 border ${
-            'bg-gray-900/50 border-gray-800/50'
-          }`}
-          initial={{ opacity: 0, y: 20 }}
+          className="rounded-[18px] bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.8)] p-5 sm:p-6 relative z-10"
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
         >
-          {/* Gradient Glow */}
-          <div className={`absolute -inset-1 rounded-3xl opacity-50 blur-2xl pointer-events-none ${
-            'bg-gradient-to-r from-violet-600/20 via-purple-600/20 to-fuchsia-600/20'
-          }`} />
-
           <div className="relative">
-            <div className="flex items-center mb-6 md:mb-4">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-violet-600 to-fuchsia-600 flex items-center justify-center mr-3 shadow-lg">
-                <CheckCircle className="w-4 h-4 text-white" />
+            <div className="flex items-center gap-2.5 mb-3.5">
+              <div className="w-7 h-7 rounded-lg bg-[#141414] border border-white/10 flex items-center justify-center text-[#7c3aed] shadow-inner">
+                <CheckCircle className="w-3.5 h-3.5" />
               </div>
-              <h2 className={`text-sm md:text-base font-black text-white`}>
-                Tips for Better Analysis
-              </h2>
+              <div>
+                <h2 className="text-[14px] sm:text-[15px] font-semibold text-white tracking-tight">
+                  Tips for Better Analysis
+                </h2>
+                <p className="text-[11px] text-gray-400">
+                  Key components to describe for higher quality AI evaluations
+                </p>
+              </div>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               {tips.map((tip, index) => (
-                <motion.div
+                <div
                   key={index}
-                  className={`group relative py-2 px-2 rounded-2xl backdrop-blur-xl border transition-all duration-500 hover:scale-105 cursor-pointer overflow-hidden ${
-                    'bg-gray-800/50 border-gray-700/50'
-                  }`}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
-                  whileHover={{ y: -5 }}
+                  className="p-3 rounded-lg bg-[#141414] border border-white/5 hover:border-white/15 transition-all duration-200 group flex items-start gap-2.5"
                 >
-                  {/* Glow Effect */}
-                  <div className={`absolute -inset-1 bg-gradient-to-br ${tip.gradient} opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500`} />
-                  
-                  <div className="relative flex items-start">
-                    <div className={`w-8 h-8 rounded-xl bg-gradient-to-br ${tip.gradient} flex items-center justify-center mr-4 shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 flex-shrink-0`}>
-                      <tip.icon className="w-4 h-4 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className={`text-sm font-bold mb-1 text-white`}>
-                        {tip.title}
-                      </h3>
-                      <p className={`text-xs leading-relaxed text-gray-400`}>
-                        {tip.description}
-                      </p>
-                    </div>
+                  <div className="w-7 h-7 rounded-md bg-white/5 border border-white/10 flex items-center justify-center text-[#7c3aed] group-hover:scale-105 transition-transform duration-200 flex-shrink-0">
+                    <tip.icon className="w-3.5 h-3.5" />
                   </div>
-                </motion.div>
+                  <div>
+                    <h3 className="text-[12px] font-semibold text-white mb-0.5">
+                      {tip.title}
+                    </h3>
+                    <p className="text-[11px] text-gray-400 leading-relaxed">
+                      {tip.description}
+                    </p>
+                  </div>
+                </div>
               ))}
             </div>
 
-            {/* Additional Info */}
-            <motion.div
-              className={`mt-8 p-2 rounded-2xl backdrop-blur-sm border ${
-                'bg-gradient-to-r from-cyan-600/10 to-blue-600/10 border-cyan-500/20'
-              }`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 1 }}
-            >
-              <div className="flex items-start">
-                <Sparkles className={`w-5 h-5 mr-3 flex-shrink-0 mt-0.5 text-cyan-400`} />
-                <div>
-                  <p className={`text-sm font-semibold mb-1 text-cyan-400`}>
-                    Pro Tip
-                  </p>
-                  <p className={`text-xs text-gray-300`}>
-                    The more detailed and specific your description, the better our AI can analyze your idea's potential and provide actionable insights.
-                  </p>
-                </div>
+            {/* Pro Tip Box */}
+            <div className="mt-3.5 p-3 rounded-lg bg-[#141414] border border-[#7c3aed]/20 flex items-start gap-2.5">
+              <div className="w-6 h-6 rounded-md bg-[#7c3aed]/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <Sparkles className="w-3 h-3 text-[#7c3aed]" />
               </div>
-            </motion.div>
+              <div>
+                <h4 className="text-[11px] font-semibold text-[#a78bfa] mb-0.5">
+                  Pro Tip
+                </h4>
+                <p className="text-[11px] text-gray-300 leading-relaxed">
+                  The more specific and detailed your description, the more accurate our AI validation, competitor discovery, and financial projections will be.
+                </p>
+              </div>
+            </div>
           </div>
         </motion.div>
       </div>

@@ -13,7 +13,7 @@ import PublicRoute from './components/auth/PublicRoute';
 import PageLoader from './components/layout/PageLoader';
 // Lazy-loaded pages
 const Landing = lazy(() => import('./pages/Landing'));
-const Login = lazy(() => import('./pages/Login'));
+const Signin = lazy(() => import('./pages/Signin'));
 const Signup = lazy(() => import('./pages/Signup'));
 const EmailVerification = lazy(() => import('./pages/EmailVerification'));
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
@@ -36,6 +36,8 @@ const MarketResearch = lazy(() => import('./pages/MarketResearch'));
 const InvestorMatchmaking = lazy(() => import('./pages/InvestorMatchmaking'));
 const History = lazy(() => import('./pages/History'));
 const CollaborativePitchDeck = lazy(() => import('./pages/CollaborativePitchDeck'));
+
+// Legal and Support Pages
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const TermsOfService = lazy(() => import('./pages/TermsOfService'));
 const RefundPolicy = lazy(() => import('./pages/RefundPolicy'));
@@ -55,8 +57,8 @@ function App() {
     document.documentElement.classList.add('dark');
   }, []);
 
-  // Load user on app start if token exists
   useEffect(() => {
+    // Only fetch user data if token exists and user is not already loaded
     let promise: any;
     if (token && !isAuthenticated) {
       promise = dispatch(loadUser());
@@ -75,7 +77,7 @@ function App() {
           <Route path="/" element={<Landing />} />
           
           {/* Public Auth Routes - redirect to dashboard if already logged in */}
-          <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+          <Route path="/signin" element={<PublicRoute><Signin /></PublicRoute>} />
           <Route path="/signup" element={<PublicRoute><Signup /></PublicRoute>} />
           <Route path="/verify-email" element={<PublicRoute><EmailVerification /></PublicRoute>} />
           <Route path="/forgot-password" element={<PublicRoute><ForgotPassword /></PublicRoute>} />
