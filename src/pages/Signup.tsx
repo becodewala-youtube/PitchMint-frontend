@@ -9,6 +9,7 @@ import { Eye, EyeOff, Sparkles, Mail, Lock, User, ArrowRight, CheckCircle } from
 import { motion } from 'framer-motion';
 import GoogleSignIn from '../components/GoogleSignIn';
 import AuthLayout from '../components/layout/AuthLayout';
+import Icon from '../assets/icon.png';
 
 const Signup = () => {
   const [name, setName] = useState('');

@@ -275,7 +275,7 @@ const CollaborativePitchDeck = () => {
   };
 
   return (
-    <div className={`page-container page-container-dark`}>
+    <div className="page-container bg-gray-900">
       <div className="content-wrapper">
         <div className="max-container">
           {/* Header with Collaborators */}
@@ -301,7 +301,7 @@ const CollaborativePitchDeck = () => {
               <button
                 onClick={generateTalkingPoints}
                 disabled={scriptLoading}
-                className="btn-primary btn-primary-blue"
+                className="inline-flex items-center px-5 py-2.5 rounded-2xl text-sm font-medium text-white transition-all duration-300 shadow-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 hover:shadow-blue-500/25 disabled:opacity-50"
               >
                 <Edit3 className={`h-4 w-4 mr-2 ${scriptLoading ? 'animate-spin' : ''}`} />
                 {scriptLoading ? 'Generating...' : 'Generate Script'}
@@ -309,7 +309,7 @@ const CollaborativePitchDeck = () => {
               
               <button
                 onClick={showComments ? () => setShowComments(false) : () => setShowComments(true)}
-                className={`btn-secondary btn-secondary-dark`}
+                className="inline-flex items-center px-5 py-2.5 rounded-2xl text-sm font-medium border-2 transition-all duration-300 border-gray-600 text-gray-300 hover:border-purple-500 hover:text-purple-400 hover:bg-purple-500/10"
               >
                 <MessageCircle className="h-4 w-4 mr-2" />
                 Comments ({comments.filter(c => c.slideIndex === currentSlide).length})
@@ -317,7 +317,7 @@ const CollaborativePitchDeck = () => {
               
               <button
                 onClick={isRecording ? stopVoicePractice : startVoicePractice}
-                className={`btn-primary ${isRecording ? 'bg-red-500 hover:bg-red-600' : 'btn-primary-green'}`}
+                className={`inline-flex items-center px-5 py-2.5 rounded-2xl text-sm font-medium text-white transition-all duration-300 shadow-lg ${isRecording ? 'bg-red-500 hover:bg-red-600' : 'bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 hover:shadow-green-500/25'}`}
               >
                 {isRecording ? <MicOff className="h-4 w-4 mr-2" /> : <Mic className="h-4 w-4 mr-2" />}
                 {isRecording ? 'Stop Practice' : 'Voice Practice'}
@@ -329,7 +329,7 @@ const CollaborativePitchDeck = () => {
             {/* Main Slide Editor */}
             <div className="lg:col-span-3">
               <motion.div 
-                className={`card-glass card-glass-dark p-8 min-h-[600px]`}
+                className="bg-gray-800/80 border border-gray-700 backdrop-blur-sm rounded-3xl shadow-2xl p-8 min-h-[600px]"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
@@ -350,7 +350,7 @@ const CollaborativePitchDeck = () => {
                         <div className="flex justify-end space-x-4 mt-4">
                           <button
                             onClick={() => setIsEditing(false)}
-                            className={`btn-secondary btn-secondary-dark`}
+                            className="px-6 py-2.5 rounded-2xl text-sm font-medium border-2 transition-all duration-300 border-gray-600 text-gray-300 hover:border-purple-500 hover:text-purple-400 hover:bg-purple-500/10"
                           >
                             Cancel
                           </button>
@@ -359,7 +359,7 @@ const CollaborativePitchDeck = () => {
                               handleSlideEdit(currentSlide, editContent);
                               setIsEditing(false);
                             }}
-                            className="btn-primary btn-primary-green"
+                            className="inline-flex items-center px-6 py-2.5 rounded-2xl text-sm font-medium text-white transition-all duration-300 shadow-lg bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 hover:shadow-green-500/25"
                           >
                             <Save className="h-4 w-4 mr-2" />
                             Save
@@ -450,7 +450,7 @@ const CollaborativePitchDeck = () => {
               {/* Talking Points */}
               {talkingPoints.length > 0 && (
                 <motion.div 
-                  className={`card-glass card-glass-dark p-6`}
+                  className="bg-gray-800/80 border border-gray-700 backdrop-blur-sm rounded-3xl shadow-2xl p-6"
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8, delay: 0.4 }}
@@ -472,7 +472,7 @@ const CollaborativePitchDeck = () => {
 
               {/* Comments Panel */}
               <motion.div 
-                className={`card-glass card-glass-dark p-6`}
+                className="bg-gray-800/80 border border-gray-700 backdrop-blur-sm rounded-3xl shadow-2xl p-6"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
@@ -493,7 +493,7 @@ const CollaborativePitchDeck = () => {
                   <button
                     type="submit"
                     disabled={!newComment.trim()}
-                    className="w-full mt-2 btn-primary btn-primary-blue text-sm"
+                    className="w-full mt-2 px-4 py-2.5 rounded-xl text-sm font-medium text-white transition-all duration-300 shadow-md bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:opacity-50"
                   >
                     Add Comment
                   </button>
@@ -522,7 +522,7 @@ const CollaborativePitchDeck = () => {
 
               {/* Collaborators */}
               <motion.div 
-                className={`card-glass card-glass-dark p-6`}
+                className="bg-gray-800/80 border border-gray-700 backdrop-blur-sm rounded-3xl shadow-2xl p-6"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.8 }}
@@ -553,8 +553,11 @@ const CollaborativePitchDeck = () => {
                   ))}
                 </div>
                 
-                <button className="w-full mt-4 btn-secondary btn-secondary-dark">
-                  <Share2 className="h-4 w-4 mr-2" onClick={() => setShowInviteModal(true)} />
+                <button 
+                  onClick={() => setShowInviteModal(true)}
+                  className="w-full mt-4 flex items-center justify-center px-4 py-2.5 rounded-xl text-sm font-medium border-2 transition-all duration-300 border-gray-600 text-gray-300 hover:border-purple-500 hover:text-purple-400 hover:bg-purple-500/10"
+                >
+                  <Share2 className="h-4 w-4 mr-2" />
                   Invite Collaborators
                 </button>
               </motion.div>

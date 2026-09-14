@@ -23,13 +23,13 @@ const InviteModal: React.FC<InviteModalProps> = ({ isOpen, onClose, onInvite }) 
           </p>
           <button
             onClick={onInvite}
-            className="w-full btn-primary btn-primary-blue"
+            className="w-full px-6 py-3 rounded-2xl text-sm font-medium text-white transition-all duration-300 shadow-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 hover:shadow-blue-500/25"
           >
             Copy Collaboration Link
           </button>
           <button
             onClick={onClose}
-            className="w-full mt-3 btn-secondary btn-secondary-light"
+            className="w-full mt-3 px-6 py-3 rounded-2xl text-sm font-medium border-2 transition-all duration-300 border-gray-600 text-gray-300 hover:border-purple-500 hover:text-purple-400 hover:bg-purple-500/10"
           >
             Cancel
           </button>

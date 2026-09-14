@@ -24,4 +24,4 @@ dist-ssr
 *.sln
 *.sw?
 .env
-backendvite.config.ts.timestamp-*
+*.timestamp-*

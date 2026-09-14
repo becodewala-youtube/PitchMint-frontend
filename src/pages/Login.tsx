@@ -9,6 +9,7 @@ import { Eye, EyeOff, Sparkles, Mail, Lock, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import GoogleSignIn from '../components/GoogleSignIn';
 import AuthLayout from '../components/layout/AuthLayout';
+import Icon from '../assets/icon.png';
 
 const Login = () => {
   const [email, setEmail] = useState('');

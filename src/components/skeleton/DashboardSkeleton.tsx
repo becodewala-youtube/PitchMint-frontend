@@ -5,7 +5,7 @@ const DashboardSkeleton = () => {
   return (
     <div className="space-y-8">
       {/* Header Skeleton */}
-      <div className="page-header">
+      <div className="text-center mb-8">
         <div className={`h-12 w-64 bg-gray-700 rounded animate-pulse mx-auto mb-4`}></div>
         <div className={`h-6 w-48 bg-gray-700 rounded animate-pulse mx-auto`}></div>
       </div>
@@ -13,7 +13,7 @@ const DashboardSkeleton = () => {
       {/* Stats Grid Skeleton */}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {[...Array(6)].map((_, index) => (
-          <div key={index} className={`card-glass card-glass-dark p-8 animate-pulse`}>
+          <div key={index} className="bg-gray-800/80 border border-gray-700 backdrop-blur-sm rounded-3xl shadow-2xl p-8 animate-pulse">
             <div className="flex items-center">
               <div className={`w-16 h-16 rounded-2xl bg-gray-700 mr-6`}></div>
               <div className="flex-1">
@@ -28,7 +28,7 @@ const DashboardSkeleton = () => {
       {/* Quick Actions Skeleton */}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {[...Array(3)].map((_, index) => (
-          <div key={index} className={`card-glass card-glass-dark p-8 animate-pulse`}>
+          <div key={index} className="bg-gray-800/80 border border-gray-700 backdrop-blur-sm rounded-3xl shadow-2xl p-8 animate-pulse">
             <div className={`w-16 h-16 rounded-2xl bg-gray-700 mb-6`}></div>
             <div className={`h-6 w-32 bg-gray-700 rounded mb-3`}></div>
             <div className={`h-4 bg-gray-700 rounded mb-2`}></div>
@@ -38,7 +38,7 @@ const DashboardSkeleton = () => {
       </div>
       
       {/* Recent Ideas Table Skeleton */}
-      <div className={`card-glass card-glass-dark overflow-hidden`}>
+      <div className="bg-gray-800/80 border border-gray-700 backdrop-blur-sm rounded-3xl shadow-2xl overflow-hidden">
         <div className={`p-6 border-b border-gray-700`}>
           <div className={`h-6 w-32 bg-gray-700 rounded animate-pulse`}></div>
         </div>
