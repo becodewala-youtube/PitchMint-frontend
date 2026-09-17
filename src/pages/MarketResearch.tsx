@@ -1,14 +1,26 @@
-import { useState, useEffect } from 'react';
-import PageBackground from '../components/ui/PageBackground';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../store/hooks';
 import { RootState } from '../store';
 
 import { motion } from 'framer-motion';
-import { TrendingUp, Users, Target, Globe, BarChart3, PieChart, Search, RefreshCw, Sparkles, DollarSign, Award, Zap, ArrowRight } from 'lucide-react';
+import {
+  TrendingUp,
+  Users,
+  Target,
+  Globe,
+  BarChart3,
+  PieChart,
+  Search,
+  RefreshCw,
+  Sparkles,
+  DollarSign,
+  Award,
+  Zap,
+  ArrowRight,
+  AlertCircle
+} from 'lucide-react';
 import api from '../utils/api';
-
-import { clearError } from '../store/slices/ideaSlice';
 import InsufficientCreditsModal from '../components/modals/InsufficientCreditsModal';
 
 interface MarketData {
@@ -127,275 +139,232 @@ const MarketResearch = () => {
   };
 
   return (
-    <div className={`min-h-screen relative overflow-hidden bg-[#0a0118]`}>
-      <PageBackground theme="violet" />
+    <div className="min-h-screen bg-[#000000] relative overflow-hidden text-white pt-24 sm:pt-28 pb-16 selection:bg-[#7c3aed]/30">
+      {/* Subtle Dot Grid Background Pattern like Dashboard */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNCkiLz48L3N2Zz4=')] pointer-events-none" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {/* Enhanced Header */}
-        <motion.div 
-          className="mb-6"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <div className="text-center">
-            <div className="flex items-center justify-center gap-3 mb-1">
-              <div className={`w-6 sm:w-8 h-6 sm:h-8 rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center shadow-2xl shadow-blue-500/50`}>
-                <TrendingUp className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
-              </div>
-              <div>
-                <h1 className={`text-lgz md:text-xl font-black text-white`}>
-                  AI-Powered{" "}
-                  <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
-                    Market Research
-                  </span>
-                </h1>
-              </div>
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6">
+        {/* Header */}
+        <div className="mb-6">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-[#0a0a0a] border border-white/10 flex items-center justify-center shadow-lg shadow-purple-950/20">
+              <TrendingUp className="w-4 h-4 text-[#7c3aed]" />
             </div>
-            <p className={`text-xs sm:text-sm text-gray-400 font-medium flex items-center justify-center gap-2`}>
-              <Sparkles className="w-4 h-4 text-blue-400" />
-              Get comprehensive market analysis with TAM, SAM, SOM and customer personas
-            </p>
-          </div>
-        </motion.div>
-
-        {/* Input Form */}
-        <motion.div 
-          className={`relative overflow-hidden rounded-3xl p-3  sm:p-3 mb-4 ${
-            'bg-gray-900/50 border border-gray-800/50'
-          } backdrop-blur-xl`}
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          <form onSubmit={handleAnalyze} className="space-y-3">
             <div>
-              <label className={`flex items-center gap-2 text-xs sm:text-sm font-bold mb-3 text-white`}>
-                <div className={`w-6 h-6 rounded-lg bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center shadow-lg`}>
-                  <Target className="w-4 h-4 text-white" />
-                </div>
+              <h1 className="text-[20px] sm:text-[22px] font-semibold text-white tracking-tight">
+                 Market Research
+              </h1>
+              <p className="text-[11px] sm:text-[12px] text-gray-400 font-normal mt-0.5">
+                Analyze market potential, TAM/SAM/SOM sizing, and customer personas
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Input Form Card */}
+        <div className="rounded-[18px] bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/10 p-4 sm:p-5 mb-6 shadow-2xl">
+          <form onSubmit={handleAnalyze} className="space-y-4">
+            <div>
+              <label className="flex items-center gap-1.5 text-[11px] font-medium text-gray-300 mb-1.5">
+                <Target className="w-3.5 h-3.5 text-[#7c3aed]" />
                 Startup Idea
               </label>
               <textarea
                 value={ideaText}
                 onChange={(e) => setIdeaText(e.target.value)}
-                rows={4}
-                className={`w-full px-3 py-2 text-xs sm:text-sm rounded-2xl border-2 transition-all duration-300 ${
-                  'bg-gray-800/50 text-white border-gray-700 placeholder-gray-500 focus:border-blue-500 focus:bg-gray-800'
-                } focus:ring-1 focus:ring-blue-500/20 focus:outline-none`}
+                rows={3}
+                className="w-full px-3 py-2.5 text-[12px] rounded-xl border border-white/10 bg-[#141414] text-white placeholder-gray-500 focus:border-[#7c3aed] focus:ring-1 focus:ring-[#7c3aed]/30 focus:outline-none transition-all leading-relaxed resize-y"
                 placeholder="Describe your startup idea in detail..."
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label className={`flex items-center gap-2 text-xs sm:text-sm font-bold mb-2 text-white`}>
-                  <BarChart3 className="w-4 h-4 text-blue-500" />
+                <label className="flex items-center gap-1.5 text-[11px] font-medium text-gray-300 mb-1.5">
+                  <BarChart3 className="w-3.5 h-3.5 text-[#7c3aed]" />
                   Industry
                 </label>
                 <select
                   value={industry}
                   onChange={(e) => setIndustry(e.target.value)}
-                  className={`w-full px-6 py-1 sm:py-2 text-xs sm:text-sm rounded-2xl border-2 transition-all duration-300 ${
-                    'bg-gray-800/50 text-white border-gray-700 focus:border-blue-500 focus:bg-gray-800'
-                  } focus:ring-2 focus:ring-blue-500/20 focus:outline-none`}
+                  className="w-full px-3 py-2 text-[12px] rounded-xl border border-white/10 bg-[#141414] text-white focus:border-[#7c3aed] focus:ring-1 focus:ring-[#7c3aed]/30 focus:outline-none transition-all cursor-pointer"
                 >
-                  <option value="">Select Industry</option>
+                  <option value="" className="bg-[#141414] text-gray-400">Select Industry</option>
                   {industries.map((ind) => (
-                    <option key={ind} value={ind}>{ind}</option>
+                    <option key={ind} value={ind} className="bg-[#141414] text-white">{ind}</option>
                   ))}
                 </select>
               </div>
 
               <div>
-                <label className={`flex items-center gap-2 text-xs sm:text-sm font-bold mb-2 text-white`}>
-                  <Globe className="w-4 h-4 text-cyan-500" />
+                <label className="flex items-center gap-1.5 text-[11px] font-medium text-gray-300 mb-1.5">
+                  <Globe className="w-3.5 h-3.5 text-[#7c3aed]" />
                   Target Region
                 </label>
                 <select
                   value={targetRegion}
                   onChange={(e) => setTargetRegion(e.target.value)}
-                  className={`w-full px-6 py-1 sm:py-2 text-xs sm:text-sm rounded-2xl border-2 transition-all duration-300 ${
-                    'bg-gray-800/50 text-white border-gray-700 focus:border-cyan-500 focus:bg-gray-800'
-                  } focus:ring-2 focus:ring-cyan-500/20 focus:outline-none`}
+                  className="w-full px-3 py-2 text-[12px] rounded-xl border border-white/10 bg-[#141414] text-white focus:border-[#7c3aed] focus:ring-1 focus:ring-[#7c3aed]/30 focus:outline-none transition-all cursor-pointer"
                 >
-                  <option value="">Select Region</option>
+                  <option value="" className="bg-[#141414] text-gray-400">Select Region</option>
                   {regions.map((region) => (
-                    <option key={region} value={region}>{region}</option>
+                    <option key={region} value={region} className="bg-[#141414] text-white">{region}</option>
                   ))}
                 </select>
               </div>
             </div>
 
-            <motion.button
+            <button
               type="submit"
               disabled={loading || !ideaText.trim() || !industry || !targetRegion}
-              className={`w-full flex justify-center items-center py-1 sm:py-2 px-8 rounded-xl text-xs sm:text-sm font-bold text-white transition-all duration-300 shadow-xl ${
-                (loading || !ideaText.trim() || !industry || !targetRegion)
-                  ? 'bg-gray-400 cursor-not-allowed'
-                  : 'bg-gradient-to-r from-blue-600 via-cyan-600 to-teal-600 hover:shadow-2xl hover:shadow-blue-500/50 hover:scale-105'
-              }`}
-              whileHover={!(loading || !ideaText.trim() || !industry || !targetRegion) ? { scale: 1.05 } : {}}
-              whileTap={!(loading || !ideaText.trim() || !industry || !targetRegion) ? { scale: 0.95 } : {}}
+              className="btn-primary w-full flex items-center justify-center gap-2 py-2.5 px-4 text-[12px] font-semibold text-white bg-[#7c3aed] hover:bg-[#6d28d9] rounded-xl border-b-[4px] border-[#3904a6] hover:translate-y-[2px] active:translate-y-[4px] active:border-b-0 transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:border-b-[4px] shadow-[0_10px_20px_-5px_rgba(124,58,237,0.3)]"
             >
               {loading ? (
                 <>
-                  <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-3" />
-                  Analyzing Market...
+                  <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                  <span>Analyzing Market...</span>
                 </>
               ) : (
                 <>
-                  <Search className="w-5 h-5 mr-3" />
-                  Generate Market Analysis (2 Credits)
-                  <ArrowRight className="w-5 h-5 ml-3" />
+                  <Search className="w-3.5 h-3.5" />
+                  <span>Generate Market Analysis (2 Credits)</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </>
               )}
-            </motion.button>
+            </button>
           </form>
-        </motion.div>
+        </div>
+
+        {/* Error Message */}
+        {error && (
+          <div className="mb-6 p-3 rounded-xl border border-red-500/30 bg-red-950/20 text-red-400 text-[12px] flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
+            <span>{error}</span>
+          </div>
+        )}
 
         {/* Market Analysis Results */}
         {marketData && (
-          <div className="space-y-8">
+          <div className="space-y-6">
             {/* TAM, SAM, SOM */}
             <div>
-              <h2 className={`text-md md:text-xl font-black mb-4 text-white`}>
-                Market{" "}
-                <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
-                  Opportunity
-                </span>
-              </h2>
-              <motion.div 
-                className="grid grid-cols-1 md:grid-cols-3 gap-6"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-              >
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-6 h-6 rounded-lg bg-[#0a0a0a] border border-white/10 flex items-center justify-center">
+                  <PieChart className="w-3.5 h-3.5 text-[#7c3aed]" />
+                </div>
+                <h2 className="text-[14px] sm:text-[15px] font-semibold text-white">Market Opportunity</h2>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
                 {[
                   { 
                     title: 'Total Addressable Market', 
                     subtitle: 'TAM',
                     data: marketData.tam, 
                     icon: Globe,
-                    gradient: 'from-blue-600 to-cyan-500',
-                    bgGradient: 'from-blue-500/10 to-cyan-500/10'
+                    badgeColor: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+                    iconColor: 'text-blue-400',
                   },
                   { 
                     title: 'Serviceable Addressable Market', 
                     subtitle: 'SAM',
                     data: marketData.sam, 
                     icon: Target,
-                    gradient: 'from-emerald-600 to-teal-500',
-                    bgGradient: 'from-emerald-500/10 to-teal-500/10'
+                    badgeColor: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+                    iconColor: 'text-emerald-400',
                   },
                   { 
                     title: 'Serviceable Obtainable Market', 
                     subtitle: 'SOM',
                     data: marketData.som, 
                     icon: BarChart3,
-                    gradient: 'from-purple-600 to-fuchsia-500',
-                    bgGradient: 'from-purple-500/10 to-fuchsia-500/10'
+                    badgeColor: 'bg-purple-500/10 text-purple-400 border-purple-500/20',
+                    iconColor: 'text-purple-400',
                   }
-                ].map((market, index) => (
-                  <motion.div
+                ].map((market) => (
+                  <div
                     key={market.title}
-                    className={`group relative overflow-hidden rounded-2xl p-3 ${
-                      'bg-gray-900/50 border border-gray-800/50'
-                    } backdrop-blur-xl hover:scale-105 transition-all duration-500`}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.5 + index * 0.1 }}
-                    whileHover={{ y: -10 }}
+                    className="rounded-[18px] bg-[#0a0a0a]/95 border border-white/10 p-4 backdrop-blur-xl hover:border-[#7c3aed]/40 transition-all flex flex-col justify-between"
                   >
-                    <div className={`absolute inset-0 bg-gradient-to-br ${market.bgGradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
-                    <div className={`absolute -inset-1 bg-gradient-to-br ${market.gradient} opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500`} />
-                    
-                    <div className="relative">
-                      <div className={`w-8 h-8 rounded-xl bg-gradient-to-br ${market.gradient} flex items-center justify-center mb-3 shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
-                        <market.icon className="w-4 h-4 text-white" />
+                    <div>
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="w-7 h-7 rounded-lg bg-[#141414] border border-white/10 flex items-center justify-center">
+                          <market.icon className={`w-3.5 h-3.5 ${market.iconColor}`} />
+                        </div>
+                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-md border ${market.badgeColor}`}>
+                          {market.subtitle}
+                        </span>
                       </div>
-                      
-                      <div className={`text-xs font-semibold mb-1 text-gray-400`}>
-                        {market.subtitle}
-                      </div>
-                      <h3 className={`text-sm font-bold mb-1 text-white`}>
+
+                      <div className="text-[11px] font-medium text-gray-400 mb-1">
                         {market.title}
-                      </h3>
-                      
-                      <div className={`text-xl font-black mb-2 bg-gradient-to-r ${market.gradient} bg-clip-text text-transparent`}>
+                      </div>
+
+                      <div className="text-xl sm:text-2xl font-bold text-white tracking-tight mb-2">
                         ${(market.data.value / 1000000).toFixed(1)}B
                       </div>
-                      
-                      <p className={`text-xs text-justify leading-relaxed text-gray-300`}>
+
+                      <p className="text-[11px] text-gray-400 leading-relaxed text-justify">
                         {market.data.description}
                       </p>
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
-              </motion.div>
+              </div>
             </div>
 
             {/* Market Trends & Competitor Activity */}
-            <motion.div 
-              className={`relative overflow-hidden rounded-3xl p-3 ${
-                'bg-gray-900/50 border border-gray-800/50'
-              } backdrop-blur-xl`}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-            >
-              <div className="flex items-center gap-3 mb-5">
-                <div className={`w-8 h-8 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-500 flex items-center justify-center shadow-lg`}>
-                  <TrendingUp className="w-5 h-5 text-white" />
+            <div className="rounded-[18px] bg-[#0a0a0a]/95 border border-white/10 p-4 sm:p-5 backdrop-blur-xl">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-6 h-6 rounded-lg bg-[#141414] border border-white/10 flex items-center justify-center">
+                  <TrendingUp className="w-3.5 h-3.5 text-[#7c3aed]" />
                 </div>
-                <h2 className={`text-sm sm:text-md font-bold text-white`}>
+                <h2 className="text-[14px] sm:text-[15px] font-semibold text-white">
                   Market Trends & Competitor Activity
                 </h2>
               </div>
               
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 {/* Search Trends */}
                 <div>
-                  <h3 className={`text-sm font-bold mb-4 text-white flex items-center gap-2`}>
-                    <Zap className="w-4 h-4 text-yellow-500" />
+                  <h3 className="text-[12px] font-medium text-gray-300 mb-2.5 flex items-center gap-1.5">
+                    <Zap className="w-3.5 h-3.5 text-amber-400" />
                     Search Trends
                   </h3>
-                  <div className="space-y-3">
+                  <div className="space-y-2">
                     {marketData.trends.map((trend, index) => (
                       <div
                         key={index}
-                        className={`p-2 rounded-xl bg-gray-800/50 border border-gray-700/50`}
+                        className="p-2.5 rounded-xl bg-[#141414] border border-white/5"
                       >
-                        <div className="flex items-center justify-between mb-2">
-                          <h4 className={`font-bold text-xs sm:text-sm text-white`}>
+                        <div className="flex items-center justify-between mb-1.5">
+                          <span className="text-[12px] font-medium text-white">
                             {trend.keyword}
-                          </h4>
-                          <span className={`px-3 py-1 rounded-lg text-xs font-bold ${
+                          </span>
+                          <span className={`text-[10px] font-semibold px-2 py-0.5 rounded border ${
                             trend.interest >= 70 
-                              ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white' 
+                              ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' 
                               : trend.interest >= 40 
-                              ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white'
-                              : 'bg-gradient-to-r from-red-500 to-pink-500 text-white'
+                              ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+                              : 'bg-rose-500/10 text-rose-400 border-rose-500/20'
                           }`}>
                             {trend.interest}%
                           </span>
                         </div>
-                        <div className={`w-full rounded-full h-1 sm:h-2 bg-gray-700 overflow-hidden`}>
-                          <motion.div
-                            className={`h-1 sm:h-2 rounded-full bg-gradient-to-r ${
+                        <div className="w-full rounded-full h-1 bg-white/5 overflow-hidden">
+                          <div
+                            className={`h-1 rounded-full ${
                               trend.interest >= 70 
-                                ? 'from-emerald-500 to-teal-500'
+                                ? 'bg-emerald-500' 
                                 : trend.interest >= 40 
-                                ? 'from-amber-500 to-orange-500'
-                                : 'from-red-500 to-pink-500'
+                                ? 'bg-amber-500' 
+                                : 'bg-rose-500'
                             }`}
-                            initial={{ width: 0 }}
-                            animate={{ width: `${trend.interest}%` }}
-                            transition={{ duration: 1, delay: 0.5 }}
-                          ></motion.div>
+                            style={{ width: `${trend.interest}%` }}
+                          />
                         </div>
-                        <div className={`text-xs mt-2 flex items-center gap-1 text-gray-400`}>
-                          <TrendingUp className="w-3 h-3" />
+                        <div className="text-[10px] text-gray-500 mt-1.5 flex items-center gap-1">
+                          <TrendingUp className="w-2.5 h-2.5" />
                           Growth: {trend.growth}
                         </div>
                       </div>
@@ -405,40 +374,32 @@ const MarketResearch = () => {
 
                 {/* Competitor Activity */}
                 <div>
-                  <h3 className={`text-sm font-bold mb-4 text-white flex items-center gap-2`}>
-                    <DollarSign className="w-4 h-4 text-green-500" />
+                  <h3 className="text-[12px] font-medium text-gray-300 mb-2.5 flex items-center gap-1.5">
+                    <DollarSign className="w-3.5 h-3.5 text-emerald-400" />
                     Competitor Activity
                   </h3>
-                  <div className="space-y-1 sm:space-y-2">
+                  <div className="space-y-2">
                     {marketData.competitorActivity.map((competitor, index) => (
                       <div
                         key={index}
-                        className={`p-2 rounded-xl bg-gray-800/50 border border-gray-700/50`}
+                        className="p-2.5 rounded-xl bg-[#141414] border border-white/5"
                       >
-                        <h4 className={`font-bold text-sm mb-2 sm:mb-3 text-white`}>
-                          {competitor.name}
-                        </h4>
-                        <div className="space-y-2 text-xs">
-                          <div className="flex justify-between">
-                            <span className='text-gray-400'>
-                              Funding Rounds:
-                            </span>
-                            <span className={`font-semibold text-white`}>
-                              {competitor.fundingRounds}
-                            </span>
+                        <div className="flex items-center justify-between mb-1.5">
+                          <span className="text-[12px] font-semibold text-white">
+                            {competitor.name}
+                          </span>
+                          <span className="text-[10px] font-medium px-2 py-0.5 rounded bg-white/5 text-gray-300 border border-white/10">
+                            {competitor.marketShare}
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2 text-[11px] text-gray-400 pt-1.5 border-t border-white/5">
+                          <div>
+                            <span className="text-gray-500">Rounds: </span>
+                            <span className="text-white font-medium">{competitor.fundingRounds}</span>
                           </div>
-                          <div className="flex justify-between">
-                            <span className='text-gray-400'>
-                              Market Share:
-                            </span>
-                            <span className={`text-xs sm:text-sm sm:font-semibold text-white`}>
-                              {competitor.marketShare}
-                            </span>
-                          </div>
-                          <div className={`pt-2 border-t border-gray-700`}>
-                            <span className='text-gray-400'>
-                              Last Funding: {competitor.lastFunding}
-                            </span>
+                          <div>
+                            <span className="text-gray-500">Last: </span>
+                            <span className="text-white font-medium">{competitor.lastFunding}</span>
                           </div>
                         </div>
                       </div>
@@ -446,77 +407,70 @@ const MarketResearch = () => {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* Customer Personas */}
-            <motion.div 
-              className={`relative overflow-hidden rounded-3xl p-2 sm:p-3 ${
-                'bg-gray-900/50 border border-gray-800/50'
-              } backdrop-blur-xl`}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.0 }}
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <div className={`w-8 h-8 rounded-xl bg-gradient-to-br from-violet-600 to-purple-500 flex items-center justify-center shadow-lg`}>
-                  <Users className="w-4 h-4 text-white" />
+            <div className="rounded-[18px] bg-[#0a0a0a]/95 border border-white/10 p-4 sm:p-5 backdrop-blur-xl">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-6 h-6 rounded-lg bg-[#141414] border border-white/10 flex items-center justify-center">
+                  <Users className="w-3.5 h-3.5 text-[#7c3aed]" />
                 </div>
-                <h2 className={`text-sm sm:text-md font-bold text-white`}>
+                <h2 className="text-[14px] sm:text-[15px] font-semibold text-white">
                   Customer Personas
                 </h2>
               </div>
               
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                 {marketData.personas.map((persona, index) => (
                   <div
                     key={index}
-                    className={`p-3 rounded-2xl bg-gray-800/50 border border-gray-700/50`}
+                    className="p-3 sm:p-4 rounded-xl bg-[#141414] border border-white/5 space-y-3"
                   >
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className={`w-6 sm:w-8 h-6 sm:h-8 rounded-xl bg-gradient-to-br from-violet-600 to-purple-500 flex items-center justify-center shadow-lg`}>
-                        <Users className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
+                    <div className="flex items-center gap-2 pb-2.5 border-b border-white/5">
+                      <div className="w-6 h-6 rounded-lg bg-[#7c3aed]/10 border border-[#7c3aed]/20 flex items-center justify-center">
+                        <Users className="w-3 h-3 text-[#7c3aed]" />
                       </div>
-                      <h3 className={`text-xs sm:text-sm font-bold text-white`}>
+                      <h3 className="text-[13px] font-semibold text-white">
                         {persona.name}
                       </h3>
                     </div>
                     
-                    <div className="space-y-3">
+                    <div className="space-y-2.5">
                       {/* Demographics */}
-                      <div className={`p-2 rounded-xl bg-blue-900/20 border border-blue-500/20`}>
-                        <h4 className="font-bold mb-3 text-sm text-blue-500 flex items-center gap-2">
-                          <Award className="w-4 h-4" />
+                      <div className="p-2.5 rounded-lg bg-[#0a0a0a] border border-white/5">
+                        <h4 className="font-medium mb-1.5 text-[11px] text-blue-400 flex items-center gap-1.5">
+                          <Award className="w-3 h-3" />
                           Demographics
                         </h4>
-                        <div className="grid grid-cols-2 gap-2 text-xs">
+                        <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-[11px]">
                           <div>
-                            <span className='text-gray-400'>Age: </span>
-                            <span className='text-white'>{persona.demographics.age}</span>
+                            <span className="text-gray-500">Age: </span>
+                            <span className="text-gray-200">{persona.demographics.age}</span>
                           </div>
                           <div>
-                            <span className='text-gray-400'>Income: </span>
-                            <span className='text-white'>{persona.demographics.income}</span>
+                            <span className="text-gray-500">Income: </span>
+                            <span className="text-gray-200">{persona.demographics.income}</span>
                           </div>
                           <div>
-                            <span className='text-gray-400'>Location: </span>
-                            <span className='text-white'>{persona.demographics.location}</span>
+                            <span className="text-gray-500">Location: </span>
+                            <span className="text-gray-200">{persona.demographics.location}</span>
                           </div>
                           <div>
-                            <span className='text-gray-400'>Education: </span>
-                            <span className='text-white'>{persona.demographics.education}</span>
+                            <span className="text-gray-500">Education: </span>
+                            <span className="text-gray-200">{persona.demographics.education}</span>
                           </div>
                         </div>
                       </div>
                       
                       {/* Values & Interests */}
-                      <div className={`p-4 rounded-xl bg-emerald-900/20 border border-emerald-500/20`}>
-                        <h4 className="font-bold text-sm mb-3 text-emerald-500 flex items-center gap-2">
-                          <Sparkles className="w-4 h-4" />
+                      <div className="p-2.5 rounded-lg bg-[#0a0a0a] border border-white/5">
+                        <h4 className="font-medium text-[11px] mb-1.5 text-emerald-400 flex items-center gap-1.5">
+                          <Sparkles className="w-3 h-3" />
                           Values & Interests
                         </h4>
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-1.5">
                           {persona.psychographics.interests.map((interest, i) => (
-                            <span key={i} className={`px-3 py-1 rounded-lg text-xs font-semibold bg-emerald-600/30 text-emerald-300`}>
+                            <span key={i} className="px-2 py-0.5 rounded text-[10px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                               {interest}
                             </span>
                           ))}
@@ -524,66 +478,56 @@ const MarketResearch = () => {
                       </div>
                       
                       {/* Pain Points */}
-                      <div className={`p-4 rounded-xl bg-orange-900/20 border border-orange-500/20`}>
-                        <h4 className="font-bold text-sm mb-3 text-orange-500 flex items-center gap-2">
-                          <Target className="w-4 h-4" />
+                      <div className="p-2.5 rounded-lg bg-[#0a0a0a] border border-white/5">
+                        <h4 className="font-medium text-[11px] mb-1.5 text-amber-400 flex items-center gap-1.5">
+                          <Target className="w-3 h-3" />
                           Pain Points
                         </h4>
-                        <ul className="text-xs space-y-2">
+                        <ul className="text-[11px] space-y-1 text-gray-300">
                           {persona.psychographics.painPoints.map((pain, i) => (
-                            <li key={i} className={`flex items-start text-gray-300`}>
-                              <span className="text-orange-500 mr-2">•</span>
-                              {pain}
+                            <li key={i} className="flex items-start gap-1.5">
+                              <span className="text-amber-400 shrink-0">•</span>
+                              <span>{pain}</span>
                             </li>
                           ))}
                         </ul>
                       </div>
 
                       {/* Buying Behavior */}
-                      <div className={`p-4 rounded-xl bg-purple-900/20 border border-purple-500/20`}>
-                        <h4 className="font-bold text-sm mb-3 text-purple-500 flex items-center gap-2">
-                          <BarChart3 className="w-4 h-4" />
+                      <div className="p-2.5 rounded-lg bg-[#0a0a0a] border border-white/5">
+                        <h4 className="font-medium text-[11px] mb-1.5 text-purple-400 flex items-center gap-1.5">
+                          <BarChart3 className="w-3 h-3" />
                           Buying Behavior
                         </h4>
-                        <div className="text-xs space-y-3">
+                        <div className="text-[11px] space-y-1 text-gray-300">
                           <div>
-                            <span className={`font-semibold text-gray-400`}>Habits: </span>
-                            <span className='text-gray-300'>{persona.behaviors.buyingHabits}</span>
+                            <span className="text-gray-500">Habits: </span>
+                            <span className="text-gray-200">{persona.behaviors.buyingHabits}</span>
                           </div>
                           <div>
-                            <span className={`font-semibold text-gray-400`}>Media: </span>
-                            <span className='text-gray-300'>{persona.behaviors.mediaConsumption}</span>
+                            <span className="text-gray-500">Media: </span>
+                            <span className="text-gray-200">{persona.behaviors.mediaConsumption}</span>
                           </div>
-                          <div>
-                            <span className={`font-semibold block mb-2 text-gray-400`}>Decision Factors: </span>
-                            <div className="flex flex-wrap gap-2">
-                              {persona.behaviors.decisionFactors.map((factor, i) => (
-                                <span key={i} className={`px-3 py-1 rounded-lg text-xs font-semibold bg-purple-600/30 text-purple-300`}>
-                                  {factor}
-                                </span>
-                              ))}
+                          {persona.behaviors.decisionFactors && persona.behaviors.decisionFactors.length > 0 && (
+                            <div className="pt-1">
+                              <span className="text-gray-500 block mb-1">Decision Factors:</span>
+                              <div className="flex flex-wrap gap-1.5">
+                                {persona.behaviors.decisionFactors.map((factor, i) => (
+                                  <span key={i} className="px-2 py-0.5 rounded text-[10px] font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                                    {factor}
+                                  </span>
+                                ))}
+                              </div>
                             </div>
-                          </div>
+                          )}
                         </div>
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </div>
           </div>
-        )}
-
-        {/* Error Message */}
-        {error && (
-          <motion.div 
-            className={`mt-6 p-4 rounded-xl border bg-red-900/20 border-red-500/30 text-red-300`}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3 }}
-          >
-            {error}
-          </motion.div>
         )}
       </div>
 

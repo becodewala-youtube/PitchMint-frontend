@@ -1,14 +1,23 @@
 import { useEffect, useState } from 'react';
-import PageBackground from '../components/ui/PageBackground';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../store/hooks';
 import { getIdea, generateCanvas, clearError } from '../store/slices/ideaSlice';
 import { RootState } from '../store';
 
-import { RefreshCw, AlertCircle, Layout, Target, Users, Lightbulb, TrendingUp, MessageSquare, DollarSign, Zap } from 'lucide-react';
+import { 
+  RefreshCw, 
+  AlertCircle, 
+  Layout, 
+  Target, 
+  Users, 
+  Lightbulb, 
+  TrendingUp, 
+  MessageSquare, 
+  DollarSign, 
+  Zap 
+} from 'lucide-react';
 import CanvasSkeleton from '../components/skeleton/CanvasSkeleton';
-import { motion } from 'framer-motion';
 import InsufficientCreditsModal from '../components/modals/InsufficientCreditsModal';
 import ReactMarkdown from 'react-markdown';
 
@@ -48,28 +57,30 @@ const Canvas = () => {
 
   if (loading || isGenerating) {
     return (
-      <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 px-4 sm:px-6 lg:px-8 py-12">
-        {[...Array(6)].map((_, idx) => (
-          <CanvasSkeleton key={idx} />
-        ))}
+      <div className="min-h-screen bg-[#000000] relative overflow-hidden text-white pt-24 sm:pt-28 pb-16">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNCkiLz48L3N2Zz4=')] pointer-events-none" />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {[...Array(6)].map((_, idx) => (
+              <CanvasSkeleton key={idx} />
+            ))}
+          </div>
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className={`min-h-screen flex items-center justify-center bg-[#0a0118]`}>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="text-center"
-        >
-          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-red-500 to-pink-500 flex items-center justify-center mx-auto mb-6 shadow-2xl">
-            <AlertCircle className="h-10 w-10 text-white" />
+      <div className="min-h-screen bg-[#000000] relative overflow-hidden text-white pt-24 sm:pt-28 pb-16 flex items-center justify-center">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNCkiLz48L3N2Zz4=')] pointer-events-none" />
+        <div className="relative z-10 text-center max-w-md p-6 rounded-[18px] bg-[#0a0a0a]/95 border border-red-500/30">
+          <div className="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto mb-3">
+            <AlertCircle className="h-6 w-6 text-red-400" />
           </div>
-          <h3 className={`text-2xl font-black mb-2 text-white`}>Error</h3>
-          <p className={`text-base text-gray-400`}>{error}</p>
-        </motion.div>
+          <h3 className="text-[15px] font-semibold text-white mb-1">Something went wrong</h3>
+          <p className="text-[12px] text-gray-400">{error}</p>
+        </div>
       </div>
     );
   }
@@ -85,194 +96,140 @@ const Canvas = () => {
       title: 'Problem',
       content: canvasContent.problem,
       icon: Target,
-      gradient: 'from-red-500 via-rose-500 to-pink-500',
-      color: 'bg-red-500',
-      span: 'md:col-span-1',
+      color: 'text-rose-400',
     },
     {
       title: 'Customer Segments',
       content: canvasContent.customerSegments,
       icon: Users,
-      gradient: 'from-blue-500 via-indigo-500 to-purple-500',
-      color: 'bg-blue-500',
-      span: 'md:col-span-1',
+      color: 'text-blue-400',
     },
     {
       title: 'Solution',
       content: canvasContent.solution,
       icon: Lightbulb,
-      gradient: 'from-emerald-500 via-teal-500 to-cyan-500',
-      color: 'bg-emerald-500',
-      span: 'md:col-span-1',
+      color: 'text-emerald-400',
     },
     {
       title: 'Unique Value Proposition',
       content: canvasContent.uniqueValueProposition,
       icon: Zap,
-      gradient: 'from-violet-500 via-purple-500 to-fuchsia-500',
-      color: 'bg-violet-500',
-      span: 'md:col-span-1',
+      color: 'text-purple-400',
     },
     {
       title: 'Key Metrics',
       content: canvasContent.keyMetrics,
       icon: TrendingUp,
-      gradient: 'from-amber-500 via-orange-500 to-red-500',
-      color: 'bg-amber-500',
-      span: 'md:col-span-1',
+      color: 'text-amber-400',
     },
     {
       title: 'Channels',
       content: canvasContent.channels,
       icon: MessageSquare,
-      gradient: 'from-cyan-500 via-blue-500 to-indigo-500',
-      color: 'bg-cyan-500',
-      span: 'md:col-span-1',
+      color: 'text-cyan-400',
     },
     {
       title: 'Cost Structure',
       content: canvasContent.costStructure,
       icon: DollarSign,
-      gradient: 'from-orange-500 via-red-500 to-pink-500',
-      color: 'bg-orange-500',
-      span: 'md:col-span-2',
+      color: 'text-orange-400',
     },
     {
       title: 'Revenue Streams',
       content: canvasContent.revenueStreams,
       icon: DollarSign,
-      gradient: 'from-emerald-500 via-green-500 to-teal-500',
-      color: 'bg-emerald-500',
-      span: 'md:col-span-2',
+      color: 'text-emerald-400',
     },
     {
       title: 'Unfair Advantage',
       content: canvasContent.unfairAdvantage,
       icon: Zap,
-      gradient: 'from-pink-500 via-rose-500 to-red-500',
-      color: 'bg-pink-500',
-      span: 'md:col-span-2',
+      color: 'text-pink-400',
     },
   ];
 
   return (
-    <div className={`min-h-screen relative overflow-hidden bg-[#0a0118]`}>
-      <PageBackground theme="violet" />
+    <div className="min-h-screen bg-[#000000] relative overflow-hidden text-white pt-24 sm:pt-28 pb-16 selection:bg-[#7c3aed]/30">
+      {/* Subtle Dot Grid Background Pattern like Dashboard */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNCkiLz48L3N2Zz4=')] pointer-events-none" />
 
-      <div className="relative z-10 py-8 sm:py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Header */}
-          <motion.div 
-            className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 sm:mb-10 gap-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-[#0a0a0a] border border-white/10 flex items-center justify-center shadow-lg shadow-purple-950/20">
+              <Layout className="w-4 h-4 text-[#7c3aed]" />
+            </div>
+            <div>
+              <h1 className="text-[20px] sm:text-[22px] font-semibold text-white tracking-tight">
+                Business Model Canvas
+              </h1>
+              <p className="text-[11px] sm:text-[12px] text-gray-400 font-normal mt-0.5">
+                Lean startup methodology visualization
+              </p>
+            </div>
+          </div>
+
+          <button
+            onClick={handleGenerateCanvas}
+            disabled={loading || isGenerating}
+            className="btn-primary self-start sm:self-auto flex items-center gap-1.5 py-2 px-3.5 text-[12px] font-semibold text-white bg-[#7c3aed] hover:bg-[#6d28d9] rounded-xl border-b-[4px] border-[#3904a6] hover:translate-y-[2px] active:translate-y-[4px] active:border-b-0 transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:border-b-[4px] shadow-[0_10px_20px_-5px_rgba(124,58,237,0.3)] shrink-0 cursor-pointer"
           >
-            <div className="text-left">
-              <div className="flex items-center mb-1 sm:mb-3">
-                <div className="w-6 sm:w-8 h-6 sm:h-8 rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 shadow-2xl shadow-blue-500/50 flex items-center justify-center mr-4">
-                  <Layout className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
-                </div>
-                <div>
-                  <h1 className={`text-md md:text-lg font-black text-white`}>
-                    Business Model Canvas
-                  </h1>
-                  <p className={`text-xs text-gray-400`}>
-                    Lean startup methodology visualization
-                  </p>
-                </div>
-              </div>
-            </div>
-            <motion.button
-              onClick={handleGenerateCanvas}
-              disabled={loading || isGenerating}
-              className={`group relative flex items-center gap-2 px-6 py-1 sm:py-2 rounded-xl font-bold text-xs transition-all duration-300 shadow-xl overflow-hidden ${
-                loading || isGenerating
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : 'bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:shadow-blue-500/50 text-white'
-              }`}
-              whileHover={!(loading || isGenerating) ? { scale: 1.02 } : {}}
-              whileTap={!(loading || isGenerating) ? { scale: 0.98 } : {}}
-            >
-              {!(loading || isGenerating) && (
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600" />
-              )}
-              <RefreshCw className={`relative z-10 h-4 w-4 ${isGenerating ? 'animate-spin' : ''}`} />
-              <span className="relative z-10">
-                {isGenerating ? 'Generating...' : 'Regenerate'} (1 Credit)
-              </span>
-            </motion.button>
-          </motion.div>
-
-          {Object.keys(canvasContent).length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {canvasSections.map((section, index) => (
-                <motion.div
-                  key={section.title}
-                  className={`group relative p-3 md:p-4 rounded-3xl backdrop-blur-xl border transition-all duration-500 hover:scale-105 cursor-pointer overflow-hidden ${section.span} ${
-                    'bg-gray-900/50 border-gray-800/50'
-                  }`}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: index * 0.1 }}
-                  whileHover={{ y: -10 }}
-                >
-                  {/* Gradient Glow */}
-                  <div className={`absolute -inset-1 bg-gradient-to-br ${section.gradient} opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500`} />
-                  
-                  <div className="relative">
-                    <div className="flex items-center mb-4">
-                      <div className={`w-6 sm:w-8 h-6 sm:h-8 rounded-xl bg-gradient-to-br ${section.gradient} flex items-center justify-center mr-3 shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
-                        <section.icon className="w-4 h-4 text-white" />
-                      </div>
-                      <h2 className={`text-sm md:text-sm font-black text-white`}>
-                        {section.title}
-                      </h2>
-                    </div>
-                    
-                    <div className={`prose prose-sm text-xs sm:text-sm md:prose-base max-w-none text-justify leading-relaxed ${
-                      'prose-invert text-gray-300'
-                    }`}>
-                      <ReactMarkdown>{section.content || 'No content available'}</ReactMarkdown>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          ) : (
-            <motion.div 
-              className={`rounded-3xl shadow-2xl backdrop-blur-xl p-12 md:p-16 text-center border ${
-                'bg-gray-900/50 border-gray-800/50'
-              }`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              {/* Gradient Glow */}
-              <div className={`absolute -inset-1 rounded-3xl opacity-50 blur-2xl pointer-events-none ${
-                'bg-gradient-to-r from-blue-600/20 via-indigo-600/20 to-purple-600/20'
-              }`} />
-
-              <div className="relative">
-                <div className="w-24 h-24 md:w-32 md:h-32 rounded-3xl bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 shadow-2xl shadow-blue-500/50 flex items-center justify-center mx-auto mb-8">
-                  <Layout className="h-12 w-12 md:h-16 md:w-16 text-white" />
-                </div>
-                <h3 className={`text-2xl md:text-3xl font-black mb-4 text-white`}>
-                  {isGenerating ? 'Generating Canvas...' : 'No Business Model Canvas Available'}
-                </h3>
-                <p className={`text-base md:text-lg mb-8 text-gray-300`}>
-                  {isGenerating ? 'Please wait while we create your business model canvas.' : 'Click the generate button to create your canvas.'}
-                </p>
-
-                {isGenerating && (
-                  <div className="flex justify-center">
-                    <div className="w-8 h-8 border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin"></div>
-                  </div>
-                )}
-              </div>
-            </motion.div>
-          )}
+            <RefreshCw className={`w-3.5 h-3.5 ${isGenerating ? 'animate-spin' : ''}`} />
+            <span>{isGenerating ? 'Generating...' : 'Regenerate'} (1 Credit)</span>
+          </button>
         </div>
+
+        {/* 9 Canvas Blocks Grid */}
+        {Object.keys(canvasContent).length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+            {canvasSections.map((section) => (
+              <div
+                key={section.title}
+                className="rounded-[18px] bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/10 p-4 sm:p-5 shadow-xl hover:border-[#7c3aed]/40 transition-all flex flex-col justify-start"
+              >
+                <div className="flex items-center gap-2.5 mb-3 pb-2.5 border-b border-white/5">
+                  <div className="w-7 h-7 rounded-lg bg-[#141414] border border-white/10 flex items-center justify-center shrink-0">
+                    <section.icon className={`w-3.5 h-3.5 ${section.color}`} />
+                  </div>
+                  <h2 className="text-[13px] sm:text-[14px] font-semibold text-white">
+                    {section.title}
+                  </h2>
+                </div>
+
+                <div className="text-[11px] sm:text-[12px] text-gray-300 leading-relaxed text-justify space-y-1.5 overflow-y-auto max-h-[350px] pr-1">
+                  <ReactMarkdown>{section.content || 'No content available'}</ReactMarkdown>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="rounded-[18px] bg-[#0a0a0a]/95 border border-white/10 p-12 text-center shadow-xl">
+            <div className="w-12 h-12 rounded-xl bg-[#141414] border border-white/10 flex items-center justify-center mx-auto mb-3">
+              <Layout className="w-6 h-6 text-[#7c3aed]" />
+            </div>
+            <h3 className="text-[16px] font-semibold text-white mb-1.5">
+              {isGenerating ? 'Generating Canvas...' : 'No Business Model Canvas Available'}
+            </h3>
+            <p className="text-[12px] text-gray-400 max-w-md mx-auto mb-4 leading-relaxed">
+              {isGenerating ? 'Please wait while we create your business model canvas.' : 'Click the generate button to create your canvas.'}
+            </p>
+
+            {isGenerating ? (
+              <div className="flex justify-center">
+                <RefreshCw className="w-5 h-5 text-[#7c3aed] animate-spin" />
+              </div>
+            ) : (
+              <button
+                onClick={handleGenerateCanvas}
+                className="btn-primary inline-flex items-center gap-1.5 py-2 px-4 text-[12px] font-semibold text-white bg-[#7c3aed] hover:bg-[#6d28d9] rounded-xl border-b-[4px] border-[#3904a6] hover:translate-y-[2px] active:translate-y-[4px] active:border-b-0 transition-all duration-150 shadow-[0_10px_20px_-5px_rgba(124,58,237,0.3)] cursor-pointer"
+              >
+                <RefreshCw className="w-3.5 h-3.5" />
+                <span>Generate Canvas (1 Credit)</span>
+              </button>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Insufficient Credits Modal */}

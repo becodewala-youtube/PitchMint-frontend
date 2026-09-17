@@ -1,11 +1,27 @@
 import { useState, useEffect } from 'react';
-import PageBackground from '../components/ui/PageBackground';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../store/hooks';
 import { RootState } from '../store';
 
-import { motion } from 'framer-motion';
-import { User, Shield, CreditCard, Camera, Save, AlertCircle, CheckCircle, Star, History, Eye, EyeOff, Sparkles, Zap, TrendingUp, X, Crown } from 'lucide-react';
+import { 
+  User, 
+  Shield, 
+  CreditCard, 
+  Camera, 
+  Save, 
+  AlertCircle, 
+  CheckCircle, 
+  Star, 
+  History, 
+  Eye, 
+  EyeOff, 
+  Zap, 
+  TrendingUp, 
+  X, 
+  Crown,
+  RefreshCw,
+  Sparkles
+} from 'lucide-react';
 import api from '../utils/api';
 import { loadUser } from '../store/slices/authSlice';
 
@@ -20,7 +36,7 @@ interface CreditTransaction {
 const Profile = () => {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const { user, token } = useSelector((state: RootState) => state.auth);
+  const { user } = useSelector((state: RootState) => state.auth);
   const dispatch = useAppDispatch();
 
   const [activeTab, setActiveTab] = useState('profile');
@@ -60,7 +76,8 @@ const Profile = () => {
     try {
       const response = await api.get('/api/credits/history');
       setCreditHistory(response.data.transactions);
-    } catch (err) { if (import.meta.env.DEV) console.error('Failed to fetch credit history');
+    } catch (err) {
+      if (import.meta.env.DEV) console.error('Failed to fetch credit history');
     }
   };
 
@@ -68,7 +85,8 @@ const Profile = () => {
     try {
       const response = await api.get('/api/credits/balance');
       setCreditBalance(response.data.credits);
-    } catch (err) { if (import.meta.env.DEV) console.error('Failed to fetch credit balance');
+    } catch (err) {
+      if (import.meta.env.DEV) console.error('Failed to fetch credit balance');
     }
   };
 
@@ -154,9 +172,9 @@ const Profile = () => {
   };
 
   const tabs = [
-    { id: 'profile', label: 'Profile', icon: User, gradient: 'from-blue-600 to-cyan-600' },
-    { id: 'security', label: 'Security', icon: Shield, gradient: 'from-green-600 to-emerald-600' },
-    { id: 'credits', label: 'Credits', icon: CreditCard, gradient: 'from-amber-600 to-orange-600' }
+    { id: 'profile', label: 'Profile', icon: User },
+    { id: 'security', label: 'Security', icon: Shield },
+    { id: 'credits', label: 'Credits', icon: CreditCard }
   ];
 
   const getTransactionIcon = (type: string) => {
@@ -168,97 +186,78 @@ const Profile = () => {
     }
   };
 
-  const getTransactionColor = (type: string, amount: number) => {
-    if (amount > 0) return 'from-green-500 to-emerald-500';
-    return 'from-red-500 to-pink-500';
-  };
-
   return (
-    <div className={`min-h-screen relative overflow-hidden bg-[#0a0118]`}>
-      <PageBackground theme="violet" />
+    <div className="min-h-screen bg-[#000000] relative overflow-hidden text-white pt-24 sm:pt-28 pb-16 selection:bg-[#7c3aed]/30">
+      {/* Subtle Dot Grid Background Pattern like Dashboard */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNCkiLz48L3N2Zz4=')] pointer-events-none" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {/* Enhanced Header */}
-        <motion.div 
-          className="mb-6"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-        >
-          <div className="flex justify-center mb-4">
-            <div className="flex items-center gap-4 text-center">
-              <div className={`w-6 sm:w-8 h-6 sm:h-8 rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center shadow-2xl shadow-blue-500/50`}>
-                <User className="w-4 h-4 text-white" />
-              </div>
-              <div>
-                <h1 className={`text-lg md:text-xl font-black text-white`}>
-                  Profile{" "}
-                  <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
-                    Settings
-                  </span>
-                </h1>
-                <p className={`text-xs text-gray-400 font-medium flex items-center gap-2 justify-center`}>
-                  <Sparkles className="w-3 h-3 md:w-4 md:h-4 text-blue-400" />
-                  Manage your account and preferences
-                </p>
-              </div>
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6">
+        {/* Header */}
+        <div className="mb-6">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-[#0a0a0a] border border-white/10 flex items-center justify-center shadow-lg shadow-purple-950/20">
+              <User className="w-4 h-4 text-[#7c3aed]" />
+            </div>
+            <div>
+              <h1 className="text-[20px] sm:text-[22px] font-semibold text-white tracking-tight">
+                Profile Settings
+              </h1>
+              <p className="text-[11px] sm:text-[12px] text-gray-400 font-normal mt-0.5">
+                Manage your account, security, and credit balance
+              </p>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Alerts */}
-        {(error || success) && (
-          <motion.div 
-            className={`mb-6 p-4 rounded-2xl ${
-              error 
-                ? 'bg-red-900/30 border border-red-500/30'
-                : 'bg-green-900/30 border border-green-500/30'
-            }`}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-          >
-            <div className="flex justify-between items-start">
-              <div className="flex items-center gap-3">
-                <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${error ? 'from-red-600 to-pink-600' : 'from-green-600 to-emerald-600'} flex items-center justify-center flex-shrink-0`}>
-                  {error ? <AlertCircle className="w-4 h-4 text-white" /> : <CheckCircle className="w-4 h-4 text-white" />}
-                </div>
-                <span className={`text-sm ${error ? ('text-red-200') : ('text-green-200')}`}>
-                  {error || success}
-                </span>
-              </div>
-              <button 
-                onClick={() => { setError(''); setSuccess(''); }}
-                className={`text-sm font-bold ${error ? ('text-red-400 hover:text-red-300') : ('text-green-400 hover:text-green-300')} transition-colors`}
-              >
-                Dismiss
-              </button>
+        {error && (
+          <div className="mb-5 p-3 rounded-xl border border-red-500/30 bg-red-950/20 text-red-400 text-[12px] flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
+              <span>{error}</span>
             </div>
-          </motion.div>
+            <button 
+              onClick={() => setError('')} 
+              className="text-red-400 hover:text-red-300 cursor-pointer p-0.5"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        {success && (
+          <div className="mb-5 p-3 rounded-xl border border-emerald-500/30 bg-emerald-950/20 text-emerald-400 text-[12px] flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <CheckCircle className="w-4 h-4 shrink-0 text-emerald-400" />
+              <span>{success}</span>
+            </div>
+            <button 
+              onClick={() => setSuccess('')} 
+              className="text-emerald-400 hover:text-emerald-300 cursor-pointer p-0.5"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {/* Sidebar */}
-          <motion.div 
-            className={`bg-gray-900/50 border border-gray-800/50 backdrop-blur-xl rounded-3xl shadow-2xl p-3`}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            {/* Profile Picture */}
-            <div className="text-center mb-6">
+          <div className="md:col-span-1 rounded-[18px] bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/10 p-4 sm:p-5 shadow-2xl space-y-4">
+            {/* Profile Picture & User Info */}
+            <div className="text-center pb-4 border-b border-white/5">
               <div className="relative inline-block">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 via-cyan-500 to-teal-500 flex items-center justify-center text-white text-3xl font-black shadow-2xl">
+                <div className="w-14 h-14 rounded-2xl bg-[#141414] border border-white/10 flex items-center justify-center text-white text-xl font-bold shadow-lg overflow-hidden">
                   {user?.profilePicture ? (
                     <img 
                       src={user.profilePicture} 
                       alt="Profile" 
-                      className="w-12 h-12 rounded-2xl object-cover"
+                      className="w-full h-full object-cover"
                     />
                   ) : (
-                    user?.name?.charAt(0).toUpperCase()
+                    <span className="text-lg text-white font-bold">{user?.name?.charAt(0).toUpperCase()}</span>
                   )}
                 </div>
-                <label className={`absolute -bottom-2 -right-2 w-6 h-6 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-xl flex items-center justify-center cursor-pointer hover:scale-110 transition-all duration-300 shadow-xl ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                <label className={`absolute -bottom-1 -right-1 w-6 h-6 bg-[#7c3aed] hover:bg-[#6d28d9] rounded-lg flex items-center justify-center cursor-pointer transition-all shadow-md ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}>
                   <Camera className="w-3 h-3 text-white" />
                   <input
                     type="file"
@@ -269,226 +268,200 @@ const Profile = () => {
                   />
                 </label>
               </div>
-              <h3 className={`text-sm font-black mt-2 text-white`}>
+              <h3 className="text-[13px] sm:text-[14px] font-semibold text-white mt-2.5 truncate">
                 {user?.name}
               </h3>
-              <p className={`text-xs mb-3 text-gray-400`}>
+              <p className="text-[11px] text-gray-400 truncate">
                 {user?.email}
               </p>
               {user?.isPremium && (
-                <div className="inline-flex items-center px-4 py-1 rounded-xl text-xs font-bold bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg">
-                  <Crown className="w-3 h-3 mr-2" />
-                  Premium Member
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20 mt-2">
+                  <Crown className="w-3 h-3" />
+                  <span>Premium Member</span>
                 </div>
               )}
             </div>
 
-            {/* Navigation */}
-            <nav className="space-y-2">
-              {tabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`w-full flex items-center px-4 py-3 rounded-xl text-xs font-bold transition-all duration-300 ${
-                    activeTab === tab.id
-                      ? `bg-gradient-to-r ${tab.gradient} text-white shadow-xl`
-                      : 'text-gray-300 hover:bg-gray-800/50'
-                  }`}
-                >
-                  <tab.icon className="w-4 h-4 mr-3" />
-                  {tab.label}
-                </button>
-              ))}
+            {/* Navigation Tabs */}
+            <nav className="space-y-1">
+              {tabs.map((tab) => {
+                const Icon = tab.icon;
+                const isSelected = activeTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-[12px] font-medium transition-all cursor-pointer ${
+                      isSelected
+                        ? 'bg-[#7c3aed] text-white shadow-md shadow-purple-900/30'
+                        : 'text-gray-400 hover:text-white hover:bg-white/5'
+                    }`}
+                  >
+                    <Icon className="w-3.5 h-3.5" />
+                    <span>{tab.label}</span>
+                  </button>
+                );
+              })}
             </nav>
-          </motion.div>
+          </div>
 
-          {/* Main Content */}
-          <motion.div 
-            className="lg:col-span-3"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
+          {/* Main Content Area */}
+          <div className="md:col-span-2 rounded-[18px] bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/10 p-4 sm:p-5 shadow-2xl">
             {/* Profile Tab */}
             {activeTab === 'profile' && (
-              <div className={`bg-gray-900/50 border border-gray-800/50 backdrop-blur-xl rounded-3xl shadow-2xl p-2 md:p-3`}>
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center shadow-xl">
-                    <User className="w-4 h-4 text-white" />
+              <div>
+                <div className="flex items-center gap-2 mb-4 pb-3 border-b border-white/5">
+                  <div className="w-6 h-6 rounded-lg bg-[#141414] border border-white/10 flex items-center justify-center">
+                    <User className="w-3.5 h-3.5 text-[#7c3aed]" />
                   </div>
-                  <h2 className={`text-md font-black text-white`}>
+                  <h2 className="text-[13px] font-semibold text-white">
                     Profile Information
                   </h2>
                 </div>
                 
-                <form onSubmit={handleProfileUpdate} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <form onSubmit={handleProfileUpdate} className="space-y-4">
+                  <div className="space-y-3">
                     <div>
-                      <label className={`block text-xs font-bold mb-2 text-gray-300`}>
+                      <label className="block text-[11px] font-medium text-gray-300 mb-1.5">
                         Full Name
                       </label>
                       <input
                         type="text"
                         value={profileData.name}
                         onChange={(e) => setProfileData(prev => ({ ...prev, name: e.target.value }))}
-                        className={`w-full px-3 py-1 sm:py-2 text-xs rounded-xl border-2 transition-all duration-300 ${
-                          'bg-gray-800/50 text-white border-gray-700 focus:border-blue-500 focus:bg-gray-800'
-                        } focus:ring-4 focus:ring-blue-500/20 focus:outline-none`}
+                        className="w-full px-3 py-2 text-[12px] rounded-xl border border-white/10 bg-[#141414] text-white focus:border-[#7c3aed] focus:ring-1 focus:ring-[#7c3aed]/30 outline-none transition-all"
+                        placeholder="Enter your full name"
                       />
                     </div>
                     
                     <div>
-                      <label className={`block text-xs font-bold mb-3 text-gray-300`}>
+                      <label className="block text-[11px] font-medium text-gray-300 mb-1.5">
                         Email Address
                       </label>
                       <input
                         type="email"
                         value={profileData.email}
                         readOnly
-                        className={`w-full px-4 py-1 sm:py-2 text-xs rounded-xl border-2 transition-all duration-300 cursor-not-allowed opacity-70 ${
-                          'bg-gray-800/30 text-gray-500 border-gray-700'
-                        }`}
+                        className="w-full px-3 py-2 text-[12px] rounded-xl border border-white/5 bg-[#141414]/50 text-gray-500 cursor-not-allowed"
                       />
-                      <p className={`text-xs mt-2 text-gray-500`}>
+                      <p className="text-[10px] text-gray-500 mt-1">
                         Email address cannot be changed
                       </p>
                     </div>
                   </div>
 
-                  <motion.button
+                  <button
                     type="submit"
                     disabled={loading}
-                    className={`w-full py-2 px-8 rounded-2xl text-xs  font-bold text-white transition-all duration-300 ${
-                      loading
-                        ? 'bg-gray-400 cursor-not-allowed'
-                        : 'bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 hover:shadow-xl hover:shadow-blue-500/50'
-                    }`}
-                    whileHover={!loading ? { scale: 1.02 } : {}}
-                    whileTap={!loading ? { scale: 0.98 } : {}}
+                    className="btn-primary w-full flex items-center justify-center gap-2 py-2.5 px-4 text-[12px] font-semibold text-white bg-[#7c3aed] hover:bg-[#6d28d9] rounded-xl border-b-[4px] border-[#3904a6] hover:translate-y-[2px] active:translate-y-[4px] active:border-b-0 transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:border-b-[4px] shadow-[0_10px_20px_-5px_rgba(124,58,237,0.3)]"
                   >
                     {loading ? (
-                      <div className="flex items-center justify-center">
-                        <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-3" />
-                        Updating...
-                      </div>
+                      <>
+                        <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                        <span>Updating...</span>
+                      </>
                     ) : (
-                      <div className="flex items-center justify-center">
-                        <Save className="w-4 h-4 mr-2" />
-                        Update Profile
-                      </div>
+                      <>
+                        <Save className="w-3.5 h-3.5" />
+                        <span>Update Profile</span>
+                      </>
                     )}
-                  </motion.button>
+                  </button>
                 </form>
               </div>
             )}
 
             {/* Security Tab */}
             {activeTab === 'security' && (
-              <div className={`bg-gray-900/50 border border-gray-800/50 backdrop-blur-xl rounded-3xl shadow-2xl p-2 md:p-3`}>
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-green-600 to-emerald-600 flex items-center justify-center shadow-xl">
-                    <Shield className="w-4 h-4 text-white" />
+              <div>
+                <div className="flex items-center gap-2 mb-4 pb-3 border-b border-white/5">
+                  <div className="w-6 h-6 rounded-lg bg-[#141414] border border-white/10 flex items-center justify-center">
+                    <Shield className="w-3.5 h-3.5 text-[#7c3aed]" />
                   </div>
-                  <h2 className={`text-md font-black text-white`}>
+                  <h2 className="text-[13px] font-semibold text-white">
                     Security Settings
                   </h2>
                 </div>
                 
                 {user?.authProvider === 'google' ? (
-                  <div className={`p-3 rounded-2xl bg-blue-900/20 border border-blue-500/30`}>
-                    <div className="flex items-center gap-4">
-                      <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center flex-shrink-0">
-                        <Shield className="w-4 h-4 text-white" />
-                      </div>
-                      <div>
-                        <h3 className={`font-bold text-xs sm:text-sm mb-1 text-blue-200`}>
-                          Google Account Security
-                        </h3>
-                        <p className={`text-xs text-blue-300`}>
-                          Your account is secured by Google. Password changes should be made through your Google account settings.
-                        </p>
-                      </div>
+                  <div className="p-3.5 rounded-xl bg-[#141414] border border-white/5 flex items-start gap-3">
+                    <div className="w-7 h-7 rounded-lg bg-[#7c3aed]/10 border border-[#7c3aed]/20 flex items-center justify-center shrink-0">
+                      <Shield className="w-3.5 h-3.5 text-[#7c3aed]" />
+                    </div>
+                    <div>
+                      <h3 className="text-[12px] font-semibold text-white mb-0.5">
+                        Google Account Security
+                      </h3>
+                      <p className="text-[11px] text-gray-400 leading-relaxed">
+                        Your account is secured by Google. Password changes should be managed through your Google account settings.
+                      </p>
                     </div>
                   </div>
                 ) : (
-                  <form onSubmit={handleProfileUpdate} className="space-y-6">
-                    <div className="relative">
-                      <label className={`block text-xs font-bold mb-2 text-gray-300`}>
-                        New Password
-                      </label>
-                      <input
-                        type={showNewPassword ? 'text' : 'password'}
-                        value={profileData.newPassword}
-                        onChange={(e) => setProfileData(prev => ({ ...prev, newPassword: e.target.value }))}
-                        className={`w-full px-4 py-1 sm:py-2 text-xs rounded-xl border-2 transition-all duration-300 pr-12 ${
-                          'bg-gray-800/50 text-white border-gray-700 focus:border-green-500 focus:bg-gray-800'
-                        } focus:ring-4 focus:ring-green-500/20 focus:outline-none`}
-                        placeholder="Enter new password"
-                        autoComplete="new-password"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setShowNewPassword(prev => !prev)}
-                        className="absolute right-4 top-[46px] transform -translate-y-1/2"
-                        tabIndex={-1}
-                      >
-                        {showNewPassword ? 
-                          <EyeOff className={`h-5 w-5 text-gray-400`} /> : 
-                          <Eye className={`h-5 w-5 text-gray-400`} />
-                        }
-                      </button>
+                  <form onSubmit={handleProfileUpdate} className="space-y-4">
+                    <div className="space-y-3">
+                      <div className="relative">
+                        <label className="block text-[11px] font-medium text-gray-300 mb-1.5">
+                          New Password
+                        </label>
+                        <input
+                          type={showNewPassword ? 'text' : 'password'}
+                          value={profileData.newPassword}
+                          onChange={(e) => setProfileData(prev => ({ ...prev, newPassword: e.target.value }))}
+                          className="w-full px-3 py-2 text-[12px] rounded-xl border border-white/10 bg-[#141414] text-white focus:border-[#7c3aed] focus:ring-1 focus:ring-[#7c3aed]/30 outline-none transition-all pr-10"
+                          placeholder="Enter new password"
+                          autoComplete="new-password"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowNewPassword(prev => !prev)}
+                          className="absolute right-3 top-[32px] text-gray-400 hover:text-gray-200 cursor-pointer"
+                          tabIndex={-1}
+                        >
+                          {showNewPassword ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+                        </button>
+                      </div>
+
+                      <div className="relative">
+                        <label className="block text-[11px] font-medium text-gray-300 mb-1.5">
+                          Confirm New Password
+                        </label>
+                        <input
+                          type={showConfirmPassword ? 'text' : 'password'}
+                          value={profileData.confirmPassword}
+                          onChange={(e) => setProfileData(prev => ({ ...prev, confirmPassword: e.target.value }))}
+                          className="w-full px-3 py-2 text-[12px] rounded-xl border border-white/10 bg-[#141414] text-white focus:border-[#7c3aed] focus:ring-1 focus:ring-[#7c3aed]/30 outline-none transition-all pr-10"
+                          placeholder="Confirm new password"
+                          autoComplete="new-password"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowConfirmPassword(prev => !prev)}
+                          className="absolute right-3 top-[32px] text-gray-400 hover:text-gray-200 cursor-pointer"
+                          tabIndex={-1}
+                        >
+                          {showConfirmPassword ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+                        </button>
+                      </div>
                     </div>
 
-                    <div className="relative">
-                      <label className={`block text-xs font-bold mb-2 text-gray-300`}>
-                        Confirm New Password
-                      </label>
-                      <input
-                        type={showConfirmPassword ? 'text' : 'password'}
-                        value={profileData.confirmPassword}
-                        onChange={(e) => setProfileData(prev => ({ ...prev, confirmPassword: e.target.value }))}
-                        className={`w-full px-4 py-1 sm:py-2 text-xs rounded-xl border-2 transition-all duration-300 pr-12 ${
-                          'bg-gray-800/50 text-white border-gray-700 focus:border-green-500 focus:bg-gray-800'
-                        } focus:ring-4 focus:ring-green-500/20 focus:outline-none`}
-                        placeholder="Confirm new password"
-                        autoComplete="new-password"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setShowConfirmPassword(prev => !prev)}
-                        className="absolute right-4 top-[46px] transform -translate-y-1/2"
-                        tabIndex={-1}
-                      >
-                        {showConfirmPassword ? 
-                          <EyeOff className={`h-5 w-5 text-gray-400`} /> : 
-                          <Eye className={`h-5 w-5 text-gray-400`} />
-                        }
-                      </button>
-                    </div>
-
-                    <motion.button
+                    <button
                       type="submit"
                       disabled={loading || !profileData.newPassword}
-                      className={`w-full py-2 px-8 rounded-2xl text-xs font-bold text-white transition-all duration-300 ${
-                        loading || !profileData.newPassword
-                          ? 'bg-gray-400 cursor-not-allowed'
-                          : 'bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 hover:shadow-xl hover:shadow-green-500/50'
-                      }`}
-                      whileHover={!(loading || !profileData.newPassword) ? { scale: 1.02 } : {}}
-                      whileTap={!(loading || !profileData.newPassword) ? { scale: 0.98 } : {}}
+                      className="btn-primary w-full flex items-center justify-center gap-2 py-2.5 px-4 text-[12px] font-semibold text-white bg-[#7c3aed] hover:bg-[#6d28d9] rounded-xl border-b-[4px] border-[#3904a6] hover:translate-y-[2px] active:translate-y-[4px] active:border-b-0 transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:border-b-[4px] shadow-[0_10px_20px_-5px_rgba(124,58,237,0.3)]"
                     >
                       {loading ? (
-                        <div className="flex items-center justify-center">
-                          <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-3" />
-                          Updating...
-                        </div>
+                        <>
+                          <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                          <span>Updating Password...</span>
+                        </>
                       ) : (
-                        <div className="flex items-center justify-center">
-                          <Shield className="w-5 h-5 mr-2" />
-                          Update Password
-                        </div>
+                        <>
+                          <Shield className="w-3.5 h-3.5" />
+                          <span>Update Password</span>
+                        </>
                       )}
-                    </motion.button>
+                    </button>
                   </form>
                 )}
               </div>
@@ -496,119 +469,97 @@ const Profile = () => {
 
             {/* Credits Tab */}
             {activeTab === 'credits' && (
-              <div className="space-y-5">
-                {/* Credit Balance */}
-                <div className={`bg-gradient-to-r from-amber-600/10 via-orange-600/10 to-yellow-600/10 border border-amber-500/20 rounded-3xl p-2 md:p-3`}>
-                  <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                    <div className="flex items-center gap-4">
-                      <div className="w-6 sm:w-8 h-6 sm:h-8 rounded-2xl bg-gradient-to-br from-amber-600 to-orange-500 flex items-center justify-center shadow-xl">
-                        <CreditCard className="w-4 h-4 text-white" />
-                      </div>
-                      <div className="text-center md:text-left">
-                        <h2 className={`text-sm font-semibold mb-1 text-gray-400`}>
-                          Credit Balance
-                        </h2>
-                        <div className={`text-xl font-black text-white`}>
-                          {creditBalance}
-                          <span className={`text-xs ml-2 font-bold text-gray-400`}>
-                            Credits
-                          </span>
-                        </div>
-                      </div>
+              <div className="space-y-4">
+                {/* Credit Balance Card */}
+                <div className="p-4 rounded-xl bg-[#141414] border border-white/10 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-[#7c3aed]/10 border border-[#7c3aed]/20 flex items-center justify-center">
+                      <CreditCard className="w-4 h-4 text-[#7c3aed]" />
                     </div>
-                    <div className={`flex items-center gap-2 px-4 py-2 rounded-xl bg-green-900/30 border border-green-500/30`}>
-                      <TrendingUp className="w-4 h-4 text-green-500" />
-                      <span className={`text-xs font-semibold text-green-300`}>
-                        Available Now
-                      </span>
+                    <div>
+                      <div className="text-[11px] text-gray-400 font-medium">Available Credits</div>
+                      <div className="text-[20px] font-bold text-white tracking-tight leading-tight">
+                        {creditBalance}
+                      </div>
                     </div>
                   </div>
-                  
-                  <div className={`mt-6 p-2 rounded-2xl bg-blue-900/20 border border-blue-500/20`}>
-                    <div className="flex items-start gap-3">
-                      <Sparkles className="w-4 h-4 text-blue-500 flex-shrink-0 mt-0.5" />
-                      <p className={`text-xs text-blue-300`}>
-                        Credits reset monthly. Free users get 3 credits per month. Upgrade to premium for unlimited access!
-                      </p>
-                    </div>
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-medium">
+                    <TrendingUp className="w-3 h-3" />
+                    <span>Active Balance</span>
                   </div>
                 </div>
 
+                <div className="p-3 rounded-xl bg-[#141414] border border-white/5 flex items-start gap-2.5">
+                  <Sparkles className="w-3.5 h-3.5 text-[#7c3aed] shrink-0 mt-0.5" />
+                  <p className="text-[11px] text-gray-400 leading-relaxed">
+                    Credits reset monthly. Free plans receive 3 credits per month. Upgrade to explore additional analysis tools.
+                  </p>
+                </div>
+
                 {/* Credit History */}
-                <div className={`bg-gray-900/50 border border-gray-800/50 backdrop-blur-xl rounded-3xl shadow-2xl p-2 md:p-3`}>
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center shadow-xl">
-                      <History className="w-4 h-4 text-white" />
+                <div className="pt-2">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-5 h-5 rounded-md bg-[#141414] border border-white/10 flex items-center justify-center">
+                      <History className="w-3 h-3 text-[#7c3aed]" />
                     </div>
-                    <h3 className={`text-md font-black text-white`}>
+                    <h3 className="text-[12px] font-semibold text-white">
                       Transaction History
                     </h3>
                   </div>
                   
                   {creditHistory.length > 0 ? (
-                    <div className="space-y-3">
+                    <div className="space-y-2">
                       {creditHistory.map((transaction) => {
                         const TransactionIcon = getTransactionIcon(transaction.type);
+                        const isPositive = transaction.amount > 0;
                         return (
-                          <motion.div
+                          <div
                             key={transaction._id}
-                            className={`flex items-center justify-between p-2 rounded-2xl ${
-                              'bg-gray-800/50 border border-gray-700'
-                            } hover:scale-[1.02] transition-all duration-300`}
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            whileHover={{ x: 5 }}
+                            className="flex items-center justify-between p-2.5 rounded-xl bg-[#141414] border border-white/5 hover:border-white/10 transition-all"
                           >
-                            <div className="flex items-center gap-4">
-                              <div className={`w-8 h-8 rounded-xl bg-gradient-to-br ${getTransactionColor(transaction.type, transaction.amount)} flex items-center justify-center shadow-lg`}>
-                                <TransactionIcon className="w-4 h-4 text-white" />
+                            <div className="flex items-center gap-2.5">
+                              <div className="w-7 h-7 rounded-lg bg-[#0a0a0a] border border-white/5 flex items-center justify-center">
+                                <TransactionIcon className="w-3.5 h-3.5 text-gray-400" />
                               </div>
                               <div>
-                                <p className={`font-bold text-xs text-white`}>
+                                <p className="text-[11px] font-medium text-white truncate max-w-[200px] sm:max-w-xs">
                                   {transaction.description}
                                 </p>
-                                <p className={`text-xs text-gray-400`}>
+                                <p className="text-[10px] text-gray-500">
                                   {new Date(transaction.createdAt).toLocaleDateString('en-US', { 
                                     year: 'numeric', 
                                     month: 'short', 
-                                    day: 'numeric',
-                                    hour: '2-digit',
-                                    minute: '2-digit'
+                                    day: 'numeric' 
                                   })}
                                 </p>
                               </div>
                             </div>
-                            <div className={`text-right`}>
-                              <div className={`text-lg font-black ${
-                                transaction.amount > 0 ? 'text-green-500' : 'text-red-500'
+                            <div className="text-right">
+                              <span className={`text-[12px] font-bold ${
+                                isPositive ? 'text-emerald-400' : 'text-rose-400'
                               }`}>
-                                {transaction.amount > 0 ? '+' : ''}{transaction.amount}
-                              </div>
-                              <span className={`text-xs font-semibold text-gray-400`}>
+                                {isPositive ? '+' : ''}{transaction.amount}
+                              </span>
+                              <span className="block text-[9px] uppercase tracking-wider text-gray-500 font-medium">
                                 {transaction.type}
                               </span>
                             </div>
-                          </motion.div>
+                          </div>
                         );
                       })}
                     </div>
                   ) : (
-                    <div className="text-center py-12">
-                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-gray-600 to-gray-500 flex items-center justify-center mx-auto mb-4 shadow-xl">
-                        <History className="w-8 h-8 text-white" />
-                      </div>
-                      <h3 className={`text-lg font-bold mb-2 text-white`}>
-                        No Transactions Yet
-                      </h3>
-                      <p className={`text-sm text-gray-400`}>
-                        Your credit transaction history will appear here
+                    <div className="text-center py-6 bg-[#141414] rounded-xl border border-white/5">
+                      <History className="w-5 h-5 text-gray-500 mx-auto mb-1.5" />
+                      <p className="text-[11px] text-gray-400">
+                        No transactions recorded yet
                       </p>
                     </div>
                   )}
                 </div>
               </div>
             )}
-          </motion.div>
+          </div>
         </div>
       </div>
     </div>

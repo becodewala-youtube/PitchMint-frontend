@@ -1,29 +1,26 @@
-import { useState, useEffect } from 'react';
-import PageBackground from '../components/ui/PageBackground';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
 
-import { motion } from 'framer-motion';
 import { 
   Target, 
   Users, 
   MapPin, 
-  DollarSign, 
-  Star, 
   ExternalLink, 
   Filter,
-  Search,
-  TrendingUp,
-  Building,
-  Calendar,
-  Award,
-  Sparkles,
-  Zap,
-  X,
-  CheckCircle2
+  Search, 
+  TrendingUp, 
+  Building, 
+  Calendar, 
+  Award, 
+  Sparkles, 
+  CheckCircle2,
+  RefreshCw,
+  ArrowRight,
+  AlertCircle
 } from 'lucide-react';
 import api from '../utils/api';
-
+import InsufficientCreditsModal from '../components/modals/InsufficientCreditsModal';
 
 interface InvestorMatch {
   _id: string;
@@ -55,6 +52,11 @@ const InvestorMatchmaking = () => {
   const [matches, setMatches] = useState<InvestorMatch[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [creditError, setCreditError] = useState<{
+    show: boolean;
+    creditsRequired: number;
+    creditsAvailable: number;
+  } | null>(null);
   const [criteria, setCriteria] = useState<MatchingCriteria>({
     industry: '',
     stage: '',
@@ -97,6 +99,7 @@ const InvestorMatchmaking = () => {
     try {
       setLoading(true);
       setError(null);
+      setCreditError(null);
 
       const response = await api.post(
         `/api/investors/match`,
@@ -111,215 +114,175 @@ const InvestorMatchmaking = () => {
       setMatches(response.data.matches);
       setHasSearched(true);
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to find investor matches');
+      if (err.response?.status === 402) {
+        setCreditError({
+          show: true,
+          creditsRequired: err.response.data.creditsRequired || 2,
+          creditsAvailable: err.response.data.creditsAvailable || 0
+        });
+      } else {
+        setError(err.response?.data?.message || 'Failed to find investor matches');
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  const getMatchScoreColor = (score: number) => {
-    if (score >= 80) return 'text-green-500';
-    if (score >= 60) return 'text-yellow-500';
-    return 'text-red-500';
-  };
-
-  const getMatchScoreBg = (score: number) => {
-    if (score >= 80) return 'from-green-500 to-emerald-500';
-    if (score >= 60) return 'from-yellow-500 to-orange-500';
-    return 'from-red-500 to-pink-500';
+  const handleCloseCreditModal = () => {
+    setCreditError(null);
   };
 
   return (
-    <div className={`min-h-screen relative overflow-hidden bg-[#0a0118]`}>
-      <PageBackground theme="violet" />
+    <div className="min-h-screen bg-[#000000] relative overflow-hidden text-white pt-24 sm:pt-28 pb-16 selection:bg-[#7c3aed]/30">
+      {/* Subtle Dot Grid Background Pattern like Dashboard */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNCkiLz48L3N2Zz4=')] pointer-events-none" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {/* Enhanced Header */}
-        <motion.div 
-          className="mb-6"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-        >
-          <div className="flex justify-center mb-4">
-            <div className="flex items-center gap-4 text-center">
-              <div className={`hidden  w-6 sm:w-8 h-6 sm:h-8 rounded-2xl bg-gradient-to-br from-purple-600 to-pink-500 sm:flex items-center justify-center shadow-2xl shadow-purple-500/50`}>
-                <Target className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
-              </div>
-              <div>
-                <h1 className={`text-md md:text-xl font-black text-white`}>
-                  Investor{" "}
-                  <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-fuchsia-400 bg-clip-text text-transparent">
-                    Matchmaking
-                  </span>
-                </h1>
-                <p className={`text-xs md:text-sm text-gray-400 font-medium flex items-center gap-2 justify-center`}>
-                  <Zap className="w-3 h-3 md:w-4 md:h-4 text-purple-400" />
-                  AI-powered investor matching for your startup
-                </p>
-              </div>
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6">
+        {/* Header */}
+        <div className="mb-6">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-[#0a0a0a] border border-white/10 flex items-center justify-center shadow-lg shadow-purple-950/20">
+              <Target className="w-4 h-4 text-[#7c3aed]" />
+            </div>
+            <div>
+              <h1 className="text-[20px] sm:text-[22px] font-semibold text-white tracking-tight">
+                Investor Matchmaking
+              </h1>
+              <p className="text-[11px] sm:text-[12px] text-gray-400 font-normal mt-0.5">
+                AI-powered investor matching for your startup
+              </p>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Error Message */}
         {error && (
-          <motion.div 
-            className={`mb-6 p-4 rounded-2xl bg-red-900/30 border border-red-500/30`}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-          >
-            <div className="flex justify-between items-start">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-red-600 to-pink-600 flex items-center justify-center flex-shrink-0">
-                  <X className="w-4 h-4 text-white" />
-                </div>
-                <span className={`text-sm text-red-200`}>{error}</span>
-              </div>
-              <button 
-                onClick={() => setError(null)}
-                className={`text-sm font-bold text-red-400 hover:text-red-300 transition-colors`}
-              >
-                Dismiss
-              </button>
+          <div className="mb-6 p-3 rounded-xl border border-red-500/30 bg-red-950/20 text-red-400 text-[12px] flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
+              <span>{error}</span>
             </div>
-          </motion.div>
+            <button 
+              onClick={() => setError(null)}
+              className="text-[11px] text-red-400 hover:text-red-300 font-medium ml-2 shrink-0 cursor-pointer"
+            >
+              Dismiss
+            </button>
+          </div>
         )}
 
-        {/* Search Form */}
-        <motion.div 
-          className={`bg-gray-900/50 border border-gray-800/50 backdrop-blur-xl rounded-3xl shadow-2xl p-3 md:p-3 mb-8`}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-6 sm:w-8 h-6 sm:h-8 rounded-xl bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center shadow-xl">
-              <Filter className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
+        {/* Search Criteria Form Card */}
+        <div className="rounded-[18px] bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/10 p-4 sm:p-5 mb-6 shadow-2xl">
+          <div className="flex items-center gap-2 mb-3.5">
+            <div className="w-6 h-6 rounded-lg bg-[#141414] border border-white/10 flex items-center justify-center">
+              <Filter className="w-3.5 h-3.5 text-[#7c3aed]" />
             </div>
-            <h2 className={`text-sm sm:text-md font-black text-white`}>
-              Search Criteria
-            </h2>
+            <h2 className="text-[13px] font-semibold text-white">Search Criteria</h2>
           </div>
 
-          <form onSubmit={handleSearch} className="space-y-4 sm:space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          <form onSubmit={handleSearch} className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
               <div>
-                <label className={`block text-xs sm:text-sm font-bold mb-3 text-gray-300`}>
+                <label className="block text-[11px] font-medium text-gray-300 mb-1.5">
                   Industry *
                 </label>
                 <select
                   value={criteria.industry}
                   onChange={(e) => setCriteria(prev => ({ ...prev, industry: e.target.value }))}
-                  className={`w-full px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm rounded-xl border-2 transition-all duration-300 ${
-                    'bg-gray-800/50 text-white border-gray-700 focus:border-purple-500 focus:bg-gray-800'
-                  } focus:ring-4 focus:ring-purple-500/20 focus:outline-none`}
+                  className="w-full px-3 py-2 text-[12px] rounded-xl border border-white/10 bg-[#141414] text-white focus:border-[#7c3aed] focus:ring-1 focus:ring-[#7c3aed]/30 focus:outline-none transition-all cursor-pointer"
                 >
-                  <option value="">Select Industry</option>
+                  <option value="" className="bg-[#141414] text-gray-400">Select Industry</option>
                   {industries.map((industry) => (
-                    <option key={industry} value={industry}>{industry}</option>
+                    <option key={industry} value={industry} className="bg-[#141414] text-white">{industry}</option>
                   ))}
                 </select>
               </div>
 
               <div>
-                <label className={`block text-xs sm:text-sm font-bold mb-3 text-gray-300`}>
+                <label className="block text-[11px] font-medium text-gray-300 mb-1.5">
                   Funding Stage *
                 </label>
                 <select
                   value={criteria.stage}
                   onChange={(e) => setCriteria(prev => ({ ...prev, stage: e.target.value }))}
-                  className={`w-full px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm rounded-xl border-2 transition-all duration-300 ${
-                    'bg-gray-800/50 text-white border-gray-700 focus:border-purple-500 focus:bg-gray-800'
-                  } focus:ring-4 focus:ring-purple-500/20 focus:outline-none`}
+                  className="w-full px-3 py-2 text-[12px] rounded-xl border border-white/10 bg-[#141414] text-white focus:border-[#7c3aed] focus:ring-1 focus:ring-[#7c3aed]/30 focus:outline-none transition-all cursor-pointer"
                 >
-                  <option value="">Select Stage</option>
+                  <option value="" className="bg-[#141414] text-gray-400">Select Stage</option>
                   {stages.map((stage) => (
-                    <option key={stage} value={stage}>{stage}</option>
+                    <option key={stage} value={stage} className="bg-[#141414] text-white">{stage}</option>
                   ))}
                 </select>
               </div>
 
               <div>
-                <label className={`block text-xs sm:text-sm font-bold mb-3 text-gray-300`}>
+                <label className="block text-[11px] font-medium text-gray-300 mb-1.5">
                   Funding Amount
                 </label>
                 <select
                   value={criteria.fundingAmount}
                   onChange={(e) => setCriteria(prev => ({ ...prev, fundingAmount: e.target.value }))}
-                  className={`w-full px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm rounded-xl border-2 transition-all duration-300 ${
-                    'bg-gray-800/50 text-white border-gray-700 focus:border-purple-500 focus:bg-gray-800'
-                  } focus:ring-4 focus:ring-purple-500/20 focus:outline-none`}
+                  className="w-full px-3 py-2 text-[12px] rounded-xl border border-white/10 bg-[#141414] text-white focus:border-[#7c3aed] focus:ring-1 focus:ring-[#7c3aed]/30 focus:outline-none transition-all cursor-pointer"
                 >
-                  <option value="">Select Amount</option>
+                  <option value="" className="bg-[#141414] text-gray-400">Select Amount</option>
                   {fundingAmounts.map((amount) => (
-                    <option key={amount} value={amount}>{amount}</option>
+                    <option key={amount} value={amount} className="bg-[#141414] text-white">{amount}</option>
                   ))}
                 </select>
               </div>
 
               <div>
-                <label className={`block text-xs sm:text-sm font-bold mb-3 text-gray-300`}>
+                <label className="block text-[11px] font-medium text-gray-300 mb-1.5">
                   Location
                 </label>
                 <select
                   value={criteria.location}
                   onChange={(e) => setCriteria(prev => ({ ...prev, location: e.target.value }))}
-                  className={`w-full px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm rounded-xl border-2 transition-all duration-300 ${
-                    'bg-gray-800/50 text-white border-gray-700 focus:border-purple-500 focus:bg-gray-800'
-                  } focus:ring-4 focus:ring-purple-500/20 focus:outline-none`}
+                  className="w-full px-3 py-2 text-[12px] rounded-xl border border-white/10 bg-[#141414] text-white focus:border-[#7c3aed] focus:ring-1 focus:ring-[#7c3aed]/30 focus:outline-none transition-all cursor-pointer"
                 >
-                  <option value="">Select Location</option>
+                  <option value="" className="bg-[#141414] text-gray-400">Select Location</option>
                   {locations.map((location) => (
-                    <option key={location} value={location}>{location}</option>
+                    <option key={location} value={location} className="bg-[#141414] text-white">{location}</option>
                   ))}
                 </select>
               </div>
 
               <div>
-                <label className={`block text-xs sm:text-sm font-bold mb-3 text-gray-300`}>
+                <label className="block text-[11px] font-medium text-gray-300 mb-1.5">
                   Business Model
                 </label>
                 <select
                   value={criteria.businessModel}
                   onChange={(e) => setCriteria(prev => ({ ...prev, businessModel: e.target.value }))}
-                  className={`w-full px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm rounded-xl border-2 transition-all duration-300 ${
-                    'bg-gray-800/50 text-white border-gray-700 focus:border-purple-500 focus:bg-gray-800'
-                  } focus:ring-4 focus:ring-purple-500/20 focus:outline-none`}
+                  className="w-full px-3 py-2 text-[12px] rounded-xl border border-white/10 bg-[#141414] text-white focus:border-[#7c3aed] focus:ring-1 focus:ring-[#7c3aed]/30 focus:outline-none transition-all cursor-pointer"
                 >
-                  <option value="">Select Model</option>
+                  <option value="" className="bg-[#141414] text-gray-400">Select Model</option>
                   {businessModels.map((model) => (
-                    <option key={model} value={model}>{model}</option>
+                    <option key={model} value={model} className="bg-[#141414] text-white">{model}</option>
                   ))}
                 </select>
               </div>
             </div>
 
-            <motion.button
+            <button
               type="submit"
               disabled={loading || !criteria.industry || !criteria.stage}
-              className={`w-full py-1 sm:py-2 px-8 rounded-2xl text-xs sm:text-sm font-bold text-white transition-all duration-300 ${
-                loading || !criteria.industry || !criteria.stage
-                  ? 'bg-gray-400 cursor-not-allowed'
-                  : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 hover:shadow-xl hover:shadow-purple-500/50'
-              }`}
-              whileHover={!(loading || !criteria.industry || !criteria.stage) ? { scale: 1.02 } : {}}
-              whileTap={!(loading || !criteria.industry || !criteria.stage) ? { scale: 0.98 } : {}}
+              className="btn-primary w-full flex items-center justify-center gap-2 py-2.5 px-4 text-[12px] font-semibold text-white bg-[#7c3aed] hover:bg-[#6d28d9] rounded-xl border-b-[4px] border-[#3904a6] hover:translate-y-[2px] active:translate-y-[4px] active:border-b-0 transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:border-b-[4px] shadow-[0_10px_20px_-5px_rgba(124,58,237,0.3)]"
             >
               {loading ? (
-                <div className="flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-3" />
-                  Finding Matches...
-                </div>
+                <>
+                  <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                  <span>Finding Matches...</span>
+                </>
               ) : (
-                <div className="flex items-center justify-center">
-                  <Search className="w-3 sm:w-5 h-5 mr-3" />
-                  Find Investor Matches (2 Credits)
-                </div>
+                <>
+                  <Search className="w-3.5 h-3.5" />
+                  <span>Find Investor Matches (2 Credits)</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </>
               )}
-            </motion.button>
+            </button>
           </form>
-        </motion.div>
+        </div>
 
         {/* Results */}
         {hasSearched && (
@@ -327,211 +290,187 @@ const InvestorMatchmaking = () => {
             {matches.length > 0 ? (
               <div className="space-y-4">
                 {/* Results Header */}
-                <motion.div 
-                  className={`bg-gradient-to-r from-purple-600/10 via-pink-600/10 to-fuchsia-600/10 border border-purple-500/20 rounded-3xl p-3 text-center`}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.4 }}
-                >
-                  <div className="flex items-center justify-center gap-3 mb-1">
-                    <CheckCircle2 className="w-4 sm:w-6 h-4 sm:h-6 text-green-500" />
-                    <h2 className={`text-sm sm:text-lg font-black text-white`}>
-                      Found {matches.length} Perfect Match{matches.length !== 1 ? 'es' : ''}!
-                    </h2>
+                <div className="rounded-xl bg-[#0a0a0a]/95 border border-white/10 p-3 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                    <span className="text-[13px] font-semibold text-white">
+                      Found {matches.length} Perfect Match{matches.length !== 1 ? 'es' : ''}
+                    </span>
                   </div>
-                  <p className={`text-xs sm:text-sm text-gray-300`}>
-                    Ranked by compatibility with your startup criteria
-                  </p>
-                </motion.div>
+                  <span className="text-[11px] text-gray-400">
+                    Ranked by compatibility
+                  </span>
+                </div>
 
                 {/* Investor Matches */}
-                <div className="grid grid-cols-1 gap-5">
-                  {matches.map((investor, index) => (
-                    <motion.div
+                <div className="space-y-4">
+                  {matches.map((investor) => (
+                    <div
                       key={investor._id}
-                      className={`group relative overflow-hidden bg-gray-900/50 border border-gray-800/50 backdrop-blur-xl rounded-3xl shadow-2xl p-4 hover:scale-[1.02] transition-all duration-500`}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.8, delay: 0.6 + index * 0.1 }}
+                      className="rounded-[18px] bg-[#0a0a0a]/95 border border-white/10 p-4 sm:p-5 backdrop-blur-xl hover:border-[#7c3aed]/40 transition-all shadow-xl space-y-3.5"
                     >
-                      {/* Gradient Glow */}
-                      <div className={`absolute -inset-1 bg-gradient-to-br from-purple-600 to-pink-600 opacity-0 group-hover:opacity-20 blur-2xl transition-opacity duration-500`} />
-
-                      <div className="relative">
-                        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-4">
-                          <div className="flex-1">
-                            <div className="flex flex-wrap items-center gap-3 mb-3">
-                              <h3 className={`text-sm md:text-lg font-black text-white`}>
-                                {investor.name}
-                              </h3>
-                              <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-bold ${
-                                'bg-purple-900/50 text-purple-300'
-                              }`}>
-                                {investor.type}
-                              </span>
-                            </div>
-                            
-                            <p className={`text-xs sm:text-sm text-justify leading-relaxed mb-2 sm:mb-4 text-gray-300`}>
-                              {investor.description}
-                            </p>
-                          </div>
-
-                          {/* Match Score */}
-                          <div className="flex lg:flex-col items-center lg:items-end gap-2">
-                            <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${getMatchScoreBg(investor.matchScore)} flex items-center justify-center shadow-2xl`}>
-                              <div className="text-center">
-                                <div className="text-md sm:text-xl font-black text-white">
-                                  {investor.matchScore}
-                                </div>
-                                <div className="text-xs font-semibold text-white/80">
-                                  %
-                                </div>
-                              </div>
-                            </div>
-                            <span className={`text-xs font-semibold text-gray-400`}>
-                              Match Score
-                            </span>
-                          </div>
+                      {/* Top Row: Name, Type, Score */}
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <h3 className="text-[15px] sm:text-[16px] font-semibold text-white">
+                            {investor.name}
+                          </h3>
+                          <span className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-[#7c3aed]/10 text-[#a78bfa] border border-[#7c3aed]/20">
+                            {investor.type}
+                          </span>
                         </div>
 
-                        {/* Match Reasons */}
-                        <div className={`p-3 rounded-2xl mb-6 bg-purple-900/20 border border-purple-500/20`}>
-                          <h4 className={`text-sm font-bold mb-3 text-white flex items-center`}>
-                            <Award className="w-4 h-4 mr-2 text-purple-500" />
-                            Why This Match
-                          </h4>
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            {investor.matchReasons.map((reason, i) => (
-                              <div key={i} className="flex items-start">
-                                <Sparkles className="w-4 h-4 text-purple-500 mr-2 mt-0.5 flex-shrink-0" />
-                                <span className={`text-xs sm:text-sm text-gray-300`}>
-                                  {reason}
-                                </span>
-                              </div>
+                        {/* Match Score Badge */}
+                        <div className="flex items-center gap-1.5 self-start sm:self-auto">
+                          <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full border ${
+                            investor.matchScore >= 80 
+                              ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' 
+                              : investor.matchScore >= 60 
+                              ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' 
+                              : 'bg-rose-500/10 text-rose-400 border-rose-500/20'
+                          }`}>
+                            {investor.matchScore}% Match
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Description */}
+                      <p className="text-[11px] sm:text-[12px] text-gray-300 leading-relaxed text-justify">
+                        {investor.description}
+                      </p>
+
+                      {/* Match Reasons */}
+                      <div className="p-3 rounded-xl bg-[#141414] border border-white/5">
+                        <div className="text-[11px] font-medium text-[#a78bfa] mb-2 flex items-center gap-1.5">
+                          <Award className="w-3.5 h-3.5 text-[#7c3aed]" />
+                          Why This Match
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
+                          {investor.matchReasons.map((reason, i) => (
+                            <div key={i} className="flex items-start gap-1.5 text-gray-300">
+                              <Sparkles className="w-3 h-3 text-[#7c3aed] mt-0.5 shrink-0" />
+                              <span>{reason}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Details Grid */}
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div className="p-3 rounded-xl bg-[#141414] border border-white/5">
+                          <div className="text-[11px] font-medium text-gray-400 mb-2 flex items-center gap-1.5">
+                            <Building className="w-3.5 h-3.5 text-blue-400" />
+                            Industry Focus
+                          </div>
+                          <div className="flex flex-wrap gap-1.5">
+                            {investor.industryFocus.map((ind) => (
+                              <span
+                                key={ind}
+                                className="text-[10px] px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20"
+                              >
+                                {ind}
+                              </span>
                             ))}
                           </div>
                         </div>
 
-                        {/* Investor Details Grid */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                          <div className={`p-3 rounded-2xl bg-gray-800/50 border border-gray-700`}>
-                            <h4 className={`text-xs font-bold mb-3 text-gray-300 flex items-center`}>
-                              <Building className="w-4 h-4 mr-2 text-blue-500" />
-                              Industry Focus
-                            </h4>
-                            <div className="flex flex-wrap gap-2">
-                              {investor.industryFocus.map((industry) => (
-                                <span
-                                  key={industry}
-                                  className={`inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold ${
-                                    'bg-blue-900/50 text-blue-300'
-                                  }`}
-                                >
-                                  {industry}
-                                </span>
-                              ))}
-                            </div>
+                        <div className="p-3 rounded-xl bg-[#141414] border border-white/5">
+                          <div className="text-[11px] font-medium text-gray-400 mb-1 flex items-center gap-1.5">
+                            <MapPin className="w-3.5 h-3.5 text-emerald-400" />
+                            Location & Range
                           </div>
-
-                          <div className={`p-3 rounded-2xl bg-gray-800/50 border border-gray-700`}>
-                            <h4 className={`text-xs font-bold mb-3 text-gray-300 flex items-center`}>
-                              <MapPin className="w-4 h-4 mr-2 text-green-500" />
-                              Location & Range
-                            </h4>
-                            <p className={`text-xs sm:text-sm mb-2 text-gray-400`}>
-                              {investor.location}
-                            </p>
-                            <p className={`text-xs sm:text-sm font-bold text-white`}>
-                              ${(investor.investmentRange.min / 1000)}K - ${(investor.investmentRange.max / 1000)}K
-                            </p>
-                          </div>
-
-                          <div className={`p-3 rounded-2xl bg-gray-800/50 border border-gray-700`}>
-                            <h4 className={`text-xs font-bold mb-3 text-gray-300 flex items-center`}>
-                              <TrendingUp className="w-4 h-4 mr-2 text-orange-500" />
-                              Portfolio Stats
-                            </h4>
-                            <p className={`text-xs sm:text-sm mb-1 text-gray-400`}>
-                              <span className="font-bold">{investor.portfolioSize}</span> portfolio companies
-                            </p>
-                            <p className={`text-xs sm:text-sm text-gray-400`}>
-                              <span className="font-bold">{investor.recentInvestments.length}</span> recent investments
-                            </p>
-                          </div>
+                          <p className="text-[11px] text-gray-400 mb-0.5">
+                            {investor.location}
+                          </p>
+                          <p className="text-[12px] font-semibold text-white">
+                            ${(investor.investmentRange.min / 1000)}K - ${(investor.investmentRange.max / 1000)}K
+                          </p>
                         </div>
 
-                        {/* Recent Investments */}
-                        {investor.recentInvestments.length > 0 && (
-                          <div className={`p-4 rounded-2xl mb-6 bg-gray-800/50 border border-gray-700`}>
-                            <h4 className={`text-xs font-bold mb-3 text-gray-300 flex items-center`}>
-                              <Calendar className="w-4 h-4 mr-2 text-green-500" />
-                              Recent Investments
-                            </h4>
-                            <div className="flex flex-wrap gap-2">
-                              {investor.recentInvestments.slice(0, 5).map((investment, i) => (
-                                <span
-                                  key={i}
-                                  className={`inline-flex items-center px-3 py-1 rounded-lg text-xs font-semibold ${
-                                    'bg-green-900/50 text-green-300'
-                                  }`}
-                                >
-                                  {investment}
-                                </span>
-                              ))}
-                            </div>
+                        <div className="p-3 rounded-xl bg-[#141414] border border-white/5">
+                          <div className="text-[11px] font-medium text-gray-400 mb-1 flex items-center gap-1.5">
+                            <TrendingUp className="w-3.5 h-3.5 text-amber-400" />
+                            Portfolio Stats
                           </div>
-                        )}
-
-                        {/* Contact Button */}
-                        <motion.a
-                          href={investor.contactLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center justify-center w-full px-8 py-2 rounded-2xl text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-purple-500/50"
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                        >
-                          <Users className="w-4 sm:w-5 h-4 sm:h-5 mr-2" />
-                          Contact Investor
-                          <ExternalLink className="ml-2 h-4 w-4" />
-                        </motion.a>
+                          <p className="text-[11px] text-gray-400">
+                            <span className="text-white font-medium">{investor.portfolioSize}</span> companies
+                          </p>
+                          <p className="text-[11px] text-gray-400">
+                            <span className="text-white font-medium">{investor.recentInvestments.length}</span> recent investments
+                          </p>
+                        </div>
                       </div>
-                    </motion.div>
+
+                      {/* Recent Investments */}
+                      {investor.recentInvestments.length > 0 && (
+                        <div className="p-3 rounded-xl bg-[#141414] border border-white/5">
+                          <div className="text-[11px] font-medium text-gray-400 mb-2 flex items-center gap-1.5">
+                            <Calendar className="w-3.5 h-3.5 text-emerald-400" />
+                            Recent Investments
+                          </div>
+                          <div className="flex flex-wrap gap-1.5">
+                            {investor.recentInvestments.slice(0, 5).map((investment, i) => (
+                              <span
+                                key={i}
+                                className="text-[10px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                              >
+                                {investment}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Contact Button */}
+                      <a
+                        href={investor.contactLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center w-full py-2.5 px-4 rounded-xl text-[12px] font-semibold text-white bg-[#7c3aed] hover:bg-[#6d28d9] border-b-[3px] border-[#3904a6] hover:translate-y-[1px] active:translate-y-[3px] active:border-b-0 transition-all shadow-[0_4px_12px_rgba(124,58,237,0.2)]"
+                      >
+                        <Users className="w-3.5 h-3.5 mr-1.5" />
+                        <span>Contact Investor</span>
+                        <ExternalLink className="ml-1.5 h-3.5 w-3.5" />
+                      </a>
+                    </div>
                   ))}
                 </div>
               </div>
             ) : (
-              <motion.div
-                className={`bg-gray-900/50 border border-gray-800/50 backdrop-blur-xl rounded-3xl shadow-2xl p-12 text-center`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-              >
-                <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-gray-600 to-gray-500 flex items-center justify-center mx-auto mb-6 shadow-2xl">
-                  <Search className="h-10 w-10 text-white" />
+              <div className="rounded-[18px] bg-[#0a0a0a]/95 border border-white/10 p-8 text-center backdrop-blur-xl shadow-xl">
+                <div className="w-12 h-12 rounded-xl bg-[#141414] border border-white/10 flex items-center justify-center mx-auto mb-3">
+                  <Search className="h-5 w-5 text-gray-400" />
                 </div>
-                <h3 className={`text-2xl font-black mb-3 text-white`}>
+                <h3 className="text-[15px] font-semibold text-white mb-1.5">
                   No Matches Found
                 </h3>
-                <p className={`text-sm mb-8 text-gray-400 max-w-2xl mx-auto leading-relaxed`}>
-                  We couldn't find any investors matching your criteria. Try adjusting your search parameters or broadening your requirements to discover more opportunities.
+                <p className="text-[12px] text-gray-400 max-w-md mx-auto mb-4 leading-relaxed">
+                  We couldn't find any investors matching your criteria. Try adjusting your search parameters to discover more opportunities.
                 </p>
                 <div className="flex flex-wrap gap-2 justify-center">
-                  <span className={`inline-flex items-center px-4 py-2 rounded-xl text-xs font-semibold bg-gray-800 text-gray-300`}>
+                  <span className="px-2.5 py-1 rounded-lg text-[10px] font-medium bg-[#141414] border border-white/10 text-gray-400">
                     Try different industry
                   </span>
-                  <span className={`inline-flex items-center px-4 py-2 rounded-xl text-xs font-semibold bg-gray-800 text-gray-300`}>
+                  <span className="px-2.5 py-1 rounded-lg text-[10px] font-medium bg-[#141414] border border-white/10 text-gray-400">
                     Adjust funding stage
                   </span>
-                  <span className={`inline-flex items-center px-4 py-2 rounded-xl text-xs font-semibold bg-gray-800 text-gray-300`}>
+                  <span className="px-2.5 py-1 rounded-lg text-[10px] font-medium bg-[#141414] border border-white/10 text-gray-400">
                     Broaden location
                   </span>
                 </div>
-              </motion.div>
+              </div>
             )}
           </div>
         )}
       </div>
+
+      {/* Insufficient Credits Modal */}
+      <InsufficientCreditsModal
+        isOpen={creditError?.show || false}
+        onClose={handleCloseCreditModal}
+        creditsRequired={creditError?.creditsRequired || 2}
+        creditsAvailable={creditError?.creditsAvailable || 0}
+      />
     </div>
   );
 };

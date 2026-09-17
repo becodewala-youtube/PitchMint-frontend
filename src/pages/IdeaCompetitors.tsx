@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import PageBackground from '../components/ui/PageBackground';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../store/hooks';
@@ -8,9 +7,20 @@ import { RootState } from '../store';
 
 import api from '../utils/api';
 
-import { AlertCircle, RefreshCw, Users, Target, TrendingUp, Shield, AlertTriangle, Sparkles, CheckCircle2, XCircle, Lightbulb, Zap } from 'lucide-react';
+import { 
+  AlertCircle, 
+  RefreshCw, 
+  Users, 
+  Target, 
+  TrendingUp, 
+  Shield, 
+  AlertTriangle, 
+  CheckCircle2, 
+  XCircle, 
+  Lightbulb, 
+  Zap 
+} from 'lucide-react';
 import CompetitorAnalysisSkeleton from '../components/skeleton/CompetitorSkeleton';
-import { motion } from 'framer-motion';
 
 interface Competitor {
   name: string;
@@ -33,7 +43,6 @@ const IdeaCompetitors = () => {
   const dispatch = useAppDispatch();
   const hasAnalyzedRef = useRef(false);
 
-  
   const { currentIdea: idea, loading: ideaLoading } = useSelector((state: RootState) => state.idea);
   const { token } = useSelector((state: RootState) => state.auth);
   
@@ -78,40 +87,37 @@ const IdeaCompetitors = () => {
     }
   };
 
-useEffect(() => {
-  if (!idea || loading) return;
+  useEffect(() => {
+    if (!idea || loading) return;
 
-  // If already analyzed once or competitorAnalysis exists, skip
-  if (hasAnalyzedRef.current || idea.competitorAnalysis) return;
+    if (hasAnalyzedRef.current || idea.competitorAnalysis) return;
 
-  hasAnalyzedRef.current = true;
-  analyzeCompetitors(false);
-}, [idea, loading]);
-
+    hasAnalyzedRef.current = true;
+    analyzeCompetitors(false);
+  }, [idea, loading]);
 
   if (ideaLoading || loading) {
     return (
-      <div className='px-8 py-6'>
-        <CompetitorAnalysisSkeleton />
+      <div className="min-h-screen bg-[#000000] relative overflow-hidden text-white pt-24 sm:pt-28 pb-16">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNCkiLz48L3N2Zz4=')] pointer-events-none" />
+        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6">
+          <CompetitorAnalysisSkeleton />
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className={`min-h-screen flex items-center justify-center bg-[#0a0118]`}>
-        <motion.div 
-          className="text-center"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-red-500 to-pink-500 flex items-center justify-center mx-auto mb-6 shadow-2xl shadow-red-500/50">
-            <AlertCircle className="h-10 w-10 text-white" />
+      <div className="min-h-screen bg-[#000000] relative overflow-hidden text-white pt-24 sm:pt-28 pb-16 flex items-center justify-center">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNCkiLz48L3N2Zz4=')] pointer-events-none" />
+        <div className="relative z-10 text-center max-w-md p-6 rounded-[18px] bg-[#0a0a0a]/95 border border-red-500/30">
+          <div className="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto mb-3">
+            <AlertCircle className="h-6 w-6 text-red-400" />
           </div>
-          <h3 className={`text-2xl font-black mb-2 text-white`}>Oops! Something went wrong</h3>
-          <p className={`text-lg text-gray-400`}>{error}</p>
-        </motion.div>
+          <h3 className="text-[15px] font-semibold text-white mb-1">Something went wrong</h3>
+          <p className="text-[12px] text-gray-400">{error}</p>
+        </div>
       </div>
     );
   }
@@ -119,235 +125,164 @@ useEffect(() => {
   if (!idea) return null;
 
   return (
-    <div className={`min-h-screen relative overflow-hidden bg-[#0a0118]`}>
-      <PageBackground theme="violet" />
+    <div className="min-h-screen bg-[#000000] relative overflow-hidden text-white pt-24 sm:pt-28 pb-16 selection:bg-[#7c3aed]/30">
+      {/* Subtle Dot Grid Background Pattern like Dashboard */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNCkiLz48L3N2Zz4=')] pointer-events-none" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {/* Enhanced Header */}
-        <motion.div 
-          className="mb-6"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-[#0a0a0a] border border-white/10 flex items-center justify-center shadow-lg shadow-purple-950/20">
+              <Target className="w-4 h-4 text-[#7c3aed]" />
+            </div>
             <div>
-              <div className="flex items-center gap-3 mb-1">
-                <div className={`w-6 sm:w-8 h-6 sm:h-8 rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-500 flex items-center justify-center shadow-2xl shadow-emerald-500/50`}>
-                  <Target className="w-4 h-4 text-white" />
-                </div>
-                <div>
-                  <h1 className={`text-md md:text-xl font-black text-white`}>
-                    Competitor{" "}
-                    <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent">
-                      Analysis
-                    </span>
-                  </h1>
-                </div>
-              </div>
-              <p className={`text-xs text-gray-400 font-medium flex items-center gap-2 ml-15`}>
-                <Sparkles className="w-4 h-4 text-emerald-400" />
+              <h1 className="text-[20px] sm:text-[22px] font-semibold text-white tracking-tight">
+                Competitor Analysis
+              </h1>
+              <p className="text-[11px] sm:text-[12px] text-gray-400 font-normal mt-0.5">
                 Market landscape and competitive intelligence
               </p>
             </div>
-
-            <motion.button
-              onClick={() => analyzeCompetitors(true)}
-              disabled={loading}
-              className="group px-4 py-1 sm:py-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold text-xs rounded-xl shadow-lg hover:shadow-xl hover:shadow-emerald-500/50 transition-all duration-300 hover:scale-105 inline-flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
-              Regenerate Analysis
-            </motion.button>
           </div>
-        </motion.div>
 
-        {/* Your Idea Card */}
-        <motion.div 
-          className={`relative overflow-hidden rounded-3xl p-3 mb-6 ${
-            'bg-gray-900/50 border border-gray-800/50'
-          } backdrop-blur-xl`}
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 via-purple-500/10 to-fuchsia-500/10 opacity-50"></div>
-          <div className="relative">
-            <div className="flex items-start gap-3 mb-4">
-              <div className={` hidden  w-8 h-8 rounded-xl bg-gradient-to-br from-violet-600 to-purple-500 sm:flex items-center justify-center flex-shrink-0 shadow-lg`}>
-                <Lightbulb className="w-5 h-5 text-white" />
-              </div>
-              <div className="flex-1">
-                <h2 className={`text-sm font-bold mb-2 text-violet-400`}>
-                  Your Startup Idea
-                </h2>
-                <p className={`text-xs md:text-sm text-justify leading-relaxed text-gray-300`}>
-                  {idea.ideaText}
-                </p>
-              </div>
+          <button
+            onClick={() => analyzeCompetitors(true)}
+            disabled={loading}
+            className="btn-primary self-start sm:self-auto flex items-center gap-1.5 py-2 px-3.5 text-[12px] font-semibold text-white bg-[#7c3aed] hover:bg-[#6d28d9] rounded-xl border-b-[4px] border-[#3904a6] hover:translate-y-[2px] active:translate-y-[4px] active:border-b-0 transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:border-b-[4px] shadow-[0_10px_20px_-5px_rgba(124,58,237,0.3)] shrink-0 cursor-pointer"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
+            <span>Regenerate Analysis</span>
+          </button>
+        </div>
+
+        {/* Startup Idea Card */}
+        <div className="rounded-[18px] bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/10 p-4 sm:p-5 mb-4 shadow-xl">
+          <div className="flex items-center gap-2 mb-2 pb-2 border-b border-white/5">
+            <div className="w-6 h-6 rounded-lg bg-[#141414] border border-white/10 flex items-center justify-center">
+              <Lightbulb className="w-3.5 h-3.5 text-[#7c3aed]" />
             </div>
+            <h2 className="text-[12px] font-semibold text-[#a78bfa]">
+              Your Startup Idea
+            </h2>
           </div>
-        </motion.div>
+          <p className="text-[11px] sm:text-[12px] text-gray-300 leading-relaxed text-justify">
+            {idea.ideaText}
+          </p>
+        </div>
 
         {analysis && (
           <>
             {/* Market Overview Card */}
-            <motion.div 
-              className={`relative overflow-hidden rounded-3xl p-3 mb-8 ${
-                'bg-gray-900/50 border border-gray-800/50'
-              } backdrop-blur-xl`}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-teal-500/10 to-cyan-500/10 opacity-50"></div>
-              <div className="relative">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className={`w-8 h-8 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-500 flex items-center justify-center shadow-lg`}>
-                    <TrendingUp className="w-4 h-4 text-white" />
-                  </div>
-                  <h2 className={`text-sm sm:text-md font-bold text-white`}>
-                    Market Overview
-                  </h2>
+            <div className="rounded-[18px] bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/10 p-4 sm:p-5 mb-6 shadow-xl">
+              <div className="flex items-center gap-2 mb-2 pb-2 border-b border-white/5">
+                <div className="w-6 h-6 rounded-lg bg-[#141414] border border-white/10 flex items-center justify-center">
+                  <TrendingUp className="w-3.5 h-3.5 text-emerald-400" />
                 </div>
-                <p className={`text-xs md:text-sm text-justify leading-relaxed text-gray-300`}>
-                  {analysis.summary}
-                </p>
+                <h2 className="text-[13px] font-semibold text-white">
+                  Market Overview
+                </h2>
               </div>
-            </motion.div>
+              <p className="text-[11px] sm:text-[12px] text-gray-300 leading-relaxed text-justify">
+                {analysis.summary}
+              </p>
+            </div>
 
-            {/* Competitors Grid */}
-            <div className="mb-6">
-              <h2 className={`text-md md:text-lg font-black mb-1 text-white`}>
-                Key{" "}
-                <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent">
-                  Competitors
-                </span>
+            {/* Competitors Grid Header */}
+            <div className="mb-4">
+              <h2 className="text-[16px] sm:text-[18px] font-semibold text-white tracking-tight">
+                Key Competitors
               </h2>
-              <p className={`text-xs mb-6 text-gray-400`}>
+              <p className="text-[11px] text-gray-400 mt-0.5">
                 Detailed SWOT analysis of {analysis.competitors.length} major competitors
               </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
               {analysis.competitors.map((competitor, index) => (
-                <motion.div
+                <div
                   key={index}
-                  className={`group relative overflow-hidden rounded-3xl p-3 ${
-                    'bg-gray-900/50 border border-gray-800/50'
-                  } backdrop-blur-xl hover:scale-[1.02] transition-all duration-500`}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.4 + index * 0.1 }}
-                  whileHover={{ y: -5 }}
+                  className="rounded-[18px] bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/10 p-4 sm:p-5 shadow-xl hover:border-[#7c3aed]/40 transition-all space-y-3.5"
                 >
-                  {/* Hover Gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-teal-500/10 to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="flex items-center gap-2.5 pb-2.5 border-b border-white/5">
+                    <div className="w-7 h-7 rounded-lg bg-[#141414] border border-white/10 flex items-center justify-center shrink-0">
+                      <Users className="w-3.5 h-3.5 text-[#7c3aed]" />
+                    </div>
+                    <h3 className="text-[14px] sm:text-[15px] font-semibold text-white">
+                      {competitor.name}
+                    </h3>
+                  </div>
 
-                  {/* Glow Effect */}
-                  <div className="absolute -inset-1 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-600 opacity-0 group-hover:opacity-20 blur-2xl transition-opacity duration-500" />
+                  <p className="text-[11px] sm:text-[12px] text-gray-400 leading-relaxed text-justify">
+                    {competitor.description}
+                  </p>
 
-                  <div className="relative">
-                    {/* Competitor Header */}
-                    <div className="flex items-center gap-3 mb-4 pb-4 border-b border-gray-800/50">
-                      <div className={`w-8 h-8 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-500 hidden sm:flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                        <Users className="w-4 h-4 text-white" />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                    {/* Strengths */}
+                    <div className="p-3 rounded-xl bg-[#141414] border border-emerald-500/20">
+                      <div className="flex items-center gap-1.5 mb-2">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                        <h4 className="font-semibold text-[11px] text-emerald-400">Strengths</h4>
                       </div>
-                      <h3 className={`text-sm font-bold text-white`}>
-                        {competitor.name}
-                      </h3>
+                      <ul className="text-[10.5px] text-gray-300 space-y-1">
+                        {competitor.swot.strengths.map((s, i) => (
+                          <li key={i} className="flex items-start gap-1.5 leading-relaxed">
+                            <Zap className="w-2.5 h-2.5 text-emerald-400 shrink-0 mt-0.5" />
+                            <span>{s}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
 
-                    <p className={`mb-6 text-xs text-justify leading-relaxed text-gray-300`}>
-                      {competitor.description}
-                    </p>
-
-                    {/* SWOT Analysis Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {/* Strengths */}
-                      <div className={`p-4 rounded-xl bg-emerald-900/20 border border-emerald-500/20`}>
-                        <div className="flex items-center gap-2 mb-3">
-                          <div className="w-6 sm:w-8 h-6 sm:h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shadow-lg">
-                            <CheckCircle2 className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
-                          </div>
-                          <h4 className="font-bold text-sm text-emerald-500">
-                            Strengths
-                          </h4>
-                        </div>
-                        <ul className="space-y-2">
-                          {competitor.swot.strengths.map((strength, i) => (
-                            <li key={i} className={`text-xs text-justify flex items-start text-gray-300`}>
-                              <Zap className="w-3 h-3 text-emerald-500 mr-2 flex-shrink-0 mt-0.5" />
-                              {strength}
-                            </li>
-                          ))}
-                        </ul>
+                    {/* Weaknesses */}
+                    <div className="p-3 rounded-xl bg-[#141414] border border-rose-500/20">
+                      <div className="flex items-center gap-1.5 mb-2">
+                        <XCircle className="w-3.5 h-3.5 text-rose-400" />
+                        <h4 className="font-semibold text-[11px] text-rose-400">Weaknesses</h4>
                       </div>
+                      <ul className="text-[10.5px] text-gray-300 space-y-1">
+                        {competitor.swot.weaknesses.map((w, i) => (
+                          <li key={i} className="flex items-start gap-1.5 leading-relaxed">
+                            <AlertCircle className="w-2.5 h-2.5 text-rose-400 shrink-0 mt-0.5" />
+                            <span>{w}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
 
-                      {/* Weaknesses */}
-                      <div className={`p-4 rounded-xl bg-red-900/20 border border-red-500/20`}>
-                        <div className="flex items-center gap-2 mb-3">
-                          <div className="w-6 sm:w-8 h-6 sm:h-8 rounded-lg bg-gradient-to-br from-red-500 to-pink-500 flex items-center justify-center shadow-lg">
-                            <XCircle className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
-                          </div>
-                          <h4 className="font-bold text-sm text-red-500">
-                            Weaknesses
-                          </h4>
-                        </div>
-                        <ul className="space-y-2">
-                          {competitor.swot.weaknesses.map((weakness, i) => (
-                            <li key={i} className={`text-xs text-justify flex items-start text-gray-300`}>
-                              <AlertCircle className="w-3 h-3 text-red-500 mr-2 flex-shrink-0 mt-0.5" />
-                              {weakness}
-                            </li>
-                          ))}
-                        </ul>
+                    {/* Opportunities */}
+                    <div className="p-3 rounded-xl bg-[#141414] border border-blue-500/20">
+                      <div className="flex items-center gap-1.5 mb-2">
+                        <Lightbulb className="w-3.5 h-3.5 text-blue-400" />
+                        <h4 className="font-semibold text-[11px] text-blue-400">Opportunities</h4>
                       </div>
+                      <ul className="text-[10.5px] text-gray-300 space-y-1">
+                        {competitor.swot.opportunities.map((o, i) => (
+                          <li key={i} className="flex items-start gap-1.5 leading-relaxed">
+                            <TrendingUp className="w-2.5 h-2.5 text-blue-400 shrink-0 mt-0.5" />
+                            <span>{o}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
 
-                      {/* Opportunities */}
-                      <div className={`p-4 rounded-xl bg-blue-900/20 border border-blue-500/20`}>
-                        <div className="flex items-center gap-2 mb-3">
-                          <div className="w-6 sm:w-8 h-6 sm:h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg">
-                            <Lightbulb className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
-                          </div>
-                          <h4 className="font-bold text-sm text-blue-500">
-                            Opportunities
-                          </h4>
-                        </div>
-                        <ul className="space-y-2">
-                          {competitor.swot.opportunities.map((opportunity, i) => (
-                            <li key={i} className={`text-xs text-justify flex items-start text-gray-300`}>
-                              <TrendingUp className="w-3 h-3 text-blue-500 mr-2 flex-shrink-0 mt-0.5" />
-                              {opportunity}
-                            </li>
-                          ))}
-                        </ul>
+                    {/* Threats */}
+                    <div className="p-3 rounded-xl bg-[#141414] border border-amber-500/20">
+                      <div className="flex items-center gap-1.5 mb-2">
+                        <AlertTriangle className="w-3.5 h-3.5 text-amber-400" />
+                        <h4 className="font-semibold text-[11px] text-amber-400">Threats</h4>
                       </div>
-
-                      {/* Threats */}
-                      <div className={`p-4 rounded-xl bg-orange-900/20 border border-orange-500/20`}>
-                        <div className="flex items-center gap-2 mb-3">
-                          <div className="w-6 sm:w-8 h-6 sm:h-8 rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center shadow-lg">
-                            <AlertTriangle className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
-                          </div>
-                          <h4 className="font-bold text-sm text-orange-500">
-                            Threats
-                          </h4>
-                        </div>
-                        <ul className="space-y-2">
-                          {competitor.swot.threats.map((threat, i) => (
-                            <li key={i} className={`text-xs text-justify flex items-start text-gray-300`}>
-                              <Shield className="w-3 h-3 text-orange-500 mr-2 flex-shrink-0 mt-0.5" />
-                              {threat}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+                      <ul className="text-[10.5px] text-gray-300 space-y-1">
+                        {competitor.swot.threats.map((t, i) => (
+                          <li key={i} className="flex items-start gap-1.5 leading-relaxed">
+                            <Shield className="w-2.5 h-2.5 text-amber-400 shrink-0 mt-0.5" />
+                            <span>{t}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
           </>

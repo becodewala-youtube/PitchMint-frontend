@@ -1,12 +1,24 @@
 import { useEffect } from 'react';
-import PageBackground from '../components/ui/PageBackground';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../store/hooks';
 import { useRazorpay } from '../hooks/useRazorpay';
 import { RootState } from '../store';
 
-import { motion } from 'framer-motion';
-import { CreditCard, Check, Zap, Star, Sparkles, Shield, Clock, Gift, TrendingUp, Wallet, X } from 'lucide-react';
+import { 
+  CreditCard, 
+  Check, 
+  Zap, 
+  Star, 
+  Sparkles, 
+  Shield, 
+  Clock, 
+  Gift, 
+  TrendingUp, 
+  Wallet, 
+  X,
+  RefreshCw,
+  AlertCircle
+} from 'lucide-react';
 import { 
   fetchCreditPlans, 
   fetchUserCreditsBalance, 
@@ -16,11 +28,10 @@ import {
 } from '../store/slices/creditsSlice';
 import { updateUserCredits } from '../store/slices/authSlice';
 
-
 const Credits = () => {
   const { user } = useSelector((state: RootState) => state.auth);
   const dispatch = useAppDispatch();
-  const { plans, error, purchasingPlan, fetchedOnce } = useSelector(
+  const { plans, loading: creditsLoading, error, purchasingPlan, fetchedOnce } = useSelector(
     (state: RootState) => state.credits
   );
 
@@ -31,7 +42,7 @@ const Credits = () => {
     }
   }, [dispatch, fetchedOnce]);
 
-  const { initiatePayment } = useRazorpay({
+  const { initiatePayment, loading: paymentLoading } = useRazorpay({
     createSessionEndpoint: '/api/credits/create-checkout-session',
     verifyPaymentEndpoint: '/api/credits/verify-payment',
     onSuccess: (data) => {
@@ -49,265 +60,206 @@ const Credits = () => {
     description: (data) => `Purchase ${data.planName}`
   });
 
+  const loading = creditsLoading || paymentLoading;
+
   const handlePurchase = async (planId: string) => {
     dispatch(setPurchasingPlan(planId));
     dispatch(setError(null));
     await initiatePayment({ planId });
   };
- const handleDemoPurchase = async (planId: string) => {
-  if (!import.meta.env.DEV) return;
-  
-  dispatch(setPurchasingPlan(planId));
-  
-  try {
-    const result = await dispatch(demoPurchase(planId)).unwrap();
-    dispatch(updateUserCredits(result.credits));
-    alert(`Demo: Successfully added ${result.purchased} credits!`);
-  } catch (error: any) {
-    dispatch(setError(error));
-  }
-};
+
+  const handleDemoPurchase = async (planId: string) => {
+    if (!import.meta.env.DEV) return;
+    
+    dispatch(setPurchasingPlan(planId));
+    
+    try {
+      const result = await dispatch(demoPurchase(planId)).unwrap();
+      dispatch(updateUserCredits(result.credits));
+      alert(`Demo: Successfully added ${result.purchased} credits!`);
+    } catch (error: any) {
+      dispatch(setError(error));
+    }
+  };
 
   const planArray = Object.entries(plans).map(([id, plan]) => ({ id, ...plan }));
 
   return (
-    <div className={`min-h-screen relative overflow-hidden bg-[#0a0118]`}>
-      <PageBackground theme="amber" />
+    <div className="min-h-screen bg-[#000000] relative overflow-hidden text-white pt-24 sm:pt-28 pb-16 selection:bg-[#7c3aed]/30">
+      {/* Subtle Dot Grid Background Pattern like Dashboard */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNCkiLz48L3N2Zz4=')] pointer-events-none" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {/* Enhanced Header */}
-        <motion.div 
-          className="mb-6"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-        >
-          <div className="flex justify-center mb-4">
-            <div className="flex items-center gap-4 text-center">
-              <div className={`w-6 sm:w-8 h-6 sm:h-8 rounded-2xl bg-gradient-to-br from-amber-600 to-orange-500 flex items-center justify-center shadow-2xl shadow-amber-500/50`}>
-                <CreditCard className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
-              </div>
-              <div>
-                <h1 className={`text-md md:text-lg font-black text-white`}>
-                  Buy{" "}
-                  <span className="bg-gradient-to-r from-amber-400 via-yellow-400 to-orange-400 bg-clip-text text-transparent">
-                    Credits
-                  </span>
-                </h1>
-                <p className={`text-xs  text-gray-400 font-medium flex items-center gap-2 justify-center`}>
-                  <Zap className="w-3 h-3 md:w-4 md:h-4 text-amber-400" />
-                  Power up your startup journey
-                </p>
-              </div>
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6">
+        {/* Header */}
+        <div className="mb-6">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-[#0a0a0a] border border-white/10 flex items-center justify-center shadow-lg shadow-purple-950/20">
+              <CreditCard className="w-4 h-4 text-[#7c3aed]" />
+            </div>
+            <div>
+              <h1 className="text-[20px] sm:text-[22px] font-semibold text-white tracking-tight">
+                Buy Credits
+              </h1>
+              <p className="text-[11px] sm:text-[12px] text-gray-400 font-normal mt-0.5">
+                Power up your startup validation and pitch deck tools
+              </p>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Error Message */}
         {error && (
-          <motion.div 
-            className={`mb-6 p-4 rounded-2xl bg-red-900/30 border border-red-500/30`}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-          >
-            <div className="flex justify-between items-start">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-red-600 to-pink-600 flex items-center justify-center flex-shrink-0">
-                  <X className="w-4 h-4 text-white" />
-                </div>
-                <span className={`text-sm text-red-200`}>{error}</span>
-              </div>
-              <button 
-                onClick={() => dispatch(setError(null))}
-                className={`text-sm font-bold text-red-400 hover:text-red-300 transition-colors`}
-              >
-                Dismiss
-              </button>
+          <div className="mb-5 p-3 rounded-xl border border-red-500/30 bg-red-950/20 text-red-400 text-[12px] flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
+              <span>{error}</span>
             </div>
-          </motion.div>
+            <button 
+              onClick={() => dispatch(setError(null))} 
+              className="text-red-400 hover:text-red-300 cursor-pointer p-0.5"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
         )}
 
         {/* Current Balance Card */}
-        <motion.div 
-          className={`relative overflow-hidden rounded-3xl p-2 mb-8 bg-gradient-to-r from-amber-600/10 via-yellow-600/10 to-orange-600/10 border border-amber-500/20`}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          <div className={`absolute inset-0 bg-gradient-to-r from-amber-600/5 via-yellow-600/5 to-orange-600/5 backdrop-blur-3xl`} />
-          <div className="relative flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <div className="w-6 sm:w-8 h-6 sm:h-8 rounded-2xl bg-gradient-to-br from-amber-600 to-orange-500 flex items-center justify-center shadow-xl">
-                <Wallet className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
-              </div>
-              <div className="text-center md:text-left">
-                <h2 className={`text-sm font-semibold mb-1 text-gray-400`}>
-                  Current Balance
-                </h2>
-                <div className={`text-xl font-black text-white`}>
-                  {user?.credits || 0}
-                  <span className={`text-xs ml-2 font-bold text-gray-400`}>
-                    Credits
-                  </span>
-                </div>
-              </div>
+        <div className="rounded-[18px] bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/10 p-4 sm:p-5 mb-6 shadow-2xl flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-xl bg-[#141414] border border-white/10 flex items-center justify-center">
+              <Wallet className="w-4 h-4 text-[#7c3aed]" />
             </div>
-            <div className={`flex items-center gap-2 px-4 py-2 rounded-xl bg-green-900/30 border border-green-500/30`}>
-              <TrendingUp className="w-4 h-4 text-green-500" />
-              <span className={`text-xs font-semibold text-green-300`}>
-                Available Now
-              </span>
+            <div>
+              <div className="text-[11px] font-medium text-gray-400">Current Balance</div>
+              <div className="text-[20px] font-bold text-white tracking-tight leading-tight">
+                {user?.credits || 0} <span className="text-[11px] font-normal text-gray-400">Credits</span>
+              </div>
             </div>
           </div>
-        </motion.div>
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-medium">
+            <TrendingUp className="w-3 h-3" />
+            <span>Available Now</span>
+          </div>
+        </div>
 
         {/* Credit Plans */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-          {planArray.map((plan, index) => {
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 mb-6">
+          {planArray.map((plan) => {
             const isPopular = plan.id === 'pro';
-            const gradientColors = {
-              starter: { from: 'from-blue-600', to: 'to-cyan-600', bg: 'from-blue-600/10 to-cyan-600/10', border: 'border-blue-500/20' },
-              pro: { from: 'from-purple-600', to: 'to-pink-600', bg: 'from-purple-600/10 to-pink-600/10', border: 'border-purple-500/20' },
-              ultimate: { from: 'from-amber-600', to: 'to-orange-600', bg: 'from-amber-600/10 to-orange-600/10', border: 'border-amber-500/20' }
-            };
-            
-            const colors = gradientColors[plan.id as keyof typeof gradientColors] || gradientColors.starter;
-            
             return (
-              <motion.div
+              <div
                 key={plan.id}
-                className={`group relative overflow-hidden rounded-3xl p-3 bg-gray-900/50 border border-gray-800/50 backdrop-blur-xl hover:scale-105 transition-all duration-500 ${isPopular ? 'ring-2 ring-purple-500/50' : ''}`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 + index * 0.1 }}
-                whileHover={{ y: -5 }}
+                className={`rounded-[18px] bg-[#0a0a0a]/95 backdrop-blur-xl border p-4 sm:p-5 flex flex-col justify-between relative shadow-xl transition-all ${
+                  isPopular 
+                    ? 'border-[#7c3aed]/50 shadow-[0_0_25px_rgba(124,58,237,0.15)] ring-1 ring-[#7c3aed]/30' 
+                    : 'border-white/10 hover:border-white/20'
+                }`}
               >
                 {/* Popular Badge */}
                 {isPopular && (
-                  <div className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg">
+                  <div className="absolute top-3.5 right-3.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#7c3aed] text-white shadow-md shadow-purple-900/30">
                     Popular
                   </div>
                 )}
 
-                {/* Gradient Glow */}
-                <div className={`absolute -inset-1 bg-gradient-to-br ${colors.from} ${colors.to} opacity-0 group-hover:opacity-20 blur-2xl transition-opacity duration-500`} />
-
-                <div className="relative">
+                <div>
                   {/* Plan Icon */}
-                  <div className={`w-6 sm:w-8 h-6 sm:h-8 rounded-2xl bg-gradient-to-br ${colors.from} ${colors.to} flex items-center justify-center mb-4 shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
-                    {plan.id === 'starter' ? <Zap className="w-4 h-4 text-white" /> :
-                     plan.id === 'pro' ? <Star className="w-4 h-4 text-white" /> :
-                     <Sparkles className="w-4 h-4 text-white" />}
+                  <div className="w-7 h-7 rounded-xl bg-[#141414] border border-white/10 flex items-center justify-center mb-3 text-[#7c3aed]">
+                    {plan.id === 'starter' ? <Zap className="w-3.5 h-3.5" /> :
+                     plan.id === 'pro' ? <Star className="w-3.5 h-3.5" /> :
+                     <Sparkles className="w-3.5 h-3.5" />}
                   </div>
 
                   {/* Plan Name */}
-                  <h3 className={`text-md font-black mb-1 text-white`}>
+                  <h3 className="text-[14px] sm:text-[15px] font-semibold text-white mb-0.5">
                     {plan.name}
                   </h3>
-                  <p className={`text-xs mb-4 text-gray-400 leading-relaxed`}>
+                  <p className="text-[11px] text-gray-400 mb-3 leading-relaxed min-h-[32px]">
                     {plan.description}
                   </p>
 
-                  {/* Credits Display */}
-                  <div className={`p-2 rounded-2xl mb-6 bg-gradient-to-br ${colors.bg} border ${colors.border}`}>
-                    <div className="text-center">
-                      <div className={`text-xl font-black mb-1 text-white`}>
-                        {plan.credits}
-                      </div>
-                      <div className={`text-xs font-semibold text-gray-400`}>
-                        Credits
-                      </div>
+                  {/* Credits Box */}
+                  <div className="p-2.5 rounded-xl bg-[#141414] border border-white/5 text-center mb-3.5">
+                    <div className="text-2xl font-bold text-white tracking-tight">
+                      {plan.credits}
+                    </div>
+                    <div className="text-[10px] text-gray-400 font-medium">
+                      Credits
                     </div>
                   </div>
 
                   {/* Price */}
-                  <div className="text-center mb-6">
-                    <div className="flex items-baseline justify-center gap-2">
-                      <span className={`text-xl font-black text-white`}>
-                        ₹{(plan.price / 100).toFixed(0)}
-                      </span>
-                      <span className={`text-xs font-semibold text-gray-400`}>
-                        one-time
-                      </span>
-                    </div>
+                  <div className="text-center mb-4">
+                    <span className="text-xl sm:text-2xl font-bold text-white">
+                      ₹{(plan.price / 100).toFixed(0)}
+                    </span>
+                    <span className="text-[11px] text-gray-400 font-normal ml-1">
+                      one-time
+                    </span>
                   </div>
 
-                  {/* Features */}
-                  <div className="mb-6 space-y-2">
+                  {/* Features Checklist */}
+                  <div className="space-y-2 mb-4 pt-3 border-t border-white/5">
                     {[
                       { icon: Zap, text: 'Instant credit delivery' },
                       { icon: Clock, text: 'No expiration' },
                       { icon: Shield, text: 'All premium features' }
                     ].map((feature, idx) => (
-                      <div key={idx} className="flex items-center">
-                        <div className={`w-4 h-4 rounded-lg bg-gradient-to-br ${colors.from} ${colors.to} flex items-center justify-center mr-3`}>
-                          <Check className="w-3 h-3 text-white" />
-                        </div>
-                        <span className={`text-xs text-gray-300`}>
-                          {feature.text}
-                        </span>
+                      <div key={idx} className="flex items-center gap-2 text-[11px] text-gray-300">
+                        <Check className="w-3 h-3 text-[#7c3aed] shrink-0" />
+                        <span>{feature.text}</span>
                       </div>
                     ))}
                   </div>
+                </div>
 
-                  {/* Purchase Button */}
-                  <motion.button
+                <div>
+                  <button
                     onClick={() => handlePurchase(plan.id)}
                     disabled={loading || purchasingPlan === plan.id}
-                    className={`w-full py-1 sm:py-2 px-6 rounded-xl text-xs font-bold text-white transition-all duration-300 ${
-                      loading || purchasingPlan === plan.id
-                        ? 'bg-gray-400 cursor-not-allowed'
-                        : `bg-gradient-to-r ${colors.from} ${colors.to} hover:shadow-xl`
+                    className={`w-full flex items-center justify-center gap-1.5 py-2.5 px-4 text-[12px] font-semibold rounded-xl transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed ${
+                      isPopular
+                        ? 'btn-primary text-white bg-[#7c3aed] hover:bg-[#6d28d9] border-b-[4px] border-[#3904a6] hover:translate-y-[2px] active:translate-y-[4px] active:border-b-0 shadow-[0_10px_20px_-5px_rgba(124,58,237,0.3)]'
+                        : 'text-white bg-[#141414] hover:bg-white/10 border border-white/10 hover:border-white/20 cursor-pointer'
                     }`}
-                    whileHover={!(loading || purchasingPlan === plan.id) ? { scale: 1.02 } : {}}
-                    whileTap={!(loading || purchasingPlan === plan.id) ? { scale: 0.98 } : {}}
                   >
                     {purchasingPlan === plan.id ? (
-                      <div className="flex items-center justify-center">
-                        <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-2" />
-                        Processing...
-                      </div>
+                      <>
+                        <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                        <span>Processing...</span>
+                      </>
                     ) : (
                       'Purchase Credits'
                     )}
-                  </motion.button>
+                  </button>
 
-                  {/* Demo Button */}
                   {import.meta.env.DEV && (
-                    <motion.button
+                    <button
                       onClick={() => handleDemoPurchase(plan.id)}
                       disabled={loading || purchasingPlan === plan.id}
-                      className={`w-full mt-2 py-1 sm:py-2 px-4 rounded-lg text-xs font-semibold transition-all duration-300 ${
-                        'bg-gray-700 hover:bg-gray-600 text-white'
-                      } ${(loading || purchasingPlan === plan.id) ? 'opacity-50 cursor-not-allowed' : ''}`}
-                      whileHover={!(loading || purchasingPlan === plan.id) ? { scale: 1.02 } : {}}
+                      className="w-full mt-2 py-1.5 px-3 rounded-lg text-[10px] font-medium bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white border border-white/5 transition-all disabled:opacity-50 cursor-pointer"
                     >
                       Demo Purchase (Dev Only)
-                    </motion.button>
+                    </button>
                   )}
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>
 
         {/* FAQ Section */}
-        <motion.div 
-          className={`bg-gray-900/50 border border-gray-800/50 backdrop-blur-xl rounded-3xl shadow-2xl p-3`}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.0 }}
-        >
-          <div className="flex items-center justify-center gap-3 mb-5">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center shadow-xl">
-              <Gift className="w-4 h-4 text-white" />
+        <div className="rounded-[18px] bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/10 p-4 sm:p-5 shadow-2xl">
+          <div className="flex items-center gap-2 mb-4 pb-3 border-b border-white/5">
+            <div className="w-6 h-6 rounded-lg bg-[#141414] border border-white/10 flex items-center justify-center">
+              <Gift className="w-3.5 h-3.5 text-[#7c3aed]" />
             </div>
-            <h2 className={`text-sm sm:text-md font-black text-white`}>
+            <h2 className="text-[13px] font-semibold text-white">
               Frequently Asked Questions
             </h2>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {[
               {
                 question: 'How do credits work?',
@@ -326,17 +278,17 @@ const Credits = () => {
                 answer: 'Yes! All payments are processed securely through Razorpay with industry-standard encryption.'
               }
             ].map((faq, idx) => (
-              <div key={idx} className={`p-3 rounded-2xl bg-gray-800/50 border border-gray-700`}>
-                <h3 className={`text-xs sm:text-sm font-bold mb-2 text-white`}>
+              <div key={idx} className="p-3 rounded-xl bg-[#141414] border border-white/5">
+                <h3 className="text-[12px] font-semibold text-white mb-1">
                   {faq.question}
                 </h3>
-                <p className={`text-xs leading-relaxed text-gray-400`}>
+                <p className="text-[11px] text-gray-400 leading-relaxed">
                   {faq.answer}
                 </p>
               </div>
             ))}
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

@@ -18,52 +18,41 @@ const SlideThumbnails: React.FC<SlideThumbnailsProps> = ({ slides, currentSlide,
 
   return (
     <div
-      className={`relative overflow-hidden rounded-3xl p-3 bg-gray-900/50 border border-gray-800/50 backdrop-blur-xl`}
+      className="relative overflow-hidden rounded-[16px] p-3.5 sm:p-4 bg-[#0a0a0a]/95 border border-white/10 backdrop-blur-xl shadow-sm"
     >
-      <div className="flex items-center justify-between mb-4">
-        <h3 className={`text-sm font-bold text-white`}>
+      <div className="flex items-center justify-between mb-3">
+        <h3 className="text-[12px] sm:text-[13px] font-semibold text-white">
           All Slides
         </h3>
-        <div className={`text-xs font-medium text-gray-400`}>
+        <div className="text-[10px] sm:text-[11px] font-medium text-gray-400">
           {slides.length} slides total
         </div>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-        {slides.map((slide, index) => (
-          <motion.button
-            key={slide.title || index}
-            onClick={() => setCurrentSlide(index)}
-            className={`group relative overflow-hidden p-2 sm:p-3 rounded-xl transition-all duration-300 ${
-              currentSlide === index
-                ? `bg-gradient-to-br ${slide.gradient || 'from-violet-500 to-purple-500'} text-white shadow-xl`
-                : 'bg-gray-800/50 text-gray-300 hover:bg-gray-800 border border-gray-700/50'
-            } hover:scale-105`}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            {/* Gradient overlay for non-active slides */}
-            {currentSlide !== index && slide.gradient && (
-              <div
-                className={`absolute inset-0 bg-gradient-to-br ${slide.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
-              ></div>
-            )}
-
-            <div className="relative flex items-center gap-2">
-              <div
-                className={`text-xs font-bold ${currentSlide === index ? "text-white" : ""}`}
-              >
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-2.5">
+        {slides.map((slide, index) => {
+          const isActive = currentSlide === index;
+          return (
+            <motion.button
+              key={slide.title || index}
+              onClick={() => setCurrentSlide(index)}
+              className={`group relative overflow-hidden p-2 sm:p-2.5 rounded-lg transition-all text-left flex items-center gap-2 ${
+                isActive
+                  ? 'bg-[#7c3aed] text-white font-semibold border-b-[3px] border-[#3904a6] shadow-sm'
+                  : 'bg-[#141414] hover:bg-[#1f1f1f] text-gray-300 hover:text-white border border-white/10'
+              }`}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <span className={`text-[10px] sm:text-[11px] font-bold ${isActive ? 'text-white' : 'text-gray-400'}`}>
                 {index + 1}.
-              </div>
-
-              <div
-                className={`text-xs font-semibold line-clamp-2 ${currentSlide === index ? "text-white" : ""}`}
-              >
+              </span>
+              <span className="text-[11px] font-medium line-clamp-1 truncate">
                 {slide.title}
-              </div>
-            </div>
-          </motion.button>
-        ))}
+              </span>
+            </motion.button>
+          );
+        })}
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import PageBackground from '../components/ui/PageBackground';
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../store/hooks";
 import {
@@ -30,7 +29,6 @@ import SlideThumbnails from "../components/pitch-deck/SlideThumbnails";
 
 const PitchDeck = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const {
@@ -71,8 +69,9 @@ const PitchDeck = () => {
 
     try {
       setExportLoading(true);
-      await exportAllSlidesToPDF(slides, `pitch-deck-${id}`, darkMode);
-    } catch (error) { if (import.meta.env.DEV) console.error("Failed to export PDF:", error);
+      await exportAllSlidesToPDF(slides, `pitch-deck-${id}`, true);
+    } catch (error) {
+      if (import.meta.env.DEV) console.error("Failed to export PDF:", error);
     } finally {
       setExportLoading(false);
     }
@@ -96,36 +95,36 @@ const PitchDeck = () => {
 
   if (loading || isGenerating) {
     return (
-      <div className="px-8 py-6">
-        <PitchDeckSkeleton />
+      <div className="min-h-screen bg-[#000000] relative overflow-hidden text-white pt-24 sm:pt-28 pb-16 selection:bg-[#7c3aed]/30">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNCkiLz48L3N2Zz4=')] pointer-events-none" />
+        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6">
+          <PitchDeckSkeleton />
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div
-        className={`min-h-screen flex items-center justify-center bg-[#0a0118]`}
-      >
+      <div className="min-h-screen bg-[#000000] relative overflow-hidden text-white pt-24 sm:pt-28 pb-16 flex items-center justify-center selection:bg-[#7c3aed]/30">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNCkiLz48L3N2Zz4=')] pointer-events-none" />
         <motion.div
-          className="text-center"
-          initial={{ opacity: 0, scale: 0.9 }}
+          className="relative z-10 text-center p-6 rounded-2xl bg-[#0a0a0a]/95 border border-white/10 max-w-sm mx-4 shadow-[0_20px_40px_rgba(0,0,0,0.8)]"
+          initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.4 }}
         >
-          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-red-500 to-pink-500 flex items-center justify-center mx-auto mb-6 shadow-2xl shadow-red-500/50">
-            <AlertCircle className="h-10 w-10 text-white" />
+          <div className="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto mb-3 text-red-400">
+            <AlertCircle className="h-5 w-5" />
           </div>
-          <h3
-            className={`text-2xl font-black mb-2 text-white`}
+          <h3 className="text-[15px] font-semibold mb-1 text-white">Oops! Something went wrong</h3>
+          <p className="text-[11px] text-gray-400 mb-4">{error}</p>
+          <Link
+            to="/saved-ideas"
+            className="btn-primary inline-block py-1.5 px-4 rounded-lg text-xs font-semibold"
           >
-            Oops! Something went wrong
-          </h3>
-          <p
-            className={`text-lg text-gray-400`}
-          >
-            {error}
-          </p>
+            Back to Saved Ideas
+          </Link>
         </motion.div>
       </div>
     );
@@ -191,73 +190,53 @@ const PitchDeck = () => {
     : [];
 
   return (
-    <div
-      className={`min-h-screen relative overflow-hidden bg-[#0a0118]`}
-    >
-      <PageBackground theme="violet" />
+    <div className="min-h-screen bg-[#000000] relative overflow-hidden text-white pt-24 sm:pt-28 pb-16 selection:bg-[#7c3aed]/30">
+      {/* Subtle Dot Grid Background Pattern like Dashboard */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNCkiLz48L3N2Zz4=')] pointer-events-none" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {/* Enhanced Header */}
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6">
+        {/* Header */}
         <motion.div
-          className="mb-6"
-          initial={{ opacity: 0, y: 30 }}
+          className="mb-5"
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.5 }}
         >
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-            <div>
-              <div className="flex items-center gap-3 mb-2">
-                <div
-                  className={`w-6 sm:w-8 h-6 sm:h-8 rounded-2xl bg-gradient-to-br from-violet-600 to-purple-500 flex items-center justify-center shadow-2xl shadow-violet-500/50`}
-                >
-                  <Presentation className="w-4 h-4 text-white" />
-                </div>
-                <div>
-                  <h1
-                    className={`text-lg md:text-xl font-black text-white`}
-                  >
-                    Pitch{" "}
-                    <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent">
-                      Deck
-                    </span>
-                  </h1>
-                </div>
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-[#0a0a0a] border border-white/10 flex items-center justify-center shadow-inner flex-shrink-0">
+                <Presentation className="w-4 h-4 text-[#7c3aed]" />
               </div>
-              <p
-                className={`text-xs text-gray-400 font-medium flex items-center gap-2 ml-15`}
-              >
-                <Sparkles className="w-4 h-4 text-violet-400" />
-                Professional investor presentation
-              </p>
+              <div>
+                <h1 className="text-[20px] sm:text-[22px] font-semibold tracking-tight text-white">
+                  Pitch Deck
+                </h1>
+                <p className="text-[11px] sm:text-[12px] text-gray-400 font-normal flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-[#7c3aed]" />
+                  Professional investor presentation
+                </p>
+              </div>
             </div>
 
             {/* Action Buttons */}
-            <div className="flex flex-wrap gap-3">
-              <motion.button
+            <div className="flex items-center gap-2.5 self-stretch sm:self-auto">
+              <button
                 onClick={handleExportPDF}
                 disabled={loading || exportLoading || !slides.length}
-                className="group px-4 py-21 sm:py-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-semibold sm:font-bold text-xs rounded-xl shadow-lg hover:shadow-xl hover:shadow-emerald-500/50 transition-all duration-300 hover:scale-105 inline-flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                className="flex-1 sm:flex-initial px-3.5 py-1.5 sm:py-2 bg-[#141414] hover:bg-[#1a1a1a] text-white border border-white/10 text-[11px] sm:text-[12px] font-medium rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
               >
-                <Download
-                  className={`w-4 h-4 mr-2 ${exportLoading ? "animate-spin" : ""}`}
-                />
-                {exportLoading ? "Exporting..." : "Export PDF"}
-              </motion.button>
+                <Download className={`w-3.5 h-3.5 ${exportLoading ? "animate-spin" : ""}`} />
+                <span>{exportLoading ? "Exporting..." : "Export PDF"}</span>
+              </button>
 
-              <motion.button
+              <button
                 onClick={handleRegeneratePitchDeck}
                 disabled={loading || isGenerating}
-                className="group px-4 py-1 sm:py-2 bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 text-white font-semibold sm:font-bold text-xs rounded-xl shadow-lg hover:shadow-xl hover:shadow-violet-500/50 transition-all duration-300 hover:scale-105 inline-flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                className="btn-primary flex-1 sm:flex-initial px-3.5 py-1.5 sm:py-2 text-[11px] sm:text-[12px] font-semibold rounded-lg flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <RefreshCw
-                  className={`w-4 h-4 mr-2 ${isGenerating ? "animate-spin" : ""}`}
-                />
-                {isGenerating ? "Generating..." : "Regenerate (1 Credit)"}
-              </motion.button>
+                <RefreshCw className={`w-3.5 h-3.5 ${isGenerating ? "animate-spin" : ""}`} />
+                <span>{isGenerating ? "Generating..." : "Regenerate"}</span>
+              </button>
             </div>
           </div>
         </motion.div>
@@ -265,83 +244,59 @@ const PitchDeck = () => {
         {slides.length > 0 ? (
           <motion.div
             id="pitch-deck-content"
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
           >
             {/* Main Slide Card */}
-            <div
-              className={`relative overflow-hidden rounded-3xl mb-4 ${
-                'bg-gray-900/50 border border-gray-800/50'
-              } backdrop-blur-xl`}
-            >
+            <div className="rounded-[18px] bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.8)] overflow-hidden mb-4">
               {/* Slide Navigation Header */}
-              <div
-                className={`flex justify-between items-center px-6 py-1 border-b border-gray-800`}
-              >
-                <motion.button
+              <div className="flex justify-between items-center px-4 sm:px-6 py-2.5 border-b border-white/10 bg-[#141414]/50">
+                <button
                   onClick={prevSlide}
-                  className={`group w-6 sm:w-8 h-6 sm:h-8 rounded-xl flex items-center justify-center transition-all duration-300 ${
-                    'bg-gray-800/50 hover:bg-gradient-to-r hover:from-violet-600 hover:to-purple-600 text-gray-300 hover:text-white border border-gray-700/50'
-                  } hover:scale-110`}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
+                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#141414] hover:bg-[#1f1f1f] text-gray-300 hover:text-white border border-white/10 flex items-center justify-center transition-colors"
+                  aria-label="Previous Slide"
                 >
                   <ChevronLeft className="h-4 w-4" />
-                </motion.button>
+                </button>
 
                 <div className="text-center">
-                  <div
-                    className={`text-sm font-bold mb-1 text-white`}
-                  >
+                  <div className="text-[11px] sm:text-[12px] font-medium text-gray-400 mb-0.5">
                     Slide {currentSlide + 1} of {slides.length}
                   </div>
-                  <div
-                    className={`inline-flex items-center px-3 py-1 rounded-lg text-xs font-semibold bg-gradient-to-r ${slides[currentSlide].gradient} text-white`}
-                  >
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-semibold bg-[#7c3aed]/15 text-[#a78bfa] border border-[#7c3aed]/30">
                     {slides[currentSlide].title}
-                  </div>
+                  </span>
                 </div>
 
-                <motion.button
+                <button
                   onClick={nextSlide}
-                  className={`group w-6 sm:w-8 h-6 sm:h-8 rounded-xl flex items-center justify-center transition-all duration-300 ${
-                    'bg-gray-800/50 hover:bg-gradient-to-r hover:from-violet-600 hover:to-purple-600 text-gray-300 hover:text-white border border-gray-700/50'
-                  } hover:scale-110`}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
+                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#141414] hover:bg-[#1f1f1f] text-gray-300 hover:text-white border border-white/10 flex items-center justify-center transition-colors"
+                  aria-label="Next Slide"
                 >
-                  <ChevronRight className="h-5 w-5" />
-                </motion.button>
+                  <ChevronRight className="h-4 w-4" />
+                </button>
               </div>
 
               {/* Current Slide Content */}
-              <div className="px-4 sm:px-8 py-2 sm:py-4 min-h-[300px]">
+              <div className="px-5 sm:px-8 py-5 sm:py-6 min-h-[260px] sm:min-h-[300px]">
                 <motion.div
                   key={currentSlide}
-                  initial={{ opacity: 0, x: 20 }}
+                  initial={{ opacity: 0, x: 15 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5 }}
+                  transition={{ duration: 0.35 }}
                   className="relative"
                 >
-                  {/* Slide Title with Gradient Accent */}
-                  <div className="flex items-center gap-3 mb-3">
-                    <div
-                      className={`w-1 h-4 sm:h-6 rounded-full bg-gradient-to-b ${slides[currentSlide].gradient}`}
-                    ></div>
-                    <h2
-                      className={`text-md md:text-xl font-black text-white`}
-                    >
+                  {/* Slide Title with Accent Bar */}
+                  <div className="flex items-center gap-2.5 mb-3">
+                    <div className="w-1 h-5 sm:h-6 rounded-full bg-[#7c3aed]" />
+                    <h2 className="text-[16px] sm:text-[18px] font-semibold text-white tracking-tight">
                       {slides[currentSlide].title}
                     </h2>
                   </div>
 
                   {/* Slide Content */}
-                  <div
-                    className={`prose prose-lg text-xs sm:text-sm max-w-none text-justify leading-relaxed ${
-                      'prose-invert prose-headings:text-white prose-p:text-gray-300 prose-strong:text-white prose-ul:text-gray-300'
-                    }`}
-                  >
+                  <div className="prose prose-invert max-w-none text-[12px] sm:text-[13px] leading-relaxed text-gray-300 font-normal">
                     <Markdown>{slides[currentSlide].content}</Markdown>
                   </div>
                 </motion.div>
@@ -357,42 +312,34 @@ const PitchDeck = () => {
           </motion.div>
         ) : (
           <motion.div
-            className="text-center py-16"
-            initial={{ opacity: 0, y: 30 }}
+            className="rounded-[18px] bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.8)] p-8 sm:p-12 text-center"
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.5 }}
           >
-            <div
-              className={`w-24 h-24 rounded-3xl bg-gradient-to-br from-violet-600 to-fuchsia-500 flex items-center justify-center mx-auto mb-6 shadow-2xl shadow-violet-500/50`}
-            >
-              <FileText className="h-12 w-12 text-white" />
+            <div className="w-12 h-12 rounded-2xl bg-[#141414] border border-white/10 flex items-center justify-center mx-auto mb-3 text-[#7c3aed] shadow-inner">
+              <FileText className="h-6 w-6" />
             </div>
-            <h3
-              className={`text-2xl font-black mb-3 text-white`}
-            >
+            <h3 className="text-[16px] sm:text-[18px] font-semibold mb-1.5 text-white">
               {isGenerating
                 ? "Generating Your Pitch Deck..."
                 : "No Pitch Deck Available"}
             </h3>
-            <p
-              className={`text-lg mb-8 text-gray-400 max-w-2xl mx-auto`}
-            >
+            <p className="text-[11px] sm:text-[12px] mb-5 text-gray-400 max-w-md mx-auto leading-relaxed">
               {isGenerating
                 ? "Please wait while we create your professional pitch deck with AI-powered insights."
-                : "Click the generate button to create a comprehensive investor presentation."}
+                : "Generate a comprehensive, investor-ready pitch presentation for this idea."}
             </p>
             {!isGenerating && (
-              <motion.button
+              <button
                 onClick={handleRegeneratePitchDeck}
                 disabled={loading}
-                className="group px-8 py-4 bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 text-white font-bold text-sm rounded-2xl shadow-2xl hover:shadow-violet-500/50 transition-all duration-300 hover:scale-105 inline-flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                className="btn-primary inline-flex items-center py-2 px-5 rounded-lg text-[12px] font-semibold gap-2"
               >
-                <Sparkles className="w-5 h-5 mr-3" />
-                Generate Pitch Deck (1 Credit)
-                <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform duration-300" />
-              </motion.button>
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Generate Pitch Deck (1 Credit)</span>
+                <ArrowRight className="w-3.5 h-3.5 ml-1" />
+              </button>
             )}
           </motion.div>
         )}
