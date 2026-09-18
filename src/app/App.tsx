@@ -6,16 +6,16 @@ import { AppRouter } from '@/app/router';
 
 export function App() {
   const dispatch = useAppDispatch();
-  const { token, isAuthenticated } = useAppSelector((state) => state.auth);
+  const { token, user } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     document.documentElement.classList.add('dark');
   }, []);
 
   useEffect(() => {
-    // Only fetch user data if token exists and user is not already loaded
+    // Fetch user data if token exists and user object is not yet loaded
     let promise: any;
-    if (token && !isAuthenticated) {
+    if (token && !user) {
       promise = dispatch(loadUser());
     }
     return () => {
@@ -23,7 +23,7 @@ export function App() {
         promise.abort();
       }
     };
-  }, [token, isAuthenticated, dispatch]);
+  }, [token, user, dispatch]);
 
   return (
     <PageLayout>

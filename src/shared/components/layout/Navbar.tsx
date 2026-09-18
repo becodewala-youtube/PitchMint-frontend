@@ -22,6 +22,7 @@ import { RootState } from "@/app/store";
 import { logout } from "@/features/auth/store/authSlice";
 import UpgradeModal from "@/features/credits/components/UpgradeModal";
 import icon from "@/assets/icons/icon.png";
+import { getUserInitials } from "@/shared/utils/userAvatar.util";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -191,12 +192,16 @@ const Navbar = () => {
                           src={user.profilePicture}
                           alt="Profile"
                           className="w-7 h-7 rounded-full mr-2 object-cover border border-white/10"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = 'none';
+                            const fallback = (e.target as HTMLElement).nextElementSibling;
+                            if (fallback) (fallback as HTMLElement).classList.remove('hidden');
+                          }}
                         />
-                      ) : (
-                        <div className="w-7 h-7 rounded-full mr-2 bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center text-white text-[11px] font-bold border border-white/10">
-                          {user?.name?.charAt(0).toUpperCase() || 'U'}
-                        </div>
-                      )}
+                      ) : null}
+                      <div className={`w-7 h-7 rounded-full mr-2 bg-gradient-to-br from-purple-600 to-indigo-600 items-center justify-center text-white text-[11px] font-bold border border-white/10 ${user?.profilePicture ? 'hidden' : 'flex'}`}>
+                        {getUserInitials(user?.name)}
+                      </div>
                       <span className="max-w-[100px] truncate">{user?.name}</span>
                     </button>
 
@@ -279,8 +284,20 @@ const Navbar = () => {
                 <>
                   <div className="p-4 rounded-xl mb-4 bg-white/[0.02] border border-white/5">
                     <div className="flex items-center">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center text-white font-bold text-sm">
-                        {user?.name?.charAt(0).toUpperCase()}
+                      {user?.profilePicture ? (
+                        <img
+                          src={user.profilePicture}
+                          alt="Profile"
+                          className="w-10 h-10 rounded-full mr-3 object-cover border border-white/10"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = 'none';
+                            const fallback = (e.target as HTMLElement).nextElementSibling;
+                            if (fallback) (fallback as HTMLElement).classList.remove('hidden');
+                          }}
+                        />
+                      ) : null}
+                      <div className={`w-10 h-10 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 items-center justify-center text-white font-bold text-sm mr-3 ${user?.profilePicture ? 'hidden' : 'flex'}`}>
+                        {getUserInitials(user?.name)}
                       </div>
                       <div className="ml-3">
                         <p className="text-sm font-bold text-white">

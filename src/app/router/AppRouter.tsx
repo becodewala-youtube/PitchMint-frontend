@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 // Route Guards & Fallback
 import ProtectedRoute from './ProtectedRoute';
 import PublicRoute from './PublicRoute';
+import PremiumRoute from './PremiumRoute';
 import PageLoader from '@/shared/components/layout/PageLoader';
 
 // Lazy-loaded Pages - Features
@@ -82,7 +83,7 @@ export const AppRouter = () => {
         <Route path="/pitch-deck/:id" element={<ProtectedRoute><PitchDeck /></ProtectedRoute>} />
         <Route path="/canvas/:id" element={<ProtectedRoute><Canvas /></ProtectedRoute>} />
         <Route path="/saved-ideas" element={<ProtectedRoute><SavedIdeas /></ProtectedRoute>} />
-        <Route path="/investors" element={<ProtectedRoute><InvestorContacts /></ProtectedRoute>} />
+        <Route path="/investors" element={<ProtectedRoute><PremiumRoute><InvestorContacts /></PremiumRoute></ProtectedRoute>} />
         <Route path="/competitors" element={<ProtectedRoute><CompetitorAnalysis /></ProtectedRoute>} />
         <Route path="/pitch-simulator" element={<ProtectedRoute><PitchSimulator /></ProtectedRoute>} />
         <Route path="/payment-success" element={<ProtectedRoute><PaymentSuccess /></ProtectedRoute>} />
@@ -91,7 +92,7 @@ export const AppRouter = () => {
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         <Route path="/credits" element={<ProtectedRoute><Credits /></ProtectedRoute>} />
         <Route path="/market-research" element={<ProtectedRoute><MarketResearch /></ProtectedRoute>} />
-        <Route path="/investor-matching" element={<ProtectedRoute><InvestorMatchmaking /></ProtectedRoute>} />
+        <Route path="/investor-matching" element={<ProtectedRoute><PremiumRoute><InvestorMatchmaking /></PremiumRoute></ProtectedRoute>} />
         <Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} />
         <Route path="/collaborative-pitch/:id" element={<ProtectedRoute><CollaborativePitchDeck /></ProtectedRoute>} />
 

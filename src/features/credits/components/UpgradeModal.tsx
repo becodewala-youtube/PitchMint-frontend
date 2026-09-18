@@ -1,6 +1,9 @@
+import { useState } from 'react';
 import { Star, X } from 'lucide-react';
 import { useRazorpay } from '@/features/credits/hooks/useRazorpay';
-
+import api from '@/shared/lib/api';
+import { useAppDispatch } from '@/shared/hooks';
+import { loadUser } from '@/features/auth/store/authSlice';
 
 interface UpgradeModalProps {
   isOpen: boolean;
@@ -8,20 +11,41 @@ interface UpgradeModalProps {
 }
 
 const UpgradeModal = ({ isOpen, onClose }: UpgradeModalProps) => {
+  const dispatch = useAppDispatch();
+  const [demoLoading, setDemoLoading] = useState(false);
+
   const { initiatePayment, loading, error, setError } = useRazorpay({
     createSessionEndpoint: '/api/payment/create-checkout-session',
     verifyPaymentEndpoint: '/api/payment/verify-premium',
     onSuccess: () => {
       alert('Premium upgrade successful! Page will reload to reflect changes.');
+      dispatch(loadUser());
       onClose();
       window.location.reload();
     },
-    onError: (err) => { if (import.meta.env.DEV) console.error('Premium upgrade failed:', err);
+    onError: (err) => { 
+      if (import.meta.env.DEV) console.error('Premium upgrade failed:', err);
     }
   });
 
   const handleUpgrade = async () => {
     await initiatePayment();
+  };
+
+  const handleDemoUpgrade = async () => {
+    try {
+      setDemoLoading(true);
+      setError(null);
+      const res = await api.post('/api/payment/simulate-premium-success');
+      alert(res.data.message || 'Successfully upgraded to Premium!');
+      await dispatch(loadUser());
+      onClose();
+      window.location.reload();
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Demo upgrade failed');
+    } finally {
+      setDemoLoading(false);
+    }
   };
 
   if (!isOpen) return null;
@@ -85,9 +109,9 @@ const UpgradeModal = ({ isOpen, onClose }: UpgradeModalProps) => {
           <div className="mt-6">
             <button
               onClick={handleUpgrade}
-              disabled={loading}
-              className={`w-full py-3 px-4 rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
-                loading ? 'opacity-50 cursor-not-allowed' : ''
+              disabled={loading || demoLoading}
+              className={`w-full py-3 px-4 rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer ${
+                loading || demoLoading ? 'opacity-50 cursor-not-allowed' : ''
               }`}
             >
               {loading ? (
@@ -100,6 +124,26 @@ const UpgradeModal = ({ isOpen, onClose }: UpgradeModalProps) => {
               )}
             </button>
           </div>
+
+          {import.meta.env.DEV && (
+            <div className="mt-3">
+              <button
+                type="button"
+                onClick={handleDemoUpgrade}
+                disabled={loading || demoLoading}
+                className="w-full py-2.5 px-4 rounded-md text-xs font-semibold text-purple-300 bg-purple-950/40 hover:bg-purple-900/60 border border-purple-500/30 transition-all cursor-pointer disabled:opacity-50 flex items-center justify-center"
+              >
+                {demoLoading ? (
+                  <div className="flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-purple-300 mr-2"></div>
+                    Upgrading...
+                  </div>
+                ) : (
+                  'Demo Upgrade (Dev Only)'
+                )}
+              </button>
+            </div>
+          )}
 
           <p className={`mt-4 text-sm text-center text-gray-400`}>
             Secure payment powered by Razorpay

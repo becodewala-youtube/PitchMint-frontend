@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import api from '@/shared/lib/api';
 import { loadUser } from '@/features/auth/store/authSlice';
+import { getUserInitials } from '@/shared/utils/userAvatar.util';
 
 interface CreditTransaction {
   _id: string;
@@ -55,7 +56,9 @@ const Profile = () => {
   });
 
   useEffect(() => {
-    if (user) {
+    if (!user) {
+      dispatch(loadUser());
+    } else {
       setProfileData(prev => ({
         ...prev,
         name: user.name,
@@ -63,7 +66,7 @@ const Profile = () => {
       }));
       setCreditBalance(user.credits || 0);
     }
-  }, [user]);
+  }, [user, dispatch]);
 
   useEffect(() => {
     if (activeTab === 'credits') {
@@ -246,16 +249,22 @@ const Profile = () => {
             {/* Profile Picture & User Info */}
             <div className="text-center pb-4 border-b border-white/5">
               <div className="relative inline-block">
-                <div className="w-14 h-14 rounded-2xl bg-[#141414] border border-white/10 flex items-center justify-center text-white text-xl font-bold shadow-lg overflow-hidden">
+                <div className="w-14 h-14 rounded-2xl bg-[#141414] border border-white/10 flex items-center justify-center text-white text-xl font-bold shadow-lg overflow-hidden relative">
                   {user?.profilePicture ? (
                     <img 
                       src={user.profilePicture} 
                       alt="Profile" 
                       className="w-full h-full object-cover"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none';
+                        const fallback = (e.target as HTMLElement).nextElementSibling;
+                        if (fallback) (fallback as HTMLElement).classList.remove('hidden');
+                      }}
                     />
-                  ) : (
-                    <span className="text-lg text-white font-bold">{user?.name?.charAt(0).toUpperCase()}</span>
-                  )}
+                  ) : null}
+                  <div className={`w-full h-full bg-gradient-to-br from-purple-600 to-indigo-600 items-center justify-center text-white text-lg font-bold ${user?.profilePicture ? 'hidden' : 'flex'}`}>
+                    {getUserInitials(user?.name)}
+                  </div>
                 </div>
                 <label className={`absolute -bottom-1 -right-1 w-6 h-6 bg-[#7c3aed] hover:bg-[#6d28d9] rounded-lg flex items-center justify-center cursor-pointer transition-all shadow-md ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}>
                   <Camera className="w-3 h-3 text-white" />

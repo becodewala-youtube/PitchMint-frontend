@@ -35,10 +35,12 @@ export const fetchCreditPlans = createAsyncThunk(
 // 🧠 Fetch user credits balance
 export const fetchUserCreditsBalance = createAsyncThunk(
   'credits/fetchBalance',
-  async (_, { rejectWithValue }) => {
+  async (_, { dispatch, rejectWithValue }) => {
     try {
       const response = await api.get('/api/credits/balance');
-      return response.data.credits;
+      const credits = response.data.credits;
+      dispatch(updateUserCredits(credits));
+      return credits;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch user credits');
     }

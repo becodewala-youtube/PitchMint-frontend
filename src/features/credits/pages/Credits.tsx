@@ -38,8 +38,8 @@ const Credits = () => {
   useEffect(() => {
     if (!fetchedOnce) {
       dispatch(fetchCreditPlans());
-      dispatch(fetchUserCreditsBalance());
     }
+    dispatch(fetchUserCreditsBalance());
   }, [dispatch, fetchedOnce]);
 
   const { initiatePayment, loading: paymentLoading } = useRazorpay({
