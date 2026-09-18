@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 // Route Guards & Fallback
 import ProtectedRoute from './ProtectedRoute';
@@ -89,7 +89,8 @@ export const AppRouter = () => {
         <Route path="/payment-success" element={<ProtectedRoute><PaymentSuccess /></ProtectedRoute>} />
         <Route path="/competitors/:id" element={<ProtectedRoute><IdeaCompetitors /></ProtectedRoute>} />
         <Route path="/pitch-simulator/:id" element={<ProtectedRoute><IdeaPitchSimulator /></ProtectedRoute>} />
-        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        <Route path="/settings" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        <Route path="/profile" element={<Navigate to="/settings" replace />} />
         <Route path="/credits" element={<ProtectedRoute><Credits /></ProtectedRoute>} />
         <Route path="/market-research" element={<ProtectedRoute><MarketResearch /></ProtectedRoute>} />
         <Route path="/investor-matching" element={<ProtectedRoute><PremiumRoute><InvestorMatchmaking /></PremiumRoute></ProtectedRoute>} />

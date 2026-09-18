@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import PageBackground from '@/shared/components/ui/PageBackground';
+import BackButton from '@/shared/components/ui/BackButton';
 
 import { motion } from 'framer-motion';
 import { Mail, Send, MessageSquare, Sparkles, CheckCircle2, ArrowRight } from 'lucide-react';
@@ -84,6 +85,8 @@ const Contact = () => {
       <PageBackground theme="violet" />
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <BackButton fallbackUrl="/dashboard" />
+
         {/* Enhanced Header */}
         <motion.div
           className="mb-6"

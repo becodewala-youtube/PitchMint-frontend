@@ -209,7 +209,7 @@ const Navbar = () => {
                     <div className="absolute right-0 mt-2 w-48 rounded-xl shadow-2xl backdrop-blur-xl border border-white/10 bg-[#0a0a0a]/95 transition-all duration-300 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 -translate-y-2">
                       <div className="p-1">
                         <Link
-                          to="/profile"
+                          to="/settings"
                           className="flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-200"
                         >
                           <User className="w-4 h-4 mr-3 text-gray-400" />
@@ -325,7 +325,7 @@ const Navbar = () => {
                   <Link to="/saved-ideas" onClick={toggleMenu} className="flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5">Saved Ideas</Link>
                   <Link to="/competitors" onClick={toggleMenu} className="flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5">Competitors</Link>
                   <Link to="/pitch-simulator" onClick={toggleMenu} className="flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5">Pitch Arena</Link>
-                  <Link to="/profile" onClick={toggleMenu} className="flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5">Settings</Link>
+                  <Link to="/settings" onClick={toggleMenu} className="flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5">Settings</Link>
                   
                   <button onClick={() => { handleLogout(); toggleMenu(); }} className="flex items-center w-full px-3 py-2.5 mt-4 rounded-lg text-sm font-medium text-red-400 hover:bg-red-500/10">
                     <LogOut size={16} className="mr-2" /> Logout

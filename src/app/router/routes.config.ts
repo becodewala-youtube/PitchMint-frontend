@@ -18,7 +18,8 @@ export const ROUTES = {
   },
   PROTECTED: {
     DASHBOARD: '/dashboard',
-    PROFILE: '/profile',
+    SETTINGS: '/settings',
+    PROFILE: '/settings',
     HISTORY: '/history',
     SUBMIT_IDEA: '/submit-idea',
     IDEA_RESULTS: '/idea/:id',

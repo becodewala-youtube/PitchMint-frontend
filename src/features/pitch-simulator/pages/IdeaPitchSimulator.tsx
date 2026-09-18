@@ -10,6 +10,7 @@ import api from '@/shared/lib/api';
 import ArenaSkeleton from '@/features/pitch-simulator/components/ArenaSkeleton';
 import { AlertCircle, MessageSquare, Send, RefreshCw, ChevronLeft, ChevronRight, Star, CheckCircle2, Play, Sparkles, Target, Zap } from 'lucide-react';
 import { motion } from 'framer-motion';
+import BackButton from '@/shared/components/ui/BackButton';
 
 interface Question {
   id: string;
@@ -240,6 +241,8 @@ const IdeaPitchSimulator = () => {
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNCkiLz48L3N2Zz4=')] pointer-events-none" />
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6">
+        <BackButton fallbackUrl="/saved-ideas" label="Back to Saved Ideas" />
+
         {/* Header */}
         <motion.div 
           className="mb-5"

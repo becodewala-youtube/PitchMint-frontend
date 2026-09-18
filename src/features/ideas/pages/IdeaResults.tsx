@@ -8,6 +8,7 @@ import { RootState } from '@/app/store';
 import IdeaAnalysisSkeleton from '@/features/ideas/components/IdeaAnalysisSkeleton';
 import { FileText, Layout, AlertCircle, Users, MessageSquare, Sparkles, Target, TrendingUp, DollarSign, Award, CheckCircle2 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import BackButton from '@/shared/components/ui/BackButton';
 
 const IdeaResults = () => {
   const { id } = useParams();
@@ -159,6 +160,9 @@ const IdeaResults = () => {
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNCkiLz48L3N2Zz4=')] pointer-events-none" />
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6">
+        {/* Back Navigation */}
+        <BackButton fallbackUrl="/saved-ideas" label="Back to Saved Ideas" />
+
         {/* Header Section */}
         <motion.div 
           className="mb-5"

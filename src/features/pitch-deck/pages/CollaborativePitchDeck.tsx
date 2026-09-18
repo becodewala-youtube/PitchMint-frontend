@@ -8,7 +8,10 @@ import { Users, MessageCircle, Edit3, Save, Share2, Play, Mic, MicOff } from 'lu
 import api from '@/shared/lib/api';
 import InviteModal from '@/features/pitch-deck/components/InviteModal';
 import SlideThumbnails from '@/features/pitch-deck/components/SlideThumbnails';
-import PageBackground from '@/shared/components/ui/PageBackground';interface Comment {
+import PageBackground from '@/shared/components/ui/PageBackground';
+import BackButton from '@/shared/components/ui/BackButton';
+
+interface Comment {
   id: string;
   userId: string;
   userName: string;
@@ -278,6 +281,8 @@ const CollaborativePitchDeck = () => {
     <div className="page-container bg-gray-900">
       <div className="content-wrapper">
         <div className="max-container">
+          <BackButton fallbackUrl="/saved-ideas" label="Back to Saved Ideas" />
+
           {/* Header with Collaborators */}
           <motion.div 
             className="flex justify-between items-center mb-8"

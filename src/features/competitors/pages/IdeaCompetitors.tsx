@@ -21,6 +21,7 @@ import {
   Zap 
 } from 'lucide-react';
 import CompetitorAnalysisSkeleton from '@/features/competitors/components/CompetitorSkeleton';
+import BackButton from '@/shared/components/ui/BackButton';
 
 interface Competitor {
   name: string;
@@ -130,6 +131,8 @@ const IdeaCompetitors = () => {
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNCkiLz48L3N2Zz4=')] pointer-events-none" />
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6">
+        <BackButton fallbackUrl="/saved-ideas" label="Back to Saved Ideas" />
+
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div className="flex items-center gap-3">

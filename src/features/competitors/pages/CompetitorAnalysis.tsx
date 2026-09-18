@@ -7,6 +7,7 @@ import { RootState } from '@/app/store';
 import { AlertCircle, Search, TrendingUp, Target, Shield, Zap, CheckCircle2, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import InsufficientCreditsModal from '@/features/credits/components/InsufficientCreditsModal';
+import BackButton from '@/shared/components/ui/BackButton';
 import Markdown from 'react-markdown';
 
 interface Competitor {
@@ -82,6 +83,9 @@ const CompetitorAnalysis = () => {
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNCkiLz48L3N2Zz4=')] pointer-events-none" />
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6">
+        {/* Back Navigation */}
+        <BackButton fallbackUrl="/dashboard" />
+
         {/* Header */}
         <motion.div 
           className="text-center mb-5"
