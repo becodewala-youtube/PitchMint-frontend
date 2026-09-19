@@ -15,5 +15,15 @@ api.interceptors.request.use((config) => {
 }, (error) => {
   return Promise.reject(error);
 });
-
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      // Avoid circular dependency by dispatching the raw action type
+      store.dispatch({ type: 'auth/logout' });
+      // Optionally redirect to login, but React Router handles auth state changes natively via ProtectedRoutes
+    }
+    return Promise.reject(error);
+  }
+);
 export default api;

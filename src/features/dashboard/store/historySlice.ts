@@ -105,8 +105,8 @@ export const fetchUserHistory = createAsyncThunk(
     try {
       const response = await api.get('/api/history');
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to fetch history');
+    } catch (error: unknown) {
+      return rejectWithValue(getErrorMessage(error, 'Failed to fetch history'));
     }
   },
 );
@@ -119,7 +119,7 @@ export const addHistoryEntry = createAsyncThunk(
       serviceType: string;
       title: string;
       description: string;
-      data: any;
+      data: Record<string, unknown>;
       creditsUsed: number;
     },
     { rejectWithValue, dispatch },
@@ -133,8 +133,8 @@ export const addHistoryEntry = createAsyncThunk(
       }
 
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to add history entry');
+    } catch (error: unknown) {
+      return rejectWithValue(getErrorMessage(error, 'Failed to add history entry'));
     }
   },
 );

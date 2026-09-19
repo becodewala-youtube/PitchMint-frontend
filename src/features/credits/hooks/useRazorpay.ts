@@ -14,8 +14,8 @@ interface CheckoutSessionData {
 interface UseRazorpayOptions {
   createSessionEndpoint: string;
   verifyPaymentEndpoint: string;
-  onSuccess: (data: any) => void;
-  onError: (error: any) => void;
+  onSuccess: (data: Record<string, unknown>) => void;
+  onError: (error: unknown) => void;
   onDismiss?: () => void;
   name?: string;
   description?: (data: CheckoutSessionData) => string;
@@ -49,7 +49,7 @@ export const useRazorpay = ({
     };
   }, []);
 
-  const initiatePayment = async (payload: any = {}) => {
+  const initiatePayment = async (payload: Record<string, unknown> = {}) => {
     if (!window.Razorpay) {
       const msg = 'Payment gateway not loaded. Please refresh the page.';
       setError(msg);
@@ -79,7 +79,7 @@ export const useRazorpay = ({
         theme: {
           color: '#8B5CF6'
         },
-        handler: async function (paymentResponse: any) {
+        handler: async function (paymentResponse: RazorpayResponse) {
           try {
             setLoading(true);
             const verifyResponse = await api.post(
@@ -93,8 +93,10 @@ export const useRazorpay = ({
             );
             
             onSuccess(verifyResponse.data);
-          } catch (verifyError: any) { if (import.meta.env.DEV) console.error('Payment verification failed:', verifyError);
-            const errMsg = verifyError.response?.data?.message || 'Payment verification failed. Please contact support if amount was debited.';
+          } catch (verifyError: unknown) {
+            if (import.meta.env.DEV) console.error('Payment verification failed:', verifyError);
+            const apiError = verifyError as ApiError;
+            const errMsg = apiError.response?.data?.message || 'Payment verification failed. Please contact support if amount was debited.';
             setError(errMsg);
             onError(verifyError);
           } finally {
@@ -111,7 +113,8 @@ export const useRazorpay = ({
 
       const rzp = new window.Razorpay(options);
       
-      rzp.on('payment.failed', function (paymentResponse: any) { if (import.meta.env.DEV) console.error('Premium payment failed:', paymentResponse.error);
+      rzp.on('payment.failed', function (paymentResponse: RazorpayErrorResponse) {
+        if (import.meta.env.DEV) console.error('Premium payment failed:', paymentResponse.error);
         const errMsg = `Payment failed: ${paymentResponse.error.description}`;
         setError(errMsg);
         onError(new Error(errMsg));
@@ -119,11 +122,13 @@ export const useRazorpay = ({
       });
 
       rzp.open();
-    } catch (err: any) { if (import.meta.env.DEV) console.error('Payment initialization failed:', err);
+    } catch (err: unknown) {
+      if (import.meta.env.DEV) console.error('Payment initialization failed:', err);
       let errorMessage = 'Failed to create payment order';
-      if (err.response) {
-        errorMessage = err.response.data?.message || `Server error: ${err.response.status}`;
-      } else if (err.request) {
+      const apiErr = err as ApiError;
+      if (apiErr.response) {
+        errorMessage = apiErr.response.data?.message || `Server error: ${apiErr.response.status}`;
+      } else if (apiErr.request) {
         errorMessage = 'Network error. Please check your connection.';
       }
       setError(errorMessage);

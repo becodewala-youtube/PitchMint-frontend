@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '@/shared/hooks';
@@ -52,7 +52,7 @@ const IdeaCompetitors = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (id && !idea) {
+    if (id && (!idea || idea._id !== id)) {
       dispatch(getIdea(id));
     }
   }, [dispatch, id, idea]);
@@ -63,30 +63,30 @@ const IdeaCompetitors = () => {
     }
   }, [idea]);
 
-  const analyzeCompetitors = async (regenerate = false) => {
-    if (!idea?.ideaText) return;
-    
+  const analyzeCompetitors = useCallback(async (forceRefresh = false) => {
+    if ((!id || ideaLoading || loading) && !forceRefresh) return;
+
     try {
       setLoading(true);
       setError(null);
-
+      
       const response = await api.post(
-        `/api/competitors/analyze/${idea._id}`,
-        { regenerate },
+        `/api/competitors/analyze/${id}`,
+        { forceRefresh },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         }
       );
 
       setAnalysis(response.data.competitorAnalysis);
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to analyze competitors');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err, 'Failed to analyze competitors'));
     } finally {
       setLoading(false);
     }
-  };
+  }, [id, ideaLoading, loading, token]);
 
   useEffect(() => {
     if (!idea || loading) return;
@@ -95,9 +95,9 @@ const IdeaCompetitors = () => {
 
     hasAnalyzedRef.current = true;
     analyzeCompetitors(false);
-  }, [idea, loading]);
+  }, [idea, loading, analyzeCompetitors]);
 
-  if (ideaLoading || loading) {
+  if (ideaLoading || loading || (idea && idea._id !== id)) {
     return (
       <div className="min-h-screen bg-[#000000] relative overflow-hidden text-white pt-24 sm:pt-28 pb-16">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNCkiLz48L3N2Zz4=')] pointer-events-none" />

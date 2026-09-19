@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useAppDispatch } from '@/shared/hooks';
 import { useNavigate } from 'react-router-dom';
 import api from '@/shared/lib/api';
@@ -13,6 +13,34 @@ interface GoogleSignInProps {
 const GoogleSignIn = ({ onSuccess, onError }: GoogleSignInProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  const handleCredentialResponse = useCallback(async (response: { credential: string }) => {
+    try {
+      const result = await api.post(`/api/auth/google`, {
+        credential: response.credential,
+      });
+
+      // CRITICAL FIX: Store token in localStorage (do not store full user object)
+      localStorage.setItem('token', result.data.token);
+
+      // Update Redux store with authenticated state
+      dispatch(setAuthenticated({
+        token: result.data.token,
+        user: result.data.user
+      }));
+
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        navigate('/dashboard');
+      }
+    } catch (error: unknown) {
+      const errorMessage = getErrorMessage(error, 'Google sign-in failed');
+      if (onError) {
+        onError(errorMessage);
+      }
+    }
+  }, [dispatch, navigate, onSuccess, onError]);
 
   useEffect(() => {
     // Load Google Sign-In script
@@ -48,36 +76,7 @@ const GoogleSignIn = ({ onSuccess, onError }: GoogleSignInProps) => {
         document.body.removeChild(script);
       }
     };
-  }, []);
-
- const handleCredentialResponse = async (response: any) => {
-  try {
-    const result = await api.post(`/api/auth/google`, {
-      credential: response.credential,
-    });
-
-    // CRITICAL FIX: Store token in localStorage (do not store full user object)
-    localStorage.setItem('token', result.data.token);
-
-    // Update Redux store with authenticated state
-    dispatch(setAuthenticated({
-      token: result.data.token,
-      user: result.data.user
-    }));
-
-    if (onSuccess) {
-      onSuccess();
-    } else {
-      navigate('/dashboard');
-    }
-  } catch (error: any) {
-    const errorMessage = error.response?.data?.message || 'Google sign-in failed';
-    if (onError) {
-      onError(errorMessage);
-    }
-  }
-};
-
+  }, [handleCredentialResponse]);
 
   return (
     <div className="w-full">

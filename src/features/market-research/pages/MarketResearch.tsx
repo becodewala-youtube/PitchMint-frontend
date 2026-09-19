@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useAppDispatch } from '@/shared/hooks';
 import { RootState } from '@/app/store';
 
-import { motion } from 'framer-motion';
+
 import {
   TrendingUp,
   Users,
@@ -86,7 +85,6 @@ const MarketResearch = () => {
   } | null>(null);
   
   const { token } = useSelector((state: RootState) => state.auth);
-  const dispatch = useAppDispatch();
 
   const industries = [
     'Technology', 'Healthcare', 'Finance', 'E-commerce', 'Education',
@@ -120,7 +118,7 @@ const MarketResearch = () => {
       );
 
       setMarketData(response.data);
-    } catch (err: any) {
+    } catch (err: unknown) {
       if (err.response?.status === 402) {
         setCreditError({
           show: true,
@@ -128,7 +126,7 @@ const MarketResearch = () => {
           creditsAvailable: err.response.data.creditsAvailable
         });
       } else {
-        setError(err.response?.data?.message || 'Failed to analyze market');
+        setError(getErrorMessage(err, 'Failed to analyze market'));
       }
     } finally {
       setLoading(false);

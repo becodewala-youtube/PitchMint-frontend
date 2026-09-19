@@ -58,7 +58,7 @@ const CompetitorAnalysis = () => {
       );
 
       setAnalysis(response.data);
-    } catch (err: any) {
+    } catch (err: unknown) {
       if (err.response?.status === 402) {
         setCreditError({
           show: true,
@@ -66,7 +66,7 @@ const CompetitorAnalysis = () => {
           creditsAvailable: err.response.data.creditsAvailable
         });
       } else {
-        setError(err.response?.data?.message || 'Failed to analyze competitors');
+        setError(getErrorMessage(err, 'Failed to analyze competitors'));
       }
     } finally {
       setLoading(false);

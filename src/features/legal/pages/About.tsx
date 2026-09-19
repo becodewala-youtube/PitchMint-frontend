@@ -4,11 +4,7 @@ import PageBackground from '@/shared/components/ui/PageBackground';
 import {
   Target,
   Heart,
-  Users,
-  Lightbulb,
   Rocket,
-  Award,
-  TrendingUp,
   Globe,
   Zap,
   Sparkles

@@ -114,7 +114,7 @@ const InvestorMatchmaking = () => {
 
       setMatches(response.data.matches);
       setHasSearched(true);
-    } catch (err: any) {
+    } catch (err: unknown) {
       if (err.response?.status === 402) {
         setCreditError({
           show: true,
@@ -122,7 +122,7 @@ const InvestorMatchmaking = () => {
           creditsAvailable: err.response.data.creditsAvailable || 0
         });
       } else {
-        setError(err.response?.data?.message || 'Failed to find investor matches');
+        setError(getErrorMessage(err, 'Failed to find investor matches'));
       }
     } finally {
       setLoading(false);

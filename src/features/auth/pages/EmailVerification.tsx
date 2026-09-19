@@ -26,26 +26,20 @@ const EmailVerification = () => {
 
     try {
       // ✅ Use Redux action instead of direct axios call
-      const result = await dispatch(verifyEmail({ 
+      await dispatch(verifyEmail({
         email, 
         token: verificationCode 
-      }) as any);
+      })).unwrap();
 
-      if (result.error) {
-        // Verification failed
-        setError(result.payload || 'Verification failed');
-        setLoading(false);
-      } else {
-        // Verification successful
-        setSuccess(true);
-        
-        // Navigate to dashboard after a short delay
-        setTimeout(() => {
-          navigate('/dashboard');
-        }, 2000);
-      }
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Verification failed');
+      // Verification successful
+      setSuccess(true);
+      
+      // Navigate to dashboard after a short delay
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 2000);
+    } catch (err: unknown) {
+      setError(typeof err === 'string' ? err : 'Verification failed');
       setLoading(false);
     }
   };
@@ -58,8 +52,8 @@ const EmailVerification = () => {
       await api.post(`/api/auth/resend-verification`, { email });
       // Show success message (you might want to add a success state)
       alert('Verification code resent successfully!');
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to resend verification email');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err, 'Failed to resend verification email'));
     } finally {
       setResendLoading(false);
     }

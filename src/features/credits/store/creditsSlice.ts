@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import api from '@/shared/lib/api';
+import { updateUserCredits } from '@/features/auth/store/authSlice';
 
 import { CreditPlans } from '../types/credit.types';
 
@@ -26,8 +27,8 @@ export const fetchCreditPlans = createAsyncThunk(
     try {
       const response = await api.get('/api/credits/plans');
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to fetch credit plans');
+    } catch (error: unknown) {
+      return rejectWithValue(getErrorMessage(error, 'Failed to fetch credit plans'));
     }
   }
 );
@@ -41,8 +42,8 @@ export const fetchUserCreditsBalance = createAsyncThunk(
       const credits = response.data.credits;
       dispatch(updateUserCredits(credits));
       return credits;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to fetch user credits');
+    } catch (error: unknown) {
+      return rejectWithValue(getErrorMessage(error, 'Failed to fetch user credits'));
     }
   }
 );
@@ -58,7 +59,7 @@ export const createCheckoutSession = createAsyncThunk(
         { timeout: 10000 }
       );
       return response.data;
-    } catch (error: any) {
+    } catch (error: unknown) {
       let errorMessage = 'Purchase failed. Please try again.';
       
       if (error.code === 'ECONNABORTED') {
@@ -92,10 +93,9 @@ export const verifyPayment = createAsyncThunk(
         { timeout: 15000 }
       );
       return response.data;
-    } catch (error: any) {
+    } catch (error: unknown) {
       return rejectWithValue(
-        error.response?.data?.message || 
-        'Payment verification failed. Please contact support if amount was debited.'
+        getErrorMessage(error, 'Payment verification failed. Please contact support if amount was debited.')
       );
     }
   }
@@ -111,8 +111,8 @@ export const demoPurchase = createAsyncThunk(
         { planId }
       );
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Demo purchase failed');
+    } catch (error: unknown) {
+      return rejectWithValue(getErrorMessage(error, 'Demo purchase failed'));
     }
   }
 );
@@ -140,7 +140,7 @@ const creditsSlice = createSlice({
         state.plans = action.payload;
         state.fetchedOnce = true;
       })
-      .addCase(fetchCreditPlans.rejected, (state, action: any) => {
+      .addCase(fetchCreditPlans.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
@@ -158,7 +158,7 @@ const creditsSlice = createSlice({
       .addCase(createCheckoutSession.fulfilled, (state) => {
         state.loading = false;
       })
-      .addCase(createCheckoutSession.rejected, (state, action: any) => {
+      .addCase(createCheckoutSession.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
         state.purchasingPlan = null;
@@ -173,7 +173,7 @@ const creditsSlice = createSlice({
         state.loading = false;
         state.purchasingPlan = null;
       })
-      .addCase(verifyPayment.rejected, (state, action: any) => {
+      .addCase(verifyPayment.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
         state.purchasingPlan = null;
@@ -188,7 +188,7 @@ const creditsSlice = createSlice({
         state.loading = false;
         state.purchasingPlan = null;
       })
-      .addCase(demoPurchase.rejected, (state, action: any) => {
+      .addCase(demoPurchase.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
         state.purchasingPlan = null;

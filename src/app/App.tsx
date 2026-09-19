@@ -14,7 +14,7 @@ export function App() {
 
   useEffect(() => {
     // Fetch user data if token exists and user object is not yet loaded
-    let promise: any;
+    let promise: { abort: () => void } | undefined;
     if (token && !user) {
       promise = dispatch(loadUser());
     }

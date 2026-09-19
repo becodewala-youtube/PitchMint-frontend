@@ -19,8 +19,8 @@ const SubmitIdea = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const result = (await dispatch(submitIdea({ ideaText }))) as any;
-    if (!result.error) {
+    const result = await dispatch(submitIdea({ ideaText }));
+    if (submitIdea.fulfilled.match(result)) {
       navigate(`/idea/${result.payload._id}`);
     }
   };

@@ -78,7 +78,7 @@ const Credits = () => {
       const result = await dispatch(demoPurchase(planId)).unwrap();
       dispatch(updateUserCredits(result.credits));
       alert(`Demo: Successfully added ${result.purchased} credits!`);
-    } catch (error: any) {
+    } catch (error: unknown) {
       dispatch(setError(error));
     }
   };

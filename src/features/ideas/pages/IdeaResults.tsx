@@ -18,7 +18,7 @@ const IdeaResults = () => {
   const { currentIdea: idea, loading, error } = useSelector((state: RootState) => state.idea);
 
   useEffect(() => {
-    if (id && !idea) {
+    if (id && (!idea || idea._id !== id)) {
       dispatch(getIdea(id));
     }
   }, [dispatch, id, idea]);
@@ -47,7 +47,7 @@ const IdeaResults = () => {
     }
   };
 
-  if (loading) {
+  if (loading || (idea && idea._id !== id)) {
     return (
       <div className="min-h-screen bg-[#000000] relative overflow-hidden text-white pt-24 sm:pt-28 pb-16 selection:bg-[#7c3aed]/30">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNCkiLz48L3N2Zz4=')] pointer-events-none" />

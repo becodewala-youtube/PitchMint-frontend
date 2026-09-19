@@ -57,8 +57,8 @@ const InvestorContacts = () => {
 
         setInvestors(response.data);
         setError(null);
-      } catch (err: any) {
-        setError(err.response?.data?.message || 'Failed to fetch investors');
+      } catch (err: unknown) {
+        setError(getErrorMessage(err, 'Failed to fetch investors'));
       } finally {
         setLoading(false);
       }

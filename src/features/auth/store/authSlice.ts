@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { API_URL } from '@/config/constants';
+import api from '@/shared/lib/api';
 
 interface User {
   _id: string;
@@ -37,13 +36,13 @@ export const register = createAsyncThunk(
   'auth/register',
   async (userData: { name: string; email: string; password: string }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${API_URL}/api/auth/register`, userData);
+      const response = await api.post(`/api/auth/register`, userData);
       
       // ✅ DON'T store token/user yet - wait for email verification
       // Just return the response data
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data.message || 'Registration failed');
+    } catch (error: unknown) {
+      return rejectWithValue(getErrorMessage(error, 'Registration failed'));
     }
   }
 );
@@ -53,13 +52,13 @@ export const signin = createAsyncThunk(
   'auth/signin',
   async (userData: { email: string; password: string }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${API_URL}/api/auth/signin`, userData);
+      const response = await api.post(`/api/auth/signin`, userData);
       
       localStorage.setItem('token', response.data.token);
       
       return response.data;
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Sign in failed';
+    } catch (error: unknown) {
+      const message = getErrorMessage(error, 'Sign in failed');
       return rejectWithValue(message);
     }
   }
@@ -73,14 +72,14 @@ export const verifyEmail = createAsyncThunk(
   'auth/verifyEmail',
   async (verificationData: { email: string; token: string }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${API_URL}/api/auth/verify-email`, verificationData);
+      const response = await api.post(`/api/auth/verify-email`, verificationData);
       
       // ✅ NOW store the token after successful verification
       localStorage.setItem('token', response.data.token);
       
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Verification failed');
+    } catch (error: unknown) {
+      return rejectWithValue(getErrorMessage(error, 'Verification failed'));
     }
   }
 );
@@ -90,25 +89,20 @@ export const loadUser = createAsyncThunk(
   'auth/loadUser',
   async (_, { getState, rejectWithValue }) => {
     try {
-      const state: any = getState();
+      const state = getState() as { auth: { token: string | null } };
       
       if (!state.auth.token) {
         return rejectWithValue('No token found');
       }
       
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${state.auth.token}`
-        }
-      };
-      
-      const response = await axios.get(`${API_URL}/api/auth/user`, config);
+      // Let the api client handle auth headers via interceptors, but we can pass it if we want.
+      // The shared api client already adds the token from localStorage automatically.
+      const response = await api.get(`/api/auth/user`);
       
       return response.data;
-    } catch (error: any) {
+    } catch (error: unknown) {
       localStorage.removeItem('token');
-      return rejectWithValue(error.response?.data.message || 'Failed to load user');
+      return rejectWithValue(getErrorMessage(error, 'Failed to load user'));
     }
   }
 );
