@@ -35,6 +35,20 @@ Do not place feature-specific code in shared.
 
 - `constants.ts` — `API_URL` (from `VITE_API_URL`) and app config
 
+## Environment Variables
+
+All frontend env vars use `import.meta.env.VITE_*` (Vite convention). Key variables:
+- `VITE_API_URL` — Backend API base URL (used in `src/config/constants.ts`)
+- `VITE_GOOGLE_CLIENT_ID` — Google OAuth client ID (used in `GoogleSignIn.tsx`)
+- `VITE_RAZORPAY_KEY_ID` — Listed in `.env.example` but Razorpay key is now server-provided via checkout session
+- `VITE_EMAILJS_*` — EmailJS config for contact forms
+
+Use `import.meta.env.DEV` for dev-only behavior (not `process.env.NODE_ENV`).
+
+## Global Ambient Types (`src/shared/types/global.d.ts`)
+
+Declares global interfaces: `RazorpayResponse`, `RazorpayOptions`, `RazorpayInstance`, `Window.Razorpay`, `Window.google`. The codebase also uses ambient globals `getErrorMessage()`, `ApiError`, and `RazorpayErrorResponse` for error handling throughout features — do not remove or replace these with local imports.
+
 ## Path Alias
 
 `@/` maps to `src/` — configured in `vite.config.ts`, `tsconfig.app.json`, and `vitest.config.ts`.
@@ -50,4 +64,6 @@ Do not place feature-specific code in shared.
 - **API calls**: Always go through `src/shared/lib/api.ts`. Never create separate Axios instances. The interceptor auto-attaches JWT and handles 401 logout.
 - **Route config**: All routes are defined in `src/app/router/routes.config.ts`. Use route constants, not inline strings.
 - **State management**: Redux Toolkit for global state (per-feature slices). React hooks for local component state.
+- **Razorpay integration**: The Razorpay public key (`keyId`) is returned by the backend checkout session endpoint, not hardcoded on the client. Use the `useRazorpay` hook from `src/features/credits/hooks/useRazorpay.ts` for all payment flows.
+- **Auth flow**: Registration does NOT store token or authenticate — it waits for email verification. Only `signin`, `verifyEmail`, and Google OAuth set the authenticated state.
 - **Don't introduce new styling paradigms**: Use Tailwind CSS + the existing design system (see `design-system.md`).
