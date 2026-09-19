@@ -1,10 +1,15 @@
 # Frontend Coding Conventions
 
-- **TypeScript**: Strict typing required.
-- **Naming**: Use `camelCase` for functions/variables. `PascalCase` for React components.
-- **File Naming**: Use `PascalCase.tsx` for components (e.g., `PitchDeck.tsx`), `kebab-case.ts` for utilities.
-- **Components**: Functional components with React hooks.
-- **State Management**: Redux Toolkit for global state, React hooks for local state.
-- **Styling**: Tailwind CSS (configured in `tailwind.config.js`).
-- **Async Patterns**: Use async/await for API calls (Axios).
-- **Comments**: Document complex UI state logic.
+- **TypeScript**: Strict mode enabled. Use proper types; avoid `any`.
+- **Module system**: ESM (`"type": "module"` in package.json). Standard `import`/`export`.
+- **Naming**:
+  - Functions/variables: `camelCase`
+  - React components: `PascalCase` (files: `PascalCase.tsx`)
+  - Utilities/hooks: `kebab-case.ts` or `camelCase.ts`
+- **Components**: Functional components with React hooks. No class components.
+- **State management**: Redux Toolkit for global state (per-feature slices + async thunks). React hooks for local state.
+- **Styling**: Tailwind CSS 3 (dark mode via `class` strategy). Custom utilities in `src/styles/index.css`. See `design-system.md` for visual conventions.
+- **Animations**: Framer Motion for page transitions and entrance effects.
+- **Async patterns**: `async`/`await` for API calls via the shared Axios client (`src/shared/lib/api.ts`).
+- **Testing**: Vitest (globals enabled, jsdom environment). Uses `@testing-library/react` and `@testing-library/jest-dom`. Setup in `tests/setup/setup.ts`.
+- **Comments**: Document complex UI state logic and non-obvious component interactions. Preserve existing comments.
