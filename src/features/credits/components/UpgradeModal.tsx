@@ -41,8 +41,8 @@ const UpgradeModal = ({ isOpen, onClose }: UpgradeModalProps) => {
       await dispatch(loadUser());
       onClose();
       window.location.reload();
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Demo upgrade failed');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err, 'Demo upgrade failed'));
     } finally {
       setDemoLoading(false);
     }

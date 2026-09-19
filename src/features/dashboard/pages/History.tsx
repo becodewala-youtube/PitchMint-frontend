@@ -15,11 +15,7 @@ import {
   Calendar, 
   Eye, 
   X, 
-  Sparkles, 
   Zap,
-  Building,
-  MapPin,
-  Award,
   ExternalLink
 } from 'lucide-react';
 import ActivityHistorySkeleton from '@/features/dashboard/components/ActivityHistorySkeleton';
@@ -229,7 +225,7 @@ const History = () => {
   const [selectedActivity, setSelectedActivity] = useState<ActivityRecord | null>(null);
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
-  const { history, loading, error, fetchedOnce } = useSelector(
+  const { history, loading, fetchedOnce } = useSelector(
     (state: RootState) => state.history
   );
 
@@ -245,7 +241,7 @@ const History = () => {
   ];
 
   useEffect(() => {
-    let promise: any;
+    let promise: { abort: () => void } | undefined;
     if (token && !fetchedOnce) {
       promise = dispatch(fetchUserHistory());
     }
@@ -578,7 +574,7 @@ const History = () => {
               Q&A Session
             </h4>
 
-            {activity.data.questions?.map((qa: any, index: number) => (
+            {activity.data.questions?.map((qa: QuestionAnswer, index: number) => (
               <div key={index} className="p-3 rounded-xl bg-[#141414] border border-white/5 space-y-2">
                 <div className="text-[11px] font-semibold text-blue-400">
                   Q: {qa.question}
@@ -661,7 +657,7 @@ const History = () => {
       default:
         return (
           <pre className="text-[11px] text-gray-300 whitespace-pre-wrap bg-[#141414] p-3 rounded-xl border border-white/5">
-            {JSON.stringify((activity as any).data, null, 2)}
+            {JSON.stringify((activity as ActivityRecord).data, null, 2)}
           </pre>
         );
     }

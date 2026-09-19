@@ -59,8 +59,9 @@ const Signup = () => {
     
     setPasswordError('');
     setLocalError('');
-    const result = (await dispatch(register({ name, email, password }))) as any;
-    if (!result.error) {
+    const result = await dispatch(register({ name, email, password }));
+    
+    if (register.fulfilled.match(result)) {
       navigate(`/verify-email?email=${encodeURIComponent(email)}`);
     } else {
       const errorMsg = typeof result.payload === 'string' ? result.payload.toLowerCase() : '';

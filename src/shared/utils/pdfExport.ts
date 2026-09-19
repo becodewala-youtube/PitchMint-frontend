@@ -1,11 +1,11 @@
 import { jsPDF } from 'jspdf';
 
-export const exportToPDF = async (_elementId: string, _filename: string) => {
+export const exportToPDF = async () => {
   if (import.meta.env.DEV) console.error('exportToPDF is deprecated and requires html2canvas which was removed.');
   throw new Error('exportToPDF is deprecated. Use exportAllSlidesToPDF instead.');
 };
 
-export const exportAllSlidesToPDF = async (slides: any[], filename: string, _darkMode?: boolean) => {
+export const exportAllSlidesToPDF = async (slides: { title: string; content: string }[], filename: string) => {
   try {
     const pdf = new jsPDF('l', 'mm', 'a4'); // Landscape orientation
     const pageWidth = 297; // A4 landscape width

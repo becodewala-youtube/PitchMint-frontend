@@ -80,7 +80,7 @@ const Profile = () => {
     try {
       const response = await api.get('/api/credits/history');
       setCreditHistory(response.data.transactions);
-    } catch (err) {
+    } catch {
       if (import.meta.env.DEV) console.error('Failed to fetch credit history');
     }
   };
@@ -89,7 +89,7 @@ const Profile = () => {
     try {
       const response = await api.get('/api/credits/balance');
       setCreditBalance(response.data.credits);
-    } catch (err) {
+    } catch {
       if (import.meta.env.DEV) console.error('Failed to fetch credit balance');
     }
   };
@@ -108,7 +108,7 @@ const Profile = () => {
     }
 
     try {
-      const updateData: any = {
+      const updateData: Record<string, string> = {
         name: profileData.name,
       };
 
@@ -131,8 +131,8 @@ const Profile = () => {
         newPassword: '',
         confirmPassword: ''
       }));
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to update profile');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err, 'Failed to update profile'));
     } finally {
       setLoading(false);
     }
@@ -168,8 +168,8 @@ const Profile = () => {
       
       setSuccess('Profile picture updated successfully');
       dispatch(loadUser());
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to upload avatar');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err, 'Failed to upload avatar'));
     } finally {
       setLoading(false);
     }

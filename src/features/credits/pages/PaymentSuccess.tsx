@@ -41,8 +41,8 @@ const PaymentSuccess = () => {
         } else {
           navigate('/investors');
         }
-      } catch (err: any) {
-        setError(err.response?.data?.message || 'Failed to verify payment');
+      } catch (err: unknown) {
+        setError(getErrorMessage(err, 'Failed to verify payment'));
         setTimeout(() => navigate('/dashboard'), 3000);
       }
     };

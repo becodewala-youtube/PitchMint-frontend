@@ -1,7 +1,7 @@
 
 import { motion } from 'framer-motion';
 import PageBackground from '@/shared/components/ui/PageBackground';
-import { RotateCcw, Clock, CheckCircle, XCircle, AlertCircle, Sparkles, ArrowRight, Mail, MessageSquare } from 'lucide-react';
+import { RotateCcw, Clock, CheckCircle, XCircle, Sparkles, ArrowRight, Mail, MessageSquare } from 'lucide-react';
 
 const RefundPolicy = () => {
 

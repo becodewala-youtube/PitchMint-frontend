@@ -5,17 +5,14 @@ import { useSelector } from "react-redux";
 import { RootState } from '@/app/store';
 import {
   ArrowRight,
-  Search,
   Filter,
   ChevronDown,
   Brain,
-  MessageSquare,
   LayoutTemplate,
   Target,
   Play,
   Users,
   CreditCard,
-  Layers,
   TrendingUp
 } from "lucide-react";
 import Demo from '@/assets/images/run.mp4';

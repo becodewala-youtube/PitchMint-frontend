@@ -8,7 +8,7 @@ import { Users, MessageCircle, Edit3, Save, Share2, Play, Mic, MicOff } from 'lu
 import api from '@/shared/lib/api';
 import InviteModal from '@/features/pitch-deck/components/InviteModal';
 import SlideThumbnails from '@/features/pitch-deck/components/SlideThumbnails';
-import PageBackground from '@/shared/components/ui/PageBackground';
+
 import BackButton from '@/shared/components/ui/BackButton';
 
 interface Comment {
@@ -29,11 +29,13 @@ interface Collaborator {
   cursor?: { x: number; y: number };
 }
 
+interface Slide { title: string; content: string; }
+
 const CollaborativePitchDeck = () => {
   const { id } = useParams();
   const { user, token } = useSelector((state: RootState) => state.auth);
   
-  const [slides, setSlides] = useState<any[]>([]);
+  const [slides, setSlides] = useState<Slide[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [comments, setComments] = useState<Comment[]>([]);
   const [collaborators, setCollaborators] = useState<Collaborator[]>([]);
@@ -45,8 +47,8 @@ const CollaborativePitchDeck = () => {
   const [talkingPoints, setTalkingPoints] = useState<string[]>([]);
   const [showInviteModal, setShowInviteModal] = useState(false);
   const [scriptLoading, setScriptLoading] = useState(false);
-  const [inviteEmail, setInviteEmail] = useState('');
-  const [saveLoading, setSaveLoading] = useState(false);
+  const [, setInviteEmail] = useState('');
+  const [, setSaveLoading] = useState(false);
   
   const wsRef = useRef<WebSocket | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -79,7 +81,7 @@ const CollaborativePitchDeck = () => {
           if (idea.collaborativeData) {
             setComments(idea.collaborativeData.comments || []);
             const currentSlideTalkingPoints = idea.collaborativeData.talkingPoints?.find(
-              (tp: any) => tp.slideIndex === currentSlide
+              (tp: { slideIndex: number, points: string[] }) => tp.slideIndex === currentSlide
             );
             if (currentSlideTalkingPoints) {
               setTalkingPoints(currentSlideTalkingPoints.points || []);
@@ -91,7 +93,7 @@ const CollaborativePitchDeck = () => {
     };
 
     loadPitchDeck();
-  }, [id, token]);
+  }, [id, token, currentSlide]);
   useEffect(() => {
     // Initialize WebSocket for real-time collaboration
     const ws = new WebSocket(`ws://localhost:5000/collaborate/${id}`);
@@ -198,7 +200,7 @@ const CollaborativePitchDeck = () => {
         }
       );
       setTalkingPoints(response.data.talkingPoints);
-    } catch (error) { if (import.meta.env.DEV) console.error('Failed to generate talking points');
+    } catch (error) { if (import.meta.env.DEV) console.error('Failed to generate talking points', error);
     } finally {
       setScriptLoading(false);
     }
@@ -223,7 +225,7 @@ const CollaborativePitchDeck = () => {
         formData.append('slideIndex', currentSlide.toString());
         
         try {
-          const response = await api.post(
+          await api.post(
             `/api/pitchdeck/voice-feedback/${id}`,
             formData,
             {
@@ -235,13 +237,13 @@ const CollaborativePitchDeck = () => {
           );
           
           
-        } catch (error) { if (import.meta.env.DEV) console.error('Failed to process voice feedback');
+        } catch (error) { if (import.meta.env.DEV) console.error('Failed to process voice feedback', error);
         }
       };
       
       mediaRecorder.start();
       setIsRecording(true);
-    } catch (error) { if (import.meta.env.DEV) console.error('Failed to start recording');
+    } catch (error) { if (import.meta.env.DEV) console.error('Failed to start recording', error);
     }
   };
 

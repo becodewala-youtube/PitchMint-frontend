@@ -45,10 +45,10 @@ const IdeaPitchSimulator = () => {
 
   useEffect(() => {
     const loadIdeaData = async () => {
-      if (id && !idea) {
+      if (id && (!idea || idea._id !== id)) {
         try {
           await dispatch(getIdea(id));
-        } catch (err) {
+        } catch {
           setError('Failed to load idea data');
         }
       }
@@ -69,7 +69,7 @@ const IdeaPitchSimulator = () => {
         setFeedback(firstQuestion.feedback || null);
       }
     }
-  }, [idea?.pitchSimulation?.questions]);
+  }, [idea?.pitchSimulation?.questions, currentQuestion]);
 
   useEffect(() => {
     if (idea) {
@@ -124,8 +124,8 @@ const IdeaPitchSimulator = () => {
           setFeedback(null);
         }
       }
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to simulate pitch');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err, 'Failed to simulate pitch'));
     } finally {
       setLoading(false);
     }
@@ -168,8 +168,8 @@ const IdeaPitchSimulator = () => {
 
       setQuestions(updatedQuestions);
       setFeedback(response.data.feedback);
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to evaluate answer');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err, 'Failed to evaluate answer'));
     } finally {
       setIsEvaluating(false);
     }
@@ -197,7 +197,7 @@ const IdeaPitchSimulator = () => {
     }
   };
 
-  if (ideaLoading || loading) {
+  if (ideaLoading || loading || (idea && idea._id !== id)) {
     return (
       <div className="min-h-screen bg-[#000000] relative overflow-hidden text-white pt-24 sm:pt-28 pb-16 selection:bg-[#7c3aed]/30">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNCkiLz48L3N2Zz4=')] pointer-events-none" />

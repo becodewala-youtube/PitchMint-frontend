@@ -45,11 +45,11 @@ const Signin = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLocalError('');
-    const result = (await dispatch(signin({ email, password }))) as any;
+    const result = await dispatch(signin({ email, password }));
     
-    if (result.error && result.payload?.emailNotVerified) {
+    if (signin.rejected.match(result) && (result.payload as Record<string, unknown>)?.emailNotVerified) {
       navigate(`/verify-email?email=${encodeURIComponent(email)}`);
-    } else if (!result.error) {
+    } else if (signin.fulfilled.match(result)) {
       navigate('/dashboard');
     }
   };

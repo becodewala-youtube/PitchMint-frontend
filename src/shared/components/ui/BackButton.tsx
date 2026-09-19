@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 
 interface BackButtonProps {
@@ -24,7 +24,7 @@ export const BackButton = ({
   className = '',
 }: BackButtonProps) => {
   const navigate = useNavigate();
-  const location = useLocation();
+
 
   const handleBack = () => {
     // Check if there is browser navigation history within the app

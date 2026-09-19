@@ -9,7 +9,7 @@ interface AuthLayoutProps {
 
 const AuthLayout: React.FC<AuthLayoutProps> = ({ 
   children, 
-  theme: _theme = 'violet',
+
   badgeText = 'Secure & encrypted connection'
 }) => {
   return (

@@ -9,10 +9,10 @@ interface Idea {
   competitionScore: number;
   monetizationFeasibilityScore: number;
   overallScore: number;
-  pitchDeckContent?: any;
-  canvasContent?: any;
-  competitorAnalysis?: any;
-  pitchSimulation?: any;
+  pitchDeckContent?: Record<string, unknown>;
+  canvasContent?: Record<string, unknown>;
+  competitorAnalysis?: Record<string, unknown>;
+  pitchSimulation?: Record<string, unknown>;
   createdAt: string;
   userCredits?: number;
   analysis: {
@@ -56,7 +56,7 @@ export const submitIdea = createAsyncThunk(
       }
       
       return response.data;
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (error.response?.status === 402) {
         return rejectWithValue({
           message: error.response.data.message,
@@ -66,7 +66,7 @@ export const submitIdea = createAsyncThunk(
           }
         });
       }
-      return rejectWithValue(error.response?.data?.message || 'Failed to submit idea');
+      return rejectWithValue(getErrorMessage(error, 'Failed to submit idea'));
     }
   }
 );
@@ -78,8 +78,8 @@ export const getIdea = createAsyncThunk(
     try {
       const response = await api.get(`/api/idea/${id}`);
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to get idea');
+    } catch (error: unknown) {
+      return rejectWithValue(getErrorMessage(error, 'Failed to get idea'));
     }
   }
 );
@@ -90,9 +90,9 @@ export const getSavedIdeas = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await api.get('/api/idea/saved');
-      return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to get saved ideas');
+      return response.data.ideas || [];
+    } catch (error: unknown) {
+      return rejectWithValue(getErrorMessage(error, 'Failed to get saved ideas'));
     }
   }
 );
@@ -104,8 +104,8 @@ export const deleteIdea = createAsyncThunk(
     try {
       await api.delete(`/api/idea/${id}`);
       return id;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to delete idea');
+    } catch (error: unknown) {
+      return rejectWithValue(getErrorMessage(error, 'Failed to delete idea'));
     }
   }
 );
@@ -117,14 +117,14 @@ export const generatePitchDeck = createAsyncThunk(
     try {
       const response = await api.post(`/api/pitchdeck/${id}`, {});
       
-      const state: any = getState();
+      const state = getState() as { auth: { token: string | null } };
       // Update user credits in auth state
       if (state.auth.user) {
         dispatch(updateUserCredits(Math.max(0, state.auth.user.credits - 1)));
       }
       
       return response.data;
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (error.response?.status === 402) {
         return rejectWithValue({
           message: error.response.data.message,
@@ -134,7 +134,7 @@ export const generatePitchDeck = createAsyncThunk(
           }
         });
       }
-      return rejectWithValue(error.response?.data?.message || 'Failed to generate pitch deck');
+      return rejectWithValue(getErrorMessage(error, 'Failed to generate pitch deck'));
     }
   }
 );
@@ -146,14 +146,14 @@ export const generateCanvas = createAsyncThunk(
     try {
       const response = await api.post(`/api/canvas/${id}`, {});
       
-      const state: any = getState();
+      const state = getState() as { auth: { token: string | null } };
       // Update user credits in auth state
       if (state.auth.user) {
         dispatch(updateUserCredits(Math.max(0, state.auth.user.credits - 1)));
       }
       
       return response.data;
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (error.response?.status === 402) {
         return rejectWithValue({
           message: error.response.data.message,
@@ -163,7 +163,7 @@ export const generateCanvas = createAsyncThunk(
           }
         });
       }
-      return rejectWithValue(error.response?.data?.message || 'Failed to generate canvas');
+      return rejectWithValue(getErrorMessage(error, 'Failed to generate canvas'));
     }
   }
 );
@@ -192,7 +192,7 @@ const ideaSlice = createSlice({
         state.loading = false;
         state.currentIdea = action.payload;
       })
-      .addCase(submitIdea.rejected, (state, action: any) => {
+      .addCase(submitIdea.rejected, (state, action) => {
         state.loading = false;
         if (action.payload?.creditError) {
           state.creditError = {
@@ -260,7 +260,7 @@ const ideaSlice = createSlice({
         state.loading = false;
         state.currentIdea = action.payload;
       })
-      .addCase(generatePitchDeck.rejected, (state, action: any) => {
+      .addCase(generatePitchDeck.rejected, (state, action) => {
         state.loading = false;
         if (action.payload?.creditError) {
           state.creditError = {
@@ -283,7 +283,7 @@ const ideaSlice = createSlice({
         state.loading = false;
         state.currentIdea = action.payload;
       })
-      .addCase(generateCanvas.rejected, (state, action: any) => {
+      .addCase(generateCanvas.rejected, (state, action) => {
         state.loading = false;
         if (action.payload?.creditError) {
           state.creditError = {

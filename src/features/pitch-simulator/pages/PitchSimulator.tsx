@@ -60,7 +60,7 @@ const PitchSimulator = () => {
       );
 
       setQuestions(response.data.questions);
-    } catch (err: any) {
+    } catch (err: unknown) {
       if (err.response?.status === 402) {
         setCreditError({
           show: true,
@@ -68,7 +68,7 @@ const PitchSimulator = () => {
           creditsAvailable: err.response.data.creditsAvailable
         });
       } else {
-        setError(err.response?.data?.message || 'Failed to simulate pitch');
+        setError(getErrorMessage(err, 'Failed to simulate pitch'));
       }
     } finally {
       setLoading(false);
@@ -97,8 +97,8 @@ const PitchSimulator = () => {
       );
 
       setFeedback(response.data.feedback);
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to evaluate answer');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err, 'Failed to evaluate answer'));
     } finally {
       setLoading(false);
     }
