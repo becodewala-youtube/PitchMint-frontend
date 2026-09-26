@@ -68,11 +68,11 @@ describe('IdeaPitchSimulator', () => {
       preloadedState: {
         idea: {
           currentIdea: null,
-          savedIdeas: [],
           loading: true,
           error: null,
           creditError: null,
-          pagination: { total: 0, page: 1, limit: 10, totalPages: 0 },
+          ideas: [],
+
         },
       },
     });
@@ -91,15 +91,14 @@ describe('IdeaPitchSimulator', () => {
           isAuthenticated: true,
           loading: false,
           error: null,
-          verificationSent: false,
         },
         idea: {
           currentIdea: mockIdeaWithSimulation as any,
-          savedIdeas: [],
           loading: false,
           error: null,
           creditError: null,
-          pagination: { total: 0, page: 1, limit: 10, totalPages: 0 },
+          ideas: [],
+
         },
       },
     });
@@ -136,15 +135,14 @@ describe('IdeaPitchSimulator', () => {
           isAuthenticated: true,
           loading: false,
           error: null,
-          verificationSent: false,
         },
         idea: {
           currentIdea: mockIdeaWithSimulation as any,
-          savedIdeas: [],
           loading: false,
           error: null,
           creditError: null,
-          pagination: { total: 0, page: 1, limit: 10, totalPages: 0 },
+          ideas: [],
+
         },
       },
     });

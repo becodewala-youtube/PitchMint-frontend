@@ -46,7 +46,6 @@ describe('CompetitorAnalysis', () => {
           isAuthenticated: true,
           loading: false,
           error: null,
-          verificationSent: false,
         },
       },
     });
@@ -84,7 +83,6 @@ describe('CompetitorAnalysis', () => {
           isAuthenticated: true,
           loading: false,
           error: null,
-          verificationSent: false,
         },
       },
     });

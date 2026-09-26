@@ -9,7 +9,7 @@ describe('useAppDispatch and useAppSelector hooks', () => {
   it('provides the typed store dispatch function', () => {
     const store = createTestStore();
     const wrapper = ({ children }: { children: React.ReactNode }) => (
-      React.createElement(Provider, { store }, children)
+      React.createElement(Provider, { store } as any, children)
     );
 
     const { result } = renderHook(() => useAppDispatch(), { wrapper });
@@ -20,16 +20,15 @@ describe('useAppDispatch and useAppSelector hooks', () => {
     const store = createTestStore({
       auth: {
         token: 'hook-test-token',
-        user: { id: 'u1', name: 'Hook User', email: 'hook@test.com', credits: 10, isVerified: true, isPremium: false },
+        user: { _id: 'u1', name: 'Hook User', email: 'hook@test.com', credits: 10, isVerified: true, isPremium: false } as any,
         isAuthenticated: true,
         loading: false,
         error: null,
-        verificationSent: false,
       },
     });
 
     const wrapper = ({ children }: { children: React.ReactNode }) => (
-      React.createElement(Provider, { store }, children)
+      React.createElement(Provider, { store } as any, children)
     );
 
     const { result } = renderHook(() => useAppSelector((state) => state.auth.user?.name), { wrapper });

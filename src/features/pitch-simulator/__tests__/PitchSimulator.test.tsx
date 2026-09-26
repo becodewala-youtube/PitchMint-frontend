@@ -41,7 +41,6 @@ describe('PitchSimulator', () => {
           isAuthenticated: true,
           loading: false,
           error: null,
-          verificationSent: false,
         },
       },
     });
@@ -69,7 +68,6 @@ describe('PitchSimulator', () => {
           isAuthenticated: true,
           loading: false,
           error: null,
-          verificationSent: false,
         },
       },
     });
@@ -125,7 +123,6 @@ describe('PitchSimulator', () => {
           isAuthenticated: true,
           loading: false,
           error: null,
-          verificationSent: false,
         },
       },
     });
