@@ -26,7 +26,7 @@ const baseIdeaState = {
   loading: false,
   error: null as string | null,
   creditError: null as any,
-  pagination: { total: 0, page: 1, limit: 10, totalPages: 0 },
+
 };
 
 const mockIdeaWithCanvas = {

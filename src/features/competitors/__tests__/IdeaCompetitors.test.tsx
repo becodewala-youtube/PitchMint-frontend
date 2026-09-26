@@ -64,11 +64,11 @@ describe('IdeaCompetitors', () => {
       preloadedState: {
         idea: {
           currentIdea: null,
-          savedIdeas: [],
           loading: true,
           error: null,
           creditError: null,
-          pagination: { total: 0, page: 1, limit: 10, totalPages: 0 },
+          ideas: [],
+
         },
       },
     });
@@ -84,11 +84,11 @@ describe('IdeaCompetitors', () => {
       preloadedState: {
         idea: {
           currentIdea: null,
-          savedIdeas: [],
           loading: false,
           error: null,
           creditError: null,
-          pagination: { total: 0, page: 1, limit: 10, totalPages: 0 },
+          ideas: [],
+
         },
       },
     });
@@ -125,15 +125,14 @@ describe('IdeaCompetitors', () => {
           isAuthenticated: true,
           loading: false,
           error: null,
-          verificationSent: false,
         },
         idea: {
-          currentIdea: mockIdeaWithCompetitors,
-          savedIdeas: [],
+          currentIdea: mockIdeaWithCompetitors as any,
           loading: false,
           error: null,
           creditError: null,
-          pagination: { total: 0, page: 1, limit: 10, totalPages: 0 },
+          ideas: [],
+
         },
       },
     });
@@ -183,15 +182,14 @@ describe('IdeaCompetitors', () => {
           isAuthenticated: true,
           loading: false,
           error: null,
-          verificationSent: false,
         },
         idea: {
-          currentIdea: ideaWithoutCompetitors,
-          savedIdeas: [],
+          currentIdea: ideaWithoutCompetitors as any,
           loading: false,
           error: null,
           creditError: null,
-          pagination: { total: 0, page: 1, limit: 10, totalPages: 0 },
+          ideas: [],
+
         },
       },
     });

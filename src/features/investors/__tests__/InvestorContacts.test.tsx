@@ -67,7 +67,6 @@ describe('InvestorContacts', () => {
           isAuthenticated: true,
           loading: false,
           error: null,
-          verificationSent: false,
         },
       },
     });

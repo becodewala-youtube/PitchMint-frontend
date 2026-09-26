@@ -93,7 +93,6 @@ describe('MarketResearch', () => {
           isAuthenticated: true,
           loading: false,
           error: null,
-          verificationSent: false,
         },
       },
     });
