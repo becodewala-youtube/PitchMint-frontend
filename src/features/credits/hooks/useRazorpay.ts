@@ -113,9 +113,10 @@ export const useRazorpay = ({
 
       const rzp = new window.Razorpay(options);
       
-      rzp.on('payment.failed', function (paymentResponse: RazorpayErrorResponse) {
-        if (import.meta.env.DEV) console.error('Premium payment failed:', paymentResponse.error);
-        const errMsg = `Payment failed: ${paymentResponse.error.description}`;
+      rzp.on('payment.failed', function (paymentResponse: unknown) {
+        const errorResponse = paymentResponse as RazorpayErrorResponse;
+        if (import.meta.env.DEV) console.error('Premium payment failed:', errorResponse.error);
+        const errMsg = `Payment failed: ${errorResponse.error.description}`;
         setError(errMsg);
         onError(new Error(errMsg));
         setLoading(false);

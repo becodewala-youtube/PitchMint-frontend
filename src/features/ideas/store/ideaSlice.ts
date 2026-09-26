@@ -2,17 +2,50 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import api from '@/shared/lib/api';
 import { updateUserCredits } from '@/features/auth/store/authSlice';
 
-interface Idea {
+export interface PitchDeckContent {
+  problem?: string;
+  solution?: string;
+  marketSize?: string;
+  businessModel?: string;
+  competitors?: string;
+  goToMarket?: string;
+  team?: string;
+  financials?: string;
+  milestones?: string;
+  askAndUse?: string;
+  [key: string]: unknown;
+}
+
+export interface Question {
+  question: string;
+  category?: string;
+  answer?: string;
+  feedback?: {
+    score?: number;
+    strengths?: string[];
+    improvements?: string[];
+    suggestions?: string[];
+    overall?: string;
+    [key: string]: unknown;
+  } | null;
+}
+
+export interface PitchSimulationContent {
+  questions?: Question[];
+  [key: string]: unknown;
+}
+
+export interface Idea {
   _id: string;
   ideaText: string;
   marketDemandScore: number;
   competitionScore: number;
   monetizationFeasibilityScore: number;
   overallScore: number;
-  pitchDeckContent?: Record<string, unknown>;
+  pitchDeckContent?: PitchDeckContent;
   canvasContent?: Record<string, unknown>;
   competitorAnalysis?: Record<string, unknown>;
-  pitchSimulation?: Record<string, unknown>;
+  pitchSimulation?: PitchSimulationContent;
   createdAt: string;
   userCredits?: number;
   analysis: {
@@ -20,6 +53,14 @@ interface Idea {
     competition: { score: number; text: string };
     monetization: { score: number; text: string };
     overall: { score: number; text: string };
+  };
+}
+
+export interface CreditRejectPayload {
+  message?: string;
+  creditError?: {
+    creditsRequired: number;
+    creditsAvailable: number;
   };
 }
 
@@ -57,12 +98,13 @@ export const submitIdea = createAsyncThunk(
       
       return response.data;
     } catch (error: unknown) {
-      if (error.response?.status === 402) {
+      const apiErr = error as ApiError;
+      if (apiErr.response?.status === 402) {
         return rejectWithValue({
-          message: error.response.data.message,
+          message: apiErr.response.data?.message,
           creditError: {
-            creditsRequired: error.response.data.creditsRequired,
-            creditsAvailable: error.response.data.creditsAvailable
+            creditsRequired: apiErr.response.data?.creditsRequired || 0,
+            creditsAvailable: apiErr.response.data?.creditsAvailable || 0
           }
         });
       }
@@ -117,7 +159,7 @@ export const generatePitchDeck = createAsyncThunk(
     try {
       const response = await api.post(`/api/pitchdeck/${id}`, {});
       
-      const state = getState() as { auth: { token: string | null } };
+      const state = getState() as { auth: { token: string | null; user?: { credits: number } | null } };
       // Update user credits in auth state
       if (state.auth.user) {
         dispatch(updateUserCredits(Math.max(0, state.auth.user.credits - 1)));
@@ -125,12 +167,13 @@ export const generatePitchDeck = createAsyncThunk(
       
       return response.data;
     } catch (error: unknown) {
-      if (error.response?.status === 402) {
+      const apiErr = error as ApiError;
+      if (apiErr.response?.status === 402) {
         return rejectWithValue({
-          message: error.response.data.message,
+          message: apiErr.response.data?.message,
           creditError: {
-            creditsRequired: error.response.data.creditsRequired,
-            creditsAvailable: error.response.data.creditsAvailable
+            creditsRequired: apiErr.response.data?.creditsRequired || 0,
+            creditsAvailable: apiErr.response.data?.creditsAvailable || 0
           }
         });
       }
@@ -146,7 +189,7 @@ export const generateCanvas = createAsyncThunk(
     try {
       const response = await api.post(`/api/canvas/${id}`, {});
       
-      const state = getState() as { auth: { token: string | null } };
+      const state = getState() as { auth: { token: string | null; user?: { credits: number } | null } };
       // Update user credits in auth state
       if (state.auth.user) {
         dispatch(updateUserCredits(Math.max(0, state.auth.user.credits - 1)));
@@ -154,12 +197,13 @@ export const generateCanvas = createAsyncThunk(
       
       return response.data;
     } catch (error: unknown) {
-      if (error.response?.status === 402) {
+      const apiErr = error as ApiError;
+      if (apiErr.response?.status === 402) {
         return rejectWithValue({
-          message: error.response.data.message,
+          message: apiErr.response.data?.message,
           creditError: {
-            creditsRequired: error.response.data.creditsRequired,
-            creditsAvailable: error.response.data.creditsAvailable
+            creditsRequired: apiErr.response.data?.creditsRequired || 0,
+            creditsAvailable: apiErr.response.data?.creditsAvailable || 0
           }
         });
       }
@@ -194,14 +238,15 @@ const ideaSlice = createSlice({
       })
       .addCase(submitIdea.rejected, (state, action) => {
         state.loading = false;
-        if (action.payload?.creditError) {
+        const payload = action.payload as CreditRejectPayload | string | undefined;
+        if (typeof payload === 'object' && payload?.creditError) {
           state.creditError = {
             show: true,
-            creditsRequired: action.payload.creditError.creditsRequired,
-            creditsAvailable: action.payload.creditError.creditsAvailable
+            creditsRequired: payload.creditError.creditsRequired,
+            creditsAvailable: payload.creditError.creditsAvailable
           };
         } else {
-          state.error = action.payload?.message || action.payload;
+          state.error = (typeof payload === 'object' ? payload?.message : payload) as string;
         }
       })
       
@@ -262,14 +307,15 @@ const ideaSlice = createSlice({
       })
       .addCase(generatePitchDeck.rejected, (state, action) => {
         state.loading = false;
-        if (action.payload?.creditError) {
+        const payload = action.payload as CreditRejectPayload | string | undefined;
+        if (typeof payload === 'object' && payload?.creditError) {
           state.creditError = {
             show: true,
-            creditsRequired: action.payload.creditError.creditsRequired,
-            creditsAvailable: action.payload.creditError.creditsAvailable
+            creditsRequired: payload.creditError.creditsRequired,
+            creditsAvailable: payload.creditError.creditsAvailable
           };
         } else {
-          state.error = action.payload?.message || action.payload;
+          state.error = (typeof payload === 'object' ? payload?.message : payload) as string;
         }
       })
       
@@ -285,14 +331,15 @@ const ideaSlice = createSlice({
       })
       .addCase(generateCanvas.rejected, (state, action) => {
         state.loading = false;
-        if (action.payload?.creditError) {
+        const payload = action.payload as CreditRejectPayload | string | undefined;
+        if (typeof payload === 'object' && payload?.creditError) {
           state.creditError = {
             show: true,
-            creditsRequired: action.payload.creditError.creditsRequired,
-            creditsAvailable: action.payload.creditError.creditsAvailable
+            creditsRequired: payload.creditError.creditsRequired,
+            creditsAvailable: payload.creditError.creditsAvailable
           };
         } else {
-          state.error = action.payload?.message || action.payload;
+          state.error = (typeof payload === 'object' ? payload?.message : payload) as string;
         }
       });
   }

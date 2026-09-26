@@ -112,14 +112,15 @@ const InvestorMatchmaking = () => {
         }
       );
 
-      setMatches(response.data.matches);
+      setMatches(response.data?.matches || []);
       setHasSearched(true);
     } catch (err: unknown) {
-      if (err.response?.status === 402) {
+      const apiErr = err as ApiError;
+      if (apiErr.response?.status === 402) {
         setCreditError({
           show: true,
-          creditsRequired: err.response.data.creditsRequired || 2,
-          creditsAvailable: err.response.data.creditsAvailable || 0
+          creditsRequired: apiErr.response.data?.creditsRequired || 2,
+          creditsAvailable: apiErr.response.data?.creditsAvailable || 0
         });
       } else {
         setError(getErrorMessage(err, 'Failed to find investor matches'));

@@ -59,13 +59,14 @@ const PitchSimulator = () => {
         }
       );
 
-      setQuestions(response.data.questions);
+      setQuestions(response.data?.questions || []);
     } catch (err: unknown) {
-      if (err.response?.status === 402) {
+      const apiErr = err as ApiError;
+      if (apiErr.response?.status === 402) {
         setCreditError({
           show: true,
-          creditsRequired: err.response.data.creditsRequired,
-          creditsAvailable: err.response.data.creditsAvailable
+          creditsRequired: apiErr.response.data?.creditsRequired || 0,
+          creditsAvailable: apiErr.response.data?.creditsAvailable || 0
         });
       } else {
         setError(getErrorMessage(err, 'Failed to simulate pitch'));
@@ -176,7 +177,7 @@ const PitchSimulator = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
         >
-          {!questions.length ? (
+          {!questions?.length ? (
             <form onSubmit={handleSimulate} className="space-y-3.5">
               <div>
                 <label

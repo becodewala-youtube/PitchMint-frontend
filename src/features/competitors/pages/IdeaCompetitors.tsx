@@ -59,7 +59,7 @@ const IdeaCompetitors = () => {
 
   useEffect(() => {
     if (idea?.competitorAnalysis) {
-      setAnalysis(idea.competitorAnalysis);
+      setAnalysis(idea.competitorAnalysis as unknown as Analysis);
     }
   }, [idea]);
 

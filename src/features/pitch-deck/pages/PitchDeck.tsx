@@ -70,7 +70,7 @@ const PitchDeck = () => {
 
     try {
       setExportLoading(true);
-      await exportAllSlidesToPDF(slides, `pitch-deck-${id}`, true);
+      await exportAllSlidesToPDF(slides, `pitch-deck-${id}`);
     } catch (error) {
       if (import.meta.env.DEV) console.error("Failed to export PDF:", error);
     } finally {
@@ -139,52 +139,52 @@ const PitchDeck = () => {
     ? [
         {
           title: "Problem",
-          content: idea.pitchDeckContent.problem,
+          content: String(idea.pitchDeckContent.problem || ""),
           gradient: "from-red-500 to-pink-500",
         },
         {
           title: "Solution",
-          content: idea.pitchDeckContent.solution,
+          content: String(idea.pitchDeckContent.solution || ""),
           gradient: "from-emerald-500 to-teal-500",
         },
         {
           title: "Market Size",
-          content: idea.pitchDeckContent.marketSize,
+          content: String(idea.pitchDeckContent.marketSize || ""),
           gradient: "from-blue-500 to-indigo-500",
         },
         {
           title: "Business Model",
-          content: idea.pitchDeckContent.businessModel,
+          content: String(idea.pitchDeckContent.businessModel || ""),
           gradient: "from-purple-500 to-fuchsia-500",
         },
         {
           title: "Competition",
-          content: idea.pitchDeckContent.competitors,
+          content: String(idea.pitchDeckContent.competitors || ""),
           gradient: "from-orange-500 to-amber-500",
         },
         {
           title: "Go-to-Market Strategy",
-          content: idea.pitchDeckContent.goToMarket,
+          content: String(idea.pitchDeckContent.goToMarket || ""),
           gradient: "from-cyan-500 to-blue-500",
         },
         {
           title: "Team",
-          content: idea.pitchDeckContent.team,
+          content: String(idea.pitchDeckContent.team || ""),
           gradient: "from-violet-500 to-purple-500",
         },
         {
           title: "Financials",
-          content: idea.pitchDeckContent.financials,
+          content: String(idea.pitchDeckContent.financials || ""),
           gradient: "from-green-500 to-emerald-500",
         },
         {
           title: "Milestones",
-          content: idea.pitchDeckContent.milestones,
+          content: String(idea.pitchDeckContent.milestones || ""),
           gradient: "from-pink-500 to-rose-500",
         },
         {
           title: "Ask & Use of Funds",
-          content: idea.pitchDeckContent.askAndUse,
+          content: String(idea.pitchDeckContent.askAndUse || ""),
           gradient: "from-indigo-500 to-violet-500",
         },
       ]
