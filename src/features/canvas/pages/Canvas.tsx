@@ -201,7 +201,7 @@ const Canvas = () => {
                 </div>
 
                 <div className="text-[11px] sm:text-[12px] text-gray-300 leading-relaxed text-justify space-y-1.5 overflow-y-auto max-h-[350px] pr-1">
-                  <ReactMarkdown>{section.content || 'No content available'}</ReactMarkdown>
+                  <ReactMarkdown>{String(section.content || 'No content available')}</ReactMarkdown>
                 </div>
               </div>
             ))}

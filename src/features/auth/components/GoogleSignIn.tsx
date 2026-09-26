@@ -57,17 +57,20 @@ const GoogleSignIn = ({ onSuccess, onError }: GoogleSignInProps) => {
           callback: handleCredentialResponse,
         });
 
-        window.google.accounts.id.renderButton(
-          document.getElementById('google-signin-button'),
-          {
-            theme: 'filled_black',
-            size: 'medium',
-            width: '100%',
-            text: 'continue_with',
-            shape: 'rectangular',
-            logo_alignment: 'left'
-          }
-        );
+        const buttonElement = document.getElementById('google-signin-button');
+        if (buttonElement) {
+          window.google.accounts.id.renderButton(
+            buttonElement,
+            {
+              theme: 'filled_black',
+              size: 'medium',
+              width: '100%',
+              text: 'continue_with',
+              shape: 'rectangular',
+              logo_alignment: 'left'
+            }
+          );
+        }
       }
     };
 

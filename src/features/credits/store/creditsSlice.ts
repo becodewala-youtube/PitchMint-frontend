@@ -61,12 +61,13 @@ export const createCheckoutSession = createAsyncThunk(
       return response.data;
     } catch (error: unknown) {
       let errorMessage = 'Purchase failed. Please try again.';
+      const apiErr = error as ApiError;
       
-      if (error.code === 'ECONNABORTED') {
+      if (apiErr.code === 'ECONNABORTED') {
         errorMessage = 'Request timed out. Please check your connection and try again.';
-      } else if (error.response) {
-        errorMessage = error.response.data?.message || `Server error: ${error.response.status}`;
-      } else if (error.request) {
+      } else if (apiErr.response) {
+        errorMessage = apiErr.response.data?.message || `Server error: ${apiErr.response.status}`;
+      } else if (apiErr.request) {
         errorMessage = 'Network error. Please check your connection.';
       }
       
@@ -142,7 +143,7 @@ const creditsSlice = createSlice({
       })
       .addCase(fetchCreditPlans.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.error = action.payload as string;
       })
       
       // Fetch Balance (Deprecated local state, ignored but fulfilled)
@@ -160,7 +161,7 @@ const creditsSlice = createSlice({
       })
       .addCase(createCheckoutSession.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.error = action.payload as string;
         state.purchasingPlan = null;
       })
       
@@ -175,7 +176,7 @@ const creditsSlice = createSlice({
       })
       .addCase(verifyPayment.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.error = action.payload as string;
         state.purchasingPlan = null;
       })
       
@@ -190,7 +191,7 @@ const creditsSlice = createSlice({
       })
       .addCase(demoPurchase.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.error = action.payload as string;
         state.purchasingPlan = null;
       });
   }

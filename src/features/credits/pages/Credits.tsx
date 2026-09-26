@@ -46,19 +46,19 @@ const Credits = () => {
   const { initiatePayment, loading: paymentLoading } = useRazorpay({
     createSessionEndpoint: '/api/credits/create-checkout-session',
     verifyPaymentEndpoint: '/api/credits/verify-payment',
-    onSuccess: (data) => {
-      dispatch(updateUserCredits(data.credits));
-      alert(`Success! You've purchased ${data.purchased} credits.`);
+    onSuccess: (data: { credits?: number; purchased?: number }) => {
+      dispatch(updateUserCredits(Number(data?.credits) || 0));
+      alert(`Success! You've purchased ${data?.purchased || 0} credits.`);
       dispatch(setPurchasingPlan(null));
     },
-    onError: (err) => {
-      dispatch(setError(err.message || 'Payment failed'));
+    onError: (err: unknown) => {
+      dispatch(setError(getErrorMessage(err, 'Payment failed')));
       dispatch(setPurchasingPlan(null));
     },
     onDismiss: () => {
       dispatch(setPurchasingPlan(null));
     },
-    description: (data) => `Purchase ${data.planName}`
+    description: (data: { planName?: string }) => `Purchase ${data?.planName || 'Credits'}`
   });
 
   const loading = creditsLoading || paymentLoading;
@@ -79,7 +79,7 @@ const Credits = () => {
       dispatch(updateUserCredits(result.credits));
       alert(`Demo: Successfully added ${result.purchased} credits!`);
     } catch (error: unknown) {
-      dispatch(setError(error));
+      dispatch(setError(getErrorMessage(error, 'Demo purchase failed')));
     }
   };
 

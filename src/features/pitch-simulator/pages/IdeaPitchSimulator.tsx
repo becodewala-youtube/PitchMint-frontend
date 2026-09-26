@@ -58,7 +58,7 @@ const IdeaPitchSimulator = () => {
 
   useEffect(() => {
     if (idea?.pitchSimulation?.questions) {
-      const questionsList = idea.pitchSimulation.questions;
+      const questionsList = idea.pitchSimulation.questions as unknown as Question[];
       setQuestions(questionsList);
       
       if (questionsList.length > 0 && !currentQuestion) {
@@ -73,7 +73,7 @@ const IdeaPitchSimulator = () => {
 
   useEffect(() => {
     if (idea) {
-      const existingQuestions = idea.pitchSimulation?.questions;
+      const existingQuestions = idea.pitchSimulation?.questions as unknown as Question[] | undefined;
 
       if (existingQuestions && existingQuestions.length > 0) {
         setQuestions(existingQuestions);

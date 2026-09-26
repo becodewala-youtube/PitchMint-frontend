@@ -268,6 +268,7 @@ const Navbar = () => {
             <div className="flex items-center lg:hidden">
               <button
                 onClick={toggleMenu}
+                aria-label={isOpen ? "Close main menu" : "Open main menu"}
                 className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
               >
                 {isOpen ? <X size={24} /> : <Menu size={24} />}
