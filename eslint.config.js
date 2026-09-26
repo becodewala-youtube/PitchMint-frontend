@@ -24,5 +24,13 @@ export default tseslint.config(
         { allowConstantExport: true },
       ],
     },
+  },
+  {
+    files: ['**/*.test.ts', '**/*.test.tsx', 'tests/setup/test-utils.tsx'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      'react-refresh/only-export-components': 'off',
+    },
   }
 );
