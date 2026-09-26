@@ -32,7 +32,7 @@ export const handlers = [
 
   // Ideas
   http.post('*/api/idea/submit', async ({ request }) => {
-    const data = await request.json() as any;
+    const data = await request.json() as { ideaText?: string };
     return HttpResponse.json({
       _id: 'idea123',
       ideaText: data.ideaText || 'Test Idea',
