@@ -1,4 +1,8 @@
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom';import { server } from './msw/server';
+
+beforeAll(() => server.listen({ onUnhandledRequest: 'warn' }));
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
 import { vi } from 'vitest';
 import '@/shared/utils/error.util';
 
@@ -68,4 +72,5 @@ Object.defineProperty(globalThis, 'ResizeObserver', {
   configurable: true,
   value: MockResizeObserver,
 });
+
 
