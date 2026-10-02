@@ -31,3 +31,6 @@ coverage/
 
 *.diff
 docs/audits/
+
+playwright-report/
+test-results/

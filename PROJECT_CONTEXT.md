@@ -34,3 +34,6 @@ PitchMint-frontend consumes the REST API provided by PitchMint-Backend. Cross-re
 ```
 Frontend -> API Contract -> Backend -> Database / External Services
 ```
+
+## 11. E2E Testing
+E2E testing is owned by the PitchMint-frontend repository using Playwright. It tests the integrated flow across both systems. The pipeline enforces CI + E2E success before deployment.
