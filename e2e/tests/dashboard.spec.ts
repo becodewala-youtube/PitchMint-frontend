@@ -12,8 +12,8 @@ test.describe('Dashboard Flow', () => {
     // There should be a welcome message
     await expect(page.getByText(/dashboard/i).first()).toBeVisible();
 
-    // Verify credits are displayed (even if 0)
-    await expect(page.getByText(/credits/i).first()).toBeVisible();
+    // Verify Average Score is displayed instead of credits
+    await expect(page.getByText(/average score/i).first()).toBeVisible();
 
     // Verify sections or links to other tools
     await expect(page.getByText(/pitch deck/i).first()).toBeVisible();

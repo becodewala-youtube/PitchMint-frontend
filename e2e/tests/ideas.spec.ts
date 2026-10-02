@@ -40,7 +40,7 @@ test.describe('Idea Workflow', () => {
     await createTestUserAndLogin(page);
     
     // Intercept the backend route that handles credit checking or idea submission
-    await page.route('**/api/ideas/validate', async route => {
+    await page.route('**/api/idea/submit', async route => {
       // Simulate 402 Payment Required for insufficient credits
       await route.fulfill({
         status: 402,

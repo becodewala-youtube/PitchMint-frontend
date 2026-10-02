@@ -3,27 +3,33 @@ import { Page } from '@playwright/test';
 export async function createTestUserAndLogin(page: Page) {
   // Use a unique email for each test run to avoid conflicts
   const timestamp = Date.now();
+  const random = Math.random().toString(36).substring(2, 7);
   const testUser = {
     name: `E2E User ${timestamp}`,
-    email: `e2e_${timestamp}@example.com`,
+    email: `e2e_${timestamp}_${random}@example.com`,
     password: 'Password123!',
   };
 
   // Navigate to signup
   await page.goto('/signup');
   
-  // Fill in the form
-  await page.fill('input[type="text"]', testUser.name);
-  await page.fill('input[type="email"]', testUser.email);
-  await page.fill('input[type="password"]', testUser.password);
+  await page.getByPlaceholder('John Doe', { exact: false }).fill(testUser.name).catch(() => page.fill('input[type="text"]', testUser.name));
+  await page.getByPlaceholder('you@example.com', { exact: false }).fill(testUser.email).catch(() => page.fill('input[type="email"]', testUser.email));
+  
+  const passwordInputs = page.locator('input[type="password"]');
+  const count = await passwordInputs.count();
+  for (let i = 0; i < count; i++) {
+    await passwordInputs.nth(i).fill(testUser.password);
+  }
   
   // Submit the form
   await page.click('button[type="submit"]');
 
-  // We should be redirected to the login page (or dashboard depending on flow)
-  // According to PitchMint flow, it redirects to login after signup, or shows a success message.
-  // Wait for the signin page URL
-  await page.waitForURL('/signin');
+  // We should be redirected to the verify-email page
+  await page.waitForURL(/\/verify-email/);
+  
+  // Since we bypassed email verification in the backend for E2E, we can directly go to signin
+  await page.goto('/signin');
   
   // Login with the new user
   await page.fill('input[type="email"]', testUser.email);

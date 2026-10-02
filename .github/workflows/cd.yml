@@ -18,16 +18,26 @@ jobs:
     if: >-
       github.event_name == 'workflow_run' &&
       github.event.workflow_run.conclusion == 'success' &&
-      github.event.workflow_run.head_branch == 'master' &&
-      github.event.workflow_run.event == 'push'
+      github.event.workflow_run.head_branch == 'master'
 
     runs-on: ubuntu-latest
 
     steps:
+      - name: Download validated SHA
+        uses: actions/download-artifact@v4
+        with:
+          name: validated-sha
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ github.event.workflow_run.id }}
+
+      - name: Read validated SHA
+        id: get_sha
+        run: echo "VALIDATED_SHA=$(cat validated-sha.txt)" >> $GITHUB_ENV
+
       - name: Checkout exact validated commit
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.workflow_run.head_sha }}
+          ref: ${{ env.VALIDATED_SHA }}
           fetch-depth: 0
 
       - name: Set up Node.js

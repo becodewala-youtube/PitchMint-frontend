@@ -22,14 +22,14 @@ The E2E tests are owned by the `PitchMint-frontend` repository. The CI workflows
 - **Backend E2E**: Checks out backend commit + latest frontend master. Uses the E2E suite defined in the frontend repo to validate the new backend behavior.
 
 ## Database
-- Provider/Cluster: **MongoDB Memory Server** / local `mongod` cluster configured dynamically via GitHub Actions.
-- E2E DB Name: `pitchmint-e2e-test` (passed via `MONGODB_URI` environment variable).
-- Isolation Strategy: We configured CI to use a distinct URI with `NODE_ENV=test` which completely isolated it from any developer or production databases.
-- Cleanup Strategy: A dedicated test database name is used per environment, avoiding contamination.
+- Provider/Cluster: **Docker MongoDB** (CI) / Local `mongod` (Local).
+- E2E DB Name: `pitchmint-e2e-test` (CI) / `pitchmint-e2e-local` (Local).
+- Isolation Strategy: We configured CI to use a distinct URI with `NODE_ENV=test` and explicit sandbox names.
+- Cleanup Strategy: In CI, the docker container is ephemeral and destroyed after the run.
 
 ## External Services
-- **Gemini**: Mocked/controlled using mocked credentials (`mock_gemini_api_key_for_testing`). Real AI calls are non-deterministic and expensive. We intercepted the `pitch-deck/generate` API endpoint during the Pitch Deck E2E flow to return a deterministic successful deck.
-- **Razorpay**: Mocked/controlled. Test credentials are used. We intercepted requests returning a 402 for "Insufficient Credits" flow instead of creating actual transaction payloads.
+- **Gemini**: Mocked dynamically in the backend (`gemini.client.ts`) when `NODE_ENV=test` to return a deterministic validation result. Pitch deck generation relies on frontend network interception (`page.route`).
+- **Razorpay**: The insufficient credits flow relies on frontend network interception (`page.route`) simulating a 402 payment required response.
 - **MongoDB**: Sandbox. A dedicated `mongo:6.0` service is spun up during CI execution.
 
 ## Critical Journeys
@@ -73,7 +73,8 @@ E2E (Validates integration of frontend and backend)
 CD (Deploys exactly the validated sha to Vercel)
 ```
 
-The deployment gate works by modifying `cd.yml` in both repositories to trigger **only** when `workflow_run.workflows == ["Frontend E2E"]` (or `"Backend E2E"`) and the conclusion is `'success'`. This prevents failed CI or failed E2E from triggering a deployment.
+The deployment gate works by modifying `cd.yml` in both repositories to trigger **only** when `workflow_run.workflows == ["Frontend E2E"]` (or `"Backend E2E"`) and the conclusion is `'success'`. 
+To preserve SHA integrity, the `E2E` workflow uploads an artifact (`validated-sha.txt`) containing the exact tested CI SHA, which `cd.yml` downloads and checks out. This perfectly bridges the gap and ensures CD never deploys an unvalidated tip-of-master commit.
 
 ## Security
 - Secrets handling: No production credentials were added or committed.

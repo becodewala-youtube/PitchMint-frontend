@@ -41,14 +41,14 @@ export default defineConfig({
       reuseExistingServer: !process.env.CI,
       timeout: 120 * 1000,
       env: {
-        VITE_API_URL: 'http://localhost:5000/api',
+        VITE_API_URL: 'http://localhost:5000',
       }
     },
     {
       command: process.env.CI 
         ? 'cd ../backend && npm run start' // In CI, we expect the backend to be built and run
         : 'cd ../PitchMint-Backend && npm run dev', // Locally, we can use the dev server
-      url: 'http://localhost:5000/api/health', // Need to make sure there's a health endpoint or we can wait for another
+      url: 'http://localhost:5000/', // Root is always mounted and returns 200
       reuseExistingServer: !process.env.CI,
       timeout: 120 * 1000,
       env: {
@@ -61,6 +61,7 @@ export default defineConfig({
         RAZORPAY_KEY_ID: 'mock_rzp_key',
         RAZORPAY_KEY_SECRET: 'mock_rzp_secret',
         RAZORPAY_WEBHOOK_SECRET: 'mock_rzp_webhook',
+        E2E_TEST: 'true',
       }
     }
   ],
