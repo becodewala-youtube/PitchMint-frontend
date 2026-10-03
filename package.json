@@ -9,6 +9,9 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
+    "test:unit": "vitest run src/",
+    "test:integration": "vitest run tests/",
+    "test:e2e": "playwright test",
     "test:watch": "vitest --watch",
     "test:coverage": "vitest run --coverage",
     "type-check": "tsc -b",
@@ -29,6 +32,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
+    "@playwright/test": "^1.63.0",
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.7",

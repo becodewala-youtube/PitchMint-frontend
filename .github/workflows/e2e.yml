@@ -1,0 +1,80 @@
+name: Frontend E2E
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Frontend CI"]
+    types: [completed]
+    branches: [master]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: frontend-e2e-${{ github.event.workflow_run.head_sha }}
+  cancel-in-progress: false
+
+jobs:
+  e2e:
+    if: >-
+      github.event_name == 'workflow_run' &&
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_branch == 'master'
+
+    runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: mongo:6.0
+        ports:
+          - 27017:27017
+
+    steps:
+      - name: Checkout frontend
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          path: frontend
+
+      - name: Checkout backend
+        uses: actions/checkout@v4
+        with:
+          repository: becodewala-youtube/PitchMint-Backend
+          ref: master
+          path: backend
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install backend dependencies & build
+        working-directory: ./backend
+        run: |
+          npm ci
+          npm run build
+
+      - name: Install frontend dependencies
+        working-directory: ./frontend
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run E2E Tests
+        working-directory: ./frontend
+        env:
+          JWT_SECRET: "test-jwt-secret-for-ci"
+          MONGODB_URI: "mongodb://localhost:27017/pitchmint-e2e-test"
+          PORT: 5000
+          VITE_API_URL: "http://localhost:5000"
+        run: npm run test:e2e
+
+      - name: Save E2E validated SHA
+        working-directory: ./frontend
+        run: echo "${{ github.event.workflow_run.head_sha }}" > validated-sha.txt
+
+      - name: Upload validated SHA
+        uses: actions/upload-artifact@v4
+        with:
+          name: validated-sha
+          path: ./frontend/validated-sha.txt

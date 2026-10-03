@@ -29,6 +29,15 @@ export const handlers = [
       }
     });
   }),
+  http.get('*/api/auth/user', () => {
+    return HttpResponse.json({
+      _id: 'user123',
+      name: 'Test User',
+      email: 'test@example.com',
+      credits: 10,
+      isPremium: false,
+    });
+  }),
 
   // Ideas
   http.post('*/api/idea/submit', async ({ request }) => {
