@@ -26,6 +26,7 @@ describe('API Client & Interceptors (api.ts)', () => {
 
     const updatedConfig = await requestInterceptor.fulfilled(config);
     expect(updatedConfig.headers.Authorization).toBe('Bearer valid-jwt-token');
+    expect(updatedConfig.headers['X-Request-ID']).toBeDefined();
   });
 
   it('does not attach Authorization header if token does not exist in localStorage', async () => {
@@ -36,6 +37,7 @@ describe('API Client & Interceptors (api.ts)', () => {
 
     const updatedConfig = await requestInterceptor.fulfilled(config);
     expect(updatedConfig.headers.Authorization).toBeUndefined();
+    expect(updatedConfig.headers['X-Request-ID']).toBeDefined();
   });
 
   it('rejects request interceptor errors', async () => {
@@ -45,12 +47,13 @@ describe('API Client & Interceptors (api.ts)', () => {
     await expect(requestInterceptor.rejected(error)).rejects.toThrow('Request setup failed');
   });
 
-  it('passes through successful responses', async () => {
+  it('passes through successful responses and captures requestId', async () => {
     const responseInterceptor = (api.interceptors.response as any).handlers[0];
-    const response = { status: 200, data: { success: true } };
+    const response = { status: 200, data: { success: true }, headers: { 'x-request-id': 'test-uuid' } };
 
     const result = responseInterceptor.fulfilled(response);
     expect(result).toBe(response);
+    expect(result.requestId).toBe('test-uuid');
   });
 
   it('handles 401 Unauthorized by removing token from localStorage and rejecting error', async () => {
@@ -81,5 +84,25 @@ describe('API Client & Interceptors (api.ts)', () => {
 
     await expect(responseInterceptor.rejected(error500)).rejects.toEqual(error500);
     expect(localStorage.getItem('token')).toBe('valid-token');
+  });
+
+  it('captures requestId on error responses', async () => {
+    const responseInterceptor = (api.interceptors.response as any).handlers[0];
+    const errorWithReqId = {
+      response: {
+        status: 500,
+        headers: { 'x-request-id': 'error-uuid' },
+        data: { message: 'Internal server error' },
+      },
+    };
+
+    let caughtError: any;
+    try {
+      await responseInterceptor.rejected(errorWithReqId);
+    } catch (err) {
+      caughtError = err;
+    }
+    
+    expect(caughtError.requestId).toBe('error-uuid');
   });
 });
