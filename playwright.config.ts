@@ -7,7 +7,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Load backend .env to get the real MongoDB connection string
-dotenv.config({ path: path.resolve(__dirname, '../PitchMint-Backend/.env') });
+const backendDir = process.env.CI ? '../backend' : '../PitchMint-Backend';
+dotenv.config({ path: path.resolve(__dirname, `${backendDir}/.env`) });
 
 let e2eMongoUri = 'mongodb://127.0.0.1:27017/pitchmint-e2e-local';
 if (process.env.MONGODB_URI) {
@@ -66,7 +67,7 @@ export default defineConfig({
     },
     {
       command: process.env.CI 
-        ? 'cd ../PitchMint-Backend && npm run start' // In CI, we expect the backend to be built and run
+        ? 'cd ../backend && npm run start' // In CI, we expect the backend to be built and run
         : 'cd ../PitchMint-Backend && npm run dev', // Locally, we can use the dev server
       url: 'http://127.0.0.1:5001/', // Root is always mounted and returns 200
       reuseExistingServer: false,

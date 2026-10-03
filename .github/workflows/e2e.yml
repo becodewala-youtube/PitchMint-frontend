@@ -42,6 +42,7 @@ jobs:
           repository: becodewala-youtube/PitchMint-Backend
           ref: master
           path: backend
+          token: ${{ secrets.PAT }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
