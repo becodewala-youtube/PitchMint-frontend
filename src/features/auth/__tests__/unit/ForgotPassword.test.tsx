@@ -53,7 +53,7 @@ describe('ForgotPassword component', () => {
 
   it('displays error message when API call fails', async () => {
     (api.post as any).mockRejectedValueOnce({
-      response: { data: { message: 'User with this email does not exist' } },
+      response: { data: { message: 'An unexpected error occurred. Please try again later.' } },
     });
 
     renderWithProviders(<ForgotPassword />);
@@ -65,7 +65,7 @@ describe('ForgotPassword component', () => {
     fireEvent.click(submitBtn);
 
     await waitFor(() => {
-      expect(screen.getByText('User with this email does not exist')).toBeInTheDocument();
+      expect(screen.getByText('An unexpected error occurred. Please try again later.')).toBeInTheDocument();
     });
   });
 });
