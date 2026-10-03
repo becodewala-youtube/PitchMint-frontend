@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: frontend-cd-${{ github.event.workflow_run.head_sha }}
