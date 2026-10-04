@@ -1,0 +1,41 @@
+language: "en-US"
+reviews:
+  profile: "chill"
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: false
+auto_review:
+  enabled: true
+  drafts: false
+chat:
+  auto_reply: true
+path_filters:
+  - "!node_modules/**"
+  - "!dist/**"
+  - "!coverage/**"
+  - "!docs/**"
+  - "!package-lock.json"
+  - "!playwright-report/**"
+  - "!test-results/**"
+  - "!trace-extracted/**"
+  - "!graphify-out/**"
+path_instructions:
+  - path: "src/features/**/*.tsx"
+    instructions: |
+      SECURITY & CORRECTNESS: Focus on XSS risks, unsafe HTML rendering, sensitive data exposure in state, and token handling. Look for React lifecycle problems, stale state, and async race conditions.
+      ARCHITECTURE: Features can use src/shared/ but must not circularly depend on other features.
+  - path: "src/shared/lib/api.ts"
+    instructions: |
+      CRITICAL CONSTRAINT: All API calls must go through this centralized Axios instance. Ensure JWT auth interceptor and 401 auto-logout remain intact.
+  - path: "src/app/router/routes.config.ts"
+    instructions: |
+      ROUTE CONFIG: All routes must be defined here. Use route constants, not inline strings.
+  - path: "**/*.tsx"
+    instructions: |
+      GENERAL: Focus on high-value semantic findings (logic errors, API handling, Redux state consistency, missing essential tests).
+      NOISE REDUCTION: Do NOT report formatting, TS/ESLint issues caught by CI, every possible re-render, trivial naming, or theoretical micro-optimizations.
+  - path: "**/*.ts"
+    instructions: |
+      GENERAL: Focus on high-value semantic findings (logic errors, API handling, Redux state consistency, missing essential tests).
+      NOISE REDUCTION: Do NOT report formatting, TS/ESLint issues caught by CI, every possible re-render, trivial naming, or theoretical micro-optimizations.
