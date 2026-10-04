@@ -3,7 +3,9 @@
  * Extracts a readable error string from unknown error types (Axios error, Error, string, etc.).
  */
 export function getErrorMessage(error: unknown, fallbackMessage = 'An error occurred'): string {
-  if (!error) return fallbackMessage;
+  if (error === null || error === undefined) {
+    return fallbackMessage;
+  }
   if (typeof error === 'string') return error;
 
   if (typeof error === 'object') {
