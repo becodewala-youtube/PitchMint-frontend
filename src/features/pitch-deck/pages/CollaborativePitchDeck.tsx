@@ -283,7 +283,7 @@ const CollaborativePitchDeck = () => {
     <div className="page-container bg-gray-900">
       <div className="content-wrapper">
         <div className="max-container">
-          <BackButton fallbackUrl="/saved-ideas" label="Back to Saved Ideas" />
+          <BackButton fallbackUrl="/saved-ideas" />
 
           {/* Header with Collaborators */}
           <motion.div 

@@ -5,7 +5,7 @@ import { renderWithProviders } from '../../../../../tests/setup/test-utils';
 import { Routes, Route } from 'react-router-dom';
 
 describe('ProtectedRoute component', () => {
-  it('renders PageLoader when auth is loading', () => {
+  it('renders PageLoader when auth is loading and no token exists', () => {
     const { container } = renderWithProviders(
       <ProtectedRoute>
         <div>Protected Content</div>
@@ -14,7 +14,7 @@ describe('ProtectedRoute component', () => {
         preloadedState: {
           auth: {
             loading: true,
-            token: 'test-token',
+            token: null,
             user: null,
             isAuthenticated: false,
             error: null,
@@ -25,6 +25,27 @@ describe('ProtectedRoute component', () => {
 
     expect(screen.queryByText('Protected Content')).not.toBeInTheDocument();
     expect(container.querySelector('.animate-spin')).toBeInTheDocument();
+  });
+
+  it('renders protected children directly when token exists to avoid double loading flash', () => {
+    renderWithProviders(
+      <ProtectedRoute>
+        <div>Protected Content</div>
+      </ProtectedRoute>,
+      {
+        preloadedState: {
+          auth: {
+            loading: true,
+            token: 'test-token',
+            user: null,
+            isAuthenticated: true,
+            error: null,
+          },
+        },
+      }
+    );
+
+    expect(screen.getByText('Protected Content')).toBeInTheDocument();
   });
 
   it('renders protected children when user is authenticated with token', () => {

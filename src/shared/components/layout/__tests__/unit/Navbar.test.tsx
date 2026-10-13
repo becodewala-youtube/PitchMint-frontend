@@ -125,5 +125,9 @@ describe('Navbar', () => {
     expect(mobileMenuButton).toBeInTheDocument();
     fireEvent.click(mobileMenuButton);
     expect(screen.getByRole('button', { name: /close main menu/i })).toBeInTheDocument();
+    expect(screen.getAllByText('Market Research').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('Investor Matching').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByText('Investors Directory')).toBeInTheDocument();
+    expect(screen.getByText('Credits & Plans')).toBeInTheDocument();
   });
 });

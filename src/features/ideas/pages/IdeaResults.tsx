@@ -161,7 +161,7 @@ const IdeaResults = () => {
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6">
         {/* Back Navigation */}
-        <BackButton fallbackUrl="/saved-ideas" label="Back to Saved Ideas" />
+        <BackButton fallbackUrl="/saved-ideas" />
 
         {/* Header Section */}
         <motion.div 
