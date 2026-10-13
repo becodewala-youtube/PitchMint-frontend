@@ -24,6 +24,13 @@ api.interceptors.request.use((config) => {
   return Promise.reject(error);
 });
 
+type UnauthorizedCallback = () => void;
+let unauthorizedCallback: UnauthorizedCallback | null = null;
+
+export const onUnauthorized = (callback: UnauthorizedCallback): void => {
+  unauthorizedCallback = callback;
+};
+
 api.interceptors.response.use(
   (response) => {
     // CAPTURE BACKEND ID: Authoritative reference
@@ -41,9 +48,9 @@ api.interceptors.response.use(
 
     if (error.response && error.response.status === 401) {
       localStorage.removeItem('token');
-      import('@/app/store').then(({ store }) => {
-        store.dispatch({ type: 'auth/logout' });
-      }).catch(() => {});
+      if (unauthorizedCallback) {
+        unauthorizedCallback();
+      }
     }
     return Promise.reject(error);
   }

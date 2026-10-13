@@ -15,6 +15,12 @@
     "test:watch": "vitest --watch",
     "test:coverage": "vitest run --coverage",
     "type-check": "tsc -b",
+    "check:circular": "madge --extensions ts,tsx --ts-config tsconfig.app.json --circular src",
+    "check:orphans": "madge --extensions ts,tsx --ts-config tsconfig.app.json --orphans src",
+    "check:leaves": "madge --extensions ts,tsx --ts-config tsconfig.app.json --leaves src",
+    "check:summary": "madge --extensions ts,tsx --ts-config tsconfig.app.json --summary src",
+    "check:graph": "madge --extensions ts,tsx --ts-config tsconfig.app.json --dot src > dependency-graph.dot",
+    "check:unused": "knip",
     "prepare": "husky"
   },
   "dependencies": {
@@ -54,6 +60,7 @@
     "jsdom": "^26.1.0",
     "knip": "^6.37.0",
     "lint-staged": "^17.6.0",
+    "madge": "^8.0.0",
     "msw": "^2.15.0",
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1",
