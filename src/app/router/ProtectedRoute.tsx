@@ -12,11 +12,18 @@ interface ProtectedRouteProps {
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { loading, token } = useSelector((state: RootState) => state.auth);
 
+  // If a valid token exists, render children directly to let the page component render
+  // its native skeleton or content without a jarring spinner flash
+  if (token) {
+    return <>{children}</>;
+  }
+
+  // If still checking auth with no token yet, show loader
   if (loading) {
     return <PageLoader />;
   }
 
-  return token ? <>{children}</> : <Navigate to="/signin" />;
+  return <Navigate to="/signin" />;
 };
 
 export default ProtectedRoute;

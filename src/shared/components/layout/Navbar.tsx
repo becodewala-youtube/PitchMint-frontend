@@ -16,6 +16,9 @@ import {
   TrendingUp,
   Target,
   Crown,
+  LayoutDashboard,
+  FileText,
+  Settings,
 } from "lucide-react";
 import { History as HistoryIcon } from "lucide-react";
 import { RootState } from "@/app/store";
@@ -279,11 +282,12 @@ const Navbar = () => {
 
         {/* Mobile menu */}
         {isOpen && (
-          <div className="lg:hidden border-t border-white/10 bg-[#0a0a0a]/95 backdrop-blur-xl">
-            <div className="px-4 pt-4 pb-6 space-y-2">
+          <div className="lg:hidden border-t border-white/10 bg-[#0a0a0a]/95 backdrop-blur-xl max-h-[calc(100dvh-4rem)] overflow-y-auto">
+            <div className="px-4 pt-3 pb-8 space-y-4">
               {isAuthenticated ? (
                 <>
-                  <div className="p-4 rounded-xl mb-4 bg-white/[0.02] border border-white/5">
+                  {/* User Profile Card */}
+                  <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
                     <div className="flex items-center">
                       {user?.profilePicture ? (
                         <img
@@ -300,8 +304,8 @@ const Navbar = () => {
                       <div className={`w-10 h-10 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 items-center justify-center text-white font-bold text-sm mr-3 ${user?.profilePicture ? 'hidden' : 'flex'}`}>
                         {getUserInitials(user?.name)}
                       </div>
-                      <div className="ml-3">
-                        <p className="text-sm font-bold text-white">
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-bold text-white truncate">
                           {user?.name}
                         </p>
                         <div className="flex items-center gap-3 mt-1">
@@ -311,29 +315,162 @@ const Navbar = () => {
                               <span className="text-xs font-semibold">Pro</span>
                             </div>
                           )}
-                          <div className="flex items-center text-gray-400">
+                          <Link
+                            to="/credits"
+                            onClick={toggleMenu}
+                            className="flex items-center text-gray-400 hover:text-white transition-colors"
+                          >
                             <CreditCard className="w-3 h-3 mr-1" />
-                            <span className="text-xs">{user?.credits || 0}</span>
-                          </div>
+                            <span className="text-xs">{user?.credits || 0} credits</span>
+                          </Link>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Mobile Links */}
-                  <Link to="/dashboard" onClick={toggleMenu} className="flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5">Dashboard</Link>
-                  <Link to="/submit-idea" onClick={toggleMenu} className="flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5">Submit Idea</Link>
-                  <Link to="/saved-ideas" onClick={toggleMenu} className="flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5">Saved Ideas</Link>
-                  <Link to="/competitors" onClick={toggleMenu} className="flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5">Competitors</Link>
-                  <Link to="/pitch-simulator" onClick={toggleMenu} className="flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5">Pitch Arena</Link>
-                  <Link to="/settings" onClick={toggleMenu} className="flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5">Settings</Link>
-                  
-                  <button onClick={() => { handleLogout(); toggleMenu(); }} className="flex items-center w-full px-3 py-2.5 mt-4 rounded-lg text-sm font-medium text-red-400 hover:bg-red-500/10">
-                    <LogOut size={16} className="mr-2" /> Logout
-                  </button>
+                  {/* Navigation Links */}
+                  <div className="space-y-1">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-gray-500 px-3 py-1">
+                      Navigation
+                    </p>
+                    <Link
+                      to="/dashboard"
+                      onClick={toggleMenu}
+                      className="flex items-center px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-colors"
+                    >
+                      <LayoutDashboard className="w-4 h-4 mr-3 text-violet-400" />
+                      Dashboard
+                    </Link>
+                    <Link
+                      to="/saved-ideas"
+                      onClick={toggleMenu}
+                      className="flex items-center px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-colors"
+                    >
+                      <FileText className="w-4 h-4 mr-3 text-blue-400" />
+                      Saved Ideas
+                    </Link>
+                  </div>
+
+                  {/* Startup Tools */}
+                  <div className="space-y-1 pt-1 border-t border-white/5">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-gray-500 px-3 py-1">
+                      Startup Tools
+                    </p>
+                    <Link
+                      to="/submit-idea"
+                      onClick={toggleMenu}
+                      className="flex items-center px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-colors"
+                    >
+                      <Brain className="w-4 h-4 mr-3 text-purple-400" />
+                      Submit Idea
+                    </Link>
+                    <Link
+                      to="/competitors"
+                      onClick={toggleMenu}
+                      className="flex items-center px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-colors"
+                    >
+                      <Users className="w-4 h-4 mr-3 text-blue-400" />
+                      Competitors
+                    </Link>
+                    <Link
+                      to="/pitch-simulator"
+                      onClick={toggleMenu}
+                      className="flex items-center px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-colors"
+                    >
+                      <MessageSquare className="w-4 h-4 mr-3 text-emerald-400" />
+                      Pitch Arena
+                    </Link>
+                    <Link
+                      to="/market-research"
+                      onClick={toggleMenu}
+                      className="flex items-center px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-colors"
+                    >
+                      <TrendingUp className="w-4 h-4 mr-3 text-amber-400" />
+                      Market Research
+                    </Link>
+                    <Link
+                      to="/investor-matching"
+                      onClick={toggleMenu}
+                      className="flex items-center px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-colors"
+                    >
+                      <Target className="w-4 h-4 mr-3 text-red-400" />
+                      Investor Matching
+                    </Link>
+                    <Link
+                      to="/history"
+                      onClick={toggleMenu}
+                      className="flex items-center px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-colors"
+                    >
+                      <HistoryIcon className="w-4 h-4 mr-3 text-gray-400" />
+                      History
+                    </Link>
+                  </div>
+
+                  {/* Investor Directory */}
+                  <div className="space-y-1 pt-1 border-t border-white/5">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-gray-500 px-3 py-1">
+                      Investors
+                    </p>
+                    <button
+                      onClick={() => {
+                        handleInvestorsClick();
+                        toggleMenu();
+                      }}
+                      className={`flex items-center w-full px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                        user?.isPremium
+                          ? "text-gray-300 hover:text-white hover:bg-white/5"
+                          : "text-purple-400 hover:text-purple-300 hover:bg-purple-500/10"
+                      }`}
+                    >
+                      {user?.isPremium ? (
+                        <Star className="w-4 h-4 mr-3 fill-current text-amber-400" />
+                      ) : (
+                        <Crown className="w-4 h-4 mr-3 text-purple-400" />
+                      )}
+                      <span>Investors Directory</span>
+                      {!user?.isPremium && (
+                        <span className="ml-auto text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                          Pro
+                        </span>
+                      )}
+                    </button>
+                  </div>
+
+                  {/* Account */}
+                  <div className="space-y-1 pt-1 border-t border-white/5">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-gray-500 px-3 py-1">
+                      Account
+                    </p>
+                    <Link
+                      to="/credits"
+                      onClick={toggleMenu}
+                      className="flex items-center px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-colors"
+                    >
+                      <CreditCard className="w-4 h-4 mr-3 text-gray-400" />
+                      Credits & Plans
+                    </Link>
+                    <Link
+                      to="/settings"
+                      onClick={toggleMenu}
+                      className="flex items-center px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-colors"
+                    >
+                      <Settings className="w-4 h-4 mr-3 text-gray-400" />
+                      Settings
+                    </Link>
+                    <button
+                      onClick={() => {
+                        handleLogout();
+                        toggleMenu();
+                      }}
+                      className="flex items-center w-full px-3 py-2 rounded-lg text-sm font-medium text-red-400 hover:bg-red-500/10 transition-colors"
+                    >
+                      <LogOut size={16} className="mr-3" />
+                      Logout
+                    </button>
+                  </div>
                 </>
               ) : (
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-3 pt-2">
                   {!isSigninPage && (
                     <Link to="/signin" onClick={toggleMenu} className="btn-secondary w-full py-3">
                       Sign In

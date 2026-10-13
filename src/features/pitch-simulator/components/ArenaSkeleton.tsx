@@ -1,45 +1,44 @@
-
-
 const ArenaSkeleton = () => {
-  
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Header Skeleton */}
-      <div className="flex justify-between items-center">
-        <div className={`h-8 w-48 bg-gray-700 rounded animate-pulse`}></div>
-        <div className={`h-10 w-40 bg-gray-700 rounded animate-pulse`}></div>
-      </div>
-      
-      {/* Pitch Display Skeleton */}
-      <div className={`bg-gray-800 rounded-xl shadow-lg p-6 animate-pulse`}>
-        <div className={`h-6 w-24 bg-gray-700 rounded mb-4`}></div>
-        <div className={`h-4 bg-gray-700 rounded mb-2`}></div>
-        <div className={`h-4 bg-gray-700 rounded mb-2`}></div>
-        <div className={`h-4 w-3/4 bg-gray-700 rounded`}></div>
-      </div>
-      
-      {/* Q&A Section Skeleton */}
-      <div className={`bg-gray-800 rounded-xl shadow-lg p-6 animate-pulse`}>
-        {/* Question Skeleton */}
-        <div className={`p-6 rounded-xl mb-8 bg-gray-700`}>
-          <div className={`h-5 w-48 bg-gray-600 rounded mb-4`}></div>
-          <div className={`h-4 bg-gray-600 rounded mb-2`}></div>
-          <div className={`h-4 w-5/6 bg-gray-600 rounded`}></div>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-[#0a0a0a] border border-white/10 animate-pulse" />
+          <div className="space-y-2">
+            <div className="h-6 w-52 bg-white/[0.08] rounded-lg animate-pulse" />
+            <div className="h-3.5 w-64 bg-white/[0.05] rounded-lg animate-pulse" />
+          </div>
         </div>
-        
-        {/* Answer Input Skeleton */}
-        <div className="mb-6">
-          <div className={`h-4 w-24 bg-gray-700 rounded mb-2`}></div>
-          <div className={`h-32 bg-gray-700 rounded`}></div>
+        <div className="h-9 w-32 bg-white/[0.08] rounded-xl animate-pulse" />
+      </div>
+
+      {/* Idea Overview Card Skeleton */}
+      <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-5 sm:p-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)] animate-pulse">
+        <div className="h-4 w-28 bg-white/[0.08] rounded mb-3" />
+        <div className="h-3.5 w-full bg-white/[0.05] rounded mb-2" />
+        <div className="h-3.5 w-3/4 bg-white/[0.05] rounded" />
+      </div>
+
+      {/* Q&A / Simulation Section Skeleton */}
+      <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-5 sm:p-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)] space-y-5 animate-pulse">
+        {/* Question Box */}
+        <div className="p-4 sm:p-5 rounded-xl bg-[#141414] border border-white/5 space-y-2.5">
+          <div className="h-4 w-32 bg-white/[0.08] rounded" />
+          <div className="h-4 w-full bg-white/[0.06] rounded" />
+          <div className="h-4 w-4/5 bg-white/[0.06] rounded" />
         </div>
-        
-        {/* Submit Button Skeleton */}
-        <div className={`h-12 bg-gray-700 rounded`}></div>
-        
-        {/* Navigation Buttons Skeleton */}
-        <div className="flex justify-between space-x-4 mt-8">
-          <div className={`flex-1 h-12 bg-gray-700 rounded`}></div>
-          <div className={`flex-1 h-12 bg-gray-700 rounded`}></div>
+
+        {/* Answer Box */}
+        <div className="space-y-2">
+          <div className="h-3.5 w-24 bg-white/[0.05] rounded" />
+          <div className="h-28 w-full bg-[#141414] border border-white/5 rounded-xl" />
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row justify-between gap-3 pt-2">
+          <div className="h-10 w-36 bg-white/[0.08] rounded-xl" />
+          <div className="h-10 w-36 bg-white/[0.06] rounded-xl" />
         </div>
       </div>
     </div>
